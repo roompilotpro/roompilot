@@ -55,6 +55,10 @@ Stripe Connect → payouts in days, not monthly batches.
 
 Renters care about price, location, and availability — not network features.
 
+### 7. Privacy & Security First
+
+Google OAuth sign-in only — no password storage, no personal data handling, instant authentication.
+
 ## 3. Target Users
 
 ### Hosts
@@ -79,11 +83,17 @@ The platform consists of:
 - **Frontend:** React / Next.js
 - **Backend:** Node.js or Python API
 - **Database:** PostgreSQL
-- **Authentication:** Auth0 or Firebase
+- **Authentication:** Google OAuth 2.0 (Sign in with Google)
 - **Payments:** Stripe Connect
 - **Messaging:** Firebase Realtime DB or WebSockets
 - **File Storage:** AWS S3
 - **Background Checks:** Checkr or TransUnion SmartMove
+
+**Authentication Strategy:**
+- Single sign-on via Google OAuth only
+- No password storage or management
+- Store only: Google user ID, email, name, profile picture URL
+- Simplified onboarding with pre-filled profile data
 
 ### System Architecture Diagram
 
@@ -96,7 +106,7 @@ graph TB
     
     subgraph "API Layer"
         API[API Server<br/>Node.js/Python]
-        Auth[Authentication<br/>Auth0/Firebase]
+        Auth[Google OAuth 2.0<br/>Sign in with Google]
     end
     
     subgraph "Services Layer"
@@ -112,6 +122,7 @@ graph TB
     end
     
     subgraph "External Services"
+        Google[Google OAuth]
         Stripe[Stripe Connect<br/>Payments]
         BG[Background Checks<br/>Checkr/SmartMove]
         Email[Email Service<br/>SendGrid/SES]
@@ -121,6 +132,7 @@ graph TB
     WebApp --> API
     MobileApp --> API
     API --> Auth
+    Auth --> Google
     API --> Billing
     API --> Messaging
     API --> Notifications
@@ -183,12 +195,14 @@ erDiagram
     USER ||--o{ RESIDENT_PROFILE : has
     USER {
         uuid id PK
+        string google_id UK
         string email
-        string password_hash
         string full_name
+        string profile_picture_url
         string phone
         enum role
         timestamp created_at
+        timestamp last_login
     }
     
     PROPERTY ||--|{ ROOM : contains
@@ -295,17 +309,18 @@ erDiagram
 
 ### 5.1 Host Onboarding
 
-- Create account
-- Verify identity (optional)
+- Sign in with Google (one-click authentication)
+- Select role (Host or Resident)
 - Add properties and rooms
 - Upload photos
 - Set pricing
-- Connect Stripe
+- Connect Stripe account
 - Publish listing
 
 ### 5.2 Resident Onboarding
 
-- Create profile
+- Sign in with Google (one-click authentication)
+- Complete profile (bio, employment info)
 - Optional background check
 - Load balance (wallet-style)
 - Get approved by host
@@ -408,75 +423,83 @@ Auto-generate:
 
 ```mermaid
 graph TD
-    A[Sign Up] --> B[Add Property Details]
-    B --> C[Add Rooms & Photos]
-    C --> D[Set Pricing & Rules]
-    D --> E[Connect Stripe Account]
-    E --> F[Publish Listing]
-    F --> G[Receive Applications]
-    G --> H{Review Application}
-    H -->|Approve| I[Resident Loads Balance]
-    H -->|Reject| G
-    I --> J[Move-In]
-    J --> K[Weekly Automated Charges]
-    K --> L[Receive Payouts]
-    L --> K
+    A[Sign in with Google] --> B[Select Role: Host]
+    B --> C[Add Property Details]
+    C --> D[Add Rooms & Photos]
+    D --> E[Set Pricing & Rules]
+    E --> F[Connect Stripe Account]
+    F --> G[Publish Listing]
+    G --> H[Receive Applications]
+    H --> I{Review Application}
+    I -->|Approve| J[Resident Loads Balance]
+    I -->|Reject| H
+    J --> K[Move-In]
+    K --> L[Weekly Automated Charges]
+    L --> M[Receive Payouts]
+    M --> L
     
     style A fill:#e1f5e1
-    style F fill:#fff4e1
-    style L fill:#e1f0ff
+    style G fill:#fff4e1
+    style M fill:#e1f0ff
 ```
 
 **Host Flow Steps:**
 
-1. Sign up
-2. Add property
-3. Add rooms and photos
-4. Set pricing + rules
-5. Connect Stripe account
-6. Publish
-7. Receive applications
-8. Approve
-9. Resident loads balance
-10. Move-in
-11. Weekly automated charges
+1. Sign in with Google
+2. Select role (Host)
+3. Add property details
+4. Add rooms and photos
+5. Set pricing + rules
+6. Connect Stripe account
+7. Publish
+8. Receive applications
+9. Approve
+10. Resident loads balance
+11. Move-in
+12. Weekly automated charges
 
 ### 6.2 Resident Flow
 
 ```mermaid
 graph TD
-    A[Search Rooms] --> B[Filter by Price/Location]
-    B --> C[View Room Details]
-    C --> D[Apply for Room]
-    D --> E{Background Check?}
-    E -->|Optional| F[Complete Background Check]
-    E -->|Skip| G[Load Wallet Balance]
-    F --> G
-    G --> H[Wait for Approval]
-    H --> I{Host Decision}
-    I -->|Approved| J[Move In]
-    I -->|Rejected| A
-    J --> K[Weekly Auto-Payments]
-    K --> L{Balance Check}
-    L -->|Sufficient| K
-    L -->|Low Balance| M[Receive Reminder]
-    M --> N[Add Funds]
-    N --> K
+    A[Sign in with Google] --> B[Select Role: Resident]
+    B --> C[Complete Profile]
+    C --> D[Search Rooms]
+    D --> E[Filter by Price/Location]
+    E --> F[View Room Details]
+    F --> G[Apply for Room]
+    G --> H{Background Check?}
+    H -->|Optional| I[Complete Background Check]
+    H -->|Skip| J[Load Wallet Balance]
+    I --> J
+    J --> K[Wait for Approval]
+    K --> L{Host Decision}
+    L -->|Approved| M[Move In]
+    L -->|Rejected| D
+    M --> N[Weekly Auto-Payments]
+    N --> O{Balance Check}
+    O -->|Sufficient| N
+    O -->|Low Balance| P[Receive Reminder]
+    P --> Q[Add Funds]
+    Q --> N
     
     style A fill:#e1f5e1
-    style J fill:#fff4e1
-    style K fill:#e1f0ff
+    style M fill:#fff4e1
+    style N fill:#e1f0ff
 ```
 
 **Resident Flow Steps:**
 
-1. Search rooms
-2. Apply
-3. Optional background check
-4. Load balance
-5. Get approved
-6. Move in
-7. Weekly automated payments
+1. Sign in with Google
+2. Select role (Resident)
+3. Complete profile
+4. Search rooms
+5. Apply
+6. Optional background check
+7. Load balance
+8. Get approved
+9. Move in
+10. Weekly automated payments
 
 ## 7. Pricing Model
 
