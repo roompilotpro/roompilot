@@ -35,7 +35,9 @@ jobs:
     - name: Build and push Docker image using Cloud Build
       run: |
         cd backend
-        gcloud builds submit --tag $REGION-docker.pkg.dev/$PROJECT_ID/$AR_REPO/$SERVICE_NAME:${{ github.sha }}
+        gcloud builds submit \
+          --tag $REGION-docker.pkg.dev/$PROJECT_ID/$AR_REPO/$SERVICE_NAME:${{ github.sha }} \
+          --quiet
         gcloud artifacts docker tags add \
           $REGION-docker.pkg.dev/$PROJECT_ID/$AR_REPO/$SERVICE_NAME:${{ github.sha }} \
           $REGION-docker.pkg.dev/$PROJECT_ID/$AR_REPO/$SERVICE_NAME:latest
