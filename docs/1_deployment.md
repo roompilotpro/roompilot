@@ -293,10 +293,18 @@ Your backend needs to allow requests from Vercel:
 Then redeploy backend:
 ```bash
 cd backend
-gcloud builds submit --tag gcr.io/roompilot-backend/roompilot-api
+./deploy.sh
+```
+
+Or manually:
+```bash
+cd backend
+gcloud builds submit --tag us-central1-docker.pkg.dev/roompilot-001/roompilot-repo/roompilot-api
 gcloud run deploy roompilot-api \
-  --image gcr.io/roompilot-backend/roompilot-api \
-  --region us-central1
+  --image us-central1-docker.pkg.dev/roompilot-001/roompilot-repo/roompilot-api:latest \
+  --platform managed \
+  --region us-central1 \
+  --allow-unauthenticated
 ```
 
 ---
