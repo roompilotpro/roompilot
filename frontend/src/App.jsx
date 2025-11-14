@@ -43,7 +43,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Hello World - Full Stack App</h1>
+        <h1>RoomPilot</h1>
         <p className="tech-stack">
           Java Spring Boot + React + Neon Postgres
         </p>
