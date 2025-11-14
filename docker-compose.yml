@@ -1,0 +1,23 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: roompilot-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: roompilot
+      POSTGRES_USER: roompilot
+      POSTGRES_PASSWORD: roompilot123
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/src/main/resources/db/migration:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U roompilot -d roompilot"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+    name: roompilot-postgres-data

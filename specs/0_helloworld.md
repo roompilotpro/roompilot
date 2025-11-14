@@ -273,18 +273,17 @@ roompilot/                          # Project root
 │   │   │   ├── java/
 │   │   │   │   └── com/
 │   │   │   │       └── roompilot/
-│   │   │   │           └── helloworld/
-│   │   │   │               ├── HelloWorldApplication.java
-│   │   │   │               ├── config/
-│   │   │   │               │   └── CorsConfig.java
-│   │   │   │               ├── controller/
-│   │   │   │               │   └── MessageController.java
-│   │   │   │               ├── model/
-│   │   │   │               │   └── Message.java
-│   │   │   │               ├── repository/
-│   │   │   │               │   └── MessageRepository.java
-│   │   │   │               └── service/
-│   │   │   │                   └── MessageService.java
+│   │   │   │           ├── RoomPilotApplication.java
+│   │   │   │           ├── config/
+│   │   │   │           │   └── CorsConfig.java
+│   │   │   │           ├── controller/
+│   │   │   │           │   └── MessageController.java
+│   │   │   │           ├── model/
+│   │   │   │           │   └── Message.java
+│   │   │   │           ├── repository/
+│   │   │   │           │   └── MessageRepository.java
+│   │   │   │           └── service/
+│   │   │   │               └── MessageService.java
 │   │   │   └── resources/
 │   │   │       ├── application.properties
 │   │   │       ├── application-local.properties
@@ -297,8 +296,7 @@ roompilot/                          # Project root
 │   │       └── java/
 │   │           └── com/
 │   │               └── roompilot/
-│   │                   └── helloworld/
-│   │                       └── MessageControllerTest.java
+│   │                   └── MessageControllerTest.java
 │   ├── Dockerfile
 │   ├── .dockerignore
 │   ├── pom.xml (or build.gradle)
@@ -1625,7 +1623,7 @@ graph LR
 ```bash
 # Make a change to backend code
 cd backend
-echo "// Updated" >> src/main/java/com/roompilot/helloworld/HelloWorldApplication.java
+echo "// Updated" >> src/main/java/com/roompilot/RoomPilotApplication.java
 
 # Commit and push
 git add .

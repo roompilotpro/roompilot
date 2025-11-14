@@ -1,0 +1,11 @@
+{
+  "name": "roompilot-backend",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "export $(cat ../.env.local | xargs) && ./mvnw spring-boot:run",
+    "start:dev": "./mvnw spring-boot:run -Dspring-boot.run.profiles=local",
+    "build": "./mvnw clean package",
+    "test": "./mvnw test",
+    "clean": "./mvnw clean"
+  }
+}
