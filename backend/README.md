@@ -77,6 +77,52 @@ docker run -p 8080:8080 -e DATABASE_URL=$DATABASE_URL roompilot-api
 ./mvnw test
 ```
 
+## Deployment to Production
+
+### Deploy to Google Cloud Run
+
+Use the automated deployment script:
+
+```bash
+./deploy.sh
+```
+
+This script will:
+1. Build the Docker image using Google Cloud Build
+2. Push to Artifact Registry
+3. Deploy to Cloud Run
+4. Verify the deployment with a health check
+
+**Requirements:**
+- `gcloud` CLI installed and authenticated
+- Access to `roompilot-001` GCP project
+
+### Manual Deployment
+
+If you prefer to deploy manually:
+
+```bash
+# Build and push Docker image
+gcloud builds submit --tag us-central1-docker.pkg.dev/roompilot-001/roompilot-repo/roompilot-api
+
+# Deploy to Cloud Run
+gcloud run deploy roompilot-api \
+  --image us-central1-docker.pkg.dev/roompilot-001/roompilot-repo/roompilot-api:latest \
+  --platform managed \
+  --region us-central1 \
+  --allow-unauthenticated
+```
+
+**After Deployment:**
+1. Update Vercel environment variable `VITE_API_URL` with the new service URL
+2. Redeploy the frontend from Vercel dashboard
+
+### API Documentation
+
+Swagger UI is available at:
+- Local: `http://localhost:8080/swagger-ui/index.html`
+- Production: `https://your-service-url/swagger-ui/index.html`
+
 ## Project Structure
 ```
 backend/
