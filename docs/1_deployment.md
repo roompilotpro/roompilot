@@ -435,20 +435,44 @@ jobs:
     - name: Set up Cloud SDK
       uses: google-github-actions/setup-gcloud@v2
 
-    - name: Configure Docker for Artifact Registry
-      run: |
-        gcloud auth configure-docker $REGION-docker.pkg.dev
-
-    - name: Build Docker image
+    - name: Build and push Docker image using Cloud Build
       run: |
         cd backend
-        docker build -t $REGION-docker.pkg.dev/$PROJECT_ID/$AR_REPO/$SERVICE_NAME:${{ github.sha }} .
-        docker tag $REGION-docker.pkg.dev/$PROJECT_ID/$AR_REPO/$SERVICE_NAME:${{ github.sha }} $REGION-docker.pkg.dev/$PROJECT_ID/$AR_REPO/$SERVICE_NAME:latest
+        # Submit build asynchronously to avoid log streaming issues
+        BUILD_ID=$(gcloud builds submit \
+          --tag $REGION-docker.pkg.dev/$PROJECT_ID/$AR_REPO/$SERVICE_NAME:${{ github.sha }} \
+          --async \
+          --format="value(id)")
 
-    - name: Push Docker image to Artifact Registry
-      run: |
-        docker push $REGION-docker.pkg.dev/$PROJECT_ID/$AR_REPO/$SERVICE_NAME:${{ github.sha }}
-        docker push $REGION-docker.pkg.dev/$PROJECT_ID/$AR_REPO/$SERVICE_NAME:latest
+        echo "Build ID: $BUILD_ID"
+        echo "Waiting for build to complete..."
+
+        # Poll for build completion
+        for i in {1..60}; do
+          STATUS=$(gcloud builds describe $BUILD_ID --format="value(status)")
+          echo "Build status: $STATUS"
+
+          if [ "$STATUS" = "SUCCESS" ]; then
+            echo "Build completed successfully!"
+            break
+          elif [ "$STATUS" = "FAILURE" ] || [ "$STATUS" = "TIMEOUT" ] || [ "$STATUS" = "CANCELLED" ]; then
+            echo "Build failed with status: $STATUS"
+            echo "View logs at: https://console.cloud.google.com/cloud-build/builds/$BUILD_ID?project=$PROJECT_ID"
+            exit 1
+          fi
+
+          sleep 10
+        done
+
+        if [ "$STATUS" != "SUCCESS" ]; then
+          echo "Build timed out after 10 minutes"
+          exit 1
+        fi
+
+        # Tag the image as latest
+        gcloud artifacts docker tags add \
+          $REGION-docker.pkg.dev/$PROJECT_ID/$AR_REPO/$SERVICE_NAME:${{ github.sha }} \
+          $REGION-docker.pkg.dev/$PROJECT_ID/$AR_REPO/$SERVICE_NAME:latest
 
     - name: Deploy to Cloud Run
       run: |
@@ -790,6 +814,10 @@ PSQLException: FATAL: password authentication failed
 ```
 denied: Permission "artifactregistry.repositories.uploadArtifacts" denied
 ```
+or
+```
+denied: Permission 'artifactregistry.tags.delete' denied
+```
 **Solution:**
 The service account is missing the Artifact Registry Writer role. Add it with:
 ```bash
@@ -797,6 +825,12 @@ gcloud projects add-iam-policy-binding roompilot-001 \
   --member="serviceAccount:github-actions-deployer@roompilot-001.iam.gserviceaccount.com" \
   --role="roles/artifactregistry.writer"
 ```
+
+The `roles/artifactregistry.writer` role includes:
+- `artifactregistry.repositories.uploadArtifacts` - Upload Docker images
+- `artifactregistry.tags.create` - Create tags
+- `artifactregistry.tags.delete` - Delete/update tags (needed for "latest" tag)
+- `artifactregistry.tags.update` - Update tag metadata
 
 Also verify:
 - All required roles from Step 1 of CI/CD setup are assigned
@@ -822,6 +856,25 @@ Error: Input required and not supplied: credentials_json
 - Go to GitHub repository **Settings** → **Secrets and variables** → **Actions**
 - Verify all required secrets are added (see Step 2 of CI/CD setup)
 - Double-check secret names match exactly (case-sensitive)
+
+**Issue: GitHub Actions - Cloud Build Log Streaming Error**
+```
+ERROR: (gcloud.builds.submit)
+The build is running, and logs are being written to the default logs bucket.
+This tool can only stream logs if you are Viewer/Owner of the project...
+Error: Process completed with exit code 1.
+```
+**Context:**
+The Cloud Build itself succeeds (visible in Cloud Console), but the GitHub Action fails because `gcloud builds submit` can't stream logs due to VPC-SC security policies or insufficient log viewer permissions.
+
+**Solution:**
+The workflow uses asynchronous builds with status polling instead of synchronous builds:
+- Submits builds with `--async` flag (no log streaming needed)
+- Polls build status every 10 seconds
+- Checks for SUCCESS/FAILURE/TIMEOUT/CANCELLED states
+- Provides Cloud Console link for debugging failures
+
+This approach doesn't require log streaming permissions and reliably detects build outcomes. The workflow is already configured this way - no action needed unless you modified it.
 
 ---
 
