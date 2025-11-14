@@ -16,7 +16,11 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/messages")
-@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:5174", "https://*.vercel.app"})
+@CrossOrigin(origins = {
+    "http://localhost:5173",
+    "http://localhost:5174",
+    "https://roompilot.vercel.app"
+})
 @Tag(name = "Messages", description = "Message management API")
 public class MessageController {
     
