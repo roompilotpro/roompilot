@@ -363,6 +363,10 @@ gcloud projects add-iam-policy-binding $PROJECT_ID \
 
 gcloud projects add-iam-policy-binding $PROJECT_ID \
   --member="serviceAccount:${SA_EMAIL}" \
+  --role="roles/artifactregistry.writer"
+
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+  --member="serviceAccount:${SA_EMAIL}" \
   --role="roles/storage.admin"
 
 # Create and download service account key
@@ -787,10 +791,18 @@ PSQLException: FATAL: password authentication failed
 denied: Permission "artifactregistry.repositories.uploadArtifacts" denied
 ```
 **Solution:**
-- Verify the service account has the correct roles (see Step 1 of CI/CD setup)
-- Ensure `ARTIFACT_REGISTRY_REPO` secret contains only the repo name (`roompilot-repo`), not the full path
-- Check that Artifact Registry API is enabled: `gcloud services enable artifactregistry.googleapis.com`
-- Verify the workflow is using Artifact Registry (`pkg.dev`), not Container Registry (`gcr.io`)
+The service account is missing the Artifact Registry Writer role. Add it with:
+```bash
+gcloud projects add-iam-policy-binding roompilot-001 \
+  --member="serviceAccount:github-actions-deployer@roompilot-001.iam.gserviceaccount.com" \
+  --role="roles/artifactregistry.writer"
+```
+
+Also verify:
+- All required roles from Step 1 of CI/CD setup are assigned
+- `ARTIFACT_REGISTRY_REPO` secret contains only the repo name (`roompilot-repo`), not the full path
+- Artifact Registry API is enabled: `gcloud services enable artifactregistry.googleapis.com`
+- Workflow is using Artifact Registry (`pkg.dev`), not Container Registry (`gcr.io`)
 
 **Issue: GitHub Actions - GCR Permission Denied**
 ```
