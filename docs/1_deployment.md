@@ -389,12 +389,40 @@ Add these secrets:
 |-------------|-------|---------|
 | `GCP_PROJECT_ID` | Your Google Cloud project ID | `roompilot-001` |
 | `GCP_SA_KEY` | Contents of `gcp-key.json` | Entire JSON file |
-| `DATABASE_URL` | Your Neon connection string | `jdbc:postgresql://...` |
+| `DATABASE_URL` | Your Neon connection string (JDBC format) | `jdbc:postgresql://host/db?user=username&password=password&sslmode=require` |
 | `GCP_REGION` | Cloud Run region | `us-central1` |
 | `SERVICE_NAME` | Cloud Run service name | `roompilot-api` |
 | `ARTIFACT_REGISTRY_REPO` | Artifact Registry repository name | `roompilot-repo` |
 
 > **Important:** Make sure `ARTIFACT_REGISTRY_REPO` contains only the repository name (`roompilot-repo`), not the full path. The workflow will construct the full path automatically.
+
+**DATABASE_URL Format (Critical!):**
+
+Neon provides connection strings in standard PostgreSQL format:
+```
+postgresql://user:password@host/database?params
+```
+
+However, Spring Boot requires **JDBC format** with credentials as query parameters:
+```
+jdbc:postgresql://host/database?user=username&password=password&sslmode=require&channel_binding=require
+```
+
+**Example transformation:**
+- ❌ **Neon format (won't work):**
+  ```
+  postgresql://neondb_owner:npg_S7jDwyCFUn6i@ep-autumn-tree-a4hqcdbz-pooler.us-east-1.aws.neon.tech/roompilot-dev?sslmode=require
+  ```
+- ✅ **JDBC format (correct):**
+  ```
+  jdbc:postgresql://ep-autumn-tree-a4hqcdbz-pooler.us-east-1.aws.neon.tech/roompilot-dev?user=neondb_owner&password=npg_S7jDwyCFUn6i&sslmode=require&channel_binding=require
+  ```
+
+**How to convert:**
+1. Add `jdbc:` prefix
+2. Remove `user:password@` from URL
+3. Move credentials to query parameters: `?user=xxx&password=yyy`
+4. Keep other parameters like `sslmode` and `channel_binding`
 
 #### Step 3: Create GitHub Actions Workflow
 
@@ -789,8 +817,9 @@ Container failed to start. Failed to listen on port
 ```
 **Solution:**
 - Check application.properties has `server.port=8080`
-- Increase Cloud Run timeout: `--timeout=300`
-- Check logs: `gcloud run services logs read roompilot-api`
+- Increase Cloud Run timeout: `--timeout=600` (default is 300s, Spring Boot apps need more time)
+- Check logs for actual startup errors: `gcloud run services logs read roompilot-api`
+- Common causes: Database connection failures, invalid DATABASE_URL format (see above)
 
 **Issue: Flyway Migration Failed**
 ```
@@ -809,6 +838,36 @@ PSQLException: FATAL: password authentication failed
 - Verify `DATABASE_URL` is correct in Cloud Run env vars
 - Check Neon database is active
 - Test connection locally first
+
+**Issue: Invalid JDBC URL / Port Number Error**
+```
+WARN org.postgresql.util.PGPropertyUtil : JDBC URL invalid port number: npg_S7jDwyCFUn6i@ep-autumn-tree...
+```
+or
+```
+Driver org.postgresql.Driver claims to not accept jdbcUrl, jdbc:postgresql://user:password@host/db
+```
+**Cause:**
+The `DATABASE_URL` is using standard PostgreSQL format (`user:password@host`) instead of JDBC format.
+
+**Solution:**
+Update your `DATABASE_URL` secret in GitHub Actions to use JDBC format with credentials as query parameters:
+
+❌ **Wrong (Neon's default format):**
+```
+jdbc:postgresql://neondb_owner:password@ep-autumn-tree-xxx.neon.tech/db
+```
+
+✅ **Correct (JDBC format):**
+```
+jdbc:postgresql://ep-autumn-tree-xxx.neon.tech/db?user=neondb_owner&password=xxx&sslmode=require&channel_binding=require
+```
+
+Steps:
+1. Go to GitHub repository **Settings** → **Secrets and variables** → **Actions**
+2. Edit the `DATABASE_URL` secret
+3. Convert to JDBC format (move credentials from URL to query parameters)
+4. Re-run the failed deployment
 
 **Issue: GitHub Actions - Permission Denied on Artifact Registry**
 ```
