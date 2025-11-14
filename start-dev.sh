@@ -83,12 +83,19 @@ echo ""
 echo -e "${GREEN}✅ Development environment started!${NC}"
 echo ""
 echo "📝 Services:"
-echo "   Database: PostgreSQL on localhost:5432"
+if echo "$DATABASE_URL" | grep -q "neon.tech"; then
+    echo "   Database: Neon Cloud (roompilot-dev)"
+else
+    echo "   Database: PostgreSQL on localhost:5432"
+fi
 echo "   Backend:  http://localhost:8080"
+echo "   Swagger:  http://localhost:8080/swagger-ui/index.html"
 echo "   Frontend: http://localhost:5173"
 echo ""
 echo "📋 Logs:"
-echo "   Database: docker-compose logs -f postgres"
+if echo "$DATABASE_URL" | grep -q "localhost"; then
+    echo "   Database: docker-compose logs -f postgres"
+fi
 echo "   Backend:  tail -f logs/backend.log"
 echo "   Frontend: tail -f logs/frontend.log"
 echo ""

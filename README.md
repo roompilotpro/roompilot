@@ -42,25 +42,44 @@ Full-stack application demonstrating Java Spring Boot backend with React fronten
 ```
 
 **Services available at:**
-- Database: `localhost:5432` (PostgreSQL in Docker)
+- Database: Neon Cloud (default) or `localhost:5432` (Docker)
 - Backend:  `http://localhost:8080`
 - Frontend: `http://localhost:5173`
+- Swagger UI: `http://localhost:8080/swagger-ui/index.html`
 
 ### Database Management
-The application uses **local PostgreSQL via Docker** by default:
+
+The application supports two database options:
+
+**Option 1: Neon Cloud Database (Default)**
+- Configured in `.env.local` by default
+- No Docker required
+- Shared team database
+
+**Option 2: Local PostgreSQL via Docker**
 - Database: `roompilot`
 - User: `roompilot`
 - Password: `roompilot123`
-- Connection: `postgresql://roompilot:roompilot123@localhost:5432/roompilot`
 
+**Toggle between databases:**
+Edit `.env.local` and comment/uncomment the `DATABASE_URL` line:
 ```bash
-# Reset database (deletes all data)
+# Use Neon (default)
+DATABASE_URL=jdbc:postgresql://ep-autumn-tree-a4hqcdbz-pooler.us-east-1.aws.neon.tech/roompilot-dev?...
+
+# Use Local Docker (comment out Neon and uncomment this)
+# DATABASE_URL=jdbc:postgresql://localhost:5432/roompilot?user=roompilot&password=roompilot123
+```
+
+**Local Docker commands:**
+```bash
+# Reset local database (deletes all data)
 ./db-reset.sh
 
 # View database logs
 docker-compose logs -f postgres
 
-# Connect to database
+# Connect to local database
 docker-compose exec postgres psql -U roompilot -d roompilot
 ```
 
@@ -103,13 +122,21 @@ cd frontend && npm run build
 - **Frontend:** Auto-deployed to Vercel on push to main
 
 ## 📝 Environment Variables
-The `.env.local` file is created automatically by `setup-dev.sh` with:
-```
-# Local PostgreSQL via Docker (default)
-DATABASE_URL=postgresql://roompilot:roompilot123@localhost:5432/roompilot
 
-# For Neon cloud database (optional)
-# DATABASE_URL=postgresql://user:password@host.neon.tech/dbname
+The `.env.local` file is created automatically by `setup-dev.sh`. You can toggle between Neon (cloud) and Local (Docker) databases by editing this file:
+
+```bash
+# Neon Cloud Database (Active by default)
+DATABASE_URL=jdbc:postgresql://ep-autumn-tree-a4hqcdbz-pooler.us-east-1.aws.neon.tech/roompilot-dev?user=neondb_owner&password=npg_S7jDwyCFUn6i&sslmode=require&channel_binding=require
+
+# Local PostgreSQL via Docker (comment out Neon and uncomment this to switch)
+# DATABASE_URL=jdbc:postgresql://localhost:5432/roompilot?user=roompilot&password=roompilot123
+```
+
+After changing the database, restart the backend:
+```bash
+./stop-dev.sh
+./start-dev.sh
 ```
 
 ## 🤝 Contributing

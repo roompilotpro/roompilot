@@ -19,6 +19,17 @@ fi
 # Load environment variables
 export $(cat .env.local | grep -v '^#' | xargs)
 
+# Kill any process using port 8080
+echo -e "${BLUE}🔍 Checking for processes on port 8080...${NC}"
+if lsof -ti:8080 >/dev/null 2>&1; then
+    echo -e "${YELLOW}⚠️  Port 8080 is in use. Killing existing processes...${NC}"
+    lsof -ti:8080 | xargs kill -9 2>/dev/null || true
+    sleep 1
+    echo -e "${GREEN}✅ Port 8080 is now free${NC}"
+else
+    echo -e "${GREEN}✅ Port 8080 is available${NC}"
+fi
+
 # Ensure PostgreSQL is running
 echo -e "${BLUE}🐘 Checking PostgreSQL...${NC}"
 if ! docker ps | grep -q roompilot-postgres; then
@@ -45,7 +56,10 @@ fi
 
 # Start backend in foreground
 echo ""
-echo -e "${GREEN}📦 Starting Backend on http://localhost:8080${NC}"
+echo -e "${GREEN}📦 Starting Backend${NC}"
+echo "   API: http://localhost:8080"
+echo "   Swagger UI: http://localhost:8080/swagger-ui/index.html"
+echo ""
 echo -e "${BLUE}Press Ctrl+C to stop${NC}"
 echo ""
 
