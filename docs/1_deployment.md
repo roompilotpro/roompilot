@@ -127,7 +127,26 @@ ENTRYPOINT ["java", "-jar", "app.jar"]
 
 ### Step 3: Build and Deploy to Cloud Run
 
-**Option A: Using Cloud Build (Recommended)**
+**Option A: Using Automated Script (Recommended)**
+
+The easiest way to deploy is using the automated deployment script:
+
+```bash
+# Navigate to backend directory
+cd backend
+
+# Run the deployment script
+./deploy.sh
+```
+
+This script will:
+- Build the Docker image using Google Cloud Build
+- Push to Artifact Registry
+- Deploy to Cloud Run
+- Verify the deployment with a health check
+- Display the service URL and next steps
+
+**Option B: Using Cloud Build Manually**
 
 ```bash
 # Navigate to backend directory
@@ -142,7 +161,7 @@ gcloud builds submit --tag us-central1-docker.pkg.dev/roompilot-001/roompilot-re
 # - Usually takes 3-5 minutes
 ```
 
-**Option B: Using Local Docker**
+**Option C: Using Local Docker**
 
 ```bash
 # Build locally
@@ -153,7 +172,7 @@ docker build -t us-central1-docker.pkg.dev/roompilot-001/roompilot-repo/roompilo
 docker push us-central1-docker.pkg.dev/roompilot-001/roompilot-repo/roompilot-api
 ```
 
-### Step 4: Deploy to Cloud Run
+### Step 4: Deploy to Cloud Run (if not using deploy.sh)
 
 ```bash
 # Set your Neon database URL
@@ -285,12 +304,13 @@ Your backend needs to allow requests from Vercel:
 @CrossOrigin(origins = {
     "http://localhost:5173",
     "http://localhost:5174",
-    "https://roompilot.vercel.app",  // Add your Vercel URL
-    "https://*.vercel.app"            // Allow all Vercel preview URLs
+    "https://roompilot.vercel.app"  // Add your Vercel URL
 })
 ```
 
-Then redeploy backend:
+> **Note:** Spring's `@CrossOrigin` does not support wildcard patterns like `https://*.vercel.app`. You must add each URL explicitly. For preview deployments, consider implementing a custom CORS configuration.
+
+Then redeploy backend using the deployment script:
 ```bash
 cd backend
 ./deploy.sh
@@ -368,7 +388,9 @@ Add these secrets:
 | `DATABASE_URL` | Your Neon connection string | `jdbc:postgresql://...` |
 | `GCP_REGION` | Cloud Run region | `us-central1` |
 | `SERVICE_NAME` | Cloud Run service name | `roompilot-api` |
-| `ARTIFACT_REGISTRY_REPO` | Artifact Registry repository | `roompilot-repo` |
+| `ARTIFACT_REGISTRY_REPO` | Artifact Registry repository name | `roompilot-repo` |
+
+> **Important:** Make sure `ARTIFACT_REGISTRY_REPO` contains only the repository name (`roompilot-repo`), not the full path. The workflow will construct the full path automatically.
 
 #### Step 3: Create GitHub Actions Workflow
 
@@ -760,9 +782,40 @@ PSQLException: FATAL: password authentication failed
 - Check Neon database is active
 - Test connection locally first
 
+**Issue: GitHub Actions - Permission Denied on Artifact Registry**
+```
+denied: Permission "artifactregistry.repositories.uploadArtifacts" denied
+```
+**Solution:**
+- Verify the service account has the correct roles (see Step 1 of CI/CD setup)
+- Ensure `ARTIFACT_REGISTRY_REPO` secret contains only the repo name (`roompilot-repo`), not the full path
+- Check that Artifact Registry API is enabled: `gcloud services enable artifactregistry.googleapis.com`
+- Verify the workflow is using Artifact Registry (`pkg.dev`), not Container Registry (`gcr.io`)
+
+**Issue: GitHub Actions - GCR Permission Denied**
+```
+denied: Permission denied on resource 'gcr.io/...'
+```
+**Solution:**
+This means your workflow is incorrectly using Google Container Registry (deprecated) instead of Artifact Registry:
+1. Update your `.github/workflows/deploy-backend.yml` to use `$REGION-docker.pkg.dev/$PROJECT_ID/$AR_REPO/$SERVICE_NAME`
+2. Change `gcloud auth configure-docker` to `gcloud auth configure-docker $REGION-docker.pkg.dev`
+3. Ensure all image references use the Artifact Registry path
+
+**Issue: GitHub Actions - Missing Secret**
+```
+Error: Input required and not supplied: credentials_json
+```
+**Solution:**
+- Go to GitHub repository **Settings** → **Secrets and variables** → **Actions**
+- Verify all required secrets are added (see Step 2 of CI/CD setup)
+- Double-check secret names match exactly (case-sensitive)
+
 ---
 
 ## Daily Development Workflow
+
+### With CI/CD (Recommended)
 
 ```bash
 # 1. Create feature branch
@@ -783,11 +836,30 @@ git push origin feature/new-feature
 # Review code and test preview
 
 # 6. Merge to main
-# Both backend and frontend auto-deploy to production!
+# Both backend and frontend auto-deploy to production via GitHub Actions!
 
 # 7. Verify production
 curl https://roompilot-api-xyz.run.app/api/messages
 open https://roompilot.vercel.app
+```
+
+### Manual Deployment (Alternative)
+
+If you need to deploy manually without waiting for CI/CD:
+
+```bash
+# Deploy backend
+cd backend
+./deploy.sh
+
+# The script handles everything:
+# - Builds Docker image
+# - Pushes to Artifact Registry
+# - Deploys to Cloud Run
+# - Verifies deployment
+
+# Frontend deploys automatically on Vercel
+# Or manually trigger from Vercel dashboard
 ```
 
 ---
