@@ -1,0 +1,58 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;MODE=PostgreSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        format_sql: true
+    show-sql: false
+  flyway:
+    enabled: true
+    locations: classpath:db/test-migration
+    placeholders:
+      uuid_function: random_uuid()
+
+jwt:
+  secret: TestSecretKeyForIntegrationTestsOnly12345678901234567890
+  expiration-ms: 3600000
+  refresh-expiration-ms: 86400000
+
+admin:
+  emails: admin@roompilot.com,test.admin@example.com
+
+app:
+  enable-dev-auth: true
+
+spring.security.oauth2.client:
+  registration:
+    google:
+      client-id: test-client-id
+      client-secret: test-client-secret
+      redirect-uri: http://localhost:3000/auth/callback
+      scope: openid,profile,email
+      authorization-grant-type: authorization_code
+  provider:
+    google:
+      token-uri: http://localhost:${wiremock.server.port}/oauth2/token
+      authorization-uri: https://accounts.google.com/o/oauth2/v2/auth
+      user-info-uri: http://localhost:${wiremock.server.port}/oauth2/userinfo
+      user-name-attribute: sub
+
+google:
+  oauth:
+    client-id: test-client-id
+    client-secret: test-client-secret
+    redirect-uri: http://localhost:3000/auth/callback
+    token-url: http://localhost:${wiremock.server.port}/oauth2/token
+    userinfo-url: http://localhost:${wiremock.server.port}/oauth2/userinfo
+
+logging:
+  level:
+    com.roompilot: DEBUG
+    org.springframework.security: DEBUG

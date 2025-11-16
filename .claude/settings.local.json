@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(./mvnw test:*)",
+      "Bash(./mvnw spotbugs:check:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

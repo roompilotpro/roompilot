@@ -1,5 +1,6 @@
 package com.roompilot.service;
 
+import com.roompilot.exception.NotFoundException;
 import com.roompilot.model.Message;
 import com.roompilot.repository.MessageRepository;
 import java.util.List;
@@ -29,7 +30,7 @@ public class MessageService {
     Message message =
         messageRepository
             .findById(id)
-            .orElseThrow(() -> new RuntimeException("Message not found with id: " + id));
+            .orElseThrow(() -> new NotFoundException("Message not found with id: " + id));
     message.setContent(content);
     return messageRepository.save(message);
   }
