@@ -1,80 +1,68 @@
-import { useState, useEffect } from 'react';
-import { messageService } from './services/api';
-import MessageList from './components/MessageList';
+import { Routes, Route } from 'react-router-dom';
+import LandingPage from './pages/LandingPage';
+import LoginPage from './pages/LoginPage';
+import TestPage from './pages/TestPage';
+import OAuthCallbackPage from './pages/OAuthCallbackPage';
+import RoleSelectionPage from './pages/RoleSelectionPage';
+import HostDashboard from './pages/HostDashboard';
+import ResidentDashboard from './pages/ResidentDashboard';
+import AdminDashboard from './pages/AdminDashboard';
+import UnauthorizedPage from './pages/UnauthorizedPage';
+import ProtectedRoute from './components/ProtectedRoute';
+import RoleProtectedRoute from './components/RoleProtectedRoute';
 import './App.css';
 
 function App() {
-  const [messages, setMessages] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [newMessage, setNewMessage] = useState('');
-
-  useEffect(() => {
-    fetchMessages();
-  }, []);
-
-  const fetchMessages = async () => {
-    try {
-      setLoading(true);
-      const response = await messageService.getAllMessages();
-      setMessages(response.data);
-      setError(null);
-    } catch (err) {
-      setError('Failed to fetch messages: ' + err.message);
-      console.error('Error fetching messages:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleCreateMessage = async (e) => {
-    e.preventDefault();
-    if (!newMessage.trim()) return;
-
-    try {
-      await messageService.createMessage(newMessage);
-      setNewMessage('');
-      fetchMessages(); // Refresh the list
-    } catch (err) {
-      setError('Failed to create message: ' + err.message);
-    }
-  };
-
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>RoomPilot</h1>
-        <p className="tech-stack">
-          Java Spring Boot + React + Neon Postgres
-        </p>
-      </header>
-      
-      <main className="main-content">
-        <section className="create-message">
-          <h2>Add New Message</h2>
-          <form onSubmit={handleCreateMessage}>
-            <input
-              type="text"
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
-              placeholder="Enter your message..."
-              maxLength="255"
-            />
-            <button type="submit">Add Message</button>
-          </form>
-        </section>
+    <Routes>
+      {/* Public routes */}
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/test" element={<TestPage />} />
+      <Route path="/auth/callback" element={<OAuthCallbackPage />} />
+      <Route path="/unauthorized" element={<UnauthorizedPage />} />
 
-        <section className="messages-section">
-          <h2>Messages from Database</h2>
-          <MessageList messages={messages} loading={loading} error={error} />
-          {!loading && !error && (
-            <button onClick={fetchMessages} className="refresh-btn">
-              Refresh Messages
-            </button>
-          )}
-        </section>
-      </main>
-    </div>
+      {/* Protected routes - require authentication */}
+      <Route
+        path="/onboarding/role-selection"
+        element={
+          <ProtectedRoute>
+            <RoleSelectionPage />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* Role-specific dashboards */}
+      <Route
+        path="/host/dashboard"
+        element={
+          <RoleProtectedRoute allowedRoles={['HOST']}>
+            <HostDashboard />
+          </RoleProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/resident/dashboard"
+        element={
+          <RoleProtectedRoute allowedRoles={['RESIDENT']}>
+            <ResidentDashboard />
+          </RoleProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/admin/dashboard"
+        element={
+          <RoleProtectedRoute allowedRoles={['ADMIN']}>
+            <AdminDashboard />
+          </RoleProtectedRoute>
+        }
+      />
+
+      {/* Catch-all route */}
+      <Route path="*" element={<LandingPage />} />
+    </Routes>
   );
 }
 
