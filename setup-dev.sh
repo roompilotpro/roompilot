@@ -42,8 +42,8 @@ if [ ! -f .env.local ]; then
 # Database Configuration
 # Toggle between Neon (cloud) and Local (Docker) by commenting/uncommenting
 
-# Neon Cloud Database (Active)
-DATABASE_URL=jdbc:postgresql://ep-autumn-tree-a4hqcdbz-pooler.us-east-1.aws.neon.tech/roompilot-dev?user=neondb_owner&password=npg_S7jDwyCFUn6i&sslmode=require&channel_binding=require
+# Neon Cloud Database (example - set your own credentials)
+DATABASE_URL=jdbc:postgresql://<host>/<db_name>?user=<user>&password=<password>&sslmode=require
 
 # Local PostgreSQL via Docker
 # DATABASE_URL=jdbc:postgresql://localhost:5432/roompilot?user=roompilot&password=roompilot123
@@ -56,8 +56,8 @@ EOF
 # Database Configuration
 # Toggle between Neon (cloud) and Local (Docker) by commenting/uncommenting
 
-# Neon Cloud Database
-# DATABASE_URL=jdbc:postgresql://ep-autumn-tree-a4hqcdbz-pooler.us-east-1.aws.neon.tech/roompilot-dev?user=neondb_owner&password=npg_S7jDwyCFUn6i&sslmode=require&channel_binding=require
+# Neon Cloud Database (example - set your own credentials)
+# DATABASE_URL=jdbc:postgresql://<host>/<db_name>?user=<user>&password=<password>&sslmode=require
 
 # Local PostgreSQL via Docker (Active)
 DATABASE_URL=jdbc:postgresql://localhost:5432/roompilot?user=roompilot&password=roompilot123
@@ -70,8 +70,8 @@ EOF
 # Database Configuration
 # Toggle between Neon (cloud) and Local (Docker) by commenting/uncommenting
 
-# Neon Cloud Database (Active)
-DATABASE_URL=jdbc:postgresql://ep-autumn-tree-a4hqcdbz-pooler.us-east-1.aws.neon.tech/roompilot-dev?user=neondb_owner&password=npg_S7jDwyCFUn6i&sslmode=require&channel_binding=require
+# Neon Cloud Database (example - set your own credentials)
+DATABASE_URL=jdbc:postgresql://<host>/<db_name>?user=<user>&password=<password>&sslmode=require
 
 # Local PostgreSQL via Docker
 # DATABASE_URL=jdbc:postgresql://localhost:5432/roompilot?user=roompilot&password=roompilot123

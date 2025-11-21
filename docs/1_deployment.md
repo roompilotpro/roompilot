@@ -176,7 +176,7 @@ docker push us-central1-docker.pkg.dev/roompilot-001/roompilot-repo/roompilot-ap
 
 ```bash
 # Set your Neon database URL
-export DATABASE_URL="jdbc:postgresql://ep-autumn-tree-a4hqcdbz-pooler.us-east-1.aws.neon.tech/roompilot-dev?user=neondb_owner&password=npg_S7jDwyCFUn6i&sslmode=require&channel_binding=require"
+export DATABASE_URL="jdbc:postgresql://<host>/<db_name>?user=<user>&password=<password>&sslmode=require&channel_binding=require"
 
 # Deploy the service
 gcloud run deploy roompilot-api \
@@ -411,11 +411,11 @@ jdbc:postgresql://host/database?user=username&password=password&sslmode=require&
 **Example transformation:**
 - ❌ **Neon format (won't work):**
   ```
-  postgresql://neondb_owner:npg_S7jDwyCFUn6i@ep-autumn-tree-a4hqcdbz-pooler.us-east-1.aws.neon.tech/roompilot-dev?sslmode=require
+  postgresql://<user>:<password>@<host>/<db_name>?sslmode=require
   ```
 - ✅ **JDBC format (correct):**
   ```
-  jdbc:postgresql://ep-autumn-tree-a4hqcdbz-pooler.us-east-1.aws.neon.tech/roompilot-dev?user=neondb_owner&password=npg_S7jDwyCFUn6i&sslmode=require&channel_binding=require
+  jdbc:postgresql://<host>/<db_name>?user=<user>&password=<password>&sslmode=require&channel_binding=require
   ```
 
 **How to convert:**
@@ -841,7 +841,7 @@ PSQLException: FATAL: password authentication failed
 
 **Issue: Invalid JDBC URL / Port Number Error**
 ```
-WARN org.postgresql.util.PGPropertyUtil : JDBC URL invalid port number: npg_S7jDwyCFUn6i@ep-autumn-tree...
+WARN org.postgresql.util.PGPropertyUtil : JDBC URL invalid port number: <password>@<host>...
 ```
 or
 ```
@@ -855,12 +855,12 @@ Update your `DATABASE_URL` secret in GitHub Actions to use JDBC format with cred
 
 ❌ **Wrong (Neon's default format):**
 ```
-jdbc:postgresql://neondb_owner:password@ep-autumn-tree-xxx.neon.tech/db
+jdbc:postgresql://<user>:<password>@<host>/<db_name>
 ```
 
 ✅ **Correct (JDBC format):**
 ```
-jdbc:postgresql://ep-autumn-tree-xxx.neon.tech/db?user=neondb_owner&password=xxx&sslmode=require&channel_binding=require
+jdbc:postgresql://<host>/<db_name>?user=<user>&password=<password>&sslmode=require&channel_binding=require
 ```
 
 Steps:

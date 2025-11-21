@@ -1,6 +1,7 @@
 services:
   postgres:
-    image: postgres:15
+    image: postgres:17
+    command: '-d 1'
     container_name: roompilot-postgres
     ports:
       - "5432:5432"
@@ -17,6 +18,17 @@ services:
       timeout: 5s
       retries: 5
     restart: unless-stopped
+
+  neon-proxy:
+    image: ghcr.io/timowilhelm/local-neon-http-proxy:main
+    environment:
+      - PG_CONNECTION_STRING=postgres://postgres:postgres@postgres:5432/main
+    ports:
+      - '4444:4444'
+    depends_on:
+      postgres:
+        condition: service_healthy
+
 
 volumes:
   postgres_data:

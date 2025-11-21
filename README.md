@@ -64,8 +64,8 @@ The application supports two database options:
 **Toggle between databases:**
 Edit `.env.local` and comment/uncomment the `DATABASE_URL` line:
 ```bash
-# Use Neon (default)
-DATABASE_URL=jdbc:postgresql://ep-autumn-tree-a4hqcdbz-pooler.us-east-1.aws.neon.tech/roompilot-dev?...
+# Use Neon (example - set your own credentials via env/secret)
+DATABASE_URL=jdbc:postgresql://<host>/<db_name>?user=<user>&password=<password>&sslmode=require
 
 # Use Local Docker (comment out Neon and uncomment this)
 # DATABASE_URL=jdbc:postgresql://localhost:5432/roompilot?user=roompilot&password=roompilot123
@@ -126,8 +126,8 @@ cd frontend && npm run build
 The `.env.local` file is created automatically by `setup-dev.sh`. You can toggle between Neon (cloud) and Local (Docker) databases by editing this file:
 
 ```bash
-# Neon Cloud Database (Active by default)
-DATABASE_URL=jdbc:postgresql://ep-autumn-tree-a4hqcdbz-pooler.us-east-1.aws.neon.tech/roompilot-dev?user=neondb_owner&password=npg_S7jDwyCFUn6i&sslmode=require&channel_binding=require
+# Neon Cloud Database (example - set credentials in env/secret)
+DATABASE_URL=jdbc:postgresql://<host>/<db_name>?user=<user>&password=<password>&sslmode=require
 
 # Local PostgreSQL via Docker (comment out Neon and uncomment this to switch)
 # DATABASE_URL=jdbc:postgresql://localhost:5432/roompilot?user=roompilot&password=roompilot123
