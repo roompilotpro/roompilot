@@ -1,0 +1,258 @@
+name: Deploy - Cloud Run
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'backend/**'
+      - 'feature/**'
+      - 'bugfix/**'
+      - '.github/workflows/deploy.yml'
+  workflow_dispatch:
+    inputs:
+      target:
+        description: 'Environment to deploy (production)'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+          - production
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+  REGION: ${{ secrets.GCP_REGION }}
+  AR_REPO: ${{ secrets.ARTIFACT_REGISTRY_REPO }}
+  SERVICE_NAME: ${{ secrets.SERVICE_NAME }}
+
+jobs:
+  verify:
+    name: Verify (lint, test, quality)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Backend - setup JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Backend - full quality checks
+        run: |
+          cd backend
+          ./mvnw -B -ntp checkstyle:check
+          ./mvnw -B -ntp compile
+          ./mvnw -B -ntp test
+          ./mvnw -B -ntp spotbugs:check
+          ./mvnw -B -ntp jacoco:report
+
+      - name: Frontend - setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Frontend - lint, test & build
+        run: |
+          cd frontend
+          npm ci
+          npm run lint
+          npm run format:check
+          npm run test
+          npm run build
+
+  build-and-scan:
+    name: Build & Security Scan
+    needs: verify
+    runs-on: ubuntu-latest
+    outputs:
+      image: ${{ steps.build.outputs.image }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Build and push image
+        id: build
+        run: |
+          IMAGE="$REGION-docker.pkg.dev/$PROJECT_ID/$AR_REPO/$SERVICE_NAME:${{ github.sha }}"
+          cd backend
+          gcloud builds submit --tag "$IMAGE" --timeout=600
+          echo "image=$IMAGE" >> $GITHUB_OUTPUT
+
+      - name: Scan image for vulnerabilities with Trivy
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ${{ steps.build.outputs.image }}
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH'
+
+      - name: Upload Trivy results to GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+      - name: Check Trivy scan results
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ${{ steps.build.outputs.image }}
+          format: 'table'
+          exit-code: '1'
+          severity: 'CRITICAL'
+          ignore-unfixed: true
+
+  deploy:
+    name: Deploy to Production
+    needs: build-and-scan
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || (github.event_name == 'workflow_dispatch' && github.event.inputs.target == 'production')
+    environment:
+      name: production
+      url: ${{ steps.deploy.outputs.url }}
+    outputs:
+      url: ${{ steps.deploy.outputs.url }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Capture current revision
+        id: previous
+        run: |
+          set +e
+          REVISION=$(gcloud run services describe $SERVICE_NAME --region $REGION --format="value(status.traffic[0].revisionName)" 2>/dev/null)
+          echo "revision=$REVISION" >> $GITHUB_OUTPUT
+          echo "Previous revision: $REVISION"
+
+      - name: Deploy new revision (traffic 0%)
+        id: deploy
+        run: |
+          IMAGE="${{ needs.build-and-scan.outputs.image }}"
+
+          gcloud run deploy "$SERVICE_NAME" \
+            --image "$IMAGE" \
+            --platform managed \
+            --region "$REGION" \
+            --allow-unauthenticated \
+            --set-env-vars DATABASE_URL="${{ secrets.DATABASE_URL }}" \
+            --port 8080 \
+            --max-instances 20 \
+            --min-instances 0 \
+            --timeout=300 \
+            --cpu=1 \
+            --memory=512Mi \
+            --no-traffic \
+            --tag=candidate
+
+          SERVICE_URL=$(gcloud run services describe "$SERVICE_NAME" --region "$REGION" --format 'value(status.url)')
+          CANDIDATE_URL=$(gcloud run services describe "$SERVICE_NAME" --region "$REGION" --format 'value(status.traffic[0].url)')
+          NEW_REVISION=$(gcloud run services describe "$SERVICE_NAME" --region "$REGION" --format="value(status.latestReadyRevisionName)")
+
+          echo "url=$SERVICE_URL" >> $GITHUB_OUTPUT
+          echo "candidate_url=$CANDIDATE_URL" >> $GITHUB_OUTPUT
+          echo "new_revision=$NEW_REVISION" >> $GITHUB_OUTPUT
+
+      - name: Run smoke tests
+        run: |
+          CANDIDATE_URL="${{ steps.deploy.outputs.candidate_url }}"
+          echo "Running smoke tests on: $CANDIDATE_URL"
+
+          # Health check with retries
+          for i in {1..5}; do
+            if curl -f --connect-timeout 10 --max-time 20 "$CANDIDATE_URL/actuator/health"; then
+              echo "✅ Health check passed"
+              break
+            fi
+            if [ $i -eq 5 ]; then
+              echo "❌ Health check failed after 5 attempts"
+              exit 1
+            fi
+            echo "Attempt $i failed, retrying..."
+            sleep 5
+          done
+
+          # API endpoint tests
+          curl -f --connect-timeout 10 --max-time 20 "$CANDIDATE_URL/api/messages" || exit 1
+          echo "✅ API endpoints responding"
+
+      - name: Route 100% traffic to new revision
+        run: |
+          NEW_REV="${{ steps.deploy.outputs.new_revision }}"
+          OLD_REV="${{ steps.previous.outputs.revision }}"
+          SERVICE_URL="${{ steps.deploy.outputs.url }}"
+
+          echo "Routing 100% traffic to new revision"
+          gcloud run services update-traffic "$SERVICE_NAME" \
+            --region "$REGION" \
+            --to-revisions "$NEW_REV=100"
+
+      - name: Final validation
+        run: |
+          SERVICE_URL="${{ steps.deploy.outputs.url }}"
+          echo "=== Final Validation ==="
+
+          for i in {1..5}; do
+            if curl -f --connect-timeout 10 --max-time 20 "$SERVICE_URL/actuator/health"; then
+              echo "✅ Production deployment successful"
+              echo "📍 URL: $SERVICE_URL"
+              echo "🔄 Revision: ${{ steps.deploy.outputs.new_revision }}"
+              exit 0
+            fi
+            echo "Attempt $i failed, retrying..."
+            sleep 10
+          done
+
+          echo "❌ Final validation failed, initiating rollback"
+          exit 1
+
+      - name: Rollback on failure
+        if: failure()
+        run: |
+          OLD_REV="${{ steps.previous.outputs.revision }}"
+          if [ -n "$OLD_REV" ]; then
+            echo "🔄 Rolling back to $OLD_REV"
+            gcloud run services update-traffic "$SERVICE_NAME" \
+              --region "$REGION" \
+              --to-revisions "$OLD_REV=100"
+            echo "✅ Rollback completed successfully"
+
+            # Verify rollback
+            sleep 10
+            SERVICE_URL="${{ steps.deploy.outputs.url }}"
+            curl -f --connect-timeout 10 --max-time 20 "$SERVICE_URL/actuator/health"
+          else
+            echo "⚠️ No previous revision to rollback to"
+          fi
+
+      - name: Record deployment metrics
+        if: always()
+        run: |
+          echo "=== Deployment Metrics ==="
+          echo "Environment: Production"
+          echo "Status: ${{ job.status }}"
+          echo "Revision: ${{ steps.deploy.outputs.new_revision }}"
+          echo "Image: ${{ needs.build-and-scan.outputs.image }}"
+          echo "Timestamp: $(date -u +"%Y-%m-%dT%H:%M:%SZ")"

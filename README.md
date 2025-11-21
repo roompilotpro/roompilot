@@ -139,6 +139,13 @@ After changing the database, restart the backend:
 ./start-dev.sh
 ```
 
+## Git hooks (local formatting and style)
+- Point Git to the repo hooks: `git config core.hooksPath .githooks`
+- Make the hook executable (Unix shells once): `chmod +x .githooks/pre-commit`
+- On each commit the hook runs:
+  - Frontend: `npm --prefix frontend run format` (Prettier write), then `npm --prefix frontend run lint -- --fix`, then `npm --prefix frontend run lint` to ensure no remaining issues
+  - Backend: `(cd backend && ./mvnw -B -ntp spotless:apply checkstyle:check)` (auto-formats before style checks)
+
 ## 🤝 Contributing
 1. Create feature branch
 2. Make changes

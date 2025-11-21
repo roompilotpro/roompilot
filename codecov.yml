@@ -1,0 +1,48 @@
+codecov:
+  require_ci_to_pass: yes
+  notify:
+    after_n_builds: 2  # Wait for both backend and frontend builds
+
+coverage:
+  precision: 2
+  round: down
+  range: "70...100"
+
+  status:
+    project:
+      default:
+        target: 80%
+        threshold: 2%
+        if_ci_failed: error
+
+    patch:
+      default:
+        target: 80%
+        threshold: 5%
+
+comment:
+  layout: "reach,diff,flags,files,footer"
+  behavior: default
+  require_changes: false
+  require_base: no
+  require_head: yes
+
+flags:
+  backend:
+    paths:
+      - backend/src/main/java
+    carryforward: false
+
+  frontend:
+    paths:
+      - frontend/src
+    carryforward: false
+
+ignore:
+  - "backend/src/test"
+  - "frontend/src/test"
+  - "**/*.test.js"
+  - "**/*.test.jsx"
+  - "**/*.spec.js"
+  - "**/test/**"
+  - "**/tests/**"

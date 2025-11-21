@@ -1,54 +1,52 @@
-import { useState, useEffect } from 'react';
-import { messageService } from './services/api';
-import MessageList from './components/MessageList';
-import './App.css';
+import { useState, useEffect } from 'react'
+import { messageService } from './services/api'
+import MessageList from './components/MessageList'
+import './App.css'
 
 function App() {
-  const [messages, setMessages] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [newMessage, setNewMessage] = useState('');
+  const [messages, setMessages] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+  const [newMessage, setNewMessage] = useState('')
 
   useEffect(() => {
-    fetchMessages();
-  }, []);
+    fetchMessages()
+  }, [])
 
   const fetchMessages = async () => {
     try {
-      setLoading(true);
-      const response = await messageService.getAllMessages();
-      setMessages(response.data);
-      setError(null);
+      setLoading(true)
+      const response = await messageService.getAllMessages()
+      setMessages(response.data)
+      setError(null)
     } catch (err) {
-      setError('Failed to fetch messages: ' + err.message);
-      console.error('Error fetching messages:', err);
+      setError('Failed to fetch messages: ' + err.message)
+      console.error('Error fetching messages:', err)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   const handleCreateMessage = async (e) => {
-    e.preventDefault();
-    if (!newMessage.trim()) return;
+    e.preventDefault()
+    if (!newMessage.trim()) return
 
     try {
-      await messageService.createMessage(newMessage);
-      setNewMessage('');
-      fetchMessages(); // Refresh the list
+      await messageService.createMessage(newMessage)
+      setNewMessage('')
+      fetchMessages() // Refresh the list
     } catch (err) {
-      setError('Failed to create message: ' + err.message);
+      setError('Failed to create message: ' + err.message)
     }
-  };
+  }
 
   return (
     <div className="App">
       <header className="App-header">
         <h1>RoomPilot</h1>
-        <p className="tech-stack">
-          Java Spring Boot + React + Neon Postgres
-        </p>
+        <p className="tech-stack">Java Spring Boot + React + Neon Postgres</p>
       </header>
-      
+
       <main className="main-content">
         <section className="create-message">
           <h2>Add New Message</h2>
@@ -75,7 +73,7 @@ function App() {
         </section>
       </main>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
