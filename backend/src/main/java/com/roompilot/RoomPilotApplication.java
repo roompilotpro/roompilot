@@ -6,8 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class RoomPilotApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(RoomPilotApplication.class, args);
-    }
-
+  public static void main(String[] args) {
+    SpringApplication.run(RoomPilotApplication.class, args);
+  }
 }

@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT_DIR="$(git rev-parse --show-toplevel)"
+
+run_frontend_checks() {
+  if [ -d "$ROOT_DIR/frontend" ]; then
+    echo "Running frontend format and lint fixes..."
+    npm --prefix "$ROOT_DIR/frontend" run format
+    npm --prefix "$ROOT_DIR/frontend" run lint -- --fix
+    npm --prefix "$ROOT_DIR/frontend" run lint
+  fi
+}
+
+run_backend_checks() {
+  if [ -d "$ROOT_DIR/backend" ]; then
+    echo "Running backend formatting (Spotless apply) and style checks..."
+    (cd "$ROOT_DIR/backend" && ./mvnw -B -ntp spotless:apply checkstyle:check)
+  fi
+}
+
+run_frontend_checks
+run_backend_checks
+
+echo "Pre-commit checks passed."
