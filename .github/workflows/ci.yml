@@ -54,7 +54,7 @@ jobs:
         run: ./mvnw -B -ntp jacoco:report
 
       - name: Upload Backend Coverage to Codecov
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         with:
           files: ./backend/target/site/jacoco/jacoco.xml
           flags: backend
@@ -110,7 +110,7 @@ jobs:
         run: npm run test:coverage
 
       - name: Upload Frontend Coverage to Codecov
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         with:
           files: ./frontend/coverage/lcov.info
           flags: frontend
@@ -157,7 +157,7 @@ jobs:
           path: frontend-coverage
 
       - name: Comment Coverage on PR
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: false
