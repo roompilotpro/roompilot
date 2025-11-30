@@ -27,7 +27,7 @@ const ProfileWizard = ({ onComplete, isSubmitting, error }) => {
       try {
         const statuses = await getEmploymentStatuses()
         const labels = {}
-        statuses.forEach(s => {
+        statuses.forEach((s) => {
           labels[s.value] = s.label
         })
         setEmploymentLabels(labels)
@@ -111,18 +111,22 @@ const ProfileWizard = ({ onComplete, isSubmitting, error }) => {
   return (
     <div>
       {/* Progress indicator */}
-      <div style={{
-        display: 'flex',
-        justifyContent: 'center',
-        marginBottom: '2rem'
-      }}>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          marginBottom: '2rem',
+        }}
+      >
         {STEPS.map((step, index) => (
           <div key={step.id} style={{ display: 'flex', alignItems: 'center' }}>
-            <div style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+              }}
+            >
               <div
                 style={{
                   width: '40px',
@@ -139,19 +143,28 @@ const ProfileWizard = ({ onComplete, isSubmitting, error }) => {
                 }}
               >
                 {index < currentStep ? (
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="3"
+                  >
                     <polyline points="20 6 9 17 4 12"></polyline>
                   </svg>
                 ) : (
                   index + 1
                 )}
               </div>
-              <span style={{
-                marginTop: '0.5rem',
-                fontSize: '12px',
-                color: index <= currentStep ? '#667eea' : '#999',
-                fontWeight: index === currentStep ? '600' : '400',
-              }}>
+              <span
+                style={{
+                  marginTop: '0.5rem',
+                  fontSize: '12px',
+                  color: index <= currentStep ? '#667eea' : '#999',
+                  fontWeight: index === currentStep ? '600' : '400',
+                }}
+              >
                 {step.label}
               </span>
             </div>
@@ -173,14 +186,16 @@ const ProfileWizard = ({ onComplete, isSubmitting, error }) => {
 
       {/* Error message */}
       {error && (
-        <div style={{
-          backgroundColor: '#ffebee',
-          color: '#c62828',
-          padding: '1rem',
-          borderRadius: '8px',
-          marginBottom: '1rem',
-          textAlign: 'center',
-        }}>
+        <div
+          style={{
+            backgroundColor: '#ffebee',
+            color: '#c62828',
+            padding: '1rem',
+            borderRadius: '8px',
+            marginBottom: '1rem',
+            textAlign: 'center',
+          }}
+        >
           {error}
         </div>
       )}

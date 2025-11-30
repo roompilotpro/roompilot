@@ -16,7 +16,7 @@ const PhoneStep = ({ phone, onPhoneChange, onNext, onBack }) => {
           style={{
             display: 'block',
             marginBottom: '0.5rem',
-            fontWeight: '500'
+            fontWeight: '500',
           }}
         >
           Phone Number (Optional)
@@ -35,21 +35,25 @@ const PhoneStep = ({ phone, onPhoneChange, onNext, onBack }) => {
             fontSize: '16px',
           }}
         />
-        <p style={{
-          fontSize: '14px',
-          color: '#666',
-          marginTop: '0.5rem'
-        }}>
+        <p
+          style={{
+            fontSize: '14px',
+            color: '#666',
+            marginTop: '0.5rem',
+          }}
+        >
           Your phone number will only be shared with hosts when you apply for a room.
         </p>
       </div>
 
-      <div style={{
-        backgroundColor: '#f5f5f5',
-        padding: '1rem',
-        borderRadius: '8px',
-        marginBottom: '1rem'
-      }}>
+      <div
+        style={{
+          backgroundColor: '#f5f5f5',
+          padding: '1rem',
+          borderRadius: '8px',
+          marginBottom: '1rem',
+        }}
+      >
         <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
           <span style={{ fontSize: '20px' }}>*</span>
           <div>
@@ -57,18 +61,20 @@ const PhoneStep = ({ phone, onPhoneChange, onNext, onBack }) => {
               Why provide a phone number?
             </div>
             <div style={{ fontSize: '14px', color: '#666' }}>
-              Having a phone number on file makes it easier for hosts to reach you
-              for scheduling viewings or discussing details about the room.
+              Having a phone number on file makes it easier for hosts to reach you for scheduling
+              viewings or discussing details about the room.
             </div>
           </div>
         </div>
       </div>
 
-      <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        marginTop: '2rem'
-      }}>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          marginTop: '2rem',
+        }}
+      >
         <button
           onClick={onBack}
           style={{

@@ -71,49 +71,46 @@ const EmploymentStep = ({ employmentStatus, onEmploymentChange, onNext, onBack }
             onClick={() => handleSelect(status.value)}
             style={{
               padding: '1rem',
-              border: employmentStatus === status.value
-                ? '2px solid #667eea'
-                : '2px solid #e0e0e0',
+              border: employmentStatus === status.value ? '2px solid #667eea' : '2px solid #e0e0e0',
               borderRadius: '8px',
               cursor: 'pointer',
-              backgroundColor: employmentStatus === status.value
-                ? '#f0f3ff'
-                : 'white',
+              backgroundColor: employmentStatus === status.value ? '#f0f3ff' : 'white',
               transition: 'all 0.2s',
             }}
           >
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.75rem'
-            }}>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.75rem',
+              }}
+            >
               <div
                 style={{
                   width: '20px',
                   height: '20px',
                   borderRadius: '50%',
-                  border: employmentStatus === status.value
-                    ? '6px solid #667eea'
-                    : '2px solid #ccc',
+                  border:
+                    employmentStatus === status.value ? '6px solid #667eea' : '2px solid #ccc',
                   backgroundColor: 'white',
                 }}
               />
               <div>
                 <div style={{ fontWeight: '500' }}>{status.label}</div>
-                <div style={{ fontSize: '14px', color: '#666' }}>
-                  {status.description}
-                </div>
+                <div style={{ fontSize: '14px', color: '#666' }}>{status.description}</div>
               </div>
             </div>
           </div>
         ))}
       </div>
 
-      <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        marginTop: '2rem'
-      }}>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          marginTop: '2rem',
+        }}
+      >
         <button
           onClick={onBack}
           style={{

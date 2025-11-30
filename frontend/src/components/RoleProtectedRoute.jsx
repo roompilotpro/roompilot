@@ -21,7 +21,10 @@ const RoleProtectedRoute = ({ children, allowedRoles, requireProfileCompleted = 
     <ProtectedRoute>
       {user && allowedRoles.includes(user.role) ? (
         // For RESIDENT dashboard, also check profile completion
-        user.role === 'RESIDENT' && isResidentDashboard && requireProfileCompleted && !profileCompleted ? (
+        user.role === 'RESIDENT' &&
+        isResidentDashboard &&
+        requireProfileCompleted &&
+        !profileCompleted ? (
           <Navigate to="/onboarding/resident-profile" replace />
         ) : (
           children

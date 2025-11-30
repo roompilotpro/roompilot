@@ -5,7 +5,8 @@
       "Bash(./mvnw spotbugs:check:*)",
       "Bash(dir \"C:\\Users\\chris\\IdeaProjects\\roompilot\")",
       "Bash(find:*)",
-      "Bash(dir \"C:\\Users\\chris\\IdeaProjects\\roompilot\\frontend\\src\")"
+      "Bash(dir \"C:\\Users\\chris\\IdeaProjects\\roompilot\\frontend\\src\")",
+      "Bash(cat:*)"
     ],
     "deny": [],
     "ask": []

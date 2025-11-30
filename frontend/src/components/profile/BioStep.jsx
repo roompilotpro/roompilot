@@ -45,7 +45,7 @@ const BioStep = ({ bio, onBioChange, onNext, onBack }) => {
           style={{
             display: 'block',
             marginBottom: '0.5rem',
-            fontWeight: '500'
+            fontWeight: '500',
           }}
         >
           Bio *
@@ -66,31 +66,39 @@ const BioStep = ({ bio, onBioChange, onNext, onBack }) => {
             fontFamily: 'inherit',
           }}
         />
-        <div style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          marginTop: '0.5rem'
-        }}>
-          <span style={{
-            color: error ? '#f44336' : '#666',
-            fontSize: '14px'
-          }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            marginTop: '0.5rem',
+          }}
+        >
+          <span
+            style={{
+              color: error ? '#f44336' : '#666',
+              fontSize: '14px',
+            }}
+          >
             {error || `${minLength}-${maxLength} characters required`}
           </span>
-          <span style={{
-            color: bio.length > maxLength ? '#f44336' : '#666',
-            fontSize: '14px'
-          }}>
+          <span
+            style={{
+              color: bio.length > maxLength ? '#f44336' : '#666',
+              fontSize: '14px',
+            }}
+          >
             {bio.length}/{maxLength}
           </span>
         </div>
       </div>
 
-      <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        marginTop: '2rem'
-      }}>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          marginTop: '2rem',
+        }}
+      >
         <button
           onClick={onBack}
           style={{
