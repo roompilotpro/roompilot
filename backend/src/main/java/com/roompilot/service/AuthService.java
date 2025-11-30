@@ -8,6 +8,7 @@ import com.roompilot.model.dto.AuthResponse;
 import com.roompilot.model.dto.GoogleTokenResponse;
 import com.roompilot.model.dto.GoogleUserInfo;
 import com.roompilot.model.dto.UserDTO;
+import com.roompilot.repository.ResidentProfileRepository;
 import com.roompilot.repository.UserRepository;
 import com.roompilot.util.AdminEmailValidator;
 import com.roompilot.util.LogSanitizerUtil;
@@ -36,6 +37,7 @@ public class AuthService {
   private final UserRepository userRepository;
   private final UserService userService;
   private final AdminEmailValidator adminEmailValidator;
+  private final ResidentProfileRepository residentProfileRepository;
 
   @Value("${app.enable-dev-auth:false}")
   private boolean enableDevAuth;
@@ -74,7 +76,10 @@ public class AuthService {
       // Check if user has selected role
       boolean hasSelectedRole = user.hasRole();
 
-      return new AuthResponse(jwtToken, userDTO, hasSelectedRole);
+      // Check if resident profile is completed (only for RESIDENT users)
+      boolean profileCompleted = checkProfileCompleted(user);
+
+      return new AuthResponse(jwtToken, userDTO, hasSelectedRole, profileCompleted);
 
     } catch (AuthenticationException e) {
       throw e;
@@ -222,6 +227,29 @@ public class AuthService {
     // Check if user has selected role
     boolean hasSelectedRole = user.hasRole();
 
-    return new AuthResponse(jwtToken, userDTO, hasSelectedRole);
+    // Check if resident profile is completed (only for RESIDENT users)
+    boolean profileCompleted = checkProfileCompleted(user);
+
+    return new AuthResponse(jwtToken, userDTO, hasSelectedRole, profileCompleted);
+  }
+
+  /**
+   * Check if a user's profile is completed. For RESIDENT users, checks if resident profile exists.
+   * For HOST and ADMIN users, always returns true as they don't require additional profile setup.
+   *
+   * @param user The user to check
+   * @return true if profile is completed or not required
+   */
+  private boolean checkProfileCompleted(User user) {
+    if (user.getRole() == null) {
+      return false; // No role selected yet
+    }
+
+    if (user.getRole() == UserRole.RESIDENT) {
+      return residentProfileRepository.existsByUserId(user.getId());
+    }
+
+    // HOST and ADMIN users don't need to complete a profile
+    return true;
   }
 }

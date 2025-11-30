@@ -21,11 +21,12 @@ const RoleSelectionPage = () => {
       const updatedUser = await selectRole(role)
       updateUser(updatedUser)
 
-      // Redirect to appropriate dashboard
+      // Redirect based on role
       if (role === 'HOST') {
         navigate('/host/dashboard')
       } else if (role === 'RESIDENT') {
-        navigate('/resident/dashboard')
+        // RESIDENT users need to complete their profile first
+        navigate('/onboarding/resident-profile')
       }
     } catch (err) {
       console.error('Role selection error:', err)

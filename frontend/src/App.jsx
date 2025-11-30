@@ -4,6 +4,7 @@ import LoginPage from './pages/LoginPage'
 import TestPage from './pages/TestPage'
 import OAuthCallbackPage from './pages/OAuthCallbackPage'
 import RoleSelectionPage from './pages/RoleSelectionPage'
+import ResidentProfilePage from './pages/ResidentProfilePage'
 import HostDashboard from './pages/HostDashboard'
 import ResidentDashboard from './pages/ResidentDashboard'
 import AdminDashboard from './pages/AdminDashboard'
@@ -29,6 +30,15 @@ function App() {
           <ProtectedRoute>
             <RoleSelectionPage />
           </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/onboarding/resident-profile"
+        element={
+          <RoleProtectedRoute allowedRoles={['RESIDENT']}>
+            <ResidentProfilePage />
+          </RoleProtectedRoute>
         }
       />
 

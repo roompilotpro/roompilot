@@ -32,12 +32,12 @@ const OAuthCallbackPage = () => {
 
       try {
         const response = await handleCallback(code)
-        const { token, user, hasSelectedRole } = response
+        const { token, user, hasSelectedRole, profileCompleted } = response
 
         // Login user with token and user data
-        login(token, user)
+        login(token, user, profileCompleted)
 
-        // Redirect based on role
+        // Redirect based on role and profile completion status
         if (!hasSelectedRole || user.role === null) {
           navigate('/onboarding/role-selection')
         } else if (user.role === 'ADMIN') {
@@ -45,7 +45,12 @@ const OAuthCallbackPage = () => {
         } else if (user.role === 'HOST') {
           navigate('/host/dashboard')
         } else if (user.role === 'RESIDENT') {
-          navigate('/resident/dashboard')
+          // Check if resident profile is completed
+          if (!profileCompleted) {
+            navigate('/onboarding/resident-profile')
+          } else {
+            navigate('/resident/dashboard')
+          }
         } else {
           navigate('/')
         }

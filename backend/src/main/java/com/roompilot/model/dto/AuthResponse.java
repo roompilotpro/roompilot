@@ -20,4 +20,13 @@ public class AuthResponse {
   private static final String TOKEN_TYPE = "Bearer";
   private UserDTO user;
   private boolean hasSelectedRole;
+  private boolean profileCompleted;
+
+  /** Constructor without profileCompleted for backward compatibility. */
+  public AuthResponse(String token, UserDTO user, boolean hasSelectedRole) {
+    this.token = token;
+    this.user = user;
+    this.hasSelectedRole = hasSelectedRole;
+    this.profileCompleted = false;
+  }
 }
