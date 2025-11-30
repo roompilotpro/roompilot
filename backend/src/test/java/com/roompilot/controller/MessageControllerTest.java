@@ -1,5 +1,11 @@
 package com.roompilot.controller;
 
+import static com.roompilot.fixtures.TestConstants.TestData.ANOTHER_MESSAGE_CONTENT;
+import static com.roompilot.fixtures.TestConstants.TestData.NEW_MESSAGE_CONTENT;
+import static com.roompilot.fixtures.TestConstants.TestData.NONEXISTENT_MESSAGE_ID;
+import static com.roompilot.fixtures.TestConstants.TestData.TEST_MESSAGE_CONTENT;
+import static com.roompilot.fixtures.TestConstants.TestData.TEST_MESSAGE_ID;
+import static com.roompilot.fixtures.TestConstants.TestData.UPDATED_MESSAGE_CONTENT;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -37,14 +43,14 @@ class MessageControllerTest {
 
   @BeforeEach
   void setUp() {
-    testMessage = new Message("Test message");
-    testMessage.setId(1L);
+    testMessage = new Message(TEST_MESSAGE_CONTENT);
+    testMessage.setId(TEST_MESSAGE_ID);
   }
 
   @Test
   void testGetAllMessages() {
     // Arrange
-    List<Message> messages = Arrays.asList(testMessage, new Message("Another message"));
+    List<Message> messages = Arrays.asList(testMessage, new Message(ANOTHER_MESSAGE_CONTENT));
     when(messageService.getAllMessages()).thenReturn(messages);
 
     // Act
@@ -57,97 +63,87 @@ class MessageControllerTest {
   }
 
   @Test
-  void testGetMessageById_Found() {
-    // Arrange
-    when(messageService.getMessageById(1L)).thenReturn(Optional.of(testMessage));
+  void testGetMessageByIdFound() {
+    when(messageService.getMessageById(TEST_MESSAGE_ID)).thenReturn(Optional.of(testMessage));
 
-    // Act
-    ResponseEntity<Message> response = messageController.getMessageById(1L);
+    ResponseEntity<Message> response = messageController.getMessageById(TEST_MESSAGE_ID);
 
-    // Assert
     assertEquals(HttpStatus.OK, response.getStatusCode());
     assertNotNull(response.getBody());
-    assertEquals("Test message", response.getBody().getContent());
-    verify(messageService, times(1)).getMessageById(1L);
+    assertEquals(TEST_MESSAGE_CONTENT, response.getBody().getContent());
+    verify(messageService, times(1)).getMessageById(TEST_MESSAGE_ID);
   }
 
   @Test
-  void testGetMessageById_NotFound() {
-    // Arrange
-    when(messageService.getMessageById(999L)).thenReturn(Optional.empty());
+  void testGetMessageByIdNotFound() {
+    when(messageService.getMessageById(NONEXISTENT_MESSAGE_ID)).thenReturn(Optional.empty());
 
-    // Act
-    ResponseEntity<Message> response = messageController.getMessageById(999L);
+    ResponseEntity<Message> response = messageController.getMessageById(NONEXISTENT_MESSAGE_ID);
 
-    // Assert
     assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     assertNull(response.getBody());
-    verify(messageService, times(1)).getMessageById(999L);
+    verify(messageService, times(1)).getMessageById(NONEXISTENT_MESSAGE_ID);
   }
 
   @Test
   void testCreateMessage() {
     // Arrange
     Map<String, String> request = new HashMap<>();
-    request.put("content", "New message");
-    Message newMessage = new Message("New message");
-    when(messageService.createMessage("New message")).thenReturn(newMessage);
+    request.put("content", NEW_MESSAGE_CONTENT);
+    Message newMessage = new Message(NEW_MESSAGE_CONTENT);
+    when(messageService.createMessage(NEW_MESSAGE_CONTENT)).thenReturn(newMessage);
 
     // Act
     Message result = messageController.createMessage(request);
 
     // Assert
     assertNotNull(result);
-    assertEquals("New message", result.getContent());
-    verify(messageService, times(1)).createMessage("New message");
+    assertEquals(NEW_MESSAGE_CONTENT, result.getContent());
+    verify(messageService, times(1)).createMessage(NEW_MESSAGE_CONTENT);
   }
 
   @Test
-  void testUpdateMessage_Success() {
-    // Arrange
+  void testUpdateMessageSuccess() {
     Map<String, String> request = new HashMap<>();
-    request.put("content", "Updated content");
-    testMessage.setContent("Updated content");
-    when(messageService.updateMessage(eq(1L), eq("Updated content"))).thenReturn(testMessage);
+    request.put("content", UPDATED_MESSAGE_CONTENT);
+    testMessage.setContent(UPDATED_MESSAGE_CONTENT);
+    when(messageService.updateMessage(eq(TEST_MESSAGE_ID), eq(UPDATED_MESSAGE_CONTENT)))
+        .thenReturn(testMessage);
 
-    // Act
-    ResponseEntity<Message> response = messageController.updateMessage(1L, request);
+    ResponseEntity<Message> response = messageController.updateMessage(TEST_MESSAGE_ID, request);
 
-    // Assert
     assertEquals(HttpStatus.OK, response.getStatusCode());
     assertNotNull(response.getBody());
-    assertEquals("Updated content", response.getBody().getContent());
-    verify(messageService, times(1)).updateMessage(1L, "Updated content");
+    assertEquals(UPDATED_MESSAGE_CONTENT, response.getBody().getContent());
+    verify(messageService, times(1)).updateMessage(TEST_MESSAGE_ID, UPDATED_MESSAGE_CONTENT);
   }
 
   @Test
-  void testUpdateMessage_NotFound() {
-    // Arrange
+  void testUpdateMessageNotFound() {
     Map<String, String> request = new HashMap<>();
-    request.put("content", "Updated content");
-    when(messageService.updateMessage(eq(999L), any()))
+    request.put("content", UPDATED_MESSAGE_CONTENT);
+    when(messageService.updateMessage(eq(NONEXISTENT_MESSAGE_ID), any()))
         .thenThrow(new RuntimeException("Not found"));
 
-    // Act
-    ResponseEntity<Message> response = messageController.updateMessage(999L, request);
+    ResponseEntity<Message> response =
+        messageController.updateMessage(NONEXISTENT_MESSAGE_ID, request);
 
-    // Assert
     assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     assertNull(response.getBody());
-    verify(messageService, times(1)).updateMessage(eq(999L), any());
+    verify(messageService, times(1)).updateMessage(eq(NONEXISTENT_MESSAGE_ID), any());
   }
 
   @Test
   void testDeleteMessage() {
     // Arrange
-    doNothing().when(messageService).deleteMessage(1L);
+    doNothing().when(messageService).deleteMessage(TEST_MESSAGE_ID);
 
     // Act
-    ResponseEntity<Void> response = messageController.deleteMessage(1L);
+    ResponseEntity<Void> response = messageController.deleteMessage(TEST_MESSAGE_ID);
 
     // Assert
     assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
     assertNull(response.getBody());
-    verify(messageService, times(1)).deleteMessage(1L);
+    verify(messageService, times(1)).deleteMessage(TEST_MESSAGE_ID);
   }
 }

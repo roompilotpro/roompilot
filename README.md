@@ -47,6 +47,60 @@ Full-stack application demonstrating Java Spring Boot backend with React fronten
 - Frontend: `http://localhost:5173`
 - Swagger UI: `http://localhost:8080/swagger-ui/index.html`
 
+### Authentication Setup
+
+The application uses Google OAuth 2.0 for authentication with JWT-based sessions.
+
+**Environment Variables Required:**
+
+Add these to `.env.local` in the project root:
+```bash
+# JWT Configuration
+JWT_SECRET=your-secure-random-secret-key-here
+
+# Google OAuth Configuration
+GOOGLE_CLIENT_ID=your-google-client-id.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=your-google-client-secret
+
+# Admin Email Whitelist (comma-separated)
+ADMIN_EMAILS=admin@example.com,another@example.com
+
+# Development Configuration
+ENVIRONMENT=development
+ENABLE_DEV_AUTH=true
+```
+
+Add these to `frontend/.env.local`:
+```bash
+VITE_API_URL=http://localhost:8080
+VITE_GOOGLE_CLIENT_ID=your-google-client-id.apps.googleusercontent.com
+VITE_OAUTH_REDIRECT_URI=http://localhost:5173/auth/callback
+```
+
+**Google OAuth Setup:**
+1. Go to [Google Cloud Console](https://console.cloud.google.com/)
+2. Create a new project or select existing
+3. Enable Google+ API
+4. Create OAuth 2.0 credentials
+5. Add authorized redirect URIs:
+   - `http://localhost:8080/api/auth/google/callback` (backend)
+   - `http://localhost:5173/auth/callback` (frontend)
+6. Copy Client ID and Client Secret to `.env.local` files
+
+**Development Authentication:**
+
+For testing without Google OAuth, use the development auth endpoint:
+```bash
+curl -X POST http://localhost:8080/api/auth/dev/login \
+  -H "Content-Type: application/json" \
+  -d '{"email": "test@example.com", "role": "HOST"}'
+```
+
+**User Roles:**
+- **HOST**: Property managers who list and manage properties
+- **RESIDENT**: Tenants looking for rooms to rent
+- **ADMIN**: Platform administrators (auto-assigned via ADMIN_EMAILS)
+
 ### Database Management
 
 The application supports two database options:

@@ -1,0 +1,72 @@
+# Application
+spring:
+  application:
+    name: roompilot-api
+
+  # Database - Neon Postgres
+  datasource:
+    url: ${DATABASE_URL}
+    driver-class-name: org.postgresql.Driver
+
+  # JPA/Hibernate - DO NOT use ddl-auto in production, use Flyway instead
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+
+  # Flyway Configuration
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration
+    validate-on-migrate: true
+    placeholders:
+      uuid_function: gen_random_uuid()
+
+  # Google OAuth2 Configuration
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID:}
+            client-secret: ${GOOGLE_CLIENT_SECRET:}
+            scope: profile,email
+            redirect-uri: 'http://localhost:8080/oauth-callback.html'
+
+server:
+  port: 8080
+
+# Actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,flyway
+  endpoint:
+    health:
+      show-details: when-authorized
+
+# JWT Configuration
+jwt:
+  secret: ${JWT_SECRET:YourDefaultSecretKeyForDevelopmentOnlyPleaseChangeInProduction}
+  expiration-ms: 604800000
+  refresh-expiration-ms: 2592000000
+
+# Admin Email Whitelist (comma-separated)
+admin:
+  emails: ${ADMIN_EMAILS:}
+
+# Development Configuration
+app:
+  environment: ${ENVIRONMENT:production}
+  enable-dev-auth: ${ENABLE_DEV_AUTH:false}
+
+google:
+  oauth:
+    token-url: 'https://oauth2.googleapis.com/token'
+    userinfo-url: 'https://www.googleapis.com/oauth2/v3/userinfo'

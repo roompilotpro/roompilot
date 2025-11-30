@@ -1,0 +1,19 @@
+# Local development profile
+spring:
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+logging:
+  level:
+    org.springframework.web: DEBUG
+    com.roompilot: DEBUG
+
+# You can override database settings here if needed
+# spring:
+#   datasource:
+#     url: jdbc:postgresql://localhost:5432/roompilot
+#     username: your-username
+#     password: your-password
