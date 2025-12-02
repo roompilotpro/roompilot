@@ -1,6 +1,6 @@
 # RoomPilot UI Pages Specification
 
-This document contains specifications for all pages needed in the RoomPilot application. Each page section includes the page name, description, key components, and design notes. Use this as a reference for building each page individually.
+This document tracks the status of all UI pages and specifies missing modals/components still needed.
 
 ---
 
@@ -37,1262 +37,1208 @@ All pages should use the established RoomPilot design system:
 - Display font: `'Fraunces', Georgia, serif`
 - Body font: `'DM Sans', -apple-system, sans-serif`
 
-### Existing Pages (Already Built)
-1. `roompilot-landing.html` - Landing page
-2. `roompilot-search.html` - Search/browse listings
-3. `roompilot-room-detail.html` - Room detail page
-4. `roompilot-landlord-dashboard.html` - Landlord dashboard
-
 ---
 
-## 1. PUBLIC / MARKETING PAGES
-
-### 1.1 How It Works - Renters
-**File:** `public-how-it-works-renters.html`
-
-**Description:** Step-by-step guide showing renters how to find and secure a room on RoomPilot.
-
-**Key Components:**
-- Navigation (same as landing page)
-- Hero section with headline "Find Your Room in 3 Simple Steps"
-- Step-by-step flow with illustrations:
-    1. Search & Browse - Find rooms by location, price, amenities
-    2. Apply Instantly - Submit your profile, optional background check
-    3. Move In & Pay Weekly - Low upfront cost, pay as you go
-- Benefits section (no membership fees, weekly payments, transparent pricing)
-- Comparison: RoomPilot vs traditional renting (lower upfront, faster process)
-- FAQ accordion specific to renters
-- CTA: "Find a Room" button
-- Footer
-
-**Design Notes:**
-- Use timeline/step visualization with icons
-- Include placeholder images for app screenshots
-- Light, welcoming aesthetic
-
----
-
-### 1.2 How It Works - Landlords
-**File:** `public-how-it-works-landlords.html`
-
-**Description:** Walkthrough for landlords showing the hosting journey and platform benefits.
-
-**Key Components:**
-- Navigation
-- Hero: "Start Earning More From Your Rooms"
-- Step-by-step host journey:
-    1. List Your Property - Add photos, set prices and rules
-    2. Review Applications - You approve who moves in
-    3. Automate Billing - Weekly rent collected automatically
-    4. Get Paid Fast - Daily/weekly payouts via Stripe
-- Dashboard preview section (screenshot of landlord dashboard)
-- Fee comparison table vs PadSplit/Bungalow
-- Automation features highlight (auto-billing, reminders, late fees)
-- Testimonial placeholders
-- CTA: "Start Hosting" button
-- Footer
-
-**Design Notes:**
-- Show dashboard screenshots/mockups
-- Emphasize control and automation
-- Use the dark card style for automation features section
-
----
-
-### 1.3 Pricing Page
-**File:** `public-pricing.html`
-
-**Description:** Clear breakdown of RoomPilot's fee structure for hosts.
-
-**Key Components:**
-- Navigation
-- Hero: "Simple, Transparent Pricing"
-- Pricing cards:
-    - **Transaction Fee Plan**: 2% per rent payment, no monthly fee
-    - **Flat Rate Plan** (optional): $15/room/month, 0% transaction fee
-- "What's Included" feature list for both plans
-- Comparison calculator (input rooms + rent = see savings vs competitors)
-- Competitor comparison table (RoomPilot vs PadSplit vs Bungalow)
-- FAQ accordion (payment processing, when fees apply, Stripe fees)
-- CTA: "Get Started Free"
-- Footer
-
-**Design Notes:**
-- Highlight the 2% plan as recommended
-- Use green accent for savings callouts
-- Calculator should be interactive
-
----
-
-### 1.4 Trust & Safety Page
-**File:** `public-trust-safety.html`
-
-**Description:** Overview of platform security, verification, and protection measures.
-
-**Key Components:**
-- Navigation
-- Hero: "Your Safety is Our Priority"
-- Sections:
-    - Host Verification (ID verification, Stripe KYC)
-    - Tenant Screening (optional background checks, profile verification)
-    - Secure Payments (Stripe integration, encrypted transactions)
-    - Communication Safety (in-app messaging, no phone sharing until approved)
-    - Dispute Resolution (how issues are handled)
-- Trust badges (Stripe, background check partner logos)
-- FAQ on safety topics
-- Footer
-
-**Design Notes:**
-- Use shield/lock icons throughout
-- Professional, reassuring tone
-- Clean sections with icons
-
----
-
-### 1.5 FAQ / Help Center
-**File:** `public-faq.html`
-
-**Description:** Comprehensive FAQ with categorized questions for hosts and renters.
-
-**Key Components:**
-- Navigation
-- Search bar at top
-- Category tabs: All | For Hosts | For Renters | Payments | Getting Started
-- Accordion-style FAQ sections:
-    - Getting Started
-    - Payments & Billing
-    - For Hosts
-    - For Renters
-    - Account & Settings
-    - Trust & Safety
-- Contact support CTA at bottom
-- Footer
-
-**Design Notes:**
-- Clean, searchable interface
-- Expandable accordions
-- Highlight popular questions
-
----
-
-### 1.6 Terms of Service
-**File:** `public-terms.html`
-
-**Description:** Legal terms of service document.
-
-**Key Components:**
-- Navigation (minimal)
-- Document title and last updated date
-- Table of contents with anchor links
-- Formatted legal text sections
-- Footer
-
-**Design Notes:**
-- Clean, readable typography
-- Proper heading hierarchy
-- Sticky table of contents on desktop
-
----
-
-### 1.7 Privacy Policy
-**File:** `public-privacy.html`
-
-**Description:** Privacy policy document.
-
-**Key Components:**
-- Same structure as Terms of Service
-- Sections: Data collection, usage, sharing, retention, rights, contact
-
----
-
-## 2. AUTHENTICATION & ONBOARDING
-
-### 2.1 Sign Up - Role Selection
-**File:** `auth-signup.html`
-
-**Description:** Initial sign-up page where users choose their role.
-
-**Key Components:**
-- Minimal navigation (logo only)
-- Two role cards:
-    - "I'm looking for a room" (Renter) - icon, description, CTA
-    - "I have rooms to rent" (Landlord) - icon, description, CTA
-- Or sign in link for existing users
-- Social proof footer (# of rooms, # of hosts)
-
-**Design Notes:**
-- Centered, focused layout
-- Large clickable cards
-- Friendly, welcoming copy
-
----
-
-### 2.2 Sign Up - Form
-**File:** `auth-signup-form.html`
-
-**Description:** Registration form after role selection.
-
-**Key Components:**
-- Logo
-- Role indicator ("Signing up as a Renter/Host")
-- Form fields:
-    - Full name
-    - Email
-    - Password (with strength indicator)
-    - Phone number
-- OAuth buttons (Google, Apple)
-- Terms acceptance checkbox
-- Submit button
-- "Already have an account? Log in" link
-
-**Design Notes:**
-- Clean, single-column form
-- Password visibility toggle
-- Inline validation
-
----
-
-### 2.3 Login
-**File:** `auth-login.html`
-
-**Description:** Login page for existing users.
-
-**Key Components:**
-- Logo
-- Email/password fields
-- "Remember me" checkbox
-- "Forgot password?" link
-- Login button
-- OAuth buttons
-- "Don't have an account? Sign up" link
-
-**Design Notes:**
-- Minimal, focused design
-- Consider split layout with image on desktop
-
----
-
-### 2.4 Forgot Password
-**File:** `auth-forgot-password.html`
-
-**Description:** Password reset request page.
-
-**Key Components:**
-- Logo
-- Explanation text
-- Email input
-- Submit button
-- Back to login link
-
----
-
-### 2.5 Reset Password
-**File:** `auth-reset-password.html`
-
-**Description:** Set new password page (accessed via email link).
-
-**Key Components:**
-- Logo
-- New password field
-- Confirm password field
-- Password requirements list
-- Submit button
-
----
-
-### 2.6 Host Onboarding Wizard
-**File:** `onboarding-host.html`
-
-**Description:** Multi-step onboarding for new hosts.
-
-**Key Components:**
-- Progress indicator (Step 1 of 3)
-- Step 1: Basic Info
-    - Business/host name
-    - Phone number
-    - City/region where you operate
-- Step 2: Connect Payouts
-    - Stripe Connect integration card
-    - Explanation of payout process
-    - "Connect with Stripe" button
-- Step 3: Add Your First Property
-    - Option to add now or skip
-    - Quick property form or link to full flow
-- Completion screen with next steps
-
-**Design Notes:**
-- Clean wizard UI with clear progress
-- Allow skip where appropriate
-- Celebratory completion state
-
----
-
-### 2.7 Renter Onboarding Wizard
-**File:** `onboarding-renter.html`
-
-**Description:** Multi-step onboarding for new renters.
-
-**Key Components:**
-- Progress indicator
-- Step 1: Profile Basics
-    - Phone number
-    - Current city
-    - Employment status (dropdown)
-    - Move-in timeline
-- Step 2: Background Check (Optional)
-    - Explanation of benefits
-    - Consent checkbox
-    - "Add background check" or "Skip for now"
-- Step 3: Search Preferences
-    - Budget range (weekly)
-    - Preferred neighborhoods
-    - Must-have amenities
-- Completion: "Start Searching" CTA
-
-**Design Notes:**
-- Friendly, low-pressure tone
-- Make optional steps clearly optional
-- Save progress
-
----
-
-## 3. RENTER-FACING PAGES
-
-### 3.1 Renter Dashboard
-**File:** `renter-dashboard.html`
-
-**Description:** Main dashboard for renters showing their current living situation.
-
-**Key Components:**
-- Renter navigation (Dashboard, Payments, Messages, Profile)
-- Current stay card (if housed):
-    - Property photo and name
-    - Room number
-    - Host name with message button
-    - Next payment due date and amount
-    - Quick actions: Pay Now, View Schedule, Message Host
-- Payment summary widget
-- Recent activity feed
-- Quick action tiles:
-    - Make a Payment
-    - View Payment Schedule
-    - Message Host
-    - Report Maintenance Issue
-- Empty state (if no current room): CTA to find a room
-
-**Design Notes:**
-- Mobile-first design
-- Prominent payment information
-- Easy access to communication
-
----
-
-### 3.2 Application Flow
-**File:** `renter-application-flow.html`
-
-**Description:** Multi-step application process for a room.
-
-**Key Components:**
-- Room summary header (photo, name, price - sticky)
-- Progress steps indicator
-- Step 1: Confirm Profile
-    - Review/edit personal info
-    - Phone verification
-    - Employment info
-- Step 2: Background Check (if required or optional)
-    - Explanation and pricing ($30)
-    - Consent form
-    - Skip option if not required
-- Step 3: Payment Summary
-    - First week rent
-    - Move-in fee (if any)
-    - Background check fee (if added)
-    - Total due today
-    - Payment method input
-- Step 4: Review & Submit
-    - Terms acceptance
-    - Submit application button
-- Confirmation screen: "Application Submitted - Awaiting Host Approval"
-
-**Design Notes:**
-- Show room context throughout
-- Clear cost breakdown
-- Reassuring confirmation state
-
----
-
-### 3.3 Renter Wallet / Payments
-**File:** `renter-payments.html`
-
-**Description:** Payment management page for renters.
-
-**Key Components:**
-- Renter navigation
-- Wallet balance card (if using wallet model)
-- Upcoming payments section:
-    - Next payment date, amount
-    - Payment schedule (weekly calendar view)
-- Auto-pay toggle with settings
-- Payment history list:
-    - Date, amount, status, receipt link
-- Add funds button (if wallet)
-- Payment methods section:
-    - Saved cards/bank accounts
-    - Add new method
-- Download statements
-
-**Design Notes:**
-- Clear payment schedule visualization
-- Easy access to receipts
-- Prominent auto-pay setup
-
----
-
-### 3.4 Renter Messages
-**File:** `renter-messages.html`
-
-**Description:** Messaging interface for renters.
-
-**Key Components:**
-- Renter navigation
-- Conversation list sidebar:
-    - Host conversation
-    - House group chat (if applicable)
-    - System notifications
-    - Unread indicators
-- Chat view:
-    - Message bubbles (sent/received)
-    - Timestamps
-    - Image attachments support
-    - Message input with send button
-- Empty state for no conversations
-
-**Design Notes:**
-- Clean chat interface
-- Mobile-responsive (full-screen chat on mobile)
-- Real-time feel (even if not implemented)
-
----
-
-### 3.5 Maintenance Requests
-**File:** `renter-maintenance.html`
-
-**Description:** Submit and track maintenance requests.
-
-**Key Components:**
-- Renter navigation
-- "New Request" button
-- Active requests list:
-    - Issue title
-    - Status badge (Submitted, In Progress, Resolved)
-    - Date submitted
-- Request detail view:
-    - Description
-    - Photos attached
-    - Status timeline
-    - Communication thread with host
-- New request form:
-    - Issue category dropdown
-    - Description textarea
-    - Photo upload
-    - Urgency level
-    - Submit button
-
-**Design Notes:**
-- Simple ticket system UI
-- Clear status indicators
-- Photo upload for issues
-
----
-
-### 3.6 Renter Profile
-**File:** `renter-profile.html`
-
-**Description:** Renter's profile and verification status.
-
-**Key Components:**
-- Renter navigation
-- Profile header:
-    - Avatar (editable)
-    - Name
-    - Member since date
-- Verification badges section:
-    - Phone verified ✓
-    - Email verified ✓
-    - ID verified (status)
-    - Background check (status)
-- Personal info form (editable):
-    - Name, email, phone
-    - Current address
-    - Employment info
-- Saved searches / alerts (optional)
-- Rental history (past stays on RoomPilot)
-
-**Design Notes:**
-- Progress toward "fully verified" status
-- Easy editing with save states
-
----
-
-### 3.7 Renter Settings
-**File:** `renter-settings.html`
-
-**Description:** Account settings for renters.
-
-**Key Components:**
-- Renter navigation
-- Sections:
-    - Account (email, password change)
-    - Notifications (email, SMS, push toggles)
-    - Privacy settings
-    - Connected accounts (Google, etc.)
-    - Close account
-
-**Design Notes:**
-- Standard settings page layout
-- Toggle switches for notifications
-- Danger zone for account closure
-
----
-
-## 4. LANDLORD-FACING PAGES
-
-### 4.1 Properties List
-**File:** `landlord-properties.html`
-
-**Description:** Overview of all properties managed by the host.
-
-**Key Components:**
-- Landlord sidebar navigation
-- Header with "Add Property" button
-- Properties grid/list view toggle
-- Property cards showing:
-    - Photo
-    - Property name and address
-    - Rooms count (occupied/total)
-    - Monthly revenue
-    - Status indicator
-    - Quick actions menu
-- Empty state with "Add Your First Property" CTA
-- Filters: status, occupancy
-
-**Design Notes:**
-- Card-based layout
-- Visual occupancy indicators
-- Quick access to property details
-
----
-
-### 4.2 Property Detail / Edit
-**File:** `landlord-property-detail.html`
-
-**Description:** Detailed view and management of a single property.
-
-**Key Components:**
-- Landlord sidebar
-- Property header with photo, name, address, edit button
-- Tab navigation:
-    - **Overview**: Photos, description, amenities, house rules
-    - **Rooms**: List of rooms with status, price, tenant
-    - **Tenants**: Current residents with payment status
-    - **Applications**: Pending applications for this property
-    - **Maintenance**: Open tickets for this property
-- Quick stats: occupancy, monthly revenue, avg rating
-- Action buttons: Edit Property, Add Room, View Listing
-
-**Design Notes:**
-- Tabbed interface for organization
-- Inline editing where possible
-- Clear room-by-room breakdown
-
----
-
-### 4.3 Room Management
-**File:** `landlord-room-detail.html`
-
-**Description:** Individual room management page.
-
-**Key Components:**
-- Landlord sidebar
-- Breadcrumb: Properties > [Property Name] > [Room Name]
-- Room header: name/number, status badge, edit button
-- Room details card:
-    - Photos
-    - Price (weekly/monthly)
-    - Size, bed type, bathroom type
-    - Amenities specific to room
-    - Availability date
-- Current tenant section (if occupied):
-    - Tenant info
-    - Move-in date
-    - Payment status
-    - Quick actions (message, view payments)
-- Billing settings for this room:
-    - Rent amount
-    - Late fee rules
-    - Deposit/move-in fee
-- Payment history for this room
-- Tenancy timeline
-
-**Design Notes:**
-- Clear occupied vs vacant states
-- Easy price/rules editing
-- Historical payment data
-
----
-
-### 4.4 Add Property Flow
-**File:** `landlord-add-property.html`
-
-**Description:** Multi-step wizard to add a new property.
-
-**Key Components:**
-- Progress indicator (Step X of 5)
-- Step 1: Basic Details
-    - Property name
-    - Address (with autocomplete)
-    - Property type dropdown
-- Step 2: Photos
-    - Drag-and-drop upload
-    - Photo reordering
-    - Cover photo selection
-- Step 3: Amenities & House Rules
-    - Amenities checklist
-    - House rules builder (smoking, pets, guests, quiet hours)
-    - Custom rules input
-- Step 4: Create Rooms
-    - Add rooms one by one
-    - Clone similar rooms
-    - Set price, size, bed type for each
-- Step 5: Review & Publish
-    - Preview of listing
-    - Publish toggle (active/draft)
-    - Submit button
-- Success screen with next steps
-
-**Design Notes:**
-- Save progress between steps
-- Allow adding multiple rooms at once
-- Preview before publishing
-
----
-
-### 4.5 Add/Edit Room Flow
-**File:** `landlord-add-room.html`
-
-**Description:** Form to add or edit a room within a property.
-
-**Key Components:**
-- Modal or dedicated page
-- Form fields:
-    - Room name/number
-    - Room type (private room, shared room)
-    - Bathroom (private, shared)
-    - Size (sq ft)
-    - Bed type
-    - Furnished status
-    - Weekly rent price
-    - Move-in fee / deposit
-    - Minimum stay
-    - Availability date
-    - Room-specific amenities
-    - Room-specific rules
-- Photo upload for room
-- Save / Cancel buttons
-
-**Design Notes:**
-- Consistent with property add flow
-- Quick inline editing for existing rooms
-
----
-
-### 4.6 Applications Inbox
-**File:** `landlord-applications.html`
-
-**Description:** List and manage tenant applications.
-
-**Key Components:**
-- Landlord sidebar
-- Filter bar: All Properties dropdown, Status filter (Pending, Approved, Declined)
-- Applications table/list:
-    - Applicant name and avatar
-    - Property and room applied for
-    - Application date
-    - Move-in date requested
-    - Background check status
-    - Status badge
-    - Quick action buttons (View, Approve, Decline)
-- Empty state: "No pending applications"
-- Sort options: newest, oldest, move-in date
-
-**Design Notes:**
-- Clear pending count badge in sidebar
-- Bulk actions if multiple selected
-- Quick approve/decline without opening detail
-
----
-
-### 4.7 Application Detail
-**File:** `landlord-application-detail.html`
-
-**Description:** Detailed view of a single application.
-
-**Key Components:**
-- Landlord sidebar
-- Back to applications link
-- Applicant header:
-    - Name, photo
-    - Contact info
-    - Verification badges
-- Application summary:
-    - Room applied for
-    - Requested move-in date
-    - Planned stay length
-    - Message from applicant
-- Background check section (if completed):
-    - Summary badge (Clear, Review, etc.)
-    - View full report link
-- Applicant profile details:
-    - Employment info
-    - Rental history
-    - References (if any)
-- Message thread with applicant
-- Decision panel:
-    - Approve button (triggers lease agreement)
-    - Decline button (with reason dropdown)
-    - Request More Info button
-- On approval: digital agreement preview and payment request
-
-**Design Notes:**
-- All info needed to make decision on one page
-- Clear action buttons
-- Approval triggers next steps inline
-
----
-
-### 4.8 Tenants List
-**File:** `landlord-tenants.html`
-
-**Description:** Overview of all current tenants across properties.
-
-**Key Components:**
-- Landlord sidebar
-- Filter bar: Property dropdown, Payment status filter
-- Tenants table:
-    - Tenant name and avatar
-    - Property and room
-    - Move-in date
-    - Payment status (Good, Due Soon, Late, At Risk)
-    - Balance/amount due
-    - Quick actions (Message, View)
-- Summary stats: total tenants, late payments count
-- Export tenant list
-
-**Design Notes:**
-- Color-coded payment status
-- Sort by payment status to surface issues
-- Quick message action
-
----
-
-### 4.9 Tenant Detail
-**File:** `landlord-tenant-detail.html`
-
-**Description:** Detailed view of a single tenant from host perspective.
-
-**Key Components:**
-- Landlord sidebar
-- Tenant header:
-    - Name, photo
-    - Contact info (phone, email)
-    - Current room and property
-- Tenancy details:
-    - Move-in date
-    - Lease/license terms
-    - Rent amount and frequency
-- Payment status card:
-    - Current balance
-    - Next payment due
-    - Payment streak/history indicator
-- Payment history table:
-    - Date, amount, status, method
-    - Late fees applied
-- Notes section (internal, host-only)
-- Actions:
-    - Send Message
-    - Post Manual Charge (future feature)
-    - End Tenancy (with flow)
-    - Download payment history
-
-**Design Notes:**
-- Complete tenant view for host
-- Easy access to payment issues
-- Clear end-tenancy flow
-
----
-
-### 4.10 Payouts / Earnings
-**File:** `landlord-payouts.html`
-
-**Description:** View payouts and earnings from Stripe.
-
-**Key Components:**
-- Landlord sidebar
-- Summary cards:
-    - Available for payout
-    - Next payout date
-    - Total earned this month
-    - Total earned all-time
-- Upcoming payouts section
-- Payout history table:
-    - Date
-    - Amount
-    - Status
-    - Properties included
-    - View breakdown link
-- Transaction detail modal:
-    - Individual payments included
-    - Fees deducted (RoomPilot + Stripe)
-    - Net amount
-- Export transactions (CSV)
-
-**Design Notes:**
-- Clear fee breakdown
-- Connect to Stripe dashboard link
-- Earnings trends chart (optional)
-
----
-
-### 4.11 Billing & Automation Settings
-**File:** `landlord-billing-settings.html`
-
-**Description:** Configure billing rules and automation.
-
-**Key Components:**
-- Landlord sidebar
-- Global defaults section:
-    - Billing frequency (weekly default)
-    - Grace period for late payments
-    - Late fee amount and structure
-    - Maximum late fee cap
-- Automation toggles:
-    - Auto-billing enabled
-    - Auto-reminders enabled
-    - Auto-late fees enabled
-- Reminder schedule:
-    - Days before due
-    - On due date
-    - Days after due
-- Per-property overrides section:
-    - List properties
-    - Override defaults per property
-- Save changes button
-
-**Design Notes:**
-- Toggle switches for automation
-- Clear explanation of what each setting does
-- Preview of reminder schedule
-
----
-
-### 4.12 Host Messages
-**File:** `landlord-messages.html`
-
-**Description:** Messaging center for hosts.
-
-**Key Components:**
-- Landlord sidebar
-- Conversation list:
-    - Filter by property
-    - Tenant conversations
-    - House group chats
-    - System notifications
-    - Unread indicators
-- Chat view (same as renter)
-- Templates dropdown for quick responses
-- Announcement composer (message all tenants in a property)
-
-**Design Notes:**
-- Filter by property for organization
-- Template messages for common situations
-- Broadcast capability
-
----
-
-### 4.13 Announcement Composer
-**File:** `landlord-announcement.html`
-
-**Description:** Send broadcast messages to tenants.
-
-**Key Components:**
-- Landlord sidebar
-- Recipient selector:
-    - All tenants
-    - Specific property
-    - Specific rooms
-- Message templates:
-    - Rent reminder
-    - Rule reminder
-    - Maintenance notice
-    - General announcement
-- Message composer:
-    - Subject line
-    - Message body (rich text)
-    - Attachment option
-- Send options:
-    - Send now
-    - Schedule for later
-- Preview before sending
-
-**Design Notes:**
-- Template library saves time
-- Clear recipient count shown
-- Scheduled send option
-
----
-
-### 4.14 Maintenance Board
-**File:** `landlord-maintenance.html`
-
-**Description:** Manage maintenance requests across properties.
-
-**Key Components:**
-- Landlord sidebar
-- View toggle: Kanban / List
-- Kanban columns:
-    - New
-    - In Progress
-    - Waiting on Parts/Vendor
-    - Resolved
-- Request cards:
-    - Issue title
-    - Property and room
-    - Tenant name
-    - Submitted date
-    - Priority indicator
-- Drag and drop between columns
-- Filter by property
-- Request detail modal:
-    - Full description
-    - Photos
-    - Communication thread
-    - Internal notes
-    - Vendor assignment (text field)
-    - Status update buttons
-
-**Design Notes:**
-- Kanban for visual workflow
-- Easy status updates
-- Photo viewing for issues
-
----
-
-### 4.15 Host Profile
-**File:** `landlord-profile.html`
-
-**Description:** Host's public profile and business info.
-
-**Key Components:**
-- Landlord sidebar
-- Profile preview card (as seen by renters)
-- Editable fields:
-    - Business/host name
-    - Profile photo
-    - Bio/description
-    - Response time badge
-    - Verification badges display
-- Stats display:
-    - Member since
-    - Properties listed
-    - Total rooms
-    - Average rating
-- Preview public profile button
-
-**Design Notes:**
-- Show what renters see
-- Easy photo upload
-- Verification status prominent
-
----
-
-### 4.16 Payout Settings
-**File:** `landlord-payout-settings.html`
-
-**Description:** Stripe Connect and payout configuration.
-
-**Key Components:**
-- Landlord sidebar
-- Stripe Connect status:
-    - Connected / Not connected
-    - Account status (verified, pending, issues)
-    - Reconnect option
-- Connected bank accounts:
-    - List of accounts
-    - Default account selector
-    - Add new account
-- Payout schedule:
-    - Daily / Weekly preference
-    - Minimum payout threshold
-- Tax documents section:
-    - 1099 forms (when available)
-    - Download tax summary
-
-**Design Notes:**
-- Clear Stripe connection status
-- Easy to update payout destination
-- Tax document access
-
----
-
-### 4.17 Host Account Settings
-**File:** `landlord-settings.html`
-
-**Description:** Account settings for hosts.
-
-**Key Components:**
-- Landlord sidebar
-- Sections:
-    - Account Info (email, password, phone)
-    - Notification Preferences:
-        - New applications
-        - Payments received
-        - Late payment alerts
-        - Messages
-        - (Email, SMS, Push toggles for each)
-    - Security:
-        - Two-factor authentication
-        - Active sessions
-    - Plan & Billing (if subscription model):
-        - Current plan
-        - Usage stats
-        - Upgrade/downgrade
-    - Close Account
-
-**Design Notes:**
-- Granular notification controls
-- Clear security options
-- Subscription management if applicable
-
----
-
-## 5. SHARED PAGES
-
-### 5.1 Notifications Center
-**File:** `shared-notifications.html`
-
-**Description:** Centralized notification feed for both user types.
-
-**Key Components:**
-- Navigation (contextual to user type)
-- Filter: All, Unread
-- Notification categories:
-    - Payments
-    - Messages
-    - Applications
-    - System
-- Notification items:
-    - Icon
-    - Title and description
-    - Timestamp
-    - Read/unread indicator
-    - Click to navigate to relevant page
-- Mark all as read button
-- Settings link
-
-**Design Notes:**
-- Grouped by date (Today, Yesterday, Earlier)
-- Clear categorization
-- Quick action to mark read
-
----
-
-### 5.2 Help / Support Page (Authenticated)
-**File:** `shared-help.html`
-
-**Description:** In-app help center for logged-in users.
-
-**Key Components:**
-- User navigation
-- Search bar
-- Quick links:
-    - Contact Support
-    - FAQs
-    - Getting Started Guide
-- Category cards:
-    - Payments & Billing
-    - Account Settings
-    - For Hosts / For Renters
-    - Technical Issues
-- Recent help articles
-- Contact form or chat widget
-
-**Design Notes:**
-- Contextual to user type (host vs renter)
-- Easy escalation to human support
-
----
-
-### 5.3 Contact Support
-**File:** `shared-contact.html`
-
-**Description:** Support ticket submission form.
-
-**Key Components:**
-- Navigation
-- Category dropdown
-- Subject line
-- Description textarea
-- Attachment upload
-- Related property/room selector (if applicable)
-- Submit button
-- Expected response time display
-
----
-
-## 6. ERROR & EMPTY STATES
-
-### 6.1 404 Not Found
-**File:** `error-404.html`
-
-**Description:** Page not found error.
-
-**Key Components:**
-- Logo
-- "Page Not Found" message
-- Friendly illustration
-- Suggestions: Go home, Search, Contact support
-- Search bar
-
----
-
-### 6.2 500 Server Error
-**File:** `error-500.html`
-
-**Description:** Server error page.
-
-**Key Components:**
-- Logo
-- "Something went wrong" message
-- Apology text
-- Retry button
-- Contact support link
-
----
-
-### 6.3 Maintenance Mode
-**File:** `error-maintenance.html`
-
-**Description:** Scheduled maintenance page.
-
-**Key Components:**
-- Logo
-- "We'll be right back" message
-- Expected return time
-- Status page link
-
----
-
-## 7. EMAIL TEMPLATES (Bonus)
-
-If creating HTML email templates:
-
-- `email-welcome.html` - Welcome email after signup
-- `email-application-received.html` - Confirm application to renter
-- `email-application-approved.html` - Approval notification
-- `email-application-declined.html` - Decline notification
-- `email-payment-reminder.html` - Upcoming payment reminder
-- `email-payment-received.html` - Payment confirmation
-- `email-payment-failed.html` - Failed payment alert
-- `email-payout-sent.html` - Payout notification to host
-- `email-new-application.html` - New application alert to host
-- `email-maintenance-update.html` - Maintenance status update
-
----
-
-## Summary: All Pages by Category
-
-### Public (10 pages)
-1. public-how-it-works-renters.html
-2. public-how-it-works-landlords.html
-3. public-pricing.html
-4. public-trust-safety.html
-5. public-faq.html
-6. public-terms.html
-7. public-privacy.html
-8. public-blog.html (optional)
-9. public-about.html (optional)
-10. public-contact.html (optional)
+## Completed Pages Summary
+
+**Total: 49 pages completed**
+
+### Public/Marketing (7 pages)
+- `public-how-it-works-renters.html`
+- `public-how-it-works-landlords.html`
+- `public-pricing.html`
+- `public-trust-safety.html`
+- `public-faq.html`
+- `public-terms.html`
+- `public-privacy.html`
 
 ### Auth & Onboarding (7 pages)
-1. auth-signup.html
-2. auth-signup-form.html
-3. auth-login.html
-4. auth-forgot-password.html
-5. auth-reset-password.html
-6. onboarding-host.html
-7. onboarding-renter.html
+- `auth-signup.html`
+- `auth-signup-form.html`
+- `auth-login.html`
+- `auth-forgot-password.html`
+- `auth-reset-password.html`
+- `onboarding-host.html`
+- `onboarding-renter.html`
 
 ### Renter (7 pages)
-1. renter-dashboard.html
-2. renter-application-flow.html
-3. renter-payments.html
-4. renter-messages.html
-5. renter-maintenance.html
-6. renter-profile.html
-7. renter-settings.html
+- `resident-dashboard.html`
+- `renter-application-flow.html`
+- `renter-payments.html`
+- `renter-messages.html`
+- `renter-maintenance.html`
+- `renter-profile.html`
+- `renter-settings.html`
 
-### Landlord (17 pages)
-1. landlord-properties.html
-2. landlord-property-detail.html
-3. landlord-room-detail.html
-4. landlord-add-property.html
-5. landlord-add-room.html
-6. landlord-applications.html
-7. landlord-application-detail.html
-8. landlord-tenants.html
-9. landlord-tenant-detail.html
-10. landlord-payouts.html
-11. landlord-billing-settings.html
-12. landlord-messages.html
-13. landlord-announcement.html
-14. landlord-maintenance.html
-15. landlord-profile.html
-16. landlord-payout-settings.html
-17. landlord-settings.html
+### Landlord (18 pages)
+- `landlord-dashboard.html`
+- `landlord-properties.html`
+- `landlord-property-detail.html`
+- `landlord-room-detail.html`
+- `landlord-add-property.html`
+- `landlord-add-room.html`
+- `landlord-applications.html`
+- `landlord-application-detail.html`
+- `landlord-tenants.html`
+- `landlord-tenant-detail.html`
+- `landlord-payouts.html`
+- `landlord-payout-settings.html`
+- `landlord-billing-settings.html`
+- `landlord-messages.html`
+- `landlord-announcement.html`
+- `landlord-maintenance.html`
+- `landlord-profile.html`
+- `landlord-settings.html`
 
 ### Shared (3 pages)
-1. shared-notifications.html
-2. shared-help.html
-3. shared-contact.html
+- `shared-notifications.html`
+- `shared-help.html`
+- `shared-contact.html`
 
 ### Error States (3 pages)
-1. error-404.html
-2. error-500.html
-3. error-maintenance.html
+- `error-404.html`
+- `error-500.html`
+- `error-maintenance.html`
 
-### Already Built (4 pages)
-1. roompilot-landing.html ✓
-2. roompilot-search.html ✓
-3. roompilot-room-detail.html ✓
-4. roompilot-landlord-dashboard.html ✓
-
----
-
-**Total: ~47 pages** (43 new + 4 existing)
+### Other (4 pages)
+- `landing.html`
+- `search-page.html`
+- `room-details.html`
 
 ---
 
-## Implementation Notes for Claude Code
+## Missing Modals & Components
 
-1. **Use consistent design system** - Reference the CSS variables and existing pages
-2. **Mobile-first responsive** - All pages should work on mobile
-3. **Use placeholder content** - Lorem ipsum for text, emoji/colored divs for images
-4. **Static HTML/CSS** - No backend required, just UI mockups
-5. **Interactive elements** - Basic JS for tabs, modals, dropdowns
-6. **Consistent navigation** - Reuse sidebar/nav patterns from existing pages
-7. **Link pages together** - Use relative links between pages for navigation
+The following modals and components are needed to complete the UI. Each should be built as a reusable modal template.
 
-Each subagent should receive:
-- This spec document
-- The design system reference
-- Example of an existing page for style reference
+### Modal Base Pattern
+All modals should follow this structure:
+- Overlay backdrop (semi-transparent dark)
+- Centered modal container with max-width
+- Header with title and close button (X)
+- Body content area
+- Footer with action buttons
+- Escape key and backdrop click to close
+- Focus trap for accessibility
+
+---
+
+## 1. PAYMENT & BILLING MODALS
+
+### 1.1 modal-add-payment-method.html
+**Description:** Modal form to add a new credit card or bank account for payments.
+
+**Triggered From:**
+- `renter-payments.html` - "Add New" button in payment methods section
+- `renter-application-flow.html` - Payment step if no saved method
+
+**Key Components:**
+- Tab selector: Credit/Debit Card | Bank Account
+- Card form:
+    - Card number input with validation and card type detection
+    - Expiration date (MM/YY picker)
+    - CVV/CVC field (3-4 digits)
+    - Cardholder name
+    - Billing address section (expandable)
+- Bank form:
+    - Account holder name
+    - Routing number (9 digits with validation)
+    - Account number
+    - Confirm account number
+    - Account type dropdown (Checking/Savings)
+- "Set as default payment method" checkbox
+- Cancel / Save buttons
+- Security badges (Stripe, encrypted)
+
+**Design Notes:**
+- Use Stripe Elements for PCI compliance
+- Show card brand icon (Visa, Mastercard, Amex, Discover) on detection
+- Real-time validation with inline error messages
+- Loading spinner on save
+- Success toast before closing
+
+---
+
+### 1.2 modal-payment-confirmation.html
+**Description:** Success/failure state after completing a payment.
+
+**Triggered From:**
+- Any "Pay Now" button across the application
+- `renter-payments.html` - Pay balance button
+- `resident-dashboard.html` - Quick pay buttons
+
+**Key Components:**
+- Success state:
+    - Green checkmark icon (animated)
+    - "Payment Successful" heading
+    - Amount paid
+    - Confirmation number
+    - Date and time
+    - Receipt email sent note
+    - "View Receipt" link
+    - "Done" button
+- Failure state:
+    - Red X icon
+    - "Payment Failed" heading
+    - Error message (card declined, insufficient funds, etc.)
+    - "Try Again" button
+    - "Use Different Method" link
+    - Support contact link
+
+**Design Notes:**
+- Use accent green for success, coral for failure
+- Animate the icon on appearance
+- Auto-close after 5 seconds on success (optional)
+
+---
+
+### 1.3 modal-receipt-viewer.html
+**Description:** Display detailed receipt for a specific payment.
+
+**Triggered From:**
+- `renter-payments.html` - "View" links in payment history
+- `landlord-payouts.html` - Transaction detail links
+
+**Key Components:**
+- Receipt header:
+    - RoomPilot logo
+    - "Payment Receipt" title
+    - Receipt number
+- Payment details:
+    - Date and time
+    - Amount paid
+    - Payment method (last 4 digits of card)
+    - Transaction ID
+- Breakdown:
+    - Weekly rent: $XXX
+    - Late fee (if applicable): $XX
+    - Processing fee: $X.XX
+    - Total: $XXX.XX
+- Property/room information
+- Landlord information
+- Actions:
+    - Download PDF button
+    - Print button
+    - Email receipt button
+- Close button
+
+**Design Notes:**
+- Clean, printable layout
+- Use monospace font for transaction IDs
+- PDF download should generate matching format
+
+---
+
+### 1.4 modal-add-funds.html
+**Description:** Add money to wallet balance (if wallet feature enabled).
+
+**Triggered From:**
+- `renter-payments.html` - "Add Funds" button in wallet section
+
+**Key Components:**
+- Current balance display
+- Amount input:
+    - Preset amounts: $50, $100, $200, $500
+    - Custom amount field
+    - Minimum $10 note
+- Payment method selector (saved cards)
+- Add new payment method link
+- Summary:
+    - Amount to add
+    - Processing fee (if any)
+    - New balance after
+- Cancel / Add Funds buttons
+
+**Design Notes:**
+- Highlight recommended amount
+- Real-time balance calculation
+- Disable submit if amount below minimum
+
+---
+
+### 1.5 modal-autopay-setup.html
+**Description:** Configure automatic payment settings.
+
+**Triggered From:**
+- `renter-payments.html` - Auto-pay toggle or "Set Up" button
+- `resident-dashboard.html` - Auto-pay CTA
+
+**Key Components:**
+- Enable/disable toggle at top
+- Payment method selector
+- Schedule options:
+    - Pay on due date (default)
+    - Pay X days before due date
+- Notification preferences:
+    - Email before charge
+    - SMS reminder
+- Terms acceptance checkbox
+- Current rent amount display
+- Cancel / Save Settings buttons
+
+**Design Notes:**
+- Show warning about card expiration
+- Explain what happens if payment fails
+- Success confirmation after saving
+
+---
+
+## 2. VERIFICATION & IDENTITY MODALS
+
+### 2.1 modal-phone-verification.html
+**Description:** Verify phone number via SMS OTP code.
+
+**Triggered From:**
+- `renter-profile.html` - Phone verification button
+- `onboarding-renter.html` - Profile step
+- `renter-application-flow.html` - Confirm profile step
+
+**Key Components:**
+- Phone number display (masked: ***-***-1234)
+- "We sent a code to..." message
+- OTP input field (6 digits, auto-advance)
+- Countdown timer (60 seconds)
+- "Resend Code" link (disabled until timer expires)
+- "Use different number" link
+- Cancel / Verify buttons
+
+**Design Notes:**
+- Auto-focus first digit
+- Auto-submit when all 6 digits entered
+- Show error shake animation on wrong code
+- Success checkmark animation on verify
+
+---
+
+### 2.2 modal-id-verification.html
+**Description:** Upload government ID for identity verification.
+
+**Triggered From:**
+- `renter-profile.html` - "Complete Verification" button
+- `onboarding-renter.html` - Verification step
+
+**Key Components:**
+- Step indicator (1. Select ID Type, 2. Upload Front, 3. Upload Back)
+- ID type selector:
+    - Driver's License
+    - State ID
+    - Passport
+    - Passport Card
+- Upload area:
+    - Drag and drop zone
+    - Camera capture button (mobile)
+    - File browser button
+    - Accepted formats note (JPG, PNG, PDF)
+- Photo preview with retake option
+- Guidelines overlay showing ID placement
+- Privacy notice
+- Cancel / Submit for Review buttons
+
+**Design Notes:**
+- Show example of good vs bad photo
+- Real-time quality check (blur, lighting)
+- Processing indicator after submit
+- Explain 24-48 hour review timeline
+
+---
+
+### 2.3 modal-background-check.html
+**Description:** Consent and payment flow for optional background check.
+
+**Triggered From:**
+- `renter-application-flow.html` - Background check step
+- `onboarding-renter.html` - Optional background check step
+- `renter-profile.html` - Add background check button
+
+**Key Components:**
+- Explanation section:
+    - What's included (criminal, eviction, credit)
+    - How it helps your application
+    - Who can see it
+    - How long it's valid
+- Consent form:
+    - Full legal name input
+    - Date of birth input
+    - SSN input (optional, for credit check)
+    - Current address
+    - Consent checkbox with terms link
+- Payment section:
+    - Cost: $30 one-time fee
+    - Payment method selector
+    - Add new method link
+- Processing time note (24-48 hours)
+- Cancel / Authorize & Pay button
+
+**Design Notes:**
+- Secure lock icon near SSN field
+- Mask SSN input except last 4
+- Show trusted partner logo (Checkr, etc.)
+- Clear that this is optional
+
+---
+
+## 3. APPLICATION & TENANT MODALS
+
+### 3.1 modal-decline-application.html
+**Description:** Decline a tenant application with reason.
+
+**Triggered From:**
+- `landlord-application-detail.html` - "Decline" button
+
+**Key Components:**
+- Applicant name and room applied for
+- Reason selector (required):
+    - Income requirements not met
+    - Background check concerns
+    - References could not be verified
+    - Room no longer available
+    - Applicant withdrew
+    - Other
+- Additional notes textarea (optional, internal)
+- Message to applicant toggle:
+    - Generic decline message preview
+    - Option to customize message
+- Warning: "This action cannot be undone"
+- Cancel / Decline Application buttons
+
+**Design Notes:**
+- Use coral/red accent for decline action
+- Confirm before sending
+- Show what applicant will see
+
+---
+
+### 3.2 modal-approve-application.html
+**Description:** Approve application and set move-in terms.
+
+**Triggered From:**
+- `landlord-application-detail.html` - "Approve" button
+
+**Key Components:**
+- Applicant summary (name, photo, verified badges)
+- Room and property details
+- Move-in terms:
+    - Move-in date picker
+    - Weekly rent amount (editable)
+    - Move-in fee amount (editable)
+    - Security deposit (if applicable)
+- Payment due summary:
+    - First week rent
+    - Move-in fee
+    - Total due from tenant
+- License agreement preview link
+- Message to applicant (auto-generated, editable)
+- Cancel / Approve & Send buttons
+
+**Design Notes:**
+- Use accent green for approve action
+- Show timeline of what happens next
+- Explain tenant will receive email/notification
+
+---
+
+### 3.3 modal-request-info.html
+**Description:** Request additional information from applicant.
+
+**Triggered From:**
+- `landlord-application-detail.html` - "Request More Info" button
+
+**Key Components:**
+- Common requests checkboxes:
+    - Proof of income
+    - Employment verification letter
+    - Additional references
+    - Photo ID
+    - Bank statements
+    - Other documents
+- Custom request textarea
+- Deadline picker (optional)
+- Message preview
+- Cancel / Send Request buttons
+
+**Design Notes:**
+- Show applicant will be notified
+- Track request status in application timeline
+
+---
+
+### 3.4 modal-end-tenancy.html
+**Description:** Initiate move-out process for a tenant.
+
+**Triggered From:**
+- `landlord-tenant-detail.html` - "End Tenancy" button
+
+**Key Components:**
+- Tenant and room information
+- End reason selector:
+    - Tenant request / voluntary move-out
+    - Lease violation
+    - Non-payment
+    - End of lease term
+    - Property being sold/renovated
+    - Other
+- Move-out date picker
+- Checklist:
+    - Final inspection scheduled
+    - Outstanding balance review
+    - Security deposit disposition
+- Security deposit handling:
+    - Full refund
+    - Partial refund (with deductions)
+    - No refund (with reason)
+- Deductions itemizer (if partial/no refund):
+    - Cleaning: $XX
+    - Damages: $XX
+    - Unpaid rent: $XX
+- Final message to tenant
+- Cancel / Process Move-Out buttons
+
+**Design Notes:**
+- Multi-step wizard format
+- Legal compliance notes
+- Timeline of deposit return requirements
+
+---
+
+### 3.5 modal-lease-renewal.html
+**Description:** Offer lease renewal to existing tenant.
+
+**Triggered From:**
+- `landlord-tenant-detail.html` - "Offer Renewal" button
+- Automated prompt near lease end
+
+**Key Components:**
+- Current lease summary:
+    - Start date, end date
+    - Current rent
+    - Lease type
+- New terms:
+    - New start date
+    - Lease duration (month-to-month, 6 months, 12 months)
+    - New rent amount
+    - Rent change note (+/- from current)
+- Renewal incentives (optional):
+    - One week free
+    - Reduced first month
+    - Waived fees
+- Message to tenant
+- Deadline for response picker
+- Cancel / Send Renewal Offer buttons
+
+**Design Notes:**
+- Show percentage change in rent
+- Preview what tenant will receive
+- Track response status
+
+---
+
+## 4. PROPERTY & ROOM MODALS
+
+### 4.1 modal-photo-gallery.html
+**Description:** Full-screen photo gallery lightbox.
+
+**Triggered From:**
+- `room-details.html` - "Show all photos" button
+- `landlord-property-detail.html` - Photo thumbnails
+- Any property/room photo grid
+
+**Key Components:**
+- Full-screen overlay
+- Large photo display
+- Navigation arrows (left/right)
+- Thumbnail strip at bottom
+- Photo counter (3 of 12)
+- Caption/description area
+- Keyboard navigation (arrow keys, escape)
+- Close button (X)
+- Share button
+- Download button (for landlords)
+
+**Design Notes:**
+- Swipe gestures on mobile
+- Lazy load images
+- Preload adjacent images
+- Zoom on click/pinch
+
+---
+
+### 4.2 modal-photo-upload.html
+**Description:** Upload and manage property/room photos.
+
+**Triggered From:**
+- `landlord-add-property.html` - Photos step
+- `landlord-add-room.html` - Room photos section
+- `landlord-property-detail.html` - Edit photos
+
+**Key Components:**
+- Drag and drop zone (large)
+- File browser button
+- Camera capture (mobile)
+- Upload progress indicators
+- Photo grid with:
+    - Thumbnail preview
+    - "Set as cover" star icon
+    - Delete button
+    - Drag handle for reorder
+- Accepted formats: JPG, PNG (max 10MB each)
+- Minimum 3 photos required note
+- Cancel / Save Photos buttons
+
+**Design Notes:**
+- Batch upload support
+- Reorder via drag and drop
+- Show upload progress per file
+- Auto-optimize images on upload
+
+---
+
+### 4.3 modal-clone-room.html
+**Description:** Duplicate a room with optional modifications.
+
+**Triggered From:**
+- `landlord-add-property.html` - "Clone Room" button
+- `landlord-property-detail.html` - Room actions menu
+
+**Key Components:**
+- Source room details display
+- Number of copies selector (1-10)
+- Room naming pattern:
+    - Auto-increment (Room 2, Room 3...)
+    - Custom naming template
+- Fields to modify:
+    - Price per room (same or individual)
+    - Availability dates
+    - Amenities (inherit or customize)
+- Preview of rooms to be created
+- Cancel / Create Rooms buttons
+
+**Design Notes:**
+- Show cost/revenue impact
+- Quick creation for identical rooms
+- Option to edit individually after
+
+---
+
+### 4.4 modal-pause-listing.html
+**Description:** Temporarily hide listing from search.
+
+**Triggered From:**
+- `landlord-properties.html` - Quick actions dropdown
+- `landlord-property-detail.html` - Status controls
+
+**Key Components:**
+- Property name and photo
+- Current status indicator
+- Reason selector:
+    - Maintenance/repairs
+    - Fully occupied
+    - Personal reasons
+    - Seasonal pause
+    - Other
+- Duration options:
+    - Indefinitely
+    - Until specific date
+    - For X days/weeks
+- What happens when paused:
+    - Not visible in search
+    - Existing applications kept
+    - Current tenants unaffected
+- Reactivation reminder option
+- Cancel / Pause Listing buttons
+
+**Design Notes:**
+- Show when last active
+- Easy reactivate from same menu
+
+---
+
+### 4.5 modal-delete-property.html
+**Description:** Permanently delete a property listing.
+
+**Triggered From:**
+- `landlord-properties.html` - Quick actions dropdown
+- `landlord-property-detail.html` - Settings tab
+
+**Key Components:**
+- Warning header (red)
+- Property name and details
+- Impact summary:
+    - X active tenants will be affected
+    - X pending applications will be declined
+    - Payment history will be retained
+- Requirements before deletion:
+    - All tenants moved out
+    - No pending applications
+    - Outstanding balances resolved
+- Type property name to confirm
+- Cancel / Delete Property buttons (red)
+
+**Design Notes:**
+- Require explicit confirmation
+- Show alternatives (pause instead)
+- Cannot be undone warning
+- Disable if active tenants
+
+---
+
+## 5. MESSAGING & COMMUNICATION MODALS
+
+### 5.1 modal-quick-message.html
+**Description:** Quick compose message without leaving current page.
+
+**Triggered From:**
+- `landlord-dashboard.html` - Contact buttons on tenant cards
+- `resident-dashboard.html` - Message landlord button
+- Various "Message" quick actions
+
+**Key Components:**
+- Recipient display (name, avatar)
+- Subject line (optional)
+- Message textarea
+- Quick reply templates dropdown
+- Attachment button
+- Send / Cancel buttons
+
+**Design Notes:**
+- Pre-populate subject based on context
+- Recent messages preview
+- Character count for SMS fallback
+
+---
+
+### 5.2 modal-share-listing.html
+**Description:** Share room listing via various channels.
+
+**Triggered From:**
+- `room-details.html` - Share button
+- `search-page.html` - Listing card share action
+
+**Key Components:**
+- Listing preview card
+- Share options:
+    - Copy link button
+    - Email (opens mail client)
+    - Facebook
+    - Twitter/X
+    - WhatsApp
+    - SMS/Text
+- QR code display
+- Embed code (for websites)
+- Referral note (if referral program active)
+
+**Design Notes:**
+- Copy confirmation toast
+- UTM parameters for tracking
+- Mobile native share on supported devices
+
+---
+
+### 5.3 modal-report-listing.html
+**Description:** Report a listing for policy violations.
+
+**Triggered From:**
+- `room-details.html` - Report button (flag icon)
+
+**Key Components:**
+- Reason selector (required):
+    - Inaccurate information
+    - Suspicious/scam listing
+    - Discriminatory content
+    - Inappropriate photos
+    - Safety concerns
+    - Other
+- Additional details textarea
+- Upload evidence (optional)
+- Contact me about this checkbox
+- Anonymous option
+- Cancel / Submit Report buttons
+
+**Design Notes:**
+- Thank you message after submit
+- Explain review process
+- No immediate action visible to reported party
+
+---
+
+## 6. FINANCE & PAYOUT MODALS (Landlord)
+
+### 6.1 modal-payout-breakdown.html
+**Description:** Detailed breakdown of a specific payout.
+
+**Triggered From:**
+- `landlord-payouts.html` - "View Details" on payout row
+
+**Key Components:**
+- Payout header:
+    - Date and status
+    - Total amount
+    - Bank account (last 4 digits)
+- Payments included:
+    - List of tenant payments
+    - Date, tenant, room, amount for each
+- Fees breakdown:
+    - Gross amount
+    - RoomPilot fee (2%)
+    - Stripe processing fee
+    - Net payout
+- Late fees collected (if any)
+- Download CSV button
+- Download PDF button
+- Close button
+
+**Design Notes:**
+- Sortable payment list
+- Clear fee disclosure
+- Match Stripe dashboard format
+
+---
+
+### 6.2 modal-update-bank-account.html
+**Description:** Add or change payout bank account.
+
+**Triggered From:**
+- `landlord-payout-settings.html` - "Add Account" or "Change" button
+
+**Key Components:**
+- Current account display (if exists)
+- New account form:
+    - Account holder name
+    - Account type (Checking/Savings)
+    - Routing number
+    - Account number
+    - Confirm account number
+- Verification method:
+    - Micro-deposits (1-2 business days)
+    - Instant verification (via Plaid)
+- Default account selector (if multiple)
+- Cancel / Save Account buttons
+
+**Design Notes:**
+- Stripe Connect integration
+- Show verification status
+- Warn about payout delays during verification
+
+---
+
+### 6.3 modal-tax-documents.html
+**Description:** View and download tax documents.
+
+**Triggered From:**
+- `landlord-payout-settings.html` - Tax documents section
+- `landlord-payouts.html` - Year-end link
+
+**Key Components:**
+- Year selector dropdown
+- Available documents list:
+    - 1099-K (if applicable)
+    - Annual earnings summary
+    - Payment detail export
+- Document status:
+    - Available
+    - Processing
+    - Not eligible (under threshold)
+- Download buttons for each
+- Request paper copy option
+- Tax ID on file display
+- Update tax info link
+
+**Design Notes:**
+- Explain 1099-K threshold
+- Secure document delivery
+- Link to tax FAQ
+
+---
+
+### 6.4 modal-manual-payout.html
+**Description:** Request immediate payout of available balance.
+
+**Triggered From:**
+- `landlord-payouts.html` - "Get Paid Now" button
+
+**Key Components:**
+- Available balance display
+- Bank account selector
+- Payout speed options:
+    - Standard (1-2 business days) - Free
+    - Instant (minutes) - 1% fee
+- Fee calculation display
+- Net amount to receive
+- Next automatic payout date note
+- Cancel / Request Payout buttons
+
+**Design Notes:**
+- Show Instant availability based on bank
+- Fee clearly displayed
+- Confirmation before processing
+
+---
+
+## 7. STRIPE INTEGRATION MODALS
+
+### 7.1 modal-stripe-connect.html
+**Description:** Stripe Connect onboarding flow for hosts.
+
+**Triggered From:**
+- `onboarding-host.html` - Connect payouts step
+- `landlord-payout-settings.html` - Connect/reconnect button
+
+**Key Components:**
+- Introduction:
+    - Why Stripe is required
+    - Security and compliance info
+    - What information you'll need
+- Requirements checklist:
+    - Government ID
+    - Bank account
+    - Business info (if applicable)
+- "Connect with Stripe" button (opens Stripe hosted form)
+- Alternative: Manual setup steps
+- Skip for now link (with consequences explained)
+
+**Design Notes:**
+- Opens Stripe in new tab/modal
+- Return URL handles success/failure
+- Show connection status on return
+
+---
+
+### 7.2 modal-stripe-connect-success.html
+**Description:** Confirmation after successful Stripe connection.
+
+**Triggered From:**
+- Return from Stripe Connect OAuth flow
+
+**Key Components:**
+- Success checkmark animation
+- "Payouts Connected!" heading
+- Account summary:
+    - Business name
+    - Bank account (last 4)
+    - Payout schedule
+- What's next:
+    - Add your first property
+    - Set billing preferences
+    - Configure payout schedule
+- "Continue to Dashboard" button
+
+**Design Notes:**
+- Celebratory animation
+- Clear next steps
+- Help link if issues
+
+---
+
+## 8. MAINTENANCE MODALS
+
+### 8.1 modal-maintenance-photos.html
+**Description:** View full-size photos attached to maintenance request.
+
+**Triggered From:**
+- `renter-maintenance.html` - Photo thumbnails
+- `landlord-maintenance.html` - Request photo previews
+
+**Key Components:**
+- Full-screen photo viewer
+- Navigation between photos
+- Photo metadata (date taken, submitted by)
+- Download button
+- Close button
+
+**Design Notes:**
+- Simpler than property gallery
+- Focus on issue documentation
+- Pinch to zoom on mobile
+
+---
+
+### 8.2 modal-schedule-inspection.html
+**Description:** Schedule property inspection for maintenance.
+
+**Triggered From:**
+- `landlord-maintenance.html` - "Schedule Inspection" action
+- `landlord-tenant-detail.html` - Move-out inspection
+
+**Key Components:**
+- Tenant and property info
+- Purpose selector:
+    - Maintenance follow-up
+    - Pre-move-out inspection
+    - Routine inspection
+    - Other
+- Date picker calendar
+- Time slot selector
+- Duration estimate
+- Notify tenant toggle
+- Custom message to tenant
+- Cancel / Schedule buttons
+
+**Design Notes:**
+- Show tenant's preferred times (if available)
+- Calendar integration option
+- Reminder notifications
+
+---
+
+### 8.3 modal-cancel-request.html
+**Description:** Cancel a submitted maintenance request.
+
+**Triggered From:**
+- `renter-maintenance.html` - Cancel button on open request
+
+**Key Components:**
+- Request summary
+- Reason selector:
+    - Issue resolved on its own
+    - Fixed it myself
+    - No longer needed
+    - Submitted in error
+    - Other
+- Optional notes
+- Warning about re-submitting
+- Keep Request / Cancel Request buttons
+
+**Design Notes:**
+- Only available for "Submitted" status
+- Cannot cancel in-progress requests
+- Confirmation required
+
+---
+
+## 9. PROFILE & SETTINGS MODALS
+
+### 9.1 modal-avatar-upload.html
+**Description:** Upload and crop profile picture.
+
+**Triggered From:**
+- `renter-profile.html` - Avatar edit button
+- `landlord-profile.html` - Photo edit button
+
+**Key Components:**
+- Current avatar display
+- Upload options:
+    - File browser
+    - Camera capture
+    - Remove current photo
+- Crop tool:
+    - Circular crop frame
+    - Zoom slider
+    - Rotate buttons
+- Preview at different sizes
+- Cancel / Save buttons
+
+**Design Notes:**
+- Square crop, displayed as circle
+- Multiple resolutions generated
+- Compress for performance
+
+---
+
+### 9.2 modal-email-change.html
+**Description:** Change account email with verification.
+
+**Triggered From:**
+- `renter-settings.html` - Change email
+- `landlord-settings.html` - Change email
+
+**Key Components:**
+- Current email display
+- New email input
+- Confirm new email input
+- Password verification
+- Explanation of verification process
+- Cancel / Send Verification buttons
+
+**After submit:**
+- Success message
+- Check inbox prompt
+- Resend verification link
+
+**Design Notes:**
+- Old email remains active until verified
+- Security notification to old email
+- Session continues normally
+
+---
+
+### 9.3 modal-password-change.html
+**Description:** Change account password.
+
+**Triggered From:**
+- `renter-settings.html` - Security section
+- `landlord-settings.html` - Security section
+
+**Key Components:**
+- Current password input
+- New password input
+- Password strength indicator
+- Password requirements list:
+    - Minimum 8 characters
+    - One uppercase letter
+    - One number
+    - One special character
+- Confirm new password input
+- "Log out other devices" checkbox
+- Cancel / Update Password buttons
+
+**Design Notes:**
+- Show/hide password toggles
+- Real-time strength feedback
+- Success confirmation message
+
+---
+
+### 9.4 modal-two-factor-setup.html
+**Description:** Enable two-factor authentication.
+
+**Triggered From:**
+- `renter-settings.html` - Security section
+- `landlord-settings.html` - Security section
+
+**Key Components:**
+- Introduction to 2FA benefits
+- Method selection:
+    - Authenticator app (recommended)
+    - SMS codes
+- For authenticator:
+    - QR code display
+    - Manual entry code
+    - App download links (Google Auth, Authy)
+- Verification:
+    - Enter code from app
+    - Verify button
+- Backup codes:
+    - Display 10 codes
+    - Download option
+    - Print option
+    - "I've saved these" confirmation
+- Cancel / Enable 2FA buttons
+
+**Design Notes:**
+- Clear setup instructions
+- Backup codes are critical
+- Option to disable later
+
+---
+
+## 10. GENERAL/SHARED MODALS
+
+### 10.1 modal-confirmation.html
+**Description:** Generic confirmation dialog for destructive actions.
+
+**Triggered From:**
+- Various delete, remove, cancel actions throughout app
+
+**Key Components:**
+- Icon (warning triangle or question mark)
+- Title (e.g., "Are you sure?")
+- Description message
+- Cancel button (secondary)
+- Confirm button (primary or danger)
+
+**Variants:**
+- Danger (red confirm button)
+- Warning (amber confirm button)
+- Info (blue confirm button)
+
+**Design Notes:**
+- Reusable component
+- Pass title, message, button labels as props
+- Keyboard accessible (Escape to cancel)
+
+---
+
+### 10.2 modal-success.html
+**Description:** Generic success confirmation state.
+
+**Triggered From:**
+- Various form submissions and actions
+
+**Key Components:**
+- Animated checkmark icon
+- Success title
+- Description message
+- Optional next action button
+- Close/Done button
+- Auto-close option
+
+**Design Notes:**
+- Accent green color scheme
+- Celebratory but not excessive
+- Quick to dismiss
+
+---
+
+### 10.3 modal-error.html
+**Description:** Generic error state for failed operations.
+
+**Triggered From:**
+- Failed API calls, validation errors
+
+**Key Components:**
+- Error icon (X or warning)
+- Error title
+- Error message/description
+- Error code (if applicable)
+- "Try Again" button
+- "Contact Support" link
+- Close button
+
+**Design Notes:**
+- Coral/red color scheme
+- Clear error explanation
+- Actionable next steps
+
+---
+
+### 10.4 modal-loading.html
+**Description:** Loading/processing state overlay.
+
+**Triggered From:**
+- Any async operation that takes >1 second
+
+**Key Components:**
+- Spinner animation
+- Loading message (customizable)
+- Optional progress percentage
+- Cancel button (if operation is cancellable)
+
+**Design Notes:**
+- Blocks interaction during processing
+- Timeout handling (show error after X seconds)
+- Skeleton loaders for content areas preferred
+
+---
+
+## Implementation Notes
+
+### Modal CSS Framework
+Create shared modal styles in `modal-base.css`:
+- `.modal-overlay` - fixed, full-screen, backdrop
+- `.modal-container` - centered, max-width variants (sm, md, lg)
+- `.modal-header` - title and close button
+- `.modal-body` - scrollable content
+- `.modal-footer` - action buttons
+
+### Modal JavaScript
+Create shared modal behavior in `modal.js`:
+- `openModal(modalId)` - show modal with animation
+- `closeModal(modalId)` - hide modal with animation
+- Escape key listener
+- Backdrop click handler
+- Focus trap management
+- Body scroll lock
+
+### Accessibility
+- Role="dialog" with aria-modal="true"
+- Aria-labelledby for title
+- Focus management on open/close
+- Screen reader announcements
+
+---
+
+## Summary
+
+**Total Completed Pages:** 49
+**Total Missing Modals:** 34
+
+These modals complete the user flows and provide necessary feedback states for all major actions in the application.
