@@ -1,0 +1,1504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Dashboard | RoomPilot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-midnight: #0f1419;
+            --color-charcoal: #1a2332;
+            --color-slate: #3d4f5f;
+            --color-mist: #8899a6;
+            --color-cloud: #e8ecef;
+            --color-snow: #f7f9fa;
+            --color-white: #ffffff;
+
+            --color-primary: #2563eb;
+            --color-primary-light: #3b82f6;
+            --color-primary-dark: #1d4ed8;
+            --color-primary-bg: #eff6ff;
+
+            --color-accent: #10b981;
+            --color-accent-light: #34d399;
+            --color-accent-bg: #ecfdf5;
+
+            --color-warm: #f59e0b;
+            --color-warm-bg: #fffbeb;
+            --color-coral: #f43f5e;
+            --color-coral-bg: #fff1f2;
+
+            --font-display: 'Fraunces', Georgia, serif;
+            --font-body: 'DM Sans', -apple-system, sans-serif;
+
+            --shadow-sm: 0 1px 2px rgba(15, 20, 25, 0.05);
+            --shadow-md: 0 4px 12px rgba(15, 20, 25, 0.08);
+            --shadow-lg: 0 12px 40px rgba(15, 20, 25, 0.12);
+            --shadow-xl: 0 24px 60px rgba(15, 20, 25, 0.16);
+
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+
+            --nav-height: 72px;
+            --sidebar-width: 260px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: 15px;
+            line-height: 1.5;
+            color: var(--color-charcoal);
+            background: var(--color-snow);
+        }
+
+        /* ============================================
+           NAVIGATION
+        ============================================ */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            height: var(--nav-height);
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--color-white);
+            border-bottom: 1px solid var(--color-cloud);
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .nav-logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 18px;
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+        }
+
+        .nav-logo-text {
+            font-family: var(--font-display);
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--color-midnight);
+            letter-spacing: -0.02em;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .nav-icon-btn {
+            position: relative;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--color-snow);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: var(--color-slate);
+        }
+
+        .nav-icon-btn:hover {
+            background: var(--color-cloud);
+            color: var(--color-charcoal);
+        }
+
+        .nav-icon-btn .badge {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            width: 18px;
+            height: 18px;
+            background: var(--color-coral);
+            border-radius: 50%;
+            font-size: 11px;
+            font-weight: 700;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--color-white);
+        }
+
+        .nav-user {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 6px 12px 6px 6px;
+            background: var(--color-snow);
+            border-radius: 100px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .nav-user:hover {
+            background: var(--color-cloud);
+        }
+
+        .nav-user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--color-accent-light) 0%, var(--color-accent) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .nav-user-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .nav-user-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+            line-height: 1.2;
+        }
+
+        .nav-user-role {
+            font-size: 12px;
+            color: var(--color-mist);
+        }
+
+        .nav-user-arrow {
+            color: var(--color-mist);
+            font-size: 12px;
+        }
+
+        /* ============================================
+           SIDEBAR
+        ============================================ */
+        .sidebar {
+            position: fixed;
+            top: var(--nav-height);
+            left: 0;
+            bottom: 0;
+            width: var(--sidebar-width);
+            background: var(--color-white);
+            border-right: 1px solid var(--color-cloud);
+            padding: 24px 16px;
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+        }
+
+        .sidebar-section {
+            margin-bottom: 32px;
+        }
+
+        .sidebar-section-title {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--color-mist);
+            padding: 0 12px;
+            margin-bottom: 8px;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: var(--radius-md);
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--color-slate);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            margin-bottom: 4px;
+        }
+
+        .sidebar-link:hover {
+            background: var(--color-snow);
+            color: var(--color-charcoal);
+        }
+
+        .sidebar-link.active {
+            background: var(--color-primary-bg);
+            color: var(--color-primary);
+        }
+
+        .sidebar-link-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .sidebar-link-badge {
+            margin-left: auto;
+            padding: 2px 8px;
+            background: var(--color-coral);
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .sidebar-footer {
+            padding-top: 16px;
+            border-top: 1px solid var(--color-cloud);
+        }
+
+        /* ============================================
+           MAIN CONTENT
+        ============================================ */
+        .main {
+            margin-left: var(--sidebar-width);
+            margin-top: var(--nav-height);
+            min-height: calc(100vh - var(--nav-height));
+            padding: 32px;
+        }
+
+        /* ============================================
+           DASHBOARD HEADER
+        ============================================ */
+        .dashboard-header {
+            margin-bottom: 32px;
+        }
+
+        .dashboard-welcome {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .dashboard-greeting {
+            font-family: var(--font-display);
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--color-midnight);
+            margin-bottom: 4px;
+        }
+
+        .dashboard-date {
+            font-size: 15px;
+            color: var(--color-mist);
+        }
+
+        .dashboard-quick-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 24px;
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            color: white;
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(37, 99, 235, 0.35);
+        }
+
+        .btn-outline {
+            background: var(--color-white);
+            color: var(--color-charcoal);
+            border: 1px solid var(--color-cloud);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--color-charcoal);
+            background: var(--color-snow);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--color-slate);
+        }
+
+        .btn-ghost:hover {
+            background: var(--color-snow);
+            color: var(--color-charcoal);
+        }
+
+        /* Quick Stats */
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .quick-stat {
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--color-cloud);
+        }
+
+        .quick-stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .quick-stat-icon.blue { background: var(--color-primary-bg); }
+        .quick-stat-icon.green { background: var(--color-accent-bg); }
+        .quick-stat-icon.amber { background: var(--color-warm-bg); }
+        .quick-stat-icon.coral { background: var(--color-coral-bg); }
+
+        .quick-stat-content {
+            flex: 1;
+        }
+
+        .quick-stat-value {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--color-midnight);
+            line-height: 1.2;
+        }
+
+        .quick-stat-label {
+            font-size: 13px;
+            color: var(--color-mist);
+        }
+
+        /* ============================================
+           DASHBOARD GRID
+        ============================================ */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 24px;
+        }
+
+        .dashboard-main {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .dashboard-sidebar-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* ============================================
+           CARD STYLES
+        ============================================ */
+        .card {
+            background: var(--color-white);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--color-cloud);
+            overflow: hidden;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--color-cloud);
+        }
+
+        .card-title {
+            font-family: var(--font-display);
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--color-midnight);
+        }
+
+        .card-badge {
+            padding: 6px 12px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .card-badge.green {
+            background: var(--color-accent-bg);
+            color: var(--color-accent);
+        }
+
+        .card-badge.amber {
+            background: var(--color-warm-bg);
+            color: var(--color-warm);
+        }
+
+        .card-badge.coral {
+            background: var(--color-coral-bg);
+            color: var(--color-coral);
+        }
+
+        .card-body {
+            padding: 24px;
+        }
+
+        .card-footer {
+            padding: 16px 24px;
+            border-top: 1px solid var(--color-cloud);
+            background: var(--color-snow);
+        }
+
+        /* ============================================
+           CURRENT ROOM CARD
+        ============================================ */
+        .room-card-content {
+            display: grid;
+            grid-template-columns: 180px 1fr;
+            gap: 24px;
+        }
+
+        .room-card-image {
+            width: 180px;
+            height: 140px;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+        }
+
+        .room-card-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .room-card-name {
+            font-family: var(--font-display);
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--color-midnight);
+            margin-bottom: 4px;
+        }
+
+        .room-card-address {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            color: var(--color-slate);
+            margin-bottom: 16px;
+        }
+
+        .room-card-meta {
+            display: flex;
+            gap: 24px;
+            margin-bottom: 16px;
+        }
+
+        .room-card-meta-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .room-card-meta-label {
+            font-size: 12px;
+            color: var(--color-mist);
+            margin-bottom: 2px;
+        }
+
+        .room-card-meta-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+        }
+
+        .room-card-host {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: var(--color-snow);
+            border-radius: var(--radius-md);
+            margin-top: auto;
+        }
+
+        .room-card-host-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-primary) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .room-card-host-info {
+            flex: 1;
+        }
+
+        .room-card-host-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+        }
+
+        .room-card-host-label {
+            font-size: 12px;
+            color: var(--color-mist);
+        }
+
+        .room-card-host-action {
+            padding: 8px 16px;
+            background: var(--color-white);
+            border: 1px solid var(--color-cloud);
+            border-radius: var(--radius-md);
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--color-charcoal);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .room-card-host-action:hover {
+            border-color: var(--color-charcoal);
+        }
+
+        /* ============================================
+           PAYMENT STATUS CARD
+        ============================================ */
+        .payment-status {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 20px;
+            background: var(--color-accent-bg);
+            border-radius: var(--radius-lg);
+            margin-bottom: 20px;
+        }
+
+        .payment-status.due {
+            background: var(--color-warm-bg);
+        }
+
+        .payment-status.overdue {
+            background: var(--color-coral-bg);
+        }
+
+        .payment-status-indicator {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--color-accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            position: relative;
+        }
+
+        .payment-status.due .payment-status-indicator {
+            background: var(--color-warm);
+        }
+
+        .payment-status.overdue .payment-status-indicator {
+            background: var(--color-coral);
+        }
+
+        .payment-status-indicator::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            border: 2px solid currentColor;
+            opacity: 0.3;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.1); opacity: 0.1; }
+        }
+
+        .payment-status-content {
+            flex: 1;
+        }
+
+        .payment-status-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--color-accent);
+            margin-bottom: 2px;
+        }
+
+        .payment-status.due .payment-status-title {
+            color: var(--color-warm);
+        }
+
+        .payment-status.overdue .payment-status-title {
+            color: var(--color-coral);
+        }
+
+        .payment-status-subtitle {
+            font-size: 14px;
+            color: var(--color-slate);
+        }
+
+        .payment-next {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--color-cloud);
+            margin-bottom: 16px;
+        }
+
+        .payment-next-label {
+            font-size: 14px;
+            color: var(--color-mist);
+        }
+
+        .payment-next-info {
+            text-align: right;
+        }
+
+        .payment-next-amount {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--color-midnight);
+        }
+
+        .payment-next-date {
+            font-size: 13px;
+            color: var(--color-slate);
+        }
+
+        .payment-progress {
+            margin-bottom: 20px;
+        }
+
+        .payment-progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .payment-progress-label {
+            font-size: 13px;
+            color: var(--color-mist);
+        }
+
+        .payment-progress-track {
+            height: 8px;
+            background: var(--color-cloud);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .payment-progress-fill {
+            height: 100%;
+            background: var(--color-primary);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .payment-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .payment-actions .btn {
+            flex: 1;
+        }
+
+        /* ============================================
+           UPCOMING DUES CARD
+        ============================================ */
+        .dues-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .due-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            background: var(--color-snow);
+            border-radius: var(--radius-md);
+            transition: all 0.2s ease;
+        }
+
+        .due-item:hover {
+            background: var(--color-cloud);
+        }
+
+        .due-item-date {
+            width: 48px;
+            height: 48px;
+            background: var(--color-white);
+            border-radius: var(--radius-md);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--color-cloud);
+        }
+
+        .due-item-date-month {
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--color-coral);
+        }
+
+        .due-item-date-day {
+            font-family: var(--font-display);
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--color-charcoal);
+            line-height: 1;
+        }
+
+        .due-item-content {
+            flex: 1;
+        }
+
+        .due-item-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+        }
+
+        .due-item-subtitle {
+            font-size: 13px;
+            color: var(--color-mist);
+        }
+
+        .due-item-amount {
+            font-family: var(--font-display);
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--color-charcoal);
+        }
+
+        .dues-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            background: var(--color-primary-bg);
+            border-radius: var(--radius-md);
+            margin-top: 12px;
+        }
+
+        .dues-total-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--color-primary);
+        }
+
+        .dues-total-amount {
+            font-family: var(--font-display);
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--color-primary);
+        }
+
+        /* ============================================
+           MESSAGES CARD
+        ============================================ */
+        .messages-list {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message-item {
+            display: flex;
+            gap: 12px;
+            padding: 16px;
+            border-bottom: 1px solid var(--color-cloud);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .message-item:last-child {
+            border-bottom: none;
+        }
+
+        .message-item:hover {
+            background: var(--color-snow);
+        }
+
+        .message-item.unread {
+            background: var(--color-primary-bg);
+        }
+
+        .message-item.unread:hover {
+            background: #dbeafe;
+        }
+
+        .message-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-primary) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .message-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+
+        .message-sender {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+        }
+
+        .message-time {
+            font-size: 12px;
+            color: var(--color-mist);
+        }
+
+        .message-preview {
+            font-size: 14px;
+            color: var(--color-slate);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .message-item.unread .message-preview {
+            color: var(--color-charcoal);
+            font-weight: 500;
+        }
+
+        .message-unread-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--color-primary);
+            border-radius: 50%;
+            flex-shrink: 0;
+            margin-top: 18px;
+        }
+
+        /* ============================================
+           QUICK ACTIONS CARD
+        ============================================ */
+        .quick-actions-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .quick-action-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            padding: 24px 16px;
+            background: var(--color-snow);
+            border: 1px solid transparent;
+            border-radius: var(--radius-lg);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .quick-action-btn:hover {
+            background: var(--color-white);
+            border-color: var(--color-cloud);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .quick-action-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .quick-action-icon.blue { background: var(--color-primary-bg); }
+        .quick-action-icon.green { background: var(--color-accent-bg); }
+        .quick-action-icon.amber { background: var(--color-warm-bg); }
+
+        .quick-action-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--color-charcoal);
+            text-align: center;
+        }
+
+        /* ============================================
+           RESPONSIVE
+        ============================================ */
+        @media (max-width: 1280px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-sidebar-cards {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .quick-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav {
+                padding: 0 16px;
+            }
+
+            .main {
+                padding: 20px 16px;
+            }
+
+            .quick-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-sidebar-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .room-card-content {
+                grid-template-columns: 1fr;
+            }
+
+            .room-card-image {
+                width: 100%;
+                height: 160px;
+            }
+
+            .quick-actions-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-welcome {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .dashboard-quick-actions {
+                width: 100%;
+            }
+
+            .dashboard-quick-actions .btn {
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Navigation -->
+<nav class="nav">
+    <div class="nav-left">
+        <a href="#" class="nav-logo">
+            <div class="nav-logo-icon">R</div>
+            <span class="nav-logo-text">RoomPilot</span>
+        </a>
+    </div>
+
+    <div class="nav-right">
+        <button class="nav-icon-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                <path d="M13.73 21a2 2 0 01-3.46 0"/>
+            </svg>
+            <span class="badge">2</span>
+        </button>
+
+        <button class="nav-icon-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+            </svg>
+            <span class="badge">3</span>
+        </button>
+
+        <div class="nav-user">
+            <div class="nav-user-avatar">JD</div>
+            <div class="nav-user-info">
+                <span class="nav-user-name">James Davis</span>
+                <span class="nav-user-role">Resident</span>
+            </div>
+            <span class="nav-user-arrow">&#9662;</span>
+        </div>
+    </div>
+</nav>
+
+<!-- Sidebar -->
+<aside class="sidebar">
+    <nav class="sidebar-nav">
+        <div class="sidebar-section">
+            <div class="sidebar-section-title">Menu</div>
+            <a href="#" class="sidebar-link active">
+                <span class="sidebar-link-icon">&#127968;</span>
+                Dashboard
+            </a>
+            <a href="#" class="sidebar-link">
+                <span class="sidebar-link-icon">&#128179;</span>
+                Payments
+            </a>
+            <a href="#" class="sidebar-link">
+                <span class="sidebar-link-icon">&#128172;</span>
+                Messages
+                <span class="sidebar-link-badge">3</span>
+            </a>
+            <a href="#" class="sidebar-link">
+                <span class="sidebar-link-icon">&#128196;</span>
+                Documents
+            </a>
+            <a href="#" class="sidebar-link">
+                <span class="sidebar-link-icon">&#128295;</span>
+                Maintenance
+            </a>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-section-title">Account</div>
+            <a href="#" class="sidebar-link">
+                <span class="sidebar-link-icon">&#9881;</span>
+                Settings
+            </a>
+            <a href="#" class="sidebar-link">
+                <span class="sidebar-link-icon">&#128712;</span>
+                Help & Support
+            </a>
+        </div>
+    </nav>
+
+    <div class="sidebar-footer">
+        <a href="#" class="sidebar-link">
+            <span class="sidebar-link-icon">&#128682;</span>
+            Log Out
+        </a>
+    </div>
+</aside>
+
+<!-- Main Content -->
+<main class="main">
+    <!-- Dashboard Header -->
+    <header class="dashboard-header">
+        <div class="dashboard-welcome">
+            <div>
+                <h1 class="dashboard-greeting">Welcome back, James</h1>
+                <p class="dashboard-date">Sunday, December 1, 2024</p>
+            </div>
+            <div class="dashboard-quick-actions">
+                <button class="btn btn-primary">
+                    <span>&#128179;</span>
+                    Pay Rent
+                </button>
+                <button class="btn btn-outline">
+                    <span>&#128172;</span>
+                    Contact Landlord
+                </button>
+            </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="quick-stats">
+            <div class="quick-stat">
+                <div class="quick-stat-icon amber">&#128197;</div>
+                <div class="quick-stat-content">
+                    <div class="quick-stat-value">7</div>
+                    <div class="quick-stat-label">Days until rent due</div>
+                </div>
+            </div>
+            <div class="quick-stat">
+                <div class="quick-stat-icon green">&#9989;</div>
+                <div class="quick-stat-content">
+                    <div class="quick-stat-value">Paid</div>
+                    <div class="quick-stat-label">Current week status</div>
+                </div>
+            </div>
+            <div class="quick-stat">
+                <div class="quick-stat-icon blue">&#128198;</div>
+                <div class="quick-stat-content">
+                    <div class="quick-stat-value">8 mo</div>
+                    <div class="quick-stat-label">Lease remaining</div>
+                </div>
+            </div>
+            <div class="quick-stat">
+                <div class="quick-stat-icon coral">&#128172;</div>
+                <div class="quick-stat-content">
+                    <div class="quick-stat-value">3</div>
+                    <div class="quick-stat-label">Unread messages</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Dashboard Grid -->
+    <div class="dashboard-grid">
+        <!-- Main Column -->
+        <div class="dashboard-main">
+            <!-- Current Room Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">My Room</h2>
+                    <span class="card-badge green">Active Lease</span>
+                </div>
+                <div class="card-body">
+                    <div class="room-card-content">
+                        <div class="room-card-image">&#127969;</div>
+                        <div class="room-card-details">
+                            <h3 class="room-card-name">Sunny Private Room with City Views</h3>
+                            <div class="room-card-address">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+                                    <circle cx="12" cy="10" r="3"/>
+                                </svg>
+                                Midtown, Atlanta, GA
+                            </div>
+                            <div class="room-card-meta">
+                                <div class="room-card-meta-item">
+                                    <span class="room-card-meta-label">Move-in Date</span>
+                                    <span class="room-card-meta-value">Oct 15, 2024</span>
+                                </div>
+                                <div class="room-card-meta-item">
+                                    <span class="room-card-meta-label">Lease Ends</span>
+                                    <span class="room-card-meta-value">Oct 14, 2025</span>
+                                </div>
+                                <div class="room-card-meta-item">
+                                    <span class="room-card-meta-label">Weekly Rent</span>
+                                    <span class="room-card-meta-value">$175</span>
+                                </div>
+                            </div>
+                            <div class="room-card-host">
+                                <div class="room-card-host-avatar">M</div>
+                                <div class="room-card-host-info">
+                                    <div class="room-card-host-name">Marcus Johnson</div>
+                                    <div class="room-card-host-label">Your Host</div>
+                                </div>
+                                <button class="room-card-host-action">Message</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-ghost">View Room Details &#8594;</button>
+                </div>
+            </div>
+
+            <!-- Payment Status Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Payment Status</h2>
+                    <a href="#" style="font-size: 14px; color: var(--color-primary); text-decoration: none;">View History</a>
+                </div>
+                <div class="card-body">
+                    <div class="payment-status">
+                        <div class="payment-status-indicator">&#10003;</div>
+                        <div class="payment-status-content">
+                            <div class="payment-status-title">All Caught Up!</div>
+                            <div class="payment-status-subtitle">Your current week is paid. Next payment due Dec 8.</div>
+                        </div>
+                    </div>
+
+                    <div class="payment-next">
+                        <span class="payment-next-label">Next Payment</span>
+                        <div class="payment-next-info">
+                            <div class="payment-next-amount">$175.00</div>
+                            <div class="payment-next-date">Due Sunday, Dec 8</div>
+                        </div>
+                    </div>
+
+                    <div class="payment-progress">
+                        <div class="payment-progress-header">
+                            <span class="payment-progress-label">Current billing period</span>
+                            <span class="payment-progress-label">5 of 7 days</span>
+                        </div>
+                        <div class="payment-progress-track">
+                            <div class="payment-progress-fill" style="width: 71%"></div>
+                        </div>
+                    </div>
+
+                    <div class="payment-actions">
+                        <button class="btn btn-primary">Pay Now - $175</button>
+                        <button class="btn btn-outline">Set Up Auto-Pay</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Quick Actions</h2>
+                </div>
+                <div class="card-body">
+                    <div class="quick-actions-grid">
+                        <button class="quick-action-btn">
+                            <div class="quick-action-icon blue">&#128179;</div>
+                            <span class="quick-action-label">Make a Payment</span>
+                        </button>
+                        <button class="quick-action-btn">
+                            <div class="quick-action-icon green">&#128172;</div>
+                            <span class="quick-action-label">Contact Landlord</span>
+                        </button>
+                        <button class="quick-action-btn">
+                            <div class="quick-action-icon amber">&#128295;</div>
+                            <span class="quick-action-label">Report an Issue</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar Cards -->
+        <div class="dashboard-sidebar-cards">
+            <!-- Upcoming Dues Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Upcoming Dues</h2>
+                </div>
+                <div class="card-body">
+                    <div class="dues-list">
+                        <div class="due-item">
+                            <div class="due-item-date">
+                                <span class="due-item-date-month">Dec</span>
+                                <span class="due-item-date-day">8</span>
+                            </div>
+                            <div class="due-item-content">
+                                <div class="due-item-title">Weekly Rent</div>
+                                <div class="due-item-subtitle">Week of Dec 8 - Dec 14</div>
+                            </div>
+                            <div class="due-item-amount">$175</div>
+                        </div>
+                        <div class="due-item">
+                            <div class="due-item-date">
+                                <span class="due-item-date-month">Dec</span>
+                                <span class="due-item-date-day">15</span>
+                            </div>
+                            <div class="due-item-content">
+                                <div class="due-item-title">Weekly Rent</div>
+                                <div class="due-item-subtitle">Week of Dec 15 - Dec 21</div>
+                            </div>
+                            <div class="due-item-amount">$175</div>
+                        </div>
+                        <div class="due-item">
+                            <div class="due-item-date">
+                                <span class="due-item-date-month">Dec</span>
+                                <span class="due-item-date-day">22</span>
+                            </div>
+                            <div class="due-item-content">
+                                <div class="due-item-title">Weekly Rent</div>
+                                <div class="due-item-subtitle">Week of Dec 22 - Dec 28</div>
+                            </div>
+                            <div class="due-item-amount">$175</div>
+                        </div>
+                    </div>
+                    <div class="dues-total">
+                        <span class="dues-total-label">Total Upcoming (3 weeks)</span>
+                        <span class="dues-total-amount">$525</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Messages Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Messages</h2>
+                    <span class="card-badge coral">3 new</span>
+                </div>
+                <div class="card-body" style="padding: 0;">
+                    <div class="messages-list">
+                        <div class="message-item unread">
+                            <div class="message-avatar">M</div>
+                            <div class="message-content">
+                                <div class="message-header">
+                                    <span class="message-sender">Marcus (Landlord)</span>
+                                    <span class="message-time">2h ago</span>
+                                </div>
+                                <p class="message-preview">Hi James! Just wanted to let you know that the maintenance team will be...</p>
+                            </div>
+                            <div class="message-unread-dot"></div>
+                        </div>
+                        <div class="message-item unread">
+                            <div class="message-avatar" style="background: linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%);">S</div>
+                            <div class="message-content">
+                                <div class="message-header">
+                                    <span class="message-sender">Sarah (Housemate)</span>
+                                    <span class="message-time">5h ago</span>
+                                </div>
+                                <p class="message-preview">Hey! Are you going to be around this weekend? We're thinking of doing a...</p>
+                            </div>
+                            <div class="message-unread-dot"></div>
+                        </div>
+                        <div class="message-item unread">
+                            <div class="message-avatar" style="background: linear-gradient(135deg, var(--color-accent-light) 0%, var(--color-accent) 100%);">R</div>
+                            <div class="message-content">
+                                <div class="message-header">
+                                    <span class="message-sender">RoomPilot</span>
+                                    <span class="message-time">1d ago</span>
+                                </div>
+                                <p class="message-preview">Your payment of $175 has been successfully processed. Thank you!</p>
+                            </div>
+                            <div class="message-unread-dot"></div>
+                        </div>
+                        <div class="message-item">
+                            <div class="message-avatar">M</div>
+                            <div class="message-content">
+                                <div class="message-header">
+                                    <span class="message-sender">Marcus (Landlord)</span>
+                                    <span class="message-time">3d ago</span>
+                                </div>
+                                <p class="message-preview">Thanks for the heads up about the thermostat. I'll take a look at it...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-ghost" style="width: 100%;">View All Messages</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    // Simple interactions for demo purposes
+
+    // Toggle sidebar on mobile
+    document.querySelectorAll('.sidebar-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+            if (this.classList.contains('active')) {
+                e.preventDefault();
+            }
+            document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+
+    // Message click handler
+    document.querySelectorAll('.message-item').forEach(item => {
+        item.addEventListener('click', function() {
+            this.classList.remove('unread');
+            const dot = this.querySelector('.message-unread-dot');
+            if (dot) dot.remove();
+        });
+    });
+
+    // Quick action hover effects are handled by CSS
+
+    // Pay now button
+    document.querySelectorAll('.btn-primary').forEach(btn => {
+        btn.addEventListener('click', function() {
+            if (this.textContent.includes('Pay')) {
+                console.log('Navigate to payment flow');
+            }
+        });
+    });
+</script>
+</body>
+</html>

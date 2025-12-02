@@ -1,0 +1,1757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RoomPilot – Room Rentals, Your Way</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-midnight: #0f1419;
+            --color-charcoal: #1a2332;
+            --color-slate: #3d4f5f;
+            --color-mist: #8899a6;
+            --color-cloud: #e8ecef;
+            --color-snow: #f7f9fa;
+            --color-white: #ffffff;
+
+            --color-primary: #2563eb;
+            --color-primary-light: #3b82f6;
+            --color-primary-dark: #1d4ed8;
+
+            --color-accent: #10b981;
+            --color-accent-light: #34d399;
+
+            --color-warm: #f59e0b;
+            --color-coral: #f43f5e;
+
+            --font-display: 'Fraunces', Georgia, serif;
+            --font-body: 'DM Sans', -apple-system, sans-serif;
+
+            --shadow-sm: 0 1px 2px rgba(15, 20, 25, 0.05);
+            --shadow-md: 0 4px 12px rgba(15, 20, 25, 0.08);
+            --shadow-lg: 0 12px 40px rgba(15, 20, 25, 0.12);
+            --shadow-xl: 0 24px 60px rgba(15, 20, 25, 0.16);
+
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 20px;
+            --radius-xl: 32px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--color-charcoal);
+            background: var(--color-white);
+            overflow-x: hidden;
+        }
+
+        /* ============================================
+           NAVIGATION
+        ============================================ */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 16px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+            transition: all 0.3s ease;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .nav-logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 18px;
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+        }
+
+        .nav-logo-text {
+            font-family: var(--font-display);
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--color-midnight);
+            letter-spacing: -0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .nav-link {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--color-slate);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--color-primary);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 24px;
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--color-slate);
+        }
+
+        .btn-ghost:hover {
+            background: var(--color-snow);
+            color: var(--color-charcoal);
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            color: white;
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(37, 99, 235, 0.35);
+        }
+
+        .btn-secondary {
+            background: var(--color-charcoal);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-midnight);
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--color-charcoal);
+            border: 2px solid var(--color-cloud);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--color-charcoal);
+            background: var(--color-snow);
+        }
+
+        .btn-lg {
+            padding: 16px 32px;
+            font-size: 16px;
+            border-radius: var(--radius-lg);
+        }
+
+        /* ============================================
+           HERO SECTION
+        ============================================ */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 40px 80px;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 50% at 50% -20%, rgba(37, 99, 235, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse 60% 40% at 100% 50%, rgba(16, 185, 129, 0.06) 0%, transparent 50%),
+                linear-gradient(180deg, var(--color-white) 0%, var(--color-snow) 100%);
+        }
+
+        .hero-pattern {
+            position: absolute;
+            inset: 0;
+            background-image:
+                radial-gradient(circle at 1px 1px, var(--color-cloud) 1px, transparent 1px);
+            background-size: 40px 40px;
+            opacity: 0.5;
+        }
+
+        .hero-content {
+            position: relative;
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .hero-text {
+            animation: fadeSlideUp 0.8s ease-out;
+        }
+
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 100px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-accent);
+            margin-bottom: 24px;
+        }
+
+        .hero-badge-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--color-accent);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(42px, 5vw, 64px);
+            font-weight: 600;
+            line-height: 1.1;
+            color: var(--color-midnight);
+            letter-spacing: -0.03em;
+            margin-bottom: 24px;
+        }
+
+        .hero-title-accent {
+            color: var(--color-primary);
+            font-style: italic;
+        }
+
+        .hero-subtitle {
+            font-size: 19px;
+            line-height: 1.7;
+            color: var(--color-slate);
+            max-width: 520px;
+            margin-bottom: 40px;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 48px;
+            margin-top: 56px;
+            padding-top: 40px;
+            border-top: 1px solid var(--color-cloud);
+        }
+
+        .hero-stat {
+            animation: fadeSlideUp 0.8s ease-out backwards;
+        }
+
+        .hero-stat:nth-child(1) { animation-delay: 0.2s; }
+        .hero-stat:nth-child(2) { animation-delay: 0.3s; }
+        .hero-stat:nth-child(3) { animation-delay: 0.4s; }
+
+        .hero-stat-value {
+            font-family: var(--font-display);
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--color-midnight);
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .hero-stat-value .accent {
+            color: var(--color-primary);
+        }
+
+        .hero-stat-label {
+            font-size: 14px;
+            color: var(--color-mist);
+            font-weight: 500;
+        }
+
+        /* Hero Visual */
+        .hero-visual {
+            position: relative;
+            animation: fadeSlideUp 0.8s ease-out 0.2s backwards;
+        }
+
+        .hero-card {
+            position: relative;
+            background: var(--color-white);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-xl);
+            overflow: hidden;
+            transform: perspective(1000px) rotateY(-5deg) rotateX(2deg);
+        }
+
+        .hero-card-image {
+            width: 100%;
+            height: 280px;
+            background:
+                linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, transparent 50%),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><rect fill="%23e8ecef" width="400" height="300"/><rect fill="%23d1d9e0" x="20" y="100" width="120" height="80" rx="8"/><rect fill="%23d1d9e0" x="160" y="80" width="100" height="100" rx="8"/><rect fill="%23d1d9e0" x="280" y="110" width="100" height="70" rx="8"/><circle fill="%23f59e0b" cx="340" cy="50" r="30" opacity="0.3"/></svg>');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero-card-content {
+            padding: 24px;
+        }
+
+        .hero-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .hero-card-title {
+            font-family: var(--font-display);
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--color-midnight);
+            margin-bottom: 4px;
+        }
+
+        .hero-card-location {
+            font-size: 14px;
+            color: var(--color-mist);
+        }
+
+        .hero-card-price {
+            text-align: right;
+        }
+
+        .hero-card-price-value {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--color-primary);
+        }
+
+        .hero-card-price-period {
+            font-size: 13px;
+            color: var(--color-mist);
+        }
+
+        .hero-card-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .hero-card-tag {
+            padding: 6px 12px;
+            background: var(--color-snow);
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--color-slate);
+        }
+
+        /* Floating elements */
+        .hero-float {
+            position: absolute;
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            padding: 16px 20px;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .hero-float-1 {
+            top: 20px;
+            right: -20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation-delay: -1s;
+        }
+
+        .hero-float-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .hero-float-icon.green {
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .hero-float-label {
+            font-size: 13px;
+            color: var(--color-mist);
+        }
+
+        .hero-float-value {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--color-midnight);
+        }
+
+        .hero-float-2 {
+            bottom: 80px;
+            left: -40px;
+            animation-delay: -2s;
+        }
+
+        .hero-float-icon.blue {
+            background: rgba(37, 99, 235, 0.1);
+        }
+
+        /* ============================================
+           PROBLEMS / PAIN POINTS SECTION
+        ============================================ */
+        .problems {
+            padding: 120px 40px;
+            background: var(--color-midnight);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .problems::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 200px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.02) 0%, transparent 100%);
+        }
+
+        .problems-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 16px;
+        }
+
+        .section-label.light {
+            color: var(--color-mist);
+        }
+
+        .section-label.dark {
+            color: var(--color-primary);
+        }
+
+        .problems-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .problems-title {
+            font-family: var(--font-display);
+            font-size: clamp(32px, 4vw, 48px);
+            font-weight: 600;
+            color: var(--color-white);
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            max-width: 700px;
+            margin: 0 auto 20px;
+        }
+
+        .problems-subtitle {
+            font-size: 18px;
+            color: var(--color-mist);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .problems-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .problem-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            transition: all 0.3s ease;
+        }
+
+        .problem-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-4px);
+        }
+
+        .problem-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+            background: rgba(244, 63, 94, 0.15);
+        }
+
+        .problem-title {
+            font-family: var(--font-display);
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--color-white);
+            margin-bottom: 12px;
+        }
+
+        .problem-description {
+            font-size: 15px;
+            color: var(--color-mist);
+            line-height: 1.6;
+        }
+
+        .problem-stat {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            font-size: 14px;
+        }
+
+        .problem-stat-value {
+            font-family: var(--font-display);
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--color-coral);
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .problem-stat-label {
+            color: var(--color-mist);
+        }
+
+        /* ============================================
+           SOLUTION / HOW IT WORKS
+        ============================================ */
+        .solution {
+            padding: 120px 40px;
+            background: var(--color-white);
+        }
+
+        .solution-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .solution-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .solution-title {
+            font-family: var(--font-display);
+            font-size: clamp(32px, 4vw, 48px);
+            font-weight: 600;
+            color: var(--color-midnight);
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            margin-bottom: 20px;
+        }
+
+        .solution-subtitle {
+            font-size: 18px;
+            color: var(--color-slate);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .solution-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 32px;
+        }
+
+        .solution-card {
+            text-align: center;
+            padding: 40px 24px;
+            background: var(--color-snow);
+            border-radius: var(--radius-xl);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .solution-card::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -16px;
+            width: 32px;
+            height: 2px;
+            background: var(--color-cloud);
+        }
+
+        .solution-card:last-child::before {
+            display: none;
+        }
+
+        .solution-card:hover {
+            background: var(--color-white);
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-8px);
+        }
+
+        .solution-card-number {
+            width: 40px;
+            height: 40px;
+            background: var(--color-primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 18px;
+            margin: 0 auto 24px;
+        }
+
+        .solution-card-icon {
+            width: 64px;
+            height: 64px;
+            background: var(--color-white);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin: 0 auto 20px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .solution-card-title {
+            font-family: var(--font-display);
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--color-midnight);
+            margin-bottom: 12px;
+        }
+
+        .solution-card-description {
+            font-size: 14px;
+            color: var(--color-slate);
+            line-height: 1.6;
+        }
+
+        /* ============================================
+           FEATURES / DIFFERENTIATORS
+        ============================================ */
+        .features {
+            padding: 120px 40px;
+            background: linear-gradient(180deg, var(--color-snow) 0%, var(--color-white) 100%);
+        }
+
+        .features-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .features-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .features-title {
+            font-family: var(--font-display);
+            font-size: clamp(32px, 4vw, 48px);
+            font-weight: 600;
+            color: var(--color-midnight);
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            margin-bottom: 20px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: var(--color-white);
+            border-radius: var(--radius-xl);
+            padding: 40px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--color-cloud);
+            transition: all 0.3s ease;
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 24px;
+            align-items: flex-start;
+        }
+
+        .feature-card:hover {
+            box-shadow: var(--shadow-lg);
+            border-color: transparent;
+            transform: translateY(-4px);
+        }
+
+        .feature-card.highlight {
+            grid-column: span 2;
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+            border: none;
+        }
+
+        .feature-card.highlight .feature-title,
+        .feature-card.highlight .feature-description {
+            color: white;
+        }
+
+        .feature-card.highlight .feature-description {
+            opacity: 0.9;
+        }
+
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            flex-shrink: 0;
+        }
+
+        .feature-icon.blue { background: rgba(37, 99, 235, 0.1); }
+        .feature-icon.green { background: rgba(16, 185, 129, 0.1); }
+        .feature-icon.amber { background: rgba(245, 158, 11, 0.1); }
+        .feature-icon.purple { background: rgba(139, 92, 246, 0.1); }
+        .feature-icon.white { background: rgba(255, 255, 255, 0.15); }
+
+        .feature-content {
+            min-width: 0;
+        }
+
+        .feature-title {
+            font-family: var(--font-display);
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--color-midnight);
+            margin-bottom: 12px;
+        }
+
+        .feature-description {
+            font-size: 15px;
+            color: var(--color-slate);
+            line-height: 1.7;
+        }
+
+        .feature-metrics {
+            display: flex;
+            gap: 32px;
+            margin-top: 20px;
+        }
+
+        .feature-metric {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .feature-metric-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        .feature-metric-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: white;
+        }
+
+        /* ============================================
+           COMPARISON SECTION
+        ============================================ */
+        .comparison {
+            padding: 120px 40px;
+            background: var(--color-white);
+        }
+
+        .comparison-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .comparison-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .comparison-title {
+            font-family: var(--font-display);
+            font-size: clamp(32px, 4vw, 42px);
+            font-weight: 600;
+            color: var(--color-midnight);
+            line-height: 1.2;
+            margin-bottom: 16px;
+        }
+
+        .comparison-table {
+            background: var(--color-white);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            border: 1px solid var(--color-cloud);
+        }
+
+        .comparison-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            border-bottom: 1px solid var(--color-cloud);
+        }
+
+        .comparison-row:last-child {
+            border-bottom: none;
+        }
+
+        .comparison-row.header {
+            background: var(--color-snow);
+        }
+
+        .comparison-cell {
+            padding: 20px 24px;
+            font-size: 15px;
+        }
+
+        .comparison-cell:not(:last-child) {
+            border-right: 1px solid var(--color-cloud);
+        }
+
+        .comparison-cell.label {
+            font-weight: 600;
+            color: var(--color-charcoal);
+        }
+
+        .comparison-cell.header {
+            font-weight: 700;
+            color: var(--color-midnight);
+            text-align: center;
+        }
+
+        .comparison-cell.roompilot {
+            background: rgba(37, 99, 235, 0.03);
+        }
+
+        .comparison-cell.value {
+            text-align: center;
+            color: var(--color-slate);
+        }
+
+        .comparison-good {
+            color: var(--color-accent) !important;
+            font-weight: 600;
+        }
+
+        .comparison-bad {
+            color: var(--color-coral) !important;
+        }
+
+        .comparison-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .comparison-logo-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .comparison-logo-icon.rp {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        .comparison-logo-icon.ps {
+            background: var(--color-mist);
+            color: white;
+        }
+
+        /* ============================================
+           DUAL CTA SECTION
+        ============================================ */
+        .dual-cta {
+            padding: 120px 40px;
+            background: var(--color-snow);
+        }
+
+        .dual-cta-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 32px;
+        }
+
+        .cta-card {
+            background: var(--color-white);
+            border-radius: var(--radius-xl);
+            padding: 48px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--color-cloud);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-card:hover {
+            box-shadow: var(--shadow-xl);
+            transform: translateY(-4px);
+        }
+
+        .cta-card.landlord {
+            background: linear-gradient(135deg, var(--color-charcoal) 0%, var(--color-midnight) 100%);
+            border: none;
+        }
+
+        .cta-card.landlord .cta-card-title,
+        .cta-card.landlord .cta-card-description,
+        .cta-card.landlord .cta-card-feature {
+            color: white;
+        }
+
+        .cta-card.landlord .cta-card-description {
+            opacity: 0.8;
+        }
+
+        .cta-card-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            background: rgba(37, 99, 235, 0.1);
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--color-primary);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .cta-card.landlord .cta-card-badge {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--color-accent-light);
+        }
+
+        .cta-card-title {
+            font-family: var(--font-display);
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--color-midnight);
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+
+        .cta-card-description {
+            font-size: 16px;
+            color: var(--color-slate);
+            line-height: 1.6;
+            margin-bottom: 32px;
+        }
+
+        .cta-card-features {
+            margin-bottom: 32px;
+        }
+
+        .cta-card-feature {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            font-size: 15px;
+            color: var(--color-charcoal);
+        }
+
+        .cta-card-feature:not(:last-child) {
+            border-bottom: 1px solid var(--color-cloud);
+        }
+
+        .cta-card.landlord .cta-card-feature:not(:last-child) {
+            border-bottom-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .cta-card-feature-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: rgba(16, 185, 129, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            color: var(--color-accent);
+            font-size: 14px;
+        }
+
+        .cta-card.landlord .cta-card-feature-icon {
+            background: rgba(16, 185, 129, 0.2);
+        }
+
+        .cta-card .btn {
+            width: 100%;
+        }
+
+        /* ============================================
+           FOOTER
+        ============================================ */
+        .footer {
+            background: var(--color-midnight);
+            padding: 80px 40px 40px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-top {
+            display: grid;
+            grid-template-columns: 2fr repeat(3, 1fr);
+            gap: 60px;
+            padding-bottom: 60px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .footer-brand {
+            max-width: 300px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .footer-logo-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--color-primary);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .footer-logo-text {
+            font-family: var(--font-display);
+            font-size: 22px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .footer-tagline {
+            font-size: 15px;
+            color: var(--color-mist);
+            line-height: 1.6;
+        }
+
+        .footer-column-title {
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--color-mist);
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-link {
+            margin-bottom: 12px;
+        }
+
+        .footer-link a {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .footer-link a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 40px;
+        }
+
+        .footer-copyright {
+            font-size: 14px;
+            color: var(--color-mist);
+        }
+
+        .footer-legal {
+            display: flex;
+            gap: 24px;
+        }
+
+        .footer-legal a {
+            font-size: 14px;
+            color: var(--color-mist);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .footer-legal a:hover {
+            color: white;
+        }
+
+        /* ============================================
+           RESPONSIVE
+        ============================================ */
+        @media (max-width: 1024px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 60px;
+                text-align: center;
+            }
+
+            .hero-subtitle {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .hero-ctas {
+                justify-content: center;
+            }
+
+            .hero-stats {
+                justify-content: center;
+            }
+
+            .hero-visual {
+                max-width: 500px;
+                margin: 0 auto;
+            }
+
+            .hero-card {
+                transform: none;
+            }
+
+            .problems-grid,
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .feature-card.highlight {
+                grid-column: span 1;
+            }
+
+            .solution-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .solution-card::before {
+                display: none;
+            }
+
+            .dual-cta-container {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-top {
+                grid-template-columns: 1fr 1fr;
+                gap: 40px;
+            }
+
+            .footer-brand {
+                grid-column: span 2;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav {
+                padding: 12px 20px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                padding: 100px 20px 60px;
+            }
+
+            .problems,
+            .solution,
+            .features,
+            .comparison,
+            .dual-cta {
+                padding: 80px 20px;
+            }
+
+            .hero-stats {
+                flex-direction: column;
+                gap: 24px;
+            }
+
+            .solution-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-table {
+                font-size: 14px;
+            }
+
+            .comparison-cell {
+                padding: 16px;
+            }
+
+            .footer-top {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-brand {
+                grid-column: span 1;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Navigation -->
+<nav class="nav">
+    <a href="#" class="nav-logo">
+        <div class="nav-logo-icon">R</div>
+        <span class="nav-logo-text">RoomPilot</span>
+    </a>
+
+    <div class="nav-links">
+        <a href="#" class="nav-link">Find a Room</a>
+        <a href="#" class="nav-link">List Your Property</a>
+        <a href="#" class="nav-link">How It Works</a>
+        <a href="#" class="nav-link">Pricing</a>
+    </div>
+
+    <div class="nav-actions">
+        <a href="#" class="btn btn-ghost">Log In</a>
+        <a href="#" class="btn btn-primary">Get Started</a>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-pattern"></div>
+
+    <div class="hero-content">
+        <div class="hero-text">
+            <div class="hero-badge">
+                <span class="hero-badge-dot"></span>
+                Now accepting early hosts
+            </div>
+
+            <h1 class="hero-title">
+                Room rentals,<br>
+                <span class="hero-title-accent">your way.</span>
+            </h1>
+
+            <p class="hero-subtitle">
+                The automation-first marketplace that gives co-living landlords full control, fast payouts, and fees that don't eat your profits.
+            </p>
+
+            <div class="hero-ctas">
+                <a href="#" class="btn btn-primary btn-lg">List Your Property</a>
+                <a href="#" class="btn btn-outline btn-lg">Find a Room</a>
+            </div>
+
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <div class="hero-stat-value"><span class="accent">2%</span></div>
+                    <div class="hero-stat-label">Platform fee</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-value">Daily</div>
+                    <div class="hero-stat-label">Payouts available</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-value">100%</div>
+                    <div class="hero-stat-label">Your control</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-visual">
+            <div class="hero-card">
+                <div class="hero-card-image"></div>
+                <div class="hero-card-content">
+                    <div class="hero-card-header">
+                        <div>
+                            <div class="hero-card-title">Sunny Private Room</div>
+                            <div class="hero-card-location">Midtown, Atlanta</div>
+                        </div>
+                        <div class="hero-card-price">
+                            <div class="hero-card-price-value">$165</div>
+                            <div class="hero-card-price-period">/week</div>
+                        </div>
+                    </div>
+                    <div class="hero-card-tags">
+                        <span class="hero-card-tag">Private bath</span>
+                        <span class="hero-card-tag">Furnished</span>
+                        <span class="hero-card-tag">Utilities incl.</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-float hero-float-1">
+                <div class="hero-float-icon green">⚡</div>
+                <div>
+                    <div class="hero-float-label">Payout sent</div>
+                    <div class="hero-float-value">$2,340.00</div>
+                </div>
+            </div>
+
+            <div class="hero-float hero-float-2">
+                <div class="hero-float-icon blue">✓</div>
+                <div>
+                    <div class="hero-float-label">Auto-collected</div>
+                    <div class="hero-float-value">Rent received</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Problems Section -->
+<section class="problems">
+    <div class="problems-container">
+        <div class="problems-header">
+            <div class="section-label light">The Problem</div>
+            <h2 class="problems-title">Current platforms take too much and give too little</h2>
+            <p class="problems-subtitle">Co-living landlords are stuck with high fees, slow payouts, and platforms that treat them like employees instead of partners.</p>
+        </div>
+
+        <div class="problems-grid">
+            <div class="problem-card">
+                <div class="problem-icon">💸</div>
+                <h3 class="problem-title">Crushing Fees</h3>
+                <p class="problem-description">Other platforms charge 8-10% of every payment, plus booking fees that take the first 10 days of rent. That's hundreds lost per room, per year.</p>
+                <div class="problem-stat">
+                    <span class="problem-stat-value">8%+</span>
+                    <span class="problem-stat-label">typical platform fee</span>
+                </div>
+            </div>
+
+            <div class="problem-card">
+                <div class="problem-icon">⏳</div>
+                <h3 class="problem-title">Glacial Payouts</h3>
+                <p class="problem-description">Monthly payouts with 30-day holds mean you're floating expenses while the platform sits on your money. Your cash flow shouldn't suffer for their convenience.</p>
+                <div class="problem-stat">
+                    <span class="problem-stat-value">30+ days</span>
+                    <span class="problem-stat-label">to see your money</span>
+                </div>
+            </div>
+
+            <div class="problem-card">
+                <div class="problem-icon">🎭</div>
+                <h3 class="problem-title">Zero Control</h3>
+                <p class="problem-description">Forced tenant transfers, strict house rules you didn't set, and fines you have to enforce. You own the property, but they run the show.</p>
+                <div class="problem-stat">
+                    <span class="problem-stat-value">$50</span>
+                    <span class="problem-stat-label">fines for minor violations</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Solution Section -->
+<section class="solution">
+    <div class="solution-container">
+        <div class="solution-header">
+            <div class="section-label dark">How It Works</div>
+            <h2 class="solution-title">Simple for everyone</h2>
+            <p class="solution-subtitle">Get started in minutes. List rooms, find tenants, collect rent—all on autopilot.</p>
+        </div>
+
+        <div class="solution-grid">
+            <div class="solution-card">
+                <div class="solution-card-number">1</div>
+                <div class="solution-card-icon">🏠</div>
+                <h3 class="solution-card-title">List Your Rooms</h3>
+                <p class="solution-card-description">Add photos, set your price and rules. Connect Stripe for instant payouts.</p>
+            </div>
+
+            <div class="solution-card">
+                <div class="solution-card-number">2</div>
+                <div class="solution-card-icon">👤</div>
+                <h3 class="solution-card-title">Review Applications</h3>
+                <p class="solution-card-description">Screen tenants your way. Approve who you want—we never force placements.</p>
+            </div>
+
+            <div class="solution-card">
+                <div class="solution-card-number">3</div>
+                <div class="solution-card-icon">🤖</div>
+                <h3 class="solution-card-title">Automate Everything</h3>
+                <p class="solution-card-description">Rent collection, reminders, late fees—all handled automatically.</p>
+            </div>
+
+            <div class="solution-card">
+                <div class="solution-card-number">4</div>
+                <div class="solution-card-icon">💰</div>
+                <h3 class="solution-card-title">Get Paid Fast</h3>
+                <p class="solution-card-description">Daily or weekly payouts. No more waiting a month to see your money.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features">
+    <div class="features-container">
+        <div class="features-header">
+            <div class="section-label dark">Why RoomPilot</div>
+            <h2 class="features-title">Built for landlords who want to stay in charge</h2>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card highlight">
+                <div class="feature-icon white">⚡</div>
+                <div class="feature-content">
+                    <h3 class="feature-title">2% fees. That's it.</h3>
+                    <p class="feature-description">No booking fees. No first-10-days skim. No hidden charges. Just a simple 2% transaction fee—or choose our flat $15/room monthly plan. Either way, you keep more of what you earn.</p>
+                    <div class="feature-metrics">
+                        <div class="feature-metric">
+                            <span class="feature-metric-icon">✓</span>
+                            <span class="feature-metric-text">Save $500+/year per room</span>
+                        </div>
+                        <div class="feature-metric">
+                            <span class="feature-metric-icon">✓</span>
+                            <span class="feature-metric-text">Transparent pricing</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon green">🏃</div>
+                <div class="feature-content">
+                    <h3 class="feature-title">Daily Payouts</h3>
+                    <p class="feature-description">Why wait 30 days? Get paid as tenants pay. Weekly billing means predictable income and faster access to your money via Stripe.</p>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon blue">🔐</div>
+                <div class="feature-content">
+                    <h3 class="feature-title">Your House, Your Rules</h3>
+                    <p class="feature-description">Set your own policies. Approve your own tenants. No forced transfers, no corporate meddling. You're the landlord—act like it.</p>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon amber">🤖</div>
+                <div class="feature-content">
+                    <h3 class="feature-title">Fully Automated</h3>
+                    <p class="feature-description">Payment reminders, late fees, receipts, notices—all handled automatically. Less admin work, more time for what matters.</p>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon purple">💬</div>
+                <div class="feature-content">
+                    <h3 class="feature-title">Built-in Communication</h3>
+                    <p class="feature-description">House group chats, direct messaging, maintenance requests. Keep everything in one place instead of juggling texts and emails.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Comparison Section -->
+<section class="comparison">
+    <div class="comparison-container">
+        <div class="comparison-header">
+            <div class="section-label dark">Compare</div>
+            <h2 class="comparison-title">See the difference</h2>
+        </div>
+
+        <div class="comparison-table">
+            <div class="comparison-row header">
+                <div class="comparison-cell label"></div>
+                <div class="comparison-cell header roompilot">
+                    <div class="comparison-logo">
+                        <div class="comparison-logo-icon rp">R</div>
+                        RoomPilot
+                    </div>
+                </div>
+                <div class="comparison-cell header">
+                    <div class="comparison-logo">
+                        <div class="comparison-logo-icon ps">P</div>
+                        PadSplit
+                    </div>
+                </div>
+            </div>
+
+            <div class="comparison-row">
+                <div class="comparison-cell label">Platform Fee</div>
+                <div class="comparison-cell value roompilot comparison-good">2%</div>
+                <div class="comparison-cell value comparison-bad">8%</div>
+            </div>
+
+            <div class="comparison-row">
+                <div class="comparison-cell label">Booking Fee</div>
+                <div class="comparison-cell value roompilot comparison-good">None</div>
+                <div class="comparison-cell value comparison-bad">First 10 days rent</div>
+            </div>
+
+            <div class="comparison-row">
+                <div class="comparison-cell label">Payouts</div>
+                <div class="comparison-cell value roompilot comparison-good">Daily / Weekly</div>
+                <div class="comparison-cell value">Monthly</div>
+            </div>
+
+            <div class="comparison-row">
+                <div class="comparison-cell label">Tenant Approval</div>
+                <div class="comparison-cell value roompilot comparison-good">You decide</div>
+                <div class="comparison-cell value">Platform assigns</div>
+            </div>
+
+            <div class="comparison-row">
+                <div class="comparison-cell label">Network Transfers</div>
+                <div class="comparison-cell value roompilot comparison-good">Not allowed</div>
+                <div class="comparison-cell value">Encouraged</div>
+            </div>
+
+            <div class="comparison-row">
+                <div class="comparison-cell label">House Rules</div>
+                <div class="comparison-cell value roompilot comparison-good">You set them</div>
+                <div class="comparison-cell value">Platform mandates</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Dual CTA Section -->
+<section class="dual-cta">
+    <div class="dual-cta-container">
+        <div class="cta-card landlord">
+            <span class="cta-card-badge">For Landlords</span>
+            <h3 class="cta-card-title">Start earning more from your rooms</h3>
+            <p class="cta-card-description">Join the marketplace that respects your business. Lower fees, faster payouts, and zero micromanagement.</p>
+
+            <div class="cta-card-features">
+                <div class="cta-card-feature">
+                    <span class="cta-card-feature-icon">✓</span>
+                    List unlimited rooms
+                </div>
+                <div class="cta-card-feature">
+                    <span class="cta-card-feature-icon">✓</span>
+                    Automated rent collection
+                </div>
+                <div class="cta-card-feature">
+                    <span class="cta-card-feature-icon">✓</span>
+                    Daily payouts via Stripe
+                </div>
+                <div class="cta-card-feature">
+                    <span class="cta-card-feature-icon">✓</span>
+                    Full tenant control
+                </div>
+            </div>
+
+            <a href="#" class="btn btn-primary btn-lg">List Your Property →</a>
+        </div>
+
+        <div class="cta-card">
+            <span class="cta-card-badge">For Renters</span>
+            <h3 class="cta-card-title">Find affordable rooms near you</h3>
+            <p class="cta-card-description">Browse private rooms at prices you can actually afford. No membership fees, no surprises. Just simple, honest renting.</p>
+
+            <div class="cta-card-features">
+                <div class="cta-card-feature">
+                    <span class="cta-card-feature-icon">✓</span>
+                    Weekly payment options
+                </div>
+                <div class="cta-card-feature">
+                    <span class="cta-card-feature-icon">✓</span>
+                    No hidden membership fees
+                </div>
+                <div class="cta-card-feature">
+                    <span class="cta-card-feature-icon">✓</span>
+                    Fast application process
+                </div>
+                <div class="cta-card-feature">
+                    <span class="cta-card-feature-icon">✓</span>
+                    Transparent pricing
+                </div>
+            </div>
+
+            <a href="#" class="btn btn-secondary btn-lg">Browse Rooms →</a>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-top">
+            <div class="footer-brand">
+                <div class="footer-logo">
+                    <div class="footer-logo-icon">R</div>
+                    <span class="footer-logo-text">RoomPilot</span>
+                </div>
+                <p class="footer-tagline">The automation-first room rental marketplace. More control. Lower fees. Faster payouts.</p>
+            </div>
+
+            <div class="footer-column">
+                <h4 class="footer-column-title">For Landlords</h4>
+                <ul class="footer-links">
+                    <li class="footer-link"><a href="#">List Your Property</a></li>
+                    <li class="footer-link"><a href="#">Pricing</a></li>
+                    <li class="footer-link"><a href="#">How It Works</a></li>
+                    <li class="footer-link"><a href="#">Success Stories</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4 class="footer-column-title">For Renters</h4>
+                <ul class="footer-links">
+                    <li class="footer-link"><a href="#">Find a Room</a></li>
+                    <li class="footer-link"><a href="#">How It Works</a></li>
+                    <li class="footer-link"><a href="#">FAQs</a></li>
+                    <li class="footer-link"><a href="#">Support</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4 class="footer-column-title">Company</h4>
+                <ul class="footer-links">
+                    <li class="footer-link"><a href="#">About</a></li>
+                    <li class="footer-link"><a href="#">Blog</a></li>
+                    <li class="footer-link"><a href="#">Careers</a></li>
+                    <li class="footer-link"><a href="#">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p class="footer-copyright">© 2025 RoomPilot. All rights reserved.</p>
+            <div class="footer-legal">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>
