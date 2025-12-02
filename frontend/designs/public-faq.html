@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - RoomPilot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-midnight: #0f1419;
+            --color-charcoal: #1a2332;
+            --color-slate: #3d4f5f;
+            --color-mist: #8899a6;
+            --color-cloud: #e8ecef;
+            --color-snow: #f7f9fa;
+            --color-white: #ffffff;
+            --color-primary: #2563eb;
+            --color-primary-light: #3b82f6;
+            --color-primary-dark: #1d4ed8;
+            --color-primary-bg: #eff6ff;
+            --color-accent: #10b981;
+            --color-accent-bg: #ecfdf5;
+            --color-warm: #f59e0b;
+            --color-warm-bg: #fffbeb;
+            --color-coral: #f43f5e;
+            --color-coral-bg: #fff1f2;
+            --font-display: 'Fraunces', Georgia, serif;
+            --font-body: 'DM Sans', -apple-system, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--color-midnight);
+            line-height: 1.6;
+        }
+
+        .nav {
+            background: var(--color-white);
+            border-bottom: 1px solid var(--color-cloud);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-primary);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--color-slate);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--color-primary);
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.625rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9375rem;
+            display: inline-block;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--color-slate);
+            border: 1px solid var(--color-cloud);
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-snow);
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            color: var(--color-white);
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-dark);
+        }
+
+        .btn-large {
+            padding: 1rem 2rem;
+            font-size: 1.125rem;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--color-primary-bg) 0%, var(--color-white) 100%);
+            padding: 4rem 2rem 3rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            color: var(--color-midnight);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.125rem;
+            color: var(--color-slate);
+            margin-bottom: 2rem;
+        }
+
+        .search-bar {
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 1rem 3rem 1rem 1.25rem;
+            border: 2px solid var(--color-cloud);
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            font-family: var(--font-body);
+            transition: border-color 0.2s;
+        }
+
+        .search-bar input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 1.25rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--color-mist);
+            font-size: 1.25rem;
+        }
+
+        .section {
+            padding: 4rem 2rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .category-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            border-bottom: 2px solid var(--color-cloud);
+            padding-bottom: 0;
+        }
+
+        .category-tab {
+            padding: 0.75rem 1.5rem;
+            background: none;
+            border: none;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--color-slate);
+            cursor: pointer;
+            position: relative;
+            transition: color 0.2s;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+        }
+
+        .category-tab:hover {
+            color: var(--color-primary);
+        }
+
+        .category-tab.active {
+            color: var(--color-primary);
+            border-bottom-color: var(--color-primary);
+        }
+
+        .faq-category {
+            margin-bottom: 3rem;
+        }
+
+        .faq-category.hidden {
+            display: none;
+        }
+
+        .category-title {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            color: var(--color-midnight);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--color-cloud);
+        }
+
+        .faq-item {
+            background: var(--color-white);
+            border: 1px solid var(--color-cloud);
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .faq-item.hidden {
+            display: none;
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 1.25rem;
+            background: none;
+            border: none;
+            text-align: left;
+            font-family: var(--font-body);
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--color-midnight);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-question:hover {
+            background: var(--color-snow);
+        }
+
+        .faq-icon {
+            transition: transform 0.3s;
+            flex-shrink: 0;
+            margin-left: 1rem;
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-answer-content {
+            padding: 0 1.25rem 1.25rem;
+            color: var(--color-slate);
+            line-height: 1.7;
+        }
+
+        .cta-section {
+            background: var(--color-snow);
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            color: var(--color-midnight);
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            font-size: 1.125rem;
+            color: var(--color-slate);
+            margin-bottom: 2rem;
+        }
+
+        .footer {
+            background: var(--color-midnight);
+            color: var(--color-cloud);
+            padding: 3rem 2rem 1.5rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer h4 {
+            color: var(--color-white);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .footer ul {
+            list-style: none;
+        }
+
+        .footer ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer a {
+            color: var(--color-cloud);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer a:hover {
+            color: var(--color-white);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--color-slate);
+            padding-top: 1.5rem;
+            text-align: center;
+            color: var(--color-mist);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .category-tabs {
+                gap: 0.5rem;
+            }
+
+            .category-tab {
+                padding: 0.5rem 1rem;
+                font-size: 0.875rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="landing.html" class="logo">RoomPilot</a>
+            <ul class="nav-links">
+                <li><a href="public-how-it-works-renters.html">For Renters</a></li>
+                <li><a href="public-how-it-works-landlords.html">For Hosts</a></li>
+                <li><a href="public-pricing.html">Pricing</a></li>
+                <li><a href="public-trust-safety.html">Trust & Safety</a></li>
+                <li><a href="public-faq.html">FAQ</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="#" class="btn btn-secondary">Log In</a>
+                <a href="#" class="btn btn-primary">Sign Up</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <h1>Frequently Asked Questions</h1>
+        <p>Find answers to common questions about RoomPilot</p>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search for answers...">
+            <span class="search-icon">🔍</span>
+        </div>
+    </section>
+
+    <!-- Category Tabs -->
+    <section class="section">
+        <div class="container">
+            <div class="category-tabs">
+                <button class="category-tab active" data-category="all">All</button>
+                <button class="category-tab" data-category="getting-started">Getting Started</button>
+                <button class="category-tab" data-category="hosts">For Hosts</button>
+                <button class="category-tab" data-category="renters">For Renters</button>
+                <button class="category-tab" data-category="payments">Payments</button>
+                <button class="category-tab" data-category="account">Account</button>
+                <button class="category-tab" data-category="trust">Trust & Safety</button>
+            </div>
+
+            <!-- Getting Started -->
+            <div class="faq-category" data-category="getting-started">
+                <h2 class="category-title">Getting Started</h2>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        What is RoomPilot?
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            RoomPilot is a rental platform that connects hosts with people looking for affordable rooms. We offer flexible weekly rent payments, low upfront costs, and automated property management tools. Unlike traditional apartments, we focus on room rentals with month-to-month agreements and no credit checks required.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        How is RoomPilot different from other rental platforms?
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            We charge significantly lower fees (2% vs 12%+ competitors), offer weekly rent collection, don't require credit checks, and give hosts full control over who lives in their property. Renters benefit from no membership fees and extremely low move-in costs.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        How do I create an account?
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Click "Sign Up" in the top right corner, enter your email and create a password. You'll need to verify your email address. Then complete your profile with basic information. For hosts, you'll also need to verify your identity and connect a Stripe account to receive payments.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Is RoomPilot available in my area?
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            We're currently available in most major US cities. Use the search function to see if there are listings in your area. We're rapidly expanding to new cities every month. Sign up for our newsletter to get notified when we launch in your city.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- For Hosts -->
+            <div class="faq-category" data-category="hosts">
+                <h2 class="category-title">For Hosts</h2>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        How much does it cost to list my property?
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Listing is completely free. You only pay when you start earning rent. Choose between our Transaction Fee Plan (2% per payment, no monthly fee) or Flat Rate Plan ($15/room/month, 0% transaction fees). See our pricing page for a detailed comparison.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        How long does it take to get approved as a host?
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Most hosts are approved within 1-2 business days after completing identity verification and Stripe Connect setup. You can start creating your listing immediately, but it won't go live until verification is complete.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Do I have to accept every applicant?
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            No! You have complete control over who lives in your property. Review applications, request background checks, conduct interviews, and approve or decline based on your criteria. However, you must comply with Fair Housing laws and cannot discriminate based on protected classes.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        When do I get paid?
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            You can choose daily or weekly payouts through Stripe Connect. Funds are typically deposited 1-2 business days after rent is collected from tenants. Track all your earnings in real-time through the dashboard.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        What if a tenant doesn't pay rent?
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Rent is automatically charged to the tenant's payment method. If a payment fails, automatic retries occur and late fees are applied per your settings. If payment continues to fail, you can use our eviction resources and legal templates to begin the removal process according to local laws.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Can I manage multiple properties?
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Yes! There's no limit to the number of properties or rooms you can manage. The dashboard gives you a unified view of all properties, tenants, and payments. Switch between properties easily to manage listings, applications, and maintenance requests.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- For Renters -->
+            <div class="faq-category" data-category="renters">
+                <h2 class="category-title">For Renters</h2>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Do I need good credit to rent?
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            No! RoomPilot doesn't require credit checks. Individual hosts may request optional background checks, but credit score is not a factor. We believe everyone deserves access to safe, affordable housing regardless of their credit history.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        How much does it cost to move in?
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Typically just your first week's rent (or first month if paying monthly). Some hosts may require a small security deposit ($100-$300), but there are no application fees, membership fees, or massive upfront deposits like traditional apartments.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Can I tour the room before applying?
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Absolutely! We recommend touring any room before committing. Use our messaging system to contact the host and schedule a time to visit. Many hosts also offer video tours if you're relocating from another city.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Are utilities included in rent?
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            It varies by listing. Each room clearly shows what's included (WiFi, electricity, water, etc.) and what you'll pay separately. Filter search results to show only "utilities included" if that's important to you.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        What if I need to move out early?
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Most rentals are month-to-month with 30 days notice required. Check your specific lease agreement for details. There are no lease-breaking penalties or fees for ending a month-to-month agreement with proper notice.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Can I have guests or visitors?
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Guest policies are set by individual hosts and listed in the house rules. Some allow unlimited guests, others have restrictions on overnight visitors. Read the house rules carefully before applying and ask the host if you have questions.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payments -->
+            <div class="faq-category" data-category="payments">
+                <h2 class="category-title">Payments</h2>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        What payment methods are accepted?
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            We accept all major credit cards (Visa, Mastercard, American Express, Discover) and ACH bank transfers through Stripe. ACH transfers are free, while card payments have a small processing fee (typically 2.9% + $0.30).
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Is it safe to pay through RoomPilot?
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Yes! All payments are processed through Stripe, which is PCI DSS Level 1 certified and uses bank-level 256-bit SSL encryption. We never store your payment information on our servers. Never send money outside the platform or via wire transfer.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Can I pay rent weekly instead of monthly?
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Yes! If the listing offers weekly payments, you can choose to pay weekly instead of monthly. This helps budget rent if you're paid weekly or bi-weekly. Set up autopay so you never miss a payment.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        What happens if my payment fails?
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            You'll receive an email notification immediately. The system will automatically retry the payment over the next few days. Late fees may apply per your lease terms. Update your payment method in settings to resolve the issue and avoid additional fees.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        How do security deposits work?
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Security deposits are held in escrow during your lease. When you move out, the host has 14 days to claim deductions with photo evidence of damages. If no claims are made or you dispute them successfully, the full deposit is returned to your original payment method.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Account -->
+            <div class="faq-category" data-category="account">
+                <h2 class="category-title">Account</h2>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        How do I reset my password?
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Click "Log In" then "Forgot Password". Enter your email address and we'll send you a password reset link. The link expires after 24 hours for security. If you don't receive the email, check your spam folder.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Can I have both a renter and host account?
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Yes! One account can be used for both renting and hosting. Simply switch between "Host Mode" and "Renter Mode" in the dashboard. Your profile information stays the same, but you'll see different features depending on which mode you're in.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        How do I delete my account?
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Go to Settings > Account > Delete Account. You must cancel all active leases and listings first. Once deleted, all your data is permanently removed within 30 days per GDPR requirements. This action cannot be undone.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        How do I update my profile information?
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Click your profile icon in the top right, then select "Settings". From there you can update your name, email, phone number, profile photo, and bio. Changes are saved automatically. Some changes (like email) require verification.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trust & Safety -->
+            <div class="faq-category" data-category="trust">
+                <h2 class="category-title">Trust & Safety</h2>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        How are hosts verified?
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            All hosts must verify their identity with a government-issued ID, pass Stripe KYC verification, and prove property ownership. We also verify contact information and conduct background screening when necessary.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        What if I encounter a scam?
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Report it immediately using the "Report" button in any conversation or listing. Never send money outside the platform, share banking details, or wire transfer deposits. All legitimate transactions go through RoomPilot's secure payment system. Our team investigates all reports within 24 hours.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        How do background checks work?
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Background checks are optional and requested by hosts. You'll receive a secure link to authorize the check, which includes criminal history, eviction records, and identity verification. Reports are valid for 30 days and can be shared with multiple hosts. You control who sees your report.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        What happens if there's a dispute?
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Contact our support team through the Resolution Center. We'll mediate between both parties, review evidence (messages, photos, lease terms), and make a fair determination. For serious disputes, we offer professional mediation services and legal resources.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Still Have Questions?</h2>
+            <p>Our support team is here to help 24/7</p>
+            <a href="#" class="btn btn-primary btn-large">Contact Support</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div>
+                <h4>RoomPilot</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Press</a></li>
+                    <li><a href="#">Blog</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>For Renters</h4>
+                <ul>
+                    <li><a href="public-how-it-works-renters.html">How It Works</a></li>
+                    <li><a href="search-page.html">Find a Room</a></li>
+                    <li><a href="public-trust-safety.html">Trust & Safety</a></li>
+                    <li><a href="#">Renter Resources</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>For Hosts</h4>
+                <ul>
+                    <li><a href="public-how-it-works-landlords.html">Become a Host</a></li>
+                    <li><a href="#">List Your Property</a></li>
+                    <li><a href="public-pricing.html">Pricing</a></li>
+                    <li><a href="#">Host Resources</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="public-faq.html">FAQ</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="public-terms.html">Terms of Service</a></li>
+                    <li><a href="public-privacy.html">Privacy Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 RoomPilot. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const faqItem = button.parentElement;
+                const isActive = faqItem.classList.contains('active');
+
+                // Close all items
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    item.classList.remove('active');
+                    item.querySelector('.faq-answer').style.maxHeight = null;
+                });
+
+                // Open clicked item if it wasn't active
+                if (!isActive) {
+                    faqItem.classList.add('active');
+                    const answer = faqItem.querySelector('.faq-answer');
+                    answer.style.maxHeight = answer.scrollHeight + 'px';
+                }
+            });
+        });
+
+        // Category Tabs
+        document.querySelectorAll('.category-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const category = tab.dataset.category;
+
+                // Update active tab
+                document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                // Show/hide categories
+                document.querySelectorAll('.faq-category').forEach(cat => {
+                    if (category === 'all') {
+                        cat.classList.remove('hidden');
+                    } else {
+                        if (cat.dataset.category === category) {
+                            cat.classList.remove('hidden');
+                        } else {
+                            cat.classList.add('hidden');
+                        }
+                    }
+                });
+
+                // Clear search
+                document.getElementById('searchInput').value = '';
+            });
+        });
+
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+
+            // If search is empty, show all based on active category
+            if (searchTerm === '') {
+                const activeTab = document.querySelector('.category-tab.active');
+                const activeCategory = activeTab.dataset.category;
+
+                document.querySelectorAll('.faq-category').forEach(cat => {
+                    if (activeCategory === 'all') {
+                        cat.classList.remove('hidden');
+                    } else {
+                        cat.dataset.category === activeCategory ?
+                            cat.classList.remove('hidden') :
+                            cat.classList.add('hidden');
+                    }
+                });
+
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    item.classList.remove('hidden');
+                });
+                return;
+            }
+
+            // Show all categories when searching
+            document.querySelectorAll('.faq-category').forEach(cat => {
+                cat.classList.remove('hidden');
+            });
+
+            // Filter FAQ items
+            document.querySelectorAll('.faq-item').forEach(item => {
+                const question = item.querySelector('.faq-question').textContent.toLowerCase();
+                const answer = item.querySelector('.faq-answer-content').textContent.toLowerCase();
+
+                if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+                    item.classList.remove('hidden');
+                } else {
+                    item.classList.add('hidden');
+                }
+            });
+
+            // Hide empty categories
+            document.querySelectorAll('.faq-category').forEach(cat => {
+                const visibleItems = cat.querySelectorAll('.faq-item:not(.hidden)');
+                if (visibleItems.length === 0) {
+                    cat.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maintenance Requests | RoomPilot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-midnight: #0f1419;
+            --color-charcoal: #1a2332;
+            --color-slate: #3d4f5f;
+            --color-mist: #8899a6;
+            --color-cloud: #e8ecef;
+            --color-snow: #f7f9fa;
+            --color-white: #ffffff;
+            --color-primary: #2563eb;
+            --color-primary-light: #3b82f6;
+            --color-primary-dark: #1d4ed8;
+            --color-primary-bg: #eff6ff;
+            --color-accent: #10b981;
+            --color-accent-bg: #ecfdf5;
+            --color-warm: #f59e0b;
+            --color-warm-bg: #fffbeb;
+            --color-coral: #f43f5e;
+            --color-coral-bg: #fff1f2;
+            --font-display: 'Fraunces', Georgia, serif;
+            --font-body: 'DM Sans', -apple-system, sans-serif;
+            --shadow-sm: 0 1px 2px rgba(15, 20, 25, 0.05);
+            --shadow-md: 0 4px 12px rgba(15, 20, 25, 0.08);
+            --shadow-lg: 0 12px 40px rgba(15, 20, 25, 0.12);
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --nav-height: 72px;
+            --sidebar-width: 260px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: 15px;
+            line-height: 1.5;
+            color: var(--color-charcoal);
+            background: var(--color-snow);
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            height: var(--nav-height);
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--color-white);
+            border-bottom: 1px solid var(--color-cloud);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .nav-logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .nav-logo-text {
+            font-family: var(--font-display);
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--color-midnight);
+        }
+
+        .nav-user {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 6px 12px 6px 6px;
+            background: var(--color-snow);
+            border-radius: 100px;
+        }
+
+        .nav-user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--color-accent-light) 0%, var(--color-accent) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: var(--nav-height);
+            left: 0;
+            bottom: 0;
+            width: var(--sidebar-width);
+            background: var(--color-white);
+            border-right: 1px solid var(--color-cloud);
+            padding: 24px 16px;
+            overflow-y: auto;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: var(--radius-md);
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--color-slate);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            margin-bottom: 4px;
+        }
+
+        .sidebar-link:hover {
+            background: var(--color-snow);
+        }
+
+        .sidebar-link.active {
+            background: var(--color-primary-bg);
+            color: var(--color-primary);
+        }
+
+        /* Main Content */
+        .main {
+            margin-left: var(--sidebar-width);
+            margin-top: var(--nav-height);
+            min-height: calc(100vh - var(--nav-height));
+            padding: 32px;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 32px;
+        }
+
+        .page-title {
+            font-family: var(--font-display);
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--color-midnight);
+            margin-bottom: 8px;
+        }
+
+        .page-subtitle {
+            font-size: 16px;
+            color: var(--color-slate);
+        }
+
+        /* Request List */
+        .request-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .request-card {
+            background: var(--color-white);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--color-cloud);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .request-card:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        .request-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 24px;
+            cursor: pointer;
+        }
+
+        .request-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .request-icon.plumbing { background: var(--color-primary-bg); }
+        .request-icon.electrical { background: var(--color-warm-bg); }
+        .request-icon.appliance { background: var(--color-accent-bg); }
+        .request-icon.other { background: var(--color-snow); }
+
+        .request-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .request-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+            margin-bottom: 4px;
+        }
+
+        .request-meta {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 14px;
+            color: var(--color-mist);
+        }
+
+        .request-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .status-badge.submitted {
+            background: var(--color-primary-bg);
+            color: var(--color-primary);
+        }
+
+        .status-badge.in-progress {
+            background: var(--color-warm-bg);
+            color: var(--color-warm);
+        }
+
+        .status-badge.resolved {
+            background: var(--color-accent-bg);
+            color: var(--color-accent);
+        }
+
+        .request-expand-icon {
+            color: var(--color-mist);
+            transition: transform 0.3s ease;
+        }
+
+        .request-card.expanded .request-expand-icon {
+            transform: rotate(180deg);
+        }
+
+        /* Request Detail */
+        .request-detail {
+            display: none;
+            padding: 0 24px 24px 24px;
+            border-top: 1px solid var(--color-cloud);
+        }
+
+        .request-card.expanded .request-detail {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                max-height: 0;
+            }
+            to {
+                opacity: 1;
+                max-height: 1000px;
+            }
+        }
+
+        .request-description {
+            padding: 20px 0;
+        }
+
+        .request-description-label {
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--color-mist);
+            margin-bottom: 8px;
+        }
+
+        .request-description-text {
+            font-size: 15px;
+            color: var(--color-slate);
+            line-height: 1.6;
+        }
+
+        .request-photos {
+            padding: 20px 0;
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 12px;
+        }
+
+        .photo-item {
+            aspect-ratio: 1;
+            border-radius: var(--radius-md);
+            background: var(--color-snow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .photo-item:hover {
+            transform: scale(1.05);
+        }
+
+        /* Timeline */
+        .request-timeline {
+            padding: 20px 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 16px;
+            padding-bottom: 20px;
+            position: relative;
+        }
+
+        .timeline-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 40px;
+            bottom: 0;
+            width: 2px;
+            background: var(--color-cloud);
+        }
+
+        .timeline-dot {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--color-white);
+            border: 3px solid var(--color-cloud);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            z-index: 1;
+        }
+
+        .timeline-dot.active {
+            border-color: var(--color-accent);
+            background: var(--color-accent);
+            color: white;
+        }
+
+        .timeline-content {
+            flex: 1;
+            padding-top: 4px;
+        }
+
+        .timeline-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+            margin-bottom: 2px;
+        }
+
+        .timeline-time {
+            font-size: 13px;
+            color: var(--color-mist);
+        }
+
+        /* Communication Thread */
+        .communication-thread {
+            padding: 20px 0;
+        }
+
+        .thread-message {
+            display: flex;
+            gap: 12px;
+            padding: 16px;
+            background: var(--color-snow);
+            border-radius: var(--radius-lg);
+            margin-bottom: 12px;
+        }
+
+        .thread-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--color-primary-light), var(--color-primary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .thread-content {
+            flex: 1;
+        }
+
+        .thread-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+
+        .thread-author {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+        }
+
+        .thread-time {
+            font-size: 13px;
+            color: var(--color-mist);
+        }
+
+        .thread-text {
+            font-size: 14px;
+            color: var(--color-slate);
+            line-height: 1.5;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 2000;
+            background: rgba(15, 20, 25, 0.5);
+            backdrop-filter: blur(4px);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+            animation: fadeIn 0.2s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: var(--radius-xl);
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--color-cloud);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--color-midnight);
+        }
+
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: transparent;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--color-mist);
+            transition: all 0.2s ease;
+        }
+
+        .modal-close:hover {
+            background: var(--color-snow);
+            color: var(--color-charcoal);
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+            margin-bottom: 8px;
+        }
+
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--color-cloud);
+            border-radius: var(--radius-md);
+            font-family: var(--font-body);
+            font-size: 15px;
+            color: var(--color-charcoal);
+            transition: all 0.2s ease;
+        }
+
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px var(--color-primary-bg);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .photo-upload {
+            border: 2px dashed var(--color-cloud);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .photo-upload:hover {
+            border-color: var(--color-primary);
+            background: var(--color-primary-bg);
+        }
+
+        .photo-upload-icon {
+            font-size: 40px;
+            margin-bottom: 12px;
+        }
+
+        .photo-upload-text {
+            font-size: 14px;
+            color: var(--color-slate);
+        }
+
+        .urgency-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .urgency-option {
+            padding: 16px;
+            border: 2px solid var(--color-cloud);
+            border-radius: var(--radius-lg);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .urgency-option:hover {
+            border-color: var(--color-charcoal);
+        }
+
+        .urgency-option.selected {
+            border-color: var(--color-primary);
+            background: var(--color-primary-bg);
+        }
+
+        .urgency-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+            margin-top: 8px;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 24px;
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-dark);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--color-charcoal);
+            border: 1px solid var(--color-cloud);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--color-charcoal);
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 20px 16px;
+            }
+
+            .urgency-options {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="#" class="nav-logo">
+            <div class="nav-logo-icon">R</div>
+            <span class="nav-logo-text">RoomPilot</span>
+        </a>
+        <div class="nav-user">
+            <div class="nav-user-avatar">JD</div>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <a href="resident-dashboard.html" class="sidebar-link">
+            <span style="font-size: 18px;">🏠</span>
+            Dashboard
+        </a>
+        <a href="renter-payments.html" class="sidebar-link">
+            <span style="font-size: 18px;">💳</span>
+            Payments
+        </a>
+        <a href="renter-messages.html" class="sidebar-link">
+            <span style="font-size: 18px;">💬</span>
+            Messages
+        </a>
+        <a href="renter-maintenance.html" class="sidebar-link active">
+            <span style="font-size: 18px;">🔧</span>
+            Maintenance
+        </a>
+        <a href="#" class="sidebar-link">
+            <span style="font-size: 18px;">📄</span>
+            Documents
+        </a>
+        <a href="renter-settings.html" class="sidebar-link">
+            <span style="font-size: 18px;">⚙️</span>
+            Settings
+        </a>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="page-header">
+            <div>
+                <h1 class="page-title">Maintenance Requests</h1>
+                <p class="page-subtitle">Report and track maintenance issues</p>
+            </div>
+            <button class="btn btn-primary" onclick="openNewRequestModal()">
+                <span>+</span>
+                New Request
+            </button>
+        </div>
+
+        <div class="request-list">
+            <!-- Request 1 -->
+            <div class="request-card" onclick="toggleRequest(this)">
+                <div class="request-header">
+                    <div class="request-icon plumbing">🚰</div>
+                    <div class="request-info">
+                        <div class="request-title">Leaky bathroom faucet</div>
+                        <div class="request-meta">
+                            <div class="request-meta-item">
+                                <span>📅</span>
+                                Submitted Nov 28, 2024
+                            </div>
+                        </div>
+                    </div>
+                    <span class="status-badge in-progress">In Progress</span>
+                    <svg class="request-expand-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"/>
+                    </svg>
+                </div>
+                <div class="request-detail">
+                    <div class="request-description">
+                        <div class="request-description-label">Description</div>
+                        <div class="request-description-text">
+                            The bathroom sink faucet has been dripping constantly for the past few days. It seems to be getting worse and is wasting a lot of water.
+                        </div>
+                    </div>
+
+                    <div class="request-photos">
+                        <div class="request-description-label">Photos</div>
+                        <div class="photo-grid">
+                            <div class="photo-item">🚰</div>
+                            <div class="photo-item">💧</div>
+                        </div>
+                    </div>
+
+                    <div class="request-timeline">
+                        <div class="request-description-label">Status Timeline</div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot active">✓</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">Request Submitted</div>
+                                <div class="timeline-time">Nov 28, 2024 at 10:30 AM</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot active">✓</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">Reviewed by Host</div>
+                                <div class="timeline-time">Nov 28, 2024 at 2:15 PM</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot">⏳</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">Repair Scheduled</div>
+                                <div class="timeline-time">Dec 3, 2024 at 2:00 PM</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="communication-thread">
+                        <div class="request-description-label">Communication</div>
+                        <div class="thread-message">
+                            <div class="thread-avatar">M</div>
+                            <div class="thread-content">
+                                <div class="thread-header">
+                                    <span class="thread-author">Marcus (Host)</span>
+                                    <span class="thread-time">Nov 28, 2:15 PM</span>
+                                </div>
+                                <div class="thread-text">
+                                    Thanks for reporting this! I've contacted our plumber and he'll be there Tuesday afternoon to fix it.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Request 2 -->
+            <div class="request-card" onclick="toggleRequest(this)">
+                <div class="request-header">
+                    <div class="request-icon electrical">⚡</div>
+                    <div class="request-info">
+                        <div class="request-title">Bedroom light switch not working</div>
+                        <div class="request-meta">
+                            <div class="request-meta-item">
+                                <span>📅</span>
+                                Submitted Nov 15, 2024
+                            </div>
+                        </div>
+                    </div>
+                    <span class="status-badge resolved">Resolved</span>
+                    <svg class="request-expand-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"/>
+                    </svg>
+                </div>
+                <div class="request-detail">
+                    <div class="request-description">
+                        <div class="request-description-label">Description</div>
+                        <div class="request-description-text">
+                            The light switch in my bedroom stopped working. The light doesn't turn on at all.
+                        </div>
+                    </div>
+
+                    <div class="request-timeline">
+                        <div class="request-description-label">Status Timeline</div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot active">✓</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">Request Submitted</div>
+                                <div class="timeline-time">Nov 15, 2024 at 9:00 AM</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot active">✓</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">Repair Completed</div>
+                                <div class="timeline-time">Nov 16, 2024 at 11:30 AM</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot active">✓</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">Marked as Resolved</div>
+                                <div class="timeline-time">Nov 16, 2024 at 3:00 PM</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Request 3 -->
+            <div class="request-card" onclick="toggleRequest(this)">
+                <div class="request-header">
+                    <div class="request-icon appliance">🌡️</div>
+                    <div class="request-info">
+                        <div class="request-title">Thermostat reading incorrect</div>
+                        <div class="request-meta">
+                            <div class="request-meta-item">
+                                <span>📅</span>
+                                Submitted Dec 1, 2024
+                            </div>
+                        </div>
+                    </div>
+                    <span class="status-badge submitted">Submitted</span>
+                    <svg class="request-expand-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"/>
+                    </svg>
+                </div>
+                <div class="request-detail">
+                    <div class="request-description">
+                        <div class="request-description-label">Description</div>
+                        <div class="request-description-text">
+                            The thermostat in the hallway shows 68°F but it feels warmer than that. Might need calibration.
+                        </div>
+                    </div>
+
+                    <div class="request-timeline">
+                        <div class="request-description-label">Status Timeline</div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot active">✓</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">Request Submitted</div>
+                                <div class="timeline-time">Dec 1, 2024 at 11:42 AM</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot">⏳</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">Pending Review</div>
+                                <div class="timeline-time">Awaiting host response</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- New Request Modal -->
+    <div class="modal" id="newRequestModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">New Maintenance Request</h2>
+                <button class="modal-close" onclick="closeNewRequestModal()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="submitRequest(event)">
+                    <div class="form-group">
+                        <label class="form-label">Issue Category</label>
+                        <select class="form-select" required>
+                            <option value="">Select a category...</option>
+                            <option value="plumbing">Plumbing</option>
+                            <option value="electrical">Electrical</option>
+                            <option value="hvac">Heating/Cooling</option>
+                            <option value="appliance">Appliance</option>
+                            <option value="structural">Structural</option>
+                            <option value="pest">Pest Control</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-textarea" placeholder="Please describe the issue in detail..." required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Upload Photos (Optional)</label>
+                        <div class="photo-upload">
+                            <div class="photo-upload-icon">📷</div>
+                            <div class="photo-upload-text">Click to upload or drag and drop</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Urgency Level</label>
+                        <div class="urgency-options">
+                            <div class="urgency-option" onclick="selectUrgency(this, 'low')">
+                                <div style="font-size: 32px;">🟢</div>
+                                <div class="urgency-label">Low</div>
+                            </div>
+                            <div class="urgency-option selected" onclick="selectUrgency(this, 'medium')">
+                                <div style="font-size: 32px;">🟡</div>
+                                <div class="urgency-label">Medium</div>
+                            </div>
+                            <div class="urgency-option" onclick="selectUrgency(this, 'high')">
+                                <div style="font-size: 32px;">🔴</div>
+                                <div class="urgency-label">High</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 12px; margin-top: 32px;">
+                        <button type="button" class="btn btn-outline" style="flex: 1;" onclick="closeNewRequestModal()">Cancel</button>
+                        <button type="submit" class="btn btn-primary" style="flex: 1;">Submit Request</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleRequest(card) {
+            // Don't toggle if clicking inside the detail section
+            if (event.target.closest('.request-detail')) {
+                return;
+            }
+            card.classList.toggle('expanded');
+        }
+
+        function openNewRequestModal() {
+            document.getElementById('newRequestModal').classList.add('active');
+        }
+
+        function closeNewRequestModal() {
+            document.getElementById('newRequestModal').classList.remove('active');
+        }
+
+        function selectUrgency(element, level) {
+            document.querySelectorAll('.urgency-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            element.classList.add('selected');
+        }
+
+        function submitRequest(event) {
+            event.preventDefault();
+            alert('Maintenance request submitted successfully!');
+            closeNewRequestModal();
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('newRequestModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeNewRequestModal();
+            }
+        });
+    </script>
+</body>
+</html>

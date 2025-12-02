@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How It Works for Renters - RoomPilot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-midnight: #0f1419;
+            --color-charcoal: #1a2332;
+            --color-slate: #3d4f5f;
+            --color-mist: #8899a6;
+            --color-cloud: #e8ecef;
+            --color-snow: #f7f9fa;
+            --color-white: #ffffff;
+            --color-primary: #2563eb;
+            --color-primary-light: #3b82f6;
+            --color-primary-dark: #1d4ed8;
+            --color-primary-bg: #eff6ff;
+            --color-accent: #10b981;
+            --color-accent-bg: #ecfdf5;
+            --color-warm: #f59e0b;
+            --color-warm-bg: #fffbeb;
+            --color-coral: #f43f5e;
+            --color-coral-bg: #fff1f2;
+            --font-display: 'Fraunces', Georgia, serif;
+            --font-body: 'DM Sans', -apple-system, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--color-midnight);
+            line-height: 1.6;
+        }
+
+        .nav {
+            background: var(--color-white);
+            border-bottom: 1px solid var(--color-cloud);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-primary);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--color-slate);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--color-primary);
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.625rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9375rem;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--color-slate);
+            border: 1px solid var(--color-cloud);
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-snow);
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            color: var(--color-white);
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-dark);
+        }
+
+        .btn-large {
+            padding: 1rem 2rem;
+            font-size: 1.125rem;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--color-primary-bg) 0%, var(--color-white) 100%);
+            padding: 5rem 2rem;
+            text-align: center;
+        }
+
+        .hero-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            color: var(--color-midnight);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--color-slate);
+            margin-bottom: 2rem;
+        }
+
+        .section {
+            padding: 5rem 2rem;
+        }
+
+        .section-alt {
+            background: var(--color-snow);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            color: var(--color-midnight);
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            font-size: 1.125rem;
+            color: var(--color-slate);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .step {
+            text-align: center;
+        }
+
+        .step-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--color-primary-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+        }
+
+        .step-number {
+            display: inline-block;
+            width: 32px;
+            height: 32px;
+            background: var(--color-primary);
+            color: var(--color-white);
+            border-radius: 50%;
+            font-weight: 700;
+            line-height: 32px;
+            margin-bottom: 1rem;
+        }
+
+        .step h3 {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            color: var(--color-midnight);
+            margin-bottom: 1rem;
+        }
+
+        .step p {
+            color: var(--color-slate);
+            line-height: 1.7;
+        }
+
+        .benefits {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .benefit-card {
+            background: var(--color-white);
+            padding: 2rem;
+            border-radius: 1rem;
+            border: 1px solid var(--color-cloud);
+        }
+
+        .benefit-card h4 {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            color: var(--color-midnight);
+            margin-bottom: 0.75rem;
+        }
+
+        .benefit-card p {
+            color: var(--color-slate);
+        }
+
+        .comparison {
+            background: var(--color-white);
+            border-radius: 1rem;
+            overflow: hidden;
+            border: 1px solid var(--color-cloud);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .comparison-table thead {
+            background: var(--color-primary);
+            color: var(--color-white);
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 1.25rem;
+            text-align: left;
+        }
+
+        .comparison-table tbody tr:nth-child(even) {
+            background: var(--color-snow);
+        }
+
+        .comparison-table .check {
+            color: var(--color-accent);
+            font-weight: 700;
+        }
+
+        .comparison-table .cross {
+            color: var(--color-mist);
+        }
+
+        .faq {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--color-white);
+            border: 1px solid var(--color-cloud);
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 1.25rem;
+            background: none;
+            border: none;
+            text-align: left;
+            font-family: var(--font-body);
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--color-midnight);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-question:hover {
+            background: var(--color-snow);
+        }
+
+        .faq-icon {
+            transition: transform 0.3s;
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-answer-content {
+            padding: 0 1.25rem 1.25rem;
+            color: var(--color-slate);
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+            color: var(--color-white);
+            text-align: center;
+            padding: 5rem 2rem;
+        }
+
+        .cta-section h2 {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .btn-white {
+            background: var(--color-white);
+            color: var(--color-primary);
+        }
+
+        .btn-white:hover {
+            background: var(--color-snow);
+        }
+
+        .footer {
+            background: var(--color-midnight);
+            color: var(--color-cloud);
+            padding: 3rem 2rem 1.5rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer h4 {
+            color: var(--color-white);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .footer ul {
+            list-style: none;
+        }
+
+        .footer ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer a {
+            color: var(--color-cloud);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer a:hover {
+            color: var(--color-white);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--color-slate);
+            padding-top: 1.5rem;
+            text-align: center;
+            color: var(--color-mist);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
+            }
+
+            .steps {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="landing.html" class="logo">RoomPilot</a>
+            <ul class="nav-links">
+                <li><a href="public-how-it-works-renters.html">For Renters</a></li>
+                <li><a href="public-how-it-works-landlords.html">For Hosts</a></li>
+                <li><a href="public-pricing.html">Pricing</a></li>
+                <li><a href="public-trust-safety.html">Trust & Safety</a></li>
+                <li><a href="public-faq.html">FAQ</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="#" class="btn btn-secondary">Log In</a>
+                <a href="#" class="btn btn-primary">Sign Up</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-container">
+            <h1>Find Your Room in 3 Simple Steps</h1>
+            <p>No massive deposits. No long-term leases. Just flexible, affordable housing that works for your life.</p>
+            <a href="#steps" class="btn btn-primary btn-large">See How It Works</a>
+        </div>
+    </section>
+
+    <!-- Steps Section -->
+    <section class="section" id="steps">
+        <div class="container">
+            <div class="section-header">
+                <h2>Your Journey to a New Room</h2>
+                <p>From search to move-in, we've made finding affordable housing simple and stress-free.</p>
+            </div>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-icon">🔍</div>
+                    <div class="step-number">1</div>
+                    <h3>Search & Browse</h3>
+                    <p>Find rooms by location, price range, and amenities. Filter for shared bathrooms, private rooms, utilities included, and more. Browse photos, read house rules, and see exactly what you're getting.</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">📋</div>
+                    <div class="step-number">2</div>
+                    <h3>Apply Instantly</h3>
+                    <p>Submit your profile with just a few clicks. Share employment info, references, and optionally run a background check to boost your application. Hosts review and approve within 24-48 hours.</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">🏠</div>
+                    <div class="step-number">3</div>
+                    <h3>Move In & Pay Weekly</h3>
+                    <p>Low upfront costs mean you can move in fast. Pay rent weekly through our secure platform. No massive deposits, no credit checks, no annual lease commitments required.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="section section-alt">
+        <div class="container">
+            <div class="section-header">
+                <h2>Why Renters Love RoomPilot</h2>
+                <p>Affordable, flexible housing designed for real life.</p>
+            </div>
+            <div class="benefits">
+                <div class="benefit-card">
+                    <h4>No Membership Fees</h4>
+                    <p>Unlike competitors, we never charge renters monthly membership fees. Find and rent rooms completely free.</p>
+                </div>
+                <div class="benefit-card">
+                    <h4>Weekly Payments</h4>
+                    <p>Break up rent into manageable weekly chunks. Perfect for hourly workers, gig economy, or anyone living paycheck to paycheck.</p>
+                </div>
+                <div class="benefit-card">
+                    <h4>Transparent Pricing</h4>
+                    <p>What you see is what you pay. No hidden fees, no surprise charges. Rent, utilities, and fees are clearly listed upfront.</p>
+                </div>
+                <div class="benefit-card">
+                    <h4>Flexible Terms</h4>
+                    <p>Month-to-month agreements mean you're never locked into a long-term lease. Stay as long as you need, leave when you're ready.</p>
+                </div>
+                <div class="benefit-card">
+                    <h4>Verified Hosts</h4>
+                    <p>All hosts undergo ID verification and background screening. Communicate safely through our in-app messaging system.</p>
+                </div>
+                <div class="benefit-card">
+                    <h4>Quick Move-In</h4>
+                    <p>Low upfront costs and fast approvals mean you can move in within days, not weeks. Perfect for urgent housing needs.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison Section -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>RoomPilot vs Traditional Renting</h2>
+                <p>See how we stack up against conventional apartment leasing.</p>
+            </div>
+            <div class="comparison">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>RoomPilot</th>
+                            <th>Traditional Apartment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Upfront Deposit</td>
+                            <td class="check">First week only</td>
+                            <td class="cross">1st + Last + Security (3x rent)</td>
+                        </tr>
+                        <tr>
+                            <td>Credit Check Required</td>
+                            <td class="check">No</td>
+                            <td class="cross">Yes, hard inquiry</td>
+                        </tr>
+                        <tr>
+                            <td>Lease Length</td>
+                            <td class="check">Month-to-month</td>
+                            <td class="cross">12 months minimum</td>
+                        </tr>
+                        <tr>
+                            <td>Payment Frequency</td>
+                            <td class="check">Weekly or monthly</td>
+                            <td class="cross">Monthly only</td>
+                        </tr>
+                        <tr>
+                            <td>Move-In Time</td>
+                            <td class="check">2-3 days</td>
+                            <td class="cross">2-4 weeks</td>
+                        </tr>
+                        <tr>
+                            <td>Application Fee</td>
+                            <td class="check">Free</td>
+                            <td class="cross">$50-$100</td>
+                        </tr>
+                        <tr>
+                            <td>Breaking Lease Penalty</td>
+                            <td class="check">None (month-to-month)</td>
+                            <td class="cross">2-3 months rent</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="section section-alt">
+        <div class="container">
+            <div class="section-header">
+                <h2>Frequently Asked Questions</h2>
+                <p>Everything you need to know about renting with RoomPilot.</p>
+            </div>
+            <div class="faq">
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Do I need good credit to rent?
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            No! We don't require credit checks. Hosts may request optional background checks, but your credit score doesn't factor into applications. We believe housing should be accessible to everyone.
+                        </div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        How much do I need to move in?
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Typically just your first week's rent. Some hosts may require a small security deposit (usually $100-$300), but it's nowhere near the first month + last month + security deposit that traditional apartments require.
+                        </div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Can I pay rent weekly?
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Yes! Most listings offer weekly payment options. This is perfect if you get paid weekly or bi-weekly and prefer to budget rent in smaller increments instead of one large monthly payment.
+                        </div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        What if I need to move out early?
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Most rooms are month-to-month with 30 days notice required. No lease-breaking penalties, no paying multiple months of rent to get out. Just give notice and go when you're ready.
+                        </div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Are utilities included?
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            It varies by listing. Many hosts include utilities (water, electric, WiFi) in the rent price, while others charge separately. Each listing clearly shows what's included and what's not.
+                        </div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        How do I know hosts are legitimate?
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            All hosts must verify their identity and pass background checks. We also verify property ownership before listings go live. Read reviews from past tenants and communicate through our secure messaging system.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to Find Your Room?</h2>
+            <p>Join thousands of renters who've found affordable, flexible housing with RoomPilot.</p>
+            <a href="search-page.html" class="btn btn-white btn-large">Browse Rooms Now</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div>
+                <h4>RoomPilot</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Press</a></li>
+                    <li><a href="#">Blog</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>For Renters</h4>
+                <ul>
+                    <li><a href="public-how-it-works-renters.html">How It Works</a></li>
+                    <li><a href="search-page.html">Find a Room</a></li>
+                    <li><a href="public-trust-safety.html">Trust & Safety</a></li>
+                    <li><a href="#">Renter Resources</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>For Hosts</h4>
+                <ul>
+                    <li><a href="public-how-it-works-landlords.html">Become a Host</a></li>
+                    <li><a href="#">List Your Property</a></li>
+                    <li><a href="public-pricing.html">Pricing</a></li>
+                    <li><a href="#">Host Resources</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="public-faq.html">FAQ</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="public-terms.html">Terms of Service</a></li>
+                    <li><a href="public-privacy.html">Privacy Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 RoomPilot. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const faqItem = button.parentElement;
+                const isActive = faqItem.classList.contains('active');
+
+                // Close all items
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    item.classList.remove('active');
+                    item.querySelector('.faq-answer').style.maxHeight = null;
+                });
+
+                // Open clicked item if it wasn't active
+                if (!isActive) {
+                    faqItem.classList.add('active');
+                    const answer = faqItem.querySelector('.faq-answer');
+                    answer.style.maxHeight = answer.scrollHeight + 'px';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

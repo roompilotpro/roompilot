@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trust & Safety - RoomPilot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-midnight: #0f1419;
+            --color-charcoal: #1a2332;
+            --color-slate: #3d4f5f;
+            --color-mist: #8899a6;
+            --color-cloud: #e8ecef;
+            --color-snow: #f7f9fa;
+            --color-white: #ffffff;
+            --color-primary: #2563eb;
+            --color-primary-light: #3b82f6;
+            --color-primary-dark: #1d4ed8;
+            --color-primary-bg: #eff6ff;
+            --color-accent: #10b981;
+            --color-accent-bg: #ecfdf5;
+            --color-warm: #f59e0b;
+            --color-warm-bg: #fffbeb;
+            --color-coral: #f43f5e;
+            --color-coral-bg: #fff1f2;
+            --font-display: 'Fraunces', Georgia, serif;
+            --font-body: 'DM Sans', -apple-system, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--color-midnight);
+            line-height: 1.6;
+        }
+
+        .nav {
+            background: var(--color-white);
+            border-bottom: 1px solid var(--color-cloud);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-primary);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--color-slate);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--color-primary);
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.625rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9375rem;
+            display: inline-block;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--color-slate);
+            border: 1px solid var(--color-cloud);
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-snow);
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            color: var(--color-white);
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-dark);
+        }
+
+        .btn-large {
+            padding: 1rem 2rem;
+            font-size: 1.125rem;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--color-accent-bg) 0%, var(--color-white) 100%);
+            padding: 5rem 2rem;
+            text-align: center;
+        }
+
+        .hero-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            color: var(--color-midnight);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--color-slate);
+        }
+
+        .section {
+            padding: 5rem 2rem;
+        }
+
+        .section-alt {
+            background: var(--color-snow);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            color: var(--color-midnight);
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            font-size: 1.125rem;
+            color: var(--color-slate);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .safety-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .safety-feature {
+            background: var(--color-white);
+            padding: 2.5rem;
+            border-radius: 1rem;
+            border: 1px solid var(--color-cloud);
+        }
+
+        .safety-icon {
+            width: 64px;
+            height: 64px;
+            background: var(--color-accent-bg);
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .safety-feature h3 {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            color: var(--color-midnight);
+            margin-bottom: 1rem;
+        }
+
+        .safety-feature p {
+            color: var(--color-slate);
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+
+        .safety-feature ul {
+            list-style: none;
+            color: var(--color-slate);
+        }
+
+        .safety-feature ul li {
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: start;
+            gap: 0.75rem;
+        }
+
+        .safety-feature ul li::before {
+            content: "✓";
+            color: var(--color-accent);
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .trust-badges {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .trust-badge {
+            text-align: center;
+            padding: 2rem;
+            background: var(--color-white);
+            border-radius: 1rem;
+            border: 1px solid var(--color-cloud);
+        }
+
+        .badge-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .trust-badge h4 {
+            font-weight: 600;
+            color: var(--color-midnight);
+            margin-bottom: 0.5rem;
+        }
+
+        .trust-badge p {
+            color: var(--color-slate);
+            font-size: 0.9375rem;
+        }
+
+        .faq {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--color-white);
+            border: 1px solid var(--color-cloud);
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 1.25rem;
+            background: none;
+            border: none;
+            text-align: left;
+            font-family: var(--font-body);
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--color-midnight);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-question:hover {
+            background: var(--color-snow);
+        }
+
+        .faq-icon {
+            transition: transform 0.3s;
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-answer-content {
+            padding: 0 1.25rem 1.25rem;
+            color: var(--color-slate);
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, var(--color-accent) 0%, #059669 100%);
+            color: var(--color-white);
+            text-align: center;
+            padding: 5rem 2rem;
+        }
+
+        .cta-section h2 {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .btn-white {
+            background: var(--color-white);
+            color: var(--color-accent);
+        }
+
+        .btn-white:hover {
+            background: var(--color-snow);
+        }
+
+        .footer {
+            background: var(--color-midnight);
+            color: var(--color-cloud);
+            padding: 3rem 2rem 1.5rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer h4 {
+            color: var(--color-white);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .footer ul {
+            list-style: none;
+        }
+
+        .footer ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer a {
+            color: var(--color-cloud);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer a:hover {
+            color: var(--color-white);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--color-slate);
+            padding-top: 1.5rem;
+            text-align: center;
+            color: var(--color-mist);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
+            }
+
+            .safety-features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="landing.html" class="logo">RoomPilot</a>
+            <ul class="nav-links">
+                <li><a href="public-how-it-works-renters.html">For Renters</a></li>
+                <li><a href="public-how-it-works-landlords.html">For Hosts</a></li>
+                <li><a href="public-pricing.html">Pricing</a></li>
+                <li><a href="public-trust-safety.html">Trust & Safety</a></li>
+                <li><a href="public-faq.html">FAQ</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="#" class="btn btn-secondary">Log In</a>
+                <a href="#" class="btn btn-primary">Sign Up</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-container">
+            <h1>Your Safety is Our Priority</h1>
+            <p>We've built multiple layers of protection to create a trusted community for hosts and renters.</p>
+        </div>
+    </section>
+
+    <!-- Safety Features -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>How We Keep You Safe</h2>
+                <p>From verification to payments, we protect every step of your rental journey.</p>
+            </div>
+            <div class="safety-features">
+                <div class="safety-feature">
+                    <div class="safety-icon">🛡️</div>
+                    <h3>Host Verification</h3>
+                    <p>Every host on RoomPilot undergoes thorough verification before listing properties:</p>
+                    <ul>
+                        <li>Government-issued ID verification</li>
+                        <li>Stripe Connect KYC compliance</li>
+                        <li>Property ownership verification</li>
+                        <li>Contact information validation</li>
+                        <li>Criminal background screening available</li>
+                    </ul>
+                </div>
+
+                <div class="safety-feature">
+                    <div class="safety-icon">🔍</div>
+                    <h3>Tenant Screening</h3>
+                    <p>Hosts can request comprehensive background checks and screening reports:</p>
+                    <ul>
+                        <li>Criminal history reports</li>
+                        <li>Eviction history searches</li>
+                        <li>Employment verification</li>
+                        <li>Reference checks</li>
+                        <li>Identity verification</li>
+                    </ul>
+                </div>
+
+                <div class="safety-feature">
+                    <div class="safety-icon">💳</div>
+                    <h3>Secure Payments</h3>
+                    <p>All financial transactions are processed through Stripe, the industry leader in payment security:</p>
+                    <ul>
+                        <li>Bank-level 256-bit SSL encryption</li>
+                        <li>PCI DSS Level 1 certified</li>
+                        <li>Fraud detection and prevention</li>
+                        <li>Never store payment info on our servers</li>
+                        <li>Automatic payment protection</li>
+                    </ul>
+                </div>
+
+                <div class="safety-feature">
+                    <div class="safety-icon">💬</div>
+                    <h3>Communication Safety</h3>
+                    <p>Keep all conversations on-platform for your protection:</p>
+                    <ul>
+                        <li>In-app secure messaging system</li>
+                        <li>No need to share personal contact info</li>
+                        <li>Complete message history archived</li>
+                        <li>Report suspicious behavior instantly</li>
+                        <li>AI-powered scam detection</li>
+                    </ul>
+                </div>
+
+                <div class="safety-feature">
+                    <div class="safety-icon">⚖️</div>
+                    <h3>Dispute Resolution</h3>
+                    <p>Fair and transparent process for resolving conflicts:</p>
+                    <ul>
+                        <li>Dedicated support team available 24/7</li>
+                        <li>Mediation services for disagreements</li>
+                        <li>Documentation of all agreements</li>
+                        <li>Security deposit protection</li>
+                        <li>Clear terms and policies</li>
+                    </ul>
+                </div>
+
+                <div class="safety-feature">
+                    <div class="safety-icon">🏠</div>
+                    <h3>Property Standards</h3>
+                    <p>We ensure all listings meet basic safety and quality standards:</p>
+                    <ul>
+                        <li>Photo verification required</li>
+                        <li>Accurate property descriptions</li>
+                        <li>Working smoke and CO detectors</li>
+                        <li>Safe living conditions</li>
+                        <li>Compliance with local housing laws</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Badges -->
+    <section class="section section-alt">
+        <div class="container">
+            <div class="section-header">
+                <h2>Built on Trust</h2>
+                <p>Industry-leading security and compliance standards</p>
+            </div>
+            <div class="trust-badges">
+                <div class="trust-badge">
+                    <div class="badge-icon">🔒</div>
+                    <h4>SSL Encrypted</h4>
+                    <p>256-bit encryption for all data transmission</p>
+                </div>
+                <div class="trust-badge">
+                    <div class="badge-icon">💎</div>
+                    <h4>Stripe Verified</h4>
+                    <p>Powered by Stripe's secure payment infrastructure</p>
+                </div>
+                <div class="trust-badge">
+                    <div class="badge-icon">✓</div>
+                    <h4>GDPR Compliant</h4>
+                    <p>Your data privacy is protected</p>
+                </div>
+                <div class="trust-badge">
+                    <div class="badge-icon">🏆</div>
+                    <h4>Verified Reviews</h4>
+                    <p>Only real tenants can leave reviews</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Safety FAQ</h2>
+                <p>Common questions about trust and safety on RoomPilot</p>
+            </div>
+            <div class="faq">
+                <div class="faq-item">
+                    <button class="faq-question">
+                        How do you verify hosts?
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            All hosts must verify their identity with a government-issued ID. We also verify property ownership through public records or mortgage/deed documentation. Additionally, hosts undergo Stripe Connect KYC verification, which includes background checks and fraud screening.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        What if I encounter a scam or fraud?
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Report it immediately through the "Report User" button in any conversation or listing. Our trust and safety team investigates all reports within 24 hours. Never send money outside the platform, share personal banking info, or wire transfer deposits. All legitimate payments go through RoomPilot's secure system.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Is my payment information safe?
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Yes. We use Stripe for all payment processing, which is PCI DSS Level 1 certified (the highest security standard). Your credit card and bank details are never stored on RoomPilot servers. All payment data is encrypted in transit and at rest using bank-level 256-bit SSL encryption.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Can hosts see my personal information?
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Only information you choose to share in your profile is visible. Hosts cannot see your payment methods, social security number, or background check details unless you explicitly grant access. Your phone number and email are hidden until you're approved and accept a lease.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        What happens if a host or renter violates policies?
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Policy violations are taken seriously. Depending on severity, consequences range from warnings to permanent account suspension. Serious violations (fraud, discrimination, violence) result in immediate removal and potential legal action. We maintain a zero-tolerance policy for scams, harassment, and illegal activity.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        How do background checks work?
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Background checks are optional and requested by hosts. If a host requests one, you'll receive a secure link to authorize the check. The report includes criminal history, eviction records, and identity verification. You control who sees your report, and it's valid for 30 days across multiple applications.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        What if there's a dispute about a security deposit?
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Security deposits are held in escrow. When a lease ends, hosts have 14 days to claim deductions with photo evidence. Renters can dispute claims through our resolution center. Our mediation team reviews evidence from both parties and makes a fair determination based on the lease terms and local laws.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        How do you prevent discrimination?
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            We strictly enforce Fair Housing laws. Hosts cannot discriminate based on race, color, religion, sex, national origin, familial status, or disability. Our platform monitors listings and communications for discriminatory language. Violations result in immediate listing removal and potential account termination.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Questions About Safety?</h2>
+            <p>Our trust and safety team is here to help 24/7.</p>
+            <a href="#" class="btn btn-white btn-large">Contact Support</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div>
+                <h4>RoomPilot</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Press</a></li>
+                    <li><a href="#">Blog</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>For Renters</h4>
+                <ul>
+                    <li><a href="public-how-it-works-renters.html">How It Works</a></li>
+                    <li><a href="search-page.html">Find a Room</a></li>
+                    <li><a href="public-trust-safety.html">Trust & Safety</a></li>
+                    <li><a href="#">Renter Resources</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>For Hosts</h4>
+                <ul>
+                    <li><a href="public-how-it-works-landlords.html">Become a Host</a></li>
+                    <li><a href="#">List Your Property</a></li>
+                    <li><a href="public-pricing.html">Pricing</a></li>
+                    <li><a href="#">Host Resources</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="public-faq.html">FAQ</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="public-terms.html">Terms of Service</a></li>
+                    <li><a href="public-privacy.html">Privacy Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 RoomPilot. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const faqItem = button.parentElement;
+                const isActive = faqItem.classList.contains('active');
+
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    item.classList.remove('active');
+                    item.querySelector('.faq-answer').style.maxHeight = null;
+                });
+
+                if (!isActive) {
+                    faqItem.classList.add('active');
+                    const answer = faqItem.querySelector('.faq-answer');
+                    answer.style.maxHeight = answer.scrollHeight + 'px';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

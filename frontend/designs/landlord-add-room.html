@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Room - RoomPilot Landlord</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-midnight: #0f1419;
+            --color-charcoal: #1a2332;
+            --color-slate: #3d4f5f;
+            --color-mist: #8899a6;
+            --color-cloud: #e8ecef;
+            --color-snow: #f7f9fa;
+            --color-white: #ffffff;
+            --color-primary: #2563eb;
+            --color-primary-light: #3b82f6;
+            --color-primary-dark: #1d4ed8;
+            --color-primary-bg: #eff6ff;
+            --color-accent: #10b981;
+            --color-accent-bg: #ecfdf5;
+            --color-warm: #f59e0b;
+            --color-warm-bg: #fffbeb;
+            --color-coral: #f43f5e;
+            --color-coral-bg: #fff1f2;
+            --font-display: 'Fraunces', Georgia, serif;
+            --font-body: 'DM Sans', -apple-system, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--color-snow);
+            color: var(--color-midnight);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 260px;
+            background: var(--color-midnight);
+            color: var(--color-white);
+            padding: 24px 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 700;
+            padding: 0 24px 32px;
+            color: var(--color-white);
+        }
+
+        .nav-item {
+            padding: 12px 24px;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--color-mist);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .nav-item:hover {
+            background: var(--color-charcoal);
+            color: var(--color-white);
+        }
+
+        .nav-item.active {
+            background: var(--color-primary);
+            color: var(--color-white);
+        }
+
+        .main-content {
+            margin-left: 260px;
+            flex: 1;
+            padding: 32px 40px;
+            max-width: 1000px;
+        }
+
+        .breadcrumb {
+            color: var(--color-slate);
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
+        .breadcrumb a {
+            color: var(--color-primary);
+            text-decoration: none;
+        }
+
+        .breadcrumb-separator {
+            margin: 0 8px;
+        }
+
+        .page-header {
+            margin-bottom: 32px;
+        }
+
+        .page-title {
+            font-family: var(--font-display);
+            font-size: 32px;
+            color: var(--color-midnight);
+            margin-bottom: 8px;
+        }
+
+        .page-subtitle {
+            color: var(--color-slate);
+            font-size: 15px;
+        }
+
+        .form-card {
+            background: var(--color-white);
+            border-radius: 12px;
+            border: 1px solid var(--color-cloud);
+            padding: 32px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--color-midnight);
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--color-cloud);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: var(--color-midnight);
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .form-hint {
+            display: block;
+            font-size: 12px;
+            color: var(--color-slate);
+            margin-top: 4px;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid var(--color-cloud);
+            border-radius: 8px;
+            font-family: var(--font-body);
+            font-size: 14px;
+            color: var(--color-midnight);
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--color-primary);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .input-prefix {
+            position: relative;
+        }
+
+        .input-prefix::before {
+            content: '$';
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--color-slate);
+            font-weight: 600;
+        }
+
+        .input-prefix .form-input {
+            padding-left: 28px;
+        }
+
+        .toggle-group {
+            display: flex;
+            gap: 12px;
+        }
+
+        .toggle-option {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid var(--color-cloud);
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 600;
+        }
+
+        .toggle-option:hover {
+            border-color: var(--color-primary);
+            background: var(--color-primary-bg);
+        }
+
+        .toggle-option.active {
+            border-color: var(--color-primary);
+            background: var(--color-primary);
+            color: var(--color-white);
+        }
+
+        .upload-area {
+            border: 2px dashed var(--color-cloud);
+            border-radius: 12px;
+            padding: 48px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 20px;
+        }
+
+        .upload-area:hover {
+            border-color: var(--color-primary);
+            background: var(--color-primary-bg);
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+
+        .upload-text {
+            color: var(--color-midnight);
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .upload-hint {
+            color: var(--color-slate);
+            font-size: 13px;
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .photo-preview {
+            position: relative;
+            height: 120px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--color-primary-bg) 0%, var(--color-accent-bg) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+        }
+
+        .photo-remove {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--color-coral);
+            color: var(--color-white);
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .amenities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px;
+            border: 1px solid var(--color-cloud);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .checkbox-item:hover {
+            background: var(--color-snow);
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .checkbox-item label {
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid var(--color-cloud);
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: var(--font-body);
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            color: var(--color-white);
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-dark);
+        }
+
+        .btn-secondary {
+            background: var(--color-white);
+            color: var(--color-slate);
+            border: 1px solid var(--color-cloud);
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-snow);
+        }
+
+        .date-input {
+            position: relative;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="logo">RoomPilot</div>
+        <nav>
+            <a href="landlord-dashboard.html" class="nav-item">
+                <span class="nav-icon">📊</span>
+                <span>Dashboard</span>
+            </a>
+            <a href="landlord-properties.html" class="nav-item active">
+                <span class="nav-icon">🏠</span>
+                <span>Properties</span>
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">👥</span>
+                <span>Tenants</span>
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">📝</span>
+                <span>Applications</span>
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">💬</span>
+                <span>Messages</span>
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">🔧</span>
+                <span>Maintenance</span>
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">💰</span>
+                <span>Payouts</span>
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">⚙️</span>
+                <span>Settings</span>
+            </a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <div class="breadcrumb">
+            <a href="landlord-properties.html">Properties</a>
+            <span class="breadcrumb-separator">›</span>
+            <a href="landlord-property-detail.html">Sunshine House</a>
+            <span class="breadcrumb-separator">›</span>
+            <span>Add Room</span>
+        </div>
+
+        <div class="page-header">
+            <h1 class="page-title">Add New Room</h1>
+            <p class="page-subtitle">Add a room to Sunshine House</p>
+        </div>
+
+        <div class="form-card">
+            <h2 class="section-title">Basic Information</h2>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Room Name/Number</label>
+                    <input type="text" class="form-input" placeholder="e.g., Room 1A or Master Bedroom">
+                    <span class="form-hint">This helps identify the room</span>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Room Type</label>
+                    <div class="toggle-group">
+                        <div class="toggle-option active" onclick="selectToggle(this)">Private Room</div>
+                        <div class="toggle-option" onclick="selectToggle(this)">Shared Room</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Bathroom Type</label>
+                    <div class="toggle-group">
+                        <div class="toggle-option active" onclick="selectToggle(this)">Private</div>
+                        <div class="toggle-option" onclick="selectToggle(this)">Shared</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Room Size</label>
+                    <input type="text" class="form-input" placeholder="Square feet">
+                    <span class="form-hint">Optional - helps renters compare rooms</span>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Bed Type</label>
+                    <select class="form-select">
+                        <option value="">Select bed type</option>
+                        <option>Twin Bed</option>
+                        <option>Full Bed</option>
+                        <option selected>Queen Bed</option>
+                        <option>King Bed</option>
+                        <option>No Bed</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Furnished Status</label>
+                    <div class="toggle-group">
+                        <div class="toggle-option active" onclick="selectToggle(this)">Furnished</div>
+                        <div class="toggle-option" onclick="selectToggle(this)">Unfurnished</div>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="section-title" style="margin-top: 32px;">Pricing & Availability</h2>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Weekly Rent</label>
+                    <div class="input-prefix">
+                        <input type="number" class="form-input" placeholder="0.00" step="0.01">
+                    </div>
+                    <span class="form-hint">Renters typically search by weekly rent</span>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Monthly Rent (Auto-calculated)</label>
+                    <div class="input-prefix">
+                        <input type="text" class="form-input" value="0.00" disabled style="background: var(--color-snow);">
+                    </div>
+                    <span class="form-hint">Automatically calculated as weekly × 4.33</span>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Move-in Fee / Deposit</label>
+                    <div class="input-prefix">
+                        <input type="number" class="form-input" placeholder="0.00" step="0.01">
+                    </div>
+                    <span class="form-hint">One-time fee when tenant moves in</span>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Minimum Stay</label>
+                    <select class="form-select">
+                        <option>No minimum</option>
+                        <option>1 month</option>
+                        <option>3 months</option>
+                        <option>6 months</option>
+                        <option>12 months</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Available From</label>
+                <input type="date" class="form-input" style="max-width: 300px;">
+                <span class="form-hint">When can a tenant move in?</span>
+            </div>
+
+            <h2 class="section-title" style="margin-top: 32px;">Room Photos</h2>
+
+            <div class="upload-area">
+                <div class="upload-icon">📷</div>
+                <div class="upload-text">Add room photos</div>
+                <div class="upload-hint">Drag and drop or click to browse (JPG, PNG up to 10MB)</div>
+            </div>
+
+            <div class="photo-grid" style="display: none;" id="photoGrid">
+                <div class="photo-preview">
+                    📷
+                    <button class="photo-remove">×</button>
+                </div>
+            </div>
+
+            <h2 class="section-title" style="margin-top: 32px;">Room-Specific Amenities</h2>
+            <p style="font-size: 14px; color: var(--color-slate); margin-bottom: 16px;">
+                Select amenities that are specific to this room (property amenities are already included)
+            </p>
+
+            <div class="amenities-grid">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="window" checked>
+                    <label for="window">🪟 Window</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="closet" checked>
+                    <label for="closet">🗄️ Closet</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="desk" checked>
+                    <label for="desk">🪑 Desk & Chair</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="dresser">
+                    <label for="dresser">📦 Dresser</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="tv">
+                    <label for="tv">📺 TV</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="balcony">
+                    <label for="balcony">🌿 Balcony/Patio</label>
+                </div>
+            </div>
+
+            <h2 class="section-title" style="margin-top: 32px;">Room-Specific Rules</h2>
+            <p style="font-size: 14px; color: var(--color-slate); margin-bottom: 16px;">
+                Any additional rules or restrictions specific to this room (optional)
+            </p>
+
+            <div class="form-group">
+                <label class="form-label">Additional Rules or Notes</label>
+                <textarea class="form-textarea" placeholder="e.g., This room is on the second floor, requires climbing stairs..."></textarea>
+            </div>
+
+            <div class="form-actions">
+                <button class="btn btn-secondary" onclick="window.location.href='landlord-property-detail.html'">Cancel</button>
+                <button class="btn btn-secondary">Save as Draft</button>
+                <button class="btn btn-primary" onclick="saveRoom()">Add Room</button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function selectToggle(element) {
+            // Get all siblings in the same toggle group
+            const siblings = element.parentElement.children;
+            for (let sibling of siblings) {
+                sibling.classList.remove('active');
+            }
+            element.classList.add('active');
+        }
+
+        function saveRoom() {
+            alert('Room saved successfully! Redirecting to property details...');
+            window.location.href = 'landlord-property-detail.html';
+        }
+
+        // Auto-calculate monthly rent from weekly
+        const weeklyInput = document.querySelector('input[placeholder="0.00"]');
+        const monthlyInput = document.querySelector('input[value="0.00"]');
+
+        if (weeklyInput && monthlyInput) {
+            weeklyInput.addEventListener('input', function() {
+                const weekly = parseFloat(this.value) || 0;
+                const monthly = (weekly * 4.33).toFixed(2);
+                monthlyInput.value = monthly;
+            });
+        }
+    </script>
+</body>
+</html>

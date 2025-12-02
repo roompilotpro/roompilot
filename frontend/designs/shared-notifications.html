@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications - RoomPilot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-midnight: #0f1419;
+            --color-charcoal: #1a2332;
+            --color-slate: #3d4f5f;
+            --color-mist: #8899a6;
+            --color-cloud: #e8ecef;
+            --color-snow: #f7f9fa;
+            --color-white: #ffffff;
+            --color-primary: #2563eb;
+            --color-primary-light: #3b82f6;
+            --color-primary-dark: #1d4ed8;
+            --color-primary-bg: #eff6ff;
+            --color-accent: #10b981;
+            --color-accent-bg: #ecfdf5;
+            --color-warm: #f59e0b;
+            --color-warm-bg: #fffbeb;
+            --color-coral: #f43f5e;
+            --color-coral-bg: #fff1f2;
+            --font-display: 'Fraunces', Georgia, serif;
+            --font-body: 'DM Sans', -apple-system, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--color-snow);
+            color: var(--color-midnight);
+            min-height: 100vh;
+            display: flex;
+        }
+
+        .sidebar {
+            width: 260px;
+            background: var(--color-midnight);
+            color: var(--color-white);
+            padding: 24px 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-logo {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 700;
+            padding: 0 24px 32px;
+            color: var(--color-white);
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 24px;
+            color: var(--color-mist);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .sidebar-nav a:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--color-white);
+        }
+
+        .sidebar-nav a.active {
+            background: var(--color-primary);
+            color: var(--color-white);
+        }
+
+        .sidebar-nav-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        .main-content {
+            margin-left: 260px;
+            flex: 1;
+            padding: 32px;
+            max-width: 900px;
+        }
+
+        .header {
+            margin-bottom: 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left h1 {
+            font-family: var(--font-display);
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--color-midnight);
+            margin-bottom: 8px;
+        }
+
+        .header-left p {
+            color: var(--color-mist);
+            font-size: 16px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            font-family: var(--font-body);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-secondary {
+            background: var(--color-white);
+            color: var(--color-primary);
+            border: 2px solid var(--color-primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-primary-bg);
+        }
+
+        .btn-text {
+            background: transparent;
+            color: var(--color-primary);
+            border: none;
+        }
+
+        .btn-text:hover {
+            background: var(--color-primary-bg);
+        }
+
+        .filter-tabs {
+            background: var(--color-white);
+            border-radius: 12px;
+            padding: 8px;
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .filter-tab {
+            flex: 1;
+            padding: 12px 24px;
+            border: none;
+            background: transparent;
+            font-family: var(--font-body);
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.2s;
+            color: var(--color-slate);
+        }
+
+        .filter-tab.active {
+            background: var(--color-primary);
+            color: var(--color-white);
+        }
+
+        .notifications-container {
+            background: var(--color-white);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .notification-group {
+            border-bottom: 1px solid var(--color-cloud);
+        }
+
+        .notification-group:last-child {
+            border-bottom: none;
+        }
+
+        .group-header {
+            padding: 16px 24px;
+            background: var(--color-snow);
+            font-weight: 700;
+            color: var(--color-slate);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .notification-item {
+            display: flex;
+            gap: 16px;
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--color-cloud);
+            cursor: pointer;
+            transition: background 0.2s;
+            position: relative;
+        }
+
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+
+        .notification-item:hover {
+            background: var(--color-snow);
+        }
+
+        .notification-item.unread {
+            background: var(--color-primary-bg);
+        }
+
+        .notification-item.unread::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--color-primary);
+        }
+
+        .notification-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .notification-icon.payment {
+            background: var(--color-accent-bg);
+            color: var(--color-accent);
+        }
+
+        .notification-icon.message {
+            background: var(--color-primary-bg);
+            color: var(--color-primary);
+        }
+
+        .notification-icon.application {
+            background: var(--color-warm-bg);
+            color: var(--color-warm);
+        }
+
+        .notification-icon.system {
+            background: var(--color-cloud);
+            color: var(--color-slate);
+        }
+
+        .notification-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .notification-title {
+            font-weight: 600;
+            color: var(--color-midnight);
+            margin-bottom: 4px;
+        }
+
+        .notification-description {
+            font-size: 14px;
+            color: var(--color-slate);
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+
+        .notification-time {
+            font-size: 13px;
+            color: var(--color-mist);
+        }
+
+        .unread-dot {
+            width: 10px;
+            height: 10px;
+            background: var(--color-primary);
+            border-radius: 50%;
+            flex-shrink: 0;
+            margin-top: 8px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 80px 40px;
+        }
+
+        .empty-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 24px;
+            opacity: 0.3;
+        }
+
+        .empty-title {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--color-midnight);
+            margin-bottom: 8px;
+        }
+
+        .empty-description {
+            color: var(--color-mist);
+            font-size: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 80px;
+            }
+
+            .sidebar-logo {
+                font-size: 20px;
+                text-align: center;
+            }
+
+            .sidebar-nav a {
+                justify-content: center;
+                padding: 16px;
+            }
+
+            .sidebar-nav-text {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 80px;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">RoomPilot</div>
+        <nav class="sidebar-nav">
+            <a href="landing.html">
+                <svg class="sidebar-nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                </svg>
+                <span class="sidebar-nav-text">Dashboard</span>
+            </a>
+            <a href="search-page.html">
+                <svg class="sidebar-nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                </svg>
+                <span class="sidebar-nav-text">Search</span>
+            </a>
+            <a href="landlord-messages.html">
+                <svg class="sidebar-nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                </svg>
+                <span class="sidebar-nav-text">Messages</span>
+            </a>
+            <a href="#" class="active">
+                <svg class="sidebar-nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                </svg>
+                <span class="sidebar-nav-text">Notifications</span>
+            </a>
+            <a href="shared-help.html">
+                <svg class="sidebar-nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <span class="sidebar-nav-text">Help</span>
+            </a>
+            <a href="landlord-settings.html">
+                <svg class="sidebar-nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+                <span class="sidebar-nav-text">Settings</span>
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="header">
+            <div class="header-left">
+                <h1>Notifications</h1>
+                <p>Stay updated on your activity</p>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-text" onclick="markAllRead()">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    Mark All as Read
+                </button>
+                <a href="landlord-settings.html" class="btn btn-secondary">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                    Settings
+                </a>
+            </div>
+        </div>
+
+        <div class="filter-tabs">
+            <button class="filter-tab active" onclick="filterNotifications('all')">All</button>
+            <button class="filter-tab" onclick="filterNotifications('unread')">Unread</button>
+        </div>
+
+        <div class="notifications-container" id="all-notifications">
+            <!-- Today -->
+            <div class="notification-group">
+                <div class="group-header">Today</div>
+
+                <div class="notification-item unread" onclick="markRead(this)">
+                    <div class="notification-icon payment">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-title">Payment Received</div>
+                        <div class="notification-description">Sarah Martinez paid $850.00 for Sunset Villa - Room 3A</div>
+                        <div class="notification-time">2 hours ago</div>
+                    </div>
+                    <div class="unread-dot"></div>
+                </div>
+
+                <div class="notification-item unread" onclick="markRead(this)">
+                    <div class="notification-icon message">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                        </svg>
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-title">New Message from James Chen</div>
+                        <div class="notification-description">Hi, I have a question about the lease renewal process...</div>
+                        <div class="notification-time">4 hours ago</div>
+                    </div>
+                    <div class="unread-dot"></div>
+                </div>
+
+                <div class="notification-item" onclick="markRead(this)">
+                    <div class="notification-icon application">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                        </svg>
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-title">New Application Received</div>
+                        <div class="notification-description">Emily Rodriguez applied for Oak Street Apartments - Room 2C</div>
+                        <div class="notification-time">6 hours ago</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Yesterday -->
+            <div class="notification-group">
+                <div class="group-header">Yesterday</div>
+
+                <div class="notification-item" onclick="markRead(this)">
+                    <div class="notification-icon system">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                        </svg>
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-title">Maintenance Request Completed</div>
+                        <div class="notification-description">Heater repair for Sunset Villa - Room 1B has been marked as resolved</div>
+                        <div class="notification-time">Yesterday at 3:45 PM</div>
+                    </div>
+                </div>
+
+                <div class="notification-item" onclick="markRead(this)">
+                    <div class="notification-icon message">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                        </svg>
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-title">New Message from Marcus Rodriguez</div>
+                        <div class="notification-description">Thank you for the quick response on the maintenance issue!</div>
+                        <div class="notification-time">Yesterday at 11:20 AM</div>
+                    </div>
+                </div>
+
+                <div class="notification-item" onclick="markRead(this)">
+                    <div class="notification-icon payment">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-title">Payout Processed</div>
+                        <div class="notification-description">$2,450.00 has been deposited to your account ending in 4242</div>
+                        <div class="notification-time">Yesterday at 9:00 AM</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Earlier -->
+            <div class="notification-group">
+                <div class="group-header">Earlier</div>
+
+                <div class="notification-item" onclick="markRead(this)">
+                    <div class="notification-icon application">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                        </svg>
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-title">Application Approved</div>
+                        <div class="notification-description">You approved Lisa Johnson's application for Downtown Loft - Room 4A</div>
+                        <div class="notification-time">3 days ago</div>
+                    </div>
+                </div>
+
+                <div class="notification-item" onclick="markRead(this)">
+                    <div class="notification-icon system">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                        </svg>
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-title">New Review Received</div>
+                        <div class="notification-description">Alex Kim left a 5-star review for Oak Street Apartments</div>
+                        <div class="notification-time">5 days ago</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Empty State (hidden by default) -->
+        <div class="notifications-container" id="empty-state" style="display: none;">
+            <div class="empty-state">
+                <svg class="empty-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <h2 class="empty-title">You're all caught up!</h2>
+                <p class="empty-description">No new notifications at the moment</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function filterNotifications(filter) {
+            // Update active tab
+            document.querySelectorAll('.filter-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Filter notifications
+            const allNotifications = document.getElementById('all-notifications');
+            const items = allNotifications.querySelectorAll('.notification-item');
+
+            if (filter === 'unread') {
+                items.forEach(item => {
+                    if (!item.classList.contains('unread')) {
+                        item.style.display = 'none';
+                    } else {
+                        item.style.display = 'flex';
+                    }
+                });
+            } else {
+                items.forEach(item => {
+                    item.style.display = 'flex';
+                });
+            }
+
+            // Check if any notifications are visible
+            const visibleItems = Array.from(items).filter(item => item.style.display !== 'none');
+            if (visibleItems.length === 0) {
+                allNotifications.style.display = 'none';
+                document.getElementById('empty-state').style.display = 'block';
+            } else {
+                allNotifications.style.display = 'block';
+                document.getElementById('empty-state').style.display = 'none';
+            }
+        }
+
+        function markRead(element) {
+            element.classList.remove('unread');
+            const dot = element.querySelector('.unread-dot');
+            if (dot) {
+                dot.remove();
+            }
+        }
+
+        function markAllRead() {
+            document.querySelectorAll('.notification-item.unread').forEach(item => {
+                item.classList.remove('unread');
+                const dot = item.querySelector('.unread-dot');
+                if (dot) {
+                    dot.remove();
+                }
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payments | RoomPilot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-midnight: #0f1419;
+            --color-charcoal: #1a2332;
+            --color-slate: #3d4f5f;
+            --color-mist: #8899a6;
+            --color-cloud: #e8ecef;
+            --color-snow: #f7f9fa;
+            --color-white: #ffffff;
+            --color-primary: #2563eb;
+            --color-primary-light: #3b82f6;
+            --color-primary-dark: #1d4ed8;
+            --color-primary-bg: #eff6ff;
+            --color-accent: #10b981;
+            --color-accent-light: #34d399;
+            --color-accent-bg: #ecfdf5;
+            --color-warm: #f59e0b;
+            --color-warm-bg: #fffbeb;
+            --color-coral: #f43f5e;
+            --color-coral-bg: #fff1f2;
+            --font-display: 'Fraunces', Georgia, serif;
+            --font-body: 'DM Sans', -apple-system, sans-serif;
+            --shadow-sm: 0 1px 2px rgba(15, 20, 25, 0.05);
+            --shadow-md: 0 4px 12px rgba(15, 20, 25, 0.08);
+            --shadow-lg: 0 12px 40px rgba(15, 20, 25, 0.12);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --nav-height: 72px;
+            --sidebar-width: 260px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: 15px;
+            line-height: 1.5;
+            color: var(--color-charcoal);
+            background: var(--color-snow);
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            height: var(--nav-height);
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--color-white);
+            border-bottom: 1px solid var(--color-cloud);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .nav-logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .nav-logo-text {
+            font-family: var(--font-display);
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--color-midnight);
+        }
+
+        .nav-user {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 6px 12px 6px 6px;
+            background: var(--color-snow);
+            border-radius: 100px;
+            cursor: pointer;
+        }
+
+        .nav-user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--color-accent-light) 0%, var(--color-accent) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: var(--nav-height);
+            left: 0;
+            bottom: 0;
+            width: var(--sidebar-width);
+            background: var(--color-white);
+            border-right: 1px solid var(--color-cloud);
+            padding: 24px 16px;
+            overflow-y: auto;
+        }
+
+        .sidebar-section {
+            margin-bottom: 32px;
+        }
+
+        .sidebar-section-title {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--color-mist);
+            padding: 0 12px;
+            margin-bottom: 8px;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: var(--radius-md);
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--color-slate);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            margin-bottom: 4px;
+        }
+
+        .sidebar-link:hover {
+            background: var(--color-snow);
+        }
+
+        .sidebar-link.active {
+            background: var(--color-primary-bg);
+            color: var(--color-primary);
+        }
+
+        .sidebar-link-icon {
+            font-size: 18px;
+        }
+
+        /* Main Content */
+        .main {
+            margin-left: var(--sidebar-width);
+            margin-top: var(--nav-height);
+            min-height: calc(100vh - var(--nav-height));
+            padding: 32px;
+        }
+
+        .page-header {
+            margin-bottom: 32px;
+        }
+
+        .page-title {
+            font-family: var(--font-display);
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--color-midnight);
+            margin-bottom: 8px;
+        }
+
+        .page-subtitle {
+            font-size: 16px;
+            color: var(--color-slate);
+        }
+
+        /* Cards */
+        .card {
+            background: var(--color-white);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--color-cloud);
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--color-midnight);
+        }
+
+        /* Wallet Balance */
+        .wallet-card {
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+            color: white;
+            border: none;
+        }
+
+        .wallet-balance {
+            font-family: var(--font-display);
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .wallet-label {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 24px;
+        }
+
+        .wallet-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        /* Next Payment Card */
+        .next-payment-card {
+            background: var(--color-accent-bg);
+            border-color: var(--color-accent);
+        }
+
+        .payment-amount {
+            font-family: var(--font-display);
+            font-size: 40px;
+            font-weight: 700;
+            color: var(--color-midnight);
+            margin-bottom: 8px;
+        }
+
+        .payment-due-date {
+            font-size: 16px;
+            color: var(--color-slate);
+            margin-bottom: 24px;
+        }
+
+        /* Payment Calendar */
+        .payment-calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: var(--color-snow);
+            border-radius: var(--radius-md);
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--color-slate);
+            position: relative;
+        }
+
+        .calendar-day.header {
+            background: transparent;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--color-mist);
+        }
+
+        .calendar-day.payment-due {
+            background: var(--color-primary-bg);
+            border: 2px solid var(--color-primary);
+            color: var(--color-primary);
+            font-weight: 700;
+        }
+
+        .calendar-day.paid {
+            background: var(--color-accent-bg);
+            color: var(--color-accent);
+        }
+
+        .calendar-day.paid::after {
+            content: '✓';
+            position: absolute;
+            top: 2px;
+            right: 4px;
+            font-size: 10px;
+        }
+
+        /* Auto-pay Toggle */
+        .autopay-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            background: var(--color-snow);
+            border-radius: var(--radius-lg);
+        }
+
+        .autopay-info h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+            margin-bottom: 4px;
+        }
+
+        .autopay-info p {
+            font-size: 14px;
+            color: var(--color-slate);
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 52px;
+            height: 28px;
+            background: var(--color-cloud);
+            border-radius: 100px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-switch.active {
+            background: var(--color-accent);
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-switch.active::after {
+            left: 26px;
+        }
+
+        /* Payment History Table */
+        .payment-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .payment-table th {
+            text-align: left;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--color-mist);
+            padding: 12px 16px;
+            border-bottom: 2px solid var(--color-cloud);
+        }
+
+        .payment-table td {
+            padding: 16px;
+            border-bottom: 1px solid var(--color-cloud);
+            font-size: 14px;
+        }
+
+        .payment-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            padding: 4px 10px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-badge.paid {
+            background: var(--color-accent-bg);
+            color: var(--color-accent);
+        }
+
+        .status-badge.pending {
+            background: var(--color-warm-bg);
+            color: var(--color-warm);
+        }
+
+        .status-badge.failed {
+            background: var(--color-coral-bg);
+            color: var(--color-coral);
+        }
+
+        .receipt-link {
+            color: var(--color-primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .receipt-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .pagination-btn {
+            padding: 8px 12px;
+            border: 1px solid var(--color-cloud);
+            background: white;
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--color-charcoal);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .pagination-btn:hover {
+            border-color: var(--color-charcoal);
+        }
+
+        .pagination-btn.active {
+            background: var(--color-primary);
+            border-color: var(--color-primary);
+            color: white;
+        }
+
+        /* Payment Methods */
+        .payment-method {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            background: var(--color-snow);
+            border-radius: var(--radius-lg);
+            margin-bottom: 12px;
+        }
+
+        .payment-method-icon {
+            width: 48px;
+            height: 32px;
+            background: var(--color-white);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            border: 1px solid var(--color-cloud);
+        }
+
+        .payment-method-info {
+            flex: 1;
+        }
+
+        .payment-method-type {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+        }
+
+        .payment-method-details {
+            font-size: 13px;
+            color: var(--color-mist);
+        }
+
+        .payment-method-badge {
+            padding: 4px 8px;
+            background: var(--color-primary-bg);
+            color: var(--color-primary);
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 24px;
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-dark);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--color-charcoal);
+            border: 1px solid var(--color-cloud);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--color-charcoal);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--color-slate);
+        }
+
+        .btn-ghost:hover {
+            background: var(--color-snow);
+        }
+
+        .btn-white {
+            background: white;
+            color: var(--color-primary);
+        }
+
+        .btn-white:hover {
+            background: var(--color-snow);
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 20px 16px;
+            }
+
+            .payment-calendar {
+                grid-template-columns: repeat(7, 1fr);
+                gap: 4px;
+            }
+
+            .wallet-balance {
+                font-size: 36px;
+            }
+
+            .payment-amount {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="#" class="nav-logo">
+            <div class="nav-logo-icon">R</div>
+            <span class="nav-logo-text">RoomPilot</span>
+        </a>
+        <div class="nav-user">
+            <div class="nav-user-avatar">JD</div>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-section">
+            <div class="sidebar-section-title">Menu</div>
+            <a href="resident-dashboard.html" class="sidebar-link">
+                <span class="sidebar-link-icon">🏠</span>
+                Dashboard
+            </a>
+            <a href="renter-payments.html" class="sidebar-link active">
+                <span class="sidebar-link-icon">💳</span>
+                Payments
+            </a>
+            <a href="renter-messages.html" class="sidebar-link">
+                <span class="sidebar-link-icon">💬</span>
+                Messages
+            </a>
+            <a href="renter-maintenance.html" class="sidebar-link">
+                <span class="sidebar-link-icon">🔧</span>
+                Maintenance
+            </a>
+            <a href="#" class="sidebar-link">
+                <span class="sidebar-link-icon">📄</span>
+                Documents
+            </a>
+            <a href="renter-settings.html" class="sidebar-link">
+                <span class="sidebar-link-icon">⚙️</span>
+                Settings
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="page-header">
+            <h1 class="page-title">Payments</h1>
+            <p class="page-subtitle">Manage your rent payments and view history</p>
+        </div>
+
+        <!-- Wallet Balance (Optional) -->
+        <div class="card wallet-card">
+            <div class="wallet-label">Wallet Balance</div>
+            <div class="wallet-balance">$175.00</div>
+            <div class="wallet-actions">
+                <button class="btn btn-white">Add Funds</button>
+                <button class="btn btn-outline" style="color: white; border-color: rgba(255,255,255,0.3);">Withdraw</button>
+            </div>
+        </div>
+
+        <!-- Next Payment -->
+        <div class="card next-payment-card">
+            <div class="card-header">
+                <h2 class="card-title">Next Payment Due</h2>
+            </div>
+            <div class="payment-amount">$175.00</div>
+            <div class="payment-due-date">Due Sunday, December 8, 2024</div>
+            <button class="btn btn-primary">Pay Now</button>
+        </div>
+
+        <!-- Payment Schedule Calendar -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">December 2024 - Payment Schedule</h2>
+            </div>
+            <div class="payment-calendar">
+                <div class="calendar-day header">Sun</div>
+                <div class="calendar-day header">Mon</div>
+                <div class="calendar-day header">Tue</div>
+                <div class="calendar-day header">Wed</div>
+                <div class="calendar-day header">Thu</div>
+                <div class="calendar-day header">Fri</div>
+                <div class="calendar-day header">Sat</div>
+
+                <div class="calendar-day paid">1</div>
+                <div class="calendar-day">2</div>
+                <div class="calendar-day">3</div>
+                <div class="calendar-day">4</div>
+                <div class="calendar-day">5</div>
+                <div class="calendar-day">6</div>
+                <div class="calendar-day">7</div>
+
+                <div class="calendar-day payment-due">8</div>
+                <div class="calendar-day">9</div>
+                <div class="calendar-day">10</div>
+                <div class="calendar-day">11</div>
+                <div class="calendar-day">12</div>
+                <div class="calendar-day">13</div>
+                <div class="calendar-day">14</div>
+
+                <div class="calendar-day payment-due">15</div>
+                <div class="calendar-day">16</div>
+                <div class="calendar-day">17</div>
+                <div class="calendar-day">18</div>
+                <div class="calendar-day">19</div>
+                <div class="calendar-day">20</div>
+                <div class="calendar-day">21</div>
+
+                <div class="calendar-day payment-due">22</div>
+                <div class="calendar-day">23</div>
+                <div class="calendar-day">24</div>
+                <div class="calendar-day">25</div>
+                <div class="calendar-day">26</div>
+                <div class="calendar-day">27</div>
+                <div class="calendar-day">28</div>
+
+                <div class="calendar-day payment-due">29</div>
+                <div class="calendar-day">30</div>
+                <div class="calendar-day">31</div>
+            </div>
+        </div>
+
+        <!-- Auto-pay Settings -->
+        <div class="card">
+            <div class="autopay-section">
+                <div class="autopay-info">
+                    <h3>Auto-pay</h3>
+                    <p>Automatically pay rent each week</p>
+                </div>
+                <div class="toggle-switch" onclick="this.classList.toggle('active')"></div>
+            </div>
+        </div>
+
+        <!-- Payment History -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Payment History</h2>
+                <a href="#" class="btn btn-ghost">Download Statements</a>
+            </div>
+            <table class="payment-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Receipt</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Dec 1, 2024</td>
+                        <td>Weekly rent - Week of Dec 1-7</td>
+                        <td>$175.00</td>
+                        <td><span class="status-badge paid">Paid</span></td>
+                        <td><a href="#" class="receipt-link">View</a></td>
+                    </tr>
+                    <tr>
+                        <td>Nov 24, 2024</td>
+                        <td>Weekly rent - Week of Nov 24-30</td>
+                        <td>$175.00</td>
+                        <td><span class="status-badge paid">Paid</span></td>
+                        <td><a href="#" class="receipt-link">View</a></td>
+                    </tr>
+                    <tr>
+                        <td>Nov 17, 2024</td>
+                        <td>Weekly rent - Week of Nov 17-23</td>
+                        <td>$175.00</td>
+                        <td><span class="status-badge paid">Paid</span></td>
+                        <td><a href="#" class="receipt-link">View</a></td>
+                    </tr>
+                    <tr>
+                        <td>Nov 10, 2024</td>
+                        <td>Weekly rent - Week of Nov 10-16</td>
+                        <td>$175.00</td>
+                        <td><span class="status-badge paid">Paid</span></td>
+                        <td><a href="#" class="receipt-link">View</a></td>
+                    </tr>
+                    <tr>
+                        <td>Nov 3, 2024</td>
+                        <td>Weekly rent - Week of Nov 3-9</td>
+                        <td>$175.00</td>
+                        <td><span class="status-badge paid">Paid</span></td>
+                        <td><a href="#" class="receipt-link">View</a></td>
+                    </tr>
+                    <tr>
+                        <td>Oct 27, 2024</td>
+                        <td>Weekly rent - Week of Oct 27-Nov 2</td>
+                        <td>$175.00</td>
+                        <td><span class="status-badge paid">Paid</span></td>
+                        <td><a href="#" class="receipt-link">View</a></td>
+                    </tr>
+                    <tr>
+                        <td>Oct 20, 2024</td>
+                        <td>Weekly rent - Week of Oct 20-26</td>
+                        <td>$175.00</td>
+                        <td><span class="status-badge paid">Paid</span></td>
+                        <td><a href="#" class="receipt-link">View</a></td>
+                    </tr>
+                    <tr>
+                        <td>Oct 15, 2024</td>
+                        <td>Move-in fee</td>
+                        <td>$50.00</td>
+                        <td><span class="status-badge paid">Paid</span></td>
+                        <td><a href="#" class="receipt-link">View</a></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="pagination">
+                <button class="pagination-btn">Previous</button>
+                <button class="pagination-btn active">1</button>
+                <button class="pagination-btn">2</button>
+                <button class="pagination-btn">3</button>
+                <button class="pagination-btn">Next</button>
+            </div>
+        </div>
+
+        <!-- Payment Methods -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Payment Methods</h2>
+                <button class="btn btn-outline">Add New</button>
+            </div>
+
+            <div class="payment-method">
+                <div class="payment-method-icon">💳</div>
+                <div class="payment-method-info">
+                    <div class="payment-method-type">Visa ending in 4242</div>
+                    <div class="payment-method-details">Expires 12/2026</div>
+                </div>
+                <span class="payment-method-badge">Default</span>
+                <button class="btn btn-ghost">Edit</button>
+            </div>
+
+            <div class="payment-method">
+                <div class="payment-method-icon">💳</div>
+                <div class="payment-method-info">
+                    <div class="payment-method-type">Mastercard ending in 5555</div>
+                    <div class="payment-method-details">Expires 03/2025</div>
+                </div>
+                <button class="btn btn-ghost">Edit</button>
+                <button class="btn btn-ghost" style="color: var(--color-coral);">Remove</button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Simple pagination demo
+        document.querySelectorAll('.pagination-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                if (!this.textContent.includes('Previous') && !this.textContent.includes('Next')) {
+                    document.querySelectorAll('.pagination-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

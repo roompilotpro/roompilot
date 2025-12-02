@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Property - RoomPilot Landlord</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-midnight: #0f1419;
+            --color-charcoal: #1a2332;
+            --color-slate: #3d4f5f;
+            --color-mist: #8899a6;
+            --color-cloud: #e8ecef;
+            --color-snow: #f7f9fa;
+            --color-white: #ffffff;
+            --color-primary: #2563eb;
+            --color-primary-light: #3b82f6;
+            --color-primary-dark: #1d4ed8;
+            --color-primary-bg: #eff6ff;
+            --color-accent: #10b981;
+            --color-accent-bg: #ecfdf5;
+            --color-warm: #f59e0b;
+            --color-warm-bg: #fffbeb;
+            --color-coral: #f43f5e;
+            --color-coral-bg: #fff1f2;
+            --font-display: 'Fraunces', Georgia, serif;
+            --font-body: 'DM Sans', -apple-system, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--color-snow);
+            color: var(--color-midnight);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 260px;
+            background: var(--color-midnight);
+            color: var(--color-white);
+            padding: 24px 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 700;
+            padding: 0 24px 32px;
+            color: var(--color-white);
+        }
+
+        .nav-item {
+            padding: 12px 24px;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--color-mist);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .nav-item:hover {
+            background: var(--color-charcoal);
+            color: var(--color-white);
+        }
+
+        .nav-item.active {
+            background: var(--color-primary);
+            color: var(--color-white);
+        }
+
+        .main-content {
+            margin-left: 260px;
+            flex: 1;
+            padding: 32px 40px;
+            max-width: 1000px;
+        }
+
+        .page-header {
+            margin-bottom: 32px;
+        }
+
+        .page-title {
+            font-family: var(--font-display);
+            font-size: 32px;
+            color: var(--color-midnight);
+            margin-bottom: 8px;
+        }
+
+        .page-subtitle {
+            color: var(--color-slate);
+            font-size: 15px;
+        }
+
+        .progress-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .progress-bar::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--color-cloud);
+            z-index: 0;
+        }
+
+        .progress-fill {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            height: 2px;
+            background: var(--color-primary);
+            z-index: 1;
+            transition: width 0.3s;
+        }
+
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--color-white);
+            border: 2px solid var(--color-cloud);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--color-slate);
+            margin-bottom: 8px;
+        }
+
+        .progress-step.active .step-circle {
+            background: var(--color-primary);
+            border-color: var(--color-primary);
+            color: var(--color-white);
+        }
+
+        .progress-step.completed .step-circle {
+            background: var(--color-accent);
+            border-color: var(--color-accent);
+            color: var(--color-white);
+        }
+
+        .step-label {
+            font-size: 13px;
+            color: var(--color-slate);
+            font-weight: 500;
+        }
+
+        .progress-step.active .step-label {
+            color: var(--color-primary);
+            font-weight: 600;
+        }
+
+        .wizard-content {
+            background: var(--color-white);
+            border-radius: 12px;
+            border: 1px solid var(--color-cloud);
+            padding: 32px;
+        }
+
+        .step-content {
+            display: none;
+        }
+
+        .step-content.active {
+            display: block;
+        }
+
+        .step-title {
+            font-family: var(--font-display);
+            font-size: 24px;
+            color: var(--color-midnight);
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: var(--color-midnight);
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid var(--color-cloud);
+            border-radius: 8px;
+            font-family: var(--font-body);
+            font-size: 14px;
+            color: var(--color-midnight);
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--color-primary);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .upload-area {
+            border: 2px dashed var(--color-cloud);
+            border-radius: 12px;
+            padding: 48px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 20px;
+        }
+
+        .upload-area:hover {
+            border-color: var(--color-primary);
+            background: var(--color-primary-bg);
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+
+        .upload-text {
+            color: var(--color-midnight);
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .upload-hint {
+            color: var(--color-slate);
+            font-size: 13px;
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .photo-preview {
+            position: relative;
+            height: 150px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--color-primary-bg) 0%, var(--color-accent-bg) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+        }
+
+        .photo-remove {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--color-coral);
+            color: var(--color-white);
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .cover-badge {
+            position: absolute;
+            bottom: 8px;
+            left: 8px;
+            padding: 4px 8px;
+            background: var(--color-primary);
+            color: var(--color-white);
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .amenities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px;
+            border: 1px solid var(--color-cloud);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .checkbox-item:hover {
+            background: var(--color-snow);
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .checkbox-item label {
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .toggle-group {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .toggle-item {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid var(--color-cloud);
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .toggle-switch {
+            width: 44px;
+            height: 24px;
+            background: var(--color-cloud);
+            border-radius: 12px;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .toggle-switch.active {
+            background: var(--color-accent);
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: var(--color-white);
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: left 0.2s;
+        }
+
+        .toggle-switch.active::after {
+            left: 22px;
+        }
+
+        .room-list-item {
+            padding: 16px;
+            border: 1px solid var(--color-cloud);
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        .room-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .room-name {
+            font-weight: 600;
+            color: var(--color-midnight);
+        }
+
+        .room-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-icon {
+            width: 32px;
+            height: 32px;
+            border: 1px solid var(--color-cloud);
+            background: var(--color-white);
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .room-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .room-detail {
+            font-size: 13px;
+            color: var(--color-slate);
+        }
+
+        .wizard-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid var(--color-cloud);
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: var(--font-body);
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            color: var(--color-white);
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-dark);
+        }
+
+        .btn-secondary {
+            background: var(--color-white);
+            color: var(--color-slate);
+            border: 1px solid var(--color-cloud);
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-snow);
+        }
+
+        .success-screen {
+            text-align: center;
+            padding: 48px 24px;
+        }
+
+        .success-icon {
+            font-size: 64px;
+            margin-bottom: 24px;
+        }
+
+        .success-title {
+            font-family: var(--font-display);
+            font-size: 28px;
+            color: var(--color-midnight);
+            margin-bottom: 12px;
+        }
+
+        .success-text {
+            color: var(--color-slate);
+            margin-bottom: 32px;
+        }
+
+        .next-steps {
+            background: var(--color-snow);
+            border-radius: 8px;
+            padding: 24px;
+            text-align: left;
+            margin-bottom: 24px;
+        }
+
+        .next-steps h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--color-midnight);
+            margin-bottom: 16px;
+        }
+
+        .next-steps ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .next-steps li {
+            padding: 8px 0;
+            color: var(--color-slate);
+        }
+
+        .next-steps li::before {
+            content: '✓';
+            color: var(--color-accent);
+            font-weight: 700;
+            margin-right: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="logo">RoomPilot</div>
+        <nav>
+            <a href="landlord-dashboard.html" class="nav-item">
+                <span class="nav-icon">📊</span>
+                <span>Dashboard</span>
+            </a>
+            <a href="landlord-properties.html" class="nav-item active">
+                <span class="nav-icon">🏠</span>
+                <span>Properties</span>
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">👥</span>
+                <span>Tenants</span>
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">📝</span>
+                <span>Applications</span>
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">💬</span>
+                <span>Messages</span>
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">🔧</span>
+                <span>Maintenance</span>
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">💰</span>
+                <span>Payouts</span>
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">⚙️</span>
+                <span>Settings</span>
+            </a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">Add New Property</h1>
+            <p class="page-subtitle">List your property in 5 easy steps</p>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+            <div class="progress-step active">
+                <div class="step-circle">1</div>
+                <div class="step-label">Basic Details</div>
+            </div>
+            <div class="progress-step">
+                <div class="step-circle">2</div>
+                <div class="step-label">Photos</div>
+            </div>
+            <div class="progress-step">
+                <div class="step-circle">3</div>
+                <div class="step-label">Amenities</div>
+            </div>
+            <div class="progress-step">
+                <div class="step-circle">4</div>
+                <div class="step-label">Rooms</div>
+            </div>
+            <div class="progress-step">
+                <div class="step-circle">5</div>
+                <div class="step-label">Review</div>
+            </div>
+        </div>
+
+        <div class="wizard-content">
+            <!-- Step 1: Basic Details -->
+            <div class="step-content active" id="step1">
+                <h2 class="step-title">Basic Property Details</h2>
+                <div class="form-group">
+                    <label class="form-label">Property Name</label>
+                    <input type="text" class="form-input" placeholder="e.g., Sunshine House">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Street Address</label>
+                    <input type="text" class="form-input" placeholder="123 Main Street">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">City, State, ZIP</label>
+                    <input type="text" class="form-input" placeholder="Boston, MA 02115">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Property Type</label>
+                    <select class="form-select">
+                        <option>Select property type</option>
+                        <option>Single Family Home</option>
+                        <option>Apartment</option>
+                        <option>Condo</option>
+                        <option>Townhouse</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Property Description</label>
+                    <textarea class="form-textarea" placeholder="Describe your property, neighborhood, and what makes it special..."></textarea>
+                </div>
+            </div>
+
+            <!-- Step 2: Photos -->
+            <div class="step-content" id="step2">
+                <h2 class="step-title">Property Photos</h2>
+                <div class="upload-area">
+                    <div class="upload-icon">📷</div>
+                    <div class="upload-text">Drag and drop photos here</div>
+                    <div class="upload-hint">or click to browse (JPG, PNG up to 10MB)</div>
+                </div>
+                <div class="photo-grid">
+                    <div class="photo-preview">
+                        📷
+                        <span class="cover-badge">Cover</span>
+                        <button class="photo-remove">×</button>
+                    </div>
+                    <div class="photo-preview">
+                        📷
+                        <button class="photo-remove">×</button>
+                    </div>
+                    <div class="photo-preview">
+                        📷
+                        <button class="photo-remove">×</button>
+                    </div>
+                </div>
+                <p style="font-size: 13px; color: var(--color-slate);">
+                    Tip: The first photo will be used as the cover image. Drag to reorder.
+                </p>
+            </div>
+
+            <!-- Step 3: Amenities & Rules -->
+            <div class="step-content" id="step3">
+                <h2 class="step-title">Amenities & House Rules</h2>
+                <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 12px;">Property Amenities</h3>
+                <div class="amenities-grid">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="wifi" checked>
+                        <label for="wifi">📶 WiFi</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="ac" checked>
+                        <label for="ac">❄️ Air Conditioning</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="laundry" checked>
+                        <label for="laundry">🧺 Laundry</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="kitchen" checked>
+                        <label for="kitchen">🍳 Kitchen</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="parking">
+                        <label for="parking">🅿️ Parking</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="backyard">
+                        <label for="backyard">🌳 Backyard</label>
+                    </div>
+                </div>
+
+                <h3 style="font-size: 16px; font-weight: 700; margin: 24px 0 12px;">House Rules</h3>
+                <div class="toggle-group">
+                    <div class="toggle-item">
+                        <span>🚭 No Smoking</span>
+                        <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+                    </div>
+                    <div class="toggle-item">
+                        <span>🐕 Pets Allowed</span>
+                        <div class="toggle-switch" onclick="toggleSwitch(this)"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Guest Policy</label>
+                    <input type="text" class="form-input" placeholder="e.g., Guests allowed until 10 PM">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Quiet Hours</label>
+                    <input type="text" class="form-input" placeholder="e.g., 10 PM - 8 AM">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Additional Rules</label>
+                    <textarea class="form-textarea" placeholder="Any other house rules..."></textarea>
+                </div>
+            </div>
+
+            <!-- Step 4: Create Rooms -->
+            <div class="step-content" id="step4">
+                <h2 class="step-title">Add Rooms</h2>
+                <div class="room-list-item">
+                    <div class="room-header">
+                        <div class="room-name">Room 1</div>
+                        <div class="room-actions">
+                            <button class="btn-icon" title="Clone">📋</button>
+                            <button class="btn-icon" title="Remove">🗑️</button>
+                        </div>
+                    </div>
+                    <div class="room-grid">
+                        <div class="form-group" style="margin: 0;">
+                            <input type="text" class="form-input" placeholder="Room name/number">
+                        </div>
+                        <div class="form-group" style="margin: 0;">
+                            <select class="form-select">
+                                <option>Private Room</option>
+                                <option>Shared Room</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="margin: 0;">
+                            <select class="form-select">
+                                <option>Private Bathroom</option>
+                                <option>Shared Bathroom</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="margin: 0;">
+                            <input type="text" class="form-input" placeholder="Size (sq ft)">
+                        </div>
+                        <div class="form-group" style="margin: 0;">
+                            <select class="form-select">
+                                <option>Twin Bed</option>
+                                <option>Full Bed</option>
+                                <option>Queen Bed</option>
+                                <option>King Bed</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="margin: 0;">
+                            <input type="text" class="form-input" placeholder="Monthly rent ($)">
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn btn-secondary" style="width: 100%;" onclick="addRoom()">+ Add Another Room</button>
+            </div>
+
+            <!-- Step 5: Review & Publish -->
+            <div class="step-content" id="step5">
+                <h2 class="step-title">Review & Publish</h2>
+                <div style="background: var(--color-snow); padding: 24px; border-radius: 8px; margin-bottom: 24px;">
+                    <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 12px;">Sunshine House</h3>
+                    <p style="color: var(--color-slate); margin-bottom: 16px;">123 Main Street, Boston, MA 02115</p>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+                        <div>
+                            <div style="font-size: 12px; color: var(--color-slate);">Property Type</div>
+                            <div style="font-weight: 600;">Single Family Home</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 12px; color: var(--color-slate);">Total Rooms</div>
+                            <div style="font-weight: 600;">3 rooms</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 12px; color: var(--color-slate);">Photos</div>
+                            <div style="font-weight: 600;">3 photos</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Listing Status</label>
+                    <div style="display: flex; gap: 12px;">
+                        <div class="checkbox-item" style="flex: 1;">
+                            <input type="radio" name="status" id="active" checked>
+                            <label for="active">Active - Publish immediately</label>
+                        </div>
+                        <div class="checkbox-item" style="flex: 1;">
+                            <input type="radio" name="status" id="draft">
+                            <label for="draft">Draft - Save for later</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="background: var(--color-primary-bg); padding: 16px; border-radius: 8px; margin-top: 24px;">
+                    <p style="font-size: 13px; color: var(--color-primary);">
+                        By publishing this listing, you agree to RoomPilot's Terms of Service and confirm that all information provided is accurate.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Success Screen -->
+            <div class="step-content" id="success">
+                <div class="success-screen">
+                    <div class="success-icon">🎉</div>
+                    <h2 class="success-title">Property Listed Successfully!</h2>
+                    <p class="success-text">Your property "Sunshine House" is now live and visible to renters.</p>
+
+                    <div class="next-steps">
+                        <h3>Next Steps</h3>
+                        <ul>
+                            <li>Review and approve tenant applications</li>
+                            <li>Set up automatic payment reminders</li>
+                            <li>Complete your landlord profile</li>
+                            <li>Add property photos to rooms</li>
+                        </ul>
+                    </div>
+
+                    <div style="display: flex; gap: 12px; justify-content: center;">
+                        <button class="btn btn-secondary" onclick="window.location.href='landlord-property-detail.html'">View Property</button>
+                        <button class="btn btn-primary" onclick="window.location.href='landlord-properties.html'">Back to Properties</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="wizard-actions" id="wizardActions">
+                <button class="btn btn-secondary" id="backBtn" onclick="previousStep()" style="display: none;">Back</button>
+                <div style="display: flex; gap: 12px; margin-left: auto;">
+                    <button class="btn btn-secondary" onclick="window.location.href='landlord-properties.html'">Cancel</button>
+                    <button class="btn btn-primary" id="nextBtn" onclick="nextStep()">Next Step</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let currentStep = 1;
+        const totalSteps = 5;
+
+        function updateProgress() {
+            // Update progress bar
+            const progress = ((currentStep - 1) / (totalSteps - 1)) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+
+            // Update step circles
+            document.querySelectorAll('.progress-step').forEach((step, index) => {
+                const stepNum = index + 1;
+                step.classList.remove('active', 'completed');
+                if (stepNum < currentStep) {
+                    step.classList.add('completed');
+                } else if (stepNum === currentStep) {
+                    step.classList.add('active');
+                }
+            });
+
+            // Update step content
+            document.querySelectorAll('.step-content').forEach((content, index) => {
+                content.classList.remove('active');
+                if (index + 1 === currentStep) {
+                    content.classList.add('active');
+                }
+            });
+
+            // Update buttons
+            const backBtn = document.getElementById('backBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const wizardActions = document.getElementById('wizardActions');
+
+            backBtn.style.display = currentStep > 1 ? 'block' : 'none';
+
+            if (currentStep === totalSteps) {
+                nextBtn.textContent = 'Publish Property';
+            } else {
+                nextBtn.textContent = 'Next Step';
+            }
+
+            if (currentStep > totalSteps) {
+                wizardActions.style.display = 'none';
+            }
+        }
+
+        function nextStep() {
+            if (currentStep === totalSteps) {
+                // Show success screen
+                currentStep++;
+                updateProgress();
+            } else if (currentStep < totalSteps) {
+                currentStep++;
+                updateProgress();
+            }
+        }
+
+        function previousStep() {
+            if (currentStep > 1) {
+                currentStep--;
+                updateProgress();
+            }
+        }
+
+        function toggleSwitch(element) {
+            element.classList.toggle('active');
+        }
+
+        function addRoom() {
+            alert('Add room functionality would be implemented here');
+        }
+
+        // Initialize
+        updateProgress();
+    </script>
+</body>
+</html>

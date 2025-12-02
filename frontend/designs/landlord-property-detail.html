@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Details - RoomPilot Landlord</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-midnight: #0f1419;
+            --color-charcoal: #1a2332;
+            --color-slate: #3d4f5f;
+            --color-mist: #8899a6;
+            --color-cloud: #e8ecef;
+            --color-snow: #f7f9fa;
+            --color-white: #ffffff;
+            --color-primary: #2563eb;
+            --color-primary-light: #3b82f6;
+            --color-primary-dark: #1d4ed8;
+            --color-primary-bg: #eff6ff;
+            --color-accent: #10b981;
+            --color-accent-bg: #ecfdf5;
+            --color-warm: #f59e0b;
+            --color-warm-bg: #fffbeb;
+            --color-coral: #f43f5e;
+            --color-coral-bg: #fff1f2;
+            --font-display: 'Fraunces', Georgia, serif;
+            --font-body: 'DM Sans', -apple-system, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--color-snow);
+            color: var(--color-midnight);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 260px;
+            background: var(--color-midnight);
+            color: var(--color-white);
+            padding: 24px 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 700;
+            padding: 0 24px 32px;
+            color: var(--color-white);
+        }
+
+        .nav-item {
+            padding: 12px 24px;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--color-mist);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .nav-item:hover {
+            background: var(--color-charcoal);
+            color: var(--color-white);
+        }
+
+        .nav-item.active {
+            background: var(--color-primary);
+            color: var(--color-white);
+        }
+
+        .main-content {
+            margin-left: 260px;
+            flex: 1;
+            padding: 32px 40px;
+        }
+
+        .breadcrumb {
+            color: var(--color-slate);
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
+        .breadcrumb a {
+            color: var(--color-primary);
+            text-decoration: none;
+        }
+
+        .breadcrumb-separator {
+            margin: 0 8px;
+        }
+
+        .property-header {
+            background: var(--color-white);
+            border-radius: 12px;
+            border: 1px solid var(--color-cloud);
+            padding: 24px;
+            margin-bottom: 24px;
+            display: flex;
+            gap: 24px;
+        }
+
+        .property-hero-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--color-primary-bg) 0%, var(--color-accent-bg) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 64px;
+            flex-shrink: 0;
+        }
+
+        .property-header-content {
+            flex: 1;
+        }
+
+        .property-header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 16px;
+        }
+
+        .property-title {
+            font-family: var(--font-display);
+            font-size: 28px;
+            color: var(--color-midnight);
+            margin-bottom: 8px;
+        }
+
+        .property-address {
+            color: var(--color-slate);
+            font-size: 15px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: var(--font-body);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            color: var(--color-white);
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-dark);
+        }
+
+        .btn-secondary {
+            background: var(--color-white);
+            color: var(--color-slate);
+            border: 1px solid var(--color-cloud);
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-snow);
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-badge.active {
+            background: var(--color-accent-bg);
+            color: var(--color-accent);
+        }
+
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .quick-stat {
+            text-align: center;
+            padding: 16px;
+            background: var(--color-snow);
+            border-radius: 8px;
+        }
+
+        .quick-stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--color-midnight);
+            margin-bottom: 4px;
+        }
+
+        .quick-stat-label {
+            font-size: 13px;
+            color: var(--color-slate);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            border-bottom: 2px solid var(--color-cloud);
+        }
+
+        .tab {
+            padding: 12px 24px;
+            background: transparent;
+            border: none;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            color: var(--color-slate);
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+            transition: all 0.2s;
+        }
+
+        .tab.active {
+            color: var(--color-primary);
+            border-bottom-color: var(--color-primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .card {
+            background: var(--color-white);
+            border-radius: 12px;
+            border: 1px solid var(--color-cloud);
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--color-midnight);
+            margin-bottom: 16px;
+        }
+
+        .photo-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .photo-item {
+            height: 200px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--color-primary-bg) 0%, var(--color-accent-bg) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+        }
+
+        .amenities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+        }
+
+        .amenity-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 0;
+            color: var(--color-midnight);
+        }
+
+        .amenity-icon {
+            font-size: 20px;
+        }
+
+        .rooms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 16px;
+        }
+
+        .room-card {
+            border: 1px solid var(--color-cloud);
+            border-radius: 8px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .room-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .room-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 12px;
+        }
+
+        .room-name {
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--color-midnight);
+            margin-bottom: 4px;
+        }
+
+        .room-details {
+            font-size: 13px;
+            color: var(--color-slate);
+            margin-bottom: 8px;
+        }
+
+        .room-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--color-midnight);
+            margin-bottom: 8px;
+        }
+
+        .room-tenant {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding-top: 8px;
+            border-top: 1px solid var(--color-cloud);
+        }
+
+        .tenant-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--color-primary-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: var(--color-primary);
+            font-size: 12px;
+        }
+
+        .tenant-info {
+            flex: 1;
+        }
+
+        .tenant-name {
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--color-midnight);
+        }
+
+        .tenant-status {
+            font-size: 12px;
+            color: var(--color-slate);
+        }
+
+        .tenant-card {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            border: 1px solid var(--color-cloud);
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        .tenant-avatar-large {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--color-primary-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--color-primary);
+            font-size: 18px;
+        }
+
+        .tenant-content {
+            flex: 1;
+        }
+
+        .application-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            border: 1px solid var(--color-cloud);
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        .application-info {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .application-date {
+            font-size: 12px;
+            color: var(--color-slate);
+        }
+
+        .application-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-small {
+            padding: 6px 16px;
+            font-size: 13px;
+        }
+
+        .btn-success {
+            background: var(--color-accent);
+            color: var(--color-white);
+        }
+
+        .btn-success:hover {
+            background: #059669;
+        }
+
+        .btn-danger {
+            background: var(--color-white);
+            color: var(--color-coral);
+            border: 1px solid var(--color-coral);
+        }
+
+        .btn-danger:hover {
+            background: var(--color-coral-bg);
+        }
+
+        .maintenance-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            border: 1px solid var(--color-cloud);
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        .maintenance-content {
+            flex: 1;
+        }
+
+        .maintenance-title {
+            font-weight: 600;
+            color: var(--color-midnight);
+            margin-bottom: 4px;
+        }
+
+        .maintenance-meta {
+            font-size: 13px;
+            color: var(--color-slate);
+        }
+
+        .status-badge.open {
+            background: var(--color-warm-bg);
+            color: var(--color-warm);
+        }
+
+        .status-badge.in-progress {
+            background: var(--color-primary-bg);
+            color: var(--color-primary);
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+            .property-header {
+                flex-direction: column;
+            }
+            .quick-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="logo">RoomPilot</div>
+        <nav>
+            <a href="landlord-dashboard.html" class="nav-item">
+                <span class="nav-icon">📊</span>
+                <span>Dashboard</span>
+            </a>
+            <a href="landlord-properties.html" class="nav-item active">
+                <span class="nav-icon">🏠</span>
+                <span>Properties</span>
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">👥</span>
+                <span>Tenants</span>
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">📝</span>
+                <span>Applications</span>
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">💬</span>
+                <span>Messages</span>
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">🔧</span>
+                <span>Maintenance</span>
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">💰</span>
+                <span>Payouts</span>
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">⚙️</span>
+                <span>Settings</span>
+            </a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <div class="breadcrumb">
+            <a href="landlord-properties.html">Properties</a>
+            <span class="breadcrumb-separator">›</span>
+            <span>Sunshine House</span>
+        </div>
+
+        <div class="property-header">
+            <div class="property-hero-image">🏡</div>
+            <div class="property-header-content">
+                <div class="property-header-top">
+                    <div>
+                        <h1 class="property-title">Sunshine House</h1>
+                        <p class="property-address">123 Main Street, Boston, MA 02115</p>
+                    </div>
+                    <div class="header-actions">
+                        <span class="status-badge active">Active</span>
+                        <button class="btn btn-secondary">Edit Property</button>
+                        <button class="btn btn-primary">Add Room</button>
+                    </div>
+                </div>
+
+                <div class="quick-stats">
+                    <div class="quick-stat">
+                        <div class="quick-stat-value">80%</div>
+                        <div class="quick-stat-label">Occupancy Rate</div>
+                    </div>
+                    <div class="quick-stat">
+                        <div class="quick-stat-value">$4,200</div>
+                        <div class="quick-stat-label">Monthly Revenue</div>
+                    </div>
+                    <div class="quick-stat">
+                        <div class="quick-stat-value">4.8</div>
+                        <div class="quick-stat-label">Average Rating</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('overview')">Overview</button>
+            <button class="tab" onclick="switchTab('rooms')">Rooms</button>
+            <button class="tab" onclick="switchTab('tenants')">Tenants</button>
+            <button class="tab" onclick="switchTab('applications')">Applications</button>
+            <button class="tab" onclick="switchTab('maintenance')">Maintenance</button>
+        </div>
+
+        <!-- Overview Tab -->
+        <div class="tab-content active" id="overview">
+            <div class="card">
+                <h2 class="card-title">Photos</h2>
+                <div class="photo-gallery">
+                    <div class="photo-item">📷</div>
+                    <div class="photo-item">📷</div>
+                    <div class="photo-item">📷</div>
+                    <div class="photo-item">📷</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2 class="card-title">Description</h2>
+                <p style="color: var(--color-slate); line-height: 1.6;">
+                    Beautiful shared house in the heart of Boston. Perfect for students and young professionals.
+                    Walking distance to public transportation, restaurants, and shops. Recently renovated with
+                    modern amenities throughout. Safe, quiet neighborhood with plenty of street parking.
+                </p>
+            </div>
+
+            <div class="card">
+                <h2 class="card-title">Amenities</h2>
+                <div class="amenities-grid">
+                    <div class="amenity-item">
+                        <span class="amenity-icon">📶</span>
+                        <span>High-Speed WiFi</span>
+                    </div>
+                    <div class="amenity-item">
+                        <span class="amenity-icon">❄️</span>
+                        <span>Air Conditioning</span>
+                    </div>
+                    <div class="amenity-item">
+                        <span class="amenity-icon">🧺</span>
+                        <span>Laundry In-Unit</span>
+                    </div>
+                    <div class="amenity-item">
+                        <span class="amenity-icon">🍳</span>
+                        <span>Full Kitchen</span>
+                    </div>
+                    <div class="amenity-item">
+                        <span class="amenity-icon">📺</span>
+                        <span>Living Room TV</span>
+                    </div>
+                    <div class="amenity-item">
+                        <span class="amenity-icon">🅿️</span>
+                        <span>Street Parking</span>
+                    </div>
+                    <div class="amenity-item">
+                        <span class="amenity-icon">🔥</span>
+                        <span>Central Heating</span>
+                    </div>
+                    <div class="amenity-item">
+                        <span class="amenity-icon">🌳</span>
+                        <span>Backyard</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2 class="card-title">House Rules</h2>
+                <div style="color: var(--color-slate); line-height: 1.8;">
+                    <p style="margin-bottom: 12px;">🚭 No smoking inside</p>
+                    <p style="margin-bottom: 12px;">🐕 Pets allowed with deposit</p>
+                    <p style="margin-bottom: 12px;">👥 Guests allowed until 10 PM</p>
+                    <p style="margin-bottom: 12px;">🔇 Quiet hours: 10 PM - 8 AM</p>
+                    <p>🧹 Shared space cleaning rotation</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rooms Tab -->
+        <div class="tab-content" id="rooms">
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <h2 class="card-title" style="margin: 0;">Rooms (10)</h2>
+                    <button class="btn btn-primary" onclick="window.location.href='landlord-add-room.html'">+ Add Room</button>
+                </div>
+                <div class="rooms-grid">
+                    <div class="room-card" onclick="window.location.href='landlord-room-detail.html'">
+                        <div class="room-header">
+                            <div>
+                                <div class="room-name">Room 1A</div>
+                                <div class="room-details">Private room • Private bath • 150 sq ft</div>
+                            </div>
+                            <span class="status-badge" style="background: var(--color-accent-bg); color: var(--color-accent);">Occupied</span>
+                        </div>
+                        <div class="room-price">$650/month</div>
+                        <div class="room-tenant">
+                            <div class="tenant-avatar">JS</div>
+                            <div class="tenant-info">
+                                <div class="tenant-name">John Smith</div>
+                                <div class="tenant-status">Payment on time</div>
+                            </div>
+                            <span class="status-badge paid">Paid</span>
+                        </div>
+                    </div>
+
+                    <div class="room-card">
+                        <div class="room-header">
+                            <div>
+                                <div class="room-name">Room 2B</div>
+                                <div class="room-details">Private room • Shared bath • 130 sq ft</div>
+                            </div>
+                            <span class="status-badge" style="background: var(--color-warm-bg); color: var(--color-warm);">Vacant</span>
+                        </div>
+                        <div class="room-price">$550/month</div>
+                        <div style="padding-top: 8px; border-top: 1px solid var(--color-cloud); color: var(--color-slate); font-size: 13px;">
+                            Available December 15, 2025
+                        </div>
+                    </div>
+
+                    <div class="room-card">
+                        <div class="room-header">
+                            <div>
+                                <div class="room-name">Room 3A</div>
+                                <div class="room-details">Private room • Private bath • 160 sq ft</div>
+                            </div>
+                            <span class="status-badge" style="background: var(--color-accent-bg); color: var(--color-accent);">Occupied</span>
+                        </div>
+                        <div class="room-price">$725/month</div>
+                        <div class="room-tenant">
+                            <div class="tenant-avatar">MG</div>
+                            <div class="tenant-info">
+                                <div class="tenant-name">Maria Garcia</div>
+                                <div class="tenant-status">Payment overdue</div>
+                            </div>
+                            <span class="status-badge late">Late</span>
+                        </div>
+                    </div>
+
+                    <div class="room-card">
+                        <div class="room-header">
+                            <div>
+                                <div class="room-name">Room 4C</div>
+                                <div class="room-details">Private room • Shared bath • 140 sq ft</div>
+                            </div>
+                            <span class="status-badge" style="background: var(--color-accent-bg); color: var(--color-accent);">Occupied</span>
+                        </div>
+                        <div class="room-price">$600/month</div>
+                        <div class="room-tenant">
+                            <div class="tenant-avatar">AJ</div>
+                            <div class="tenant-info">
+                                <div class="tenant-name">Alex Johnson</div>
+                                <div class="tenant-status">Payment on time</div>
+                            </div>
+                            <span class="status-badge paid">Paid</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tenants Tab -->
+        <div class="tab-content" id="tenants">
+            <div class="card">
+                <h2 class="card-title">Current Residents (8)</h2>
+
+                <div class="tenant-card">
+                    <div class="tenant-avatar-large">JS</div>
+                    <div class="tenant-content">
+                        <div class="tenant-name">John Smith</div>
+                        <div class="tenant-status">Room 1A • Moved in March 15, 2024</div>
+                    </div>
+                    <span class="status-badge paid">Paid</span>
+                    <button class="btn btn-secondary btn-small">Message</button>
+                </div>
+
+                <div class="tenant-card">
+                    <div class="tenant-avatar-large">MG</div>
+                    <div class="tenant-content">
+                        <div class="tenant-name">Maria Garcia</div>
+                        <div class="tenant-status">Room 3A • Moved in January 10, 2024</div>
+                    </div>
+                    <span class="status-badge late">Late</span>
+                    <button class="btn btn-secondary btn-small">Message</button>
+                </div>
+
+                <div class="tenant-card">
+                    <div class="tenant-avatar-large">AJ</div>
+                    <div class="tenant-content">
+                        <div class="tenant-name">Alex Johnson</div>
+                        <div class="tenant-status">Room 4C • Moved in June 1, 2024</div>
+                    </div>
+                    <span class="status-badge paid">Paid</span>
+                    <button class="btn btn-secondary btn-small">Message</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Applications Tab -->
+        <div class="tab-content" id="applications">
+            <div class="card">
+                <h2 class="card-title">Pending Applications (3)</h2>
+
+                <div class="application-card">
+                    <div class="application-info">
+                        <div class="tenant-avatar-large">EC</div>
+                        <div>
+                            <div class="tenant-name">Emily Chen</div>
+                            <div class="tenant-status">Applied for Room 2B</div>
+                            <div class="application-date">Applied 2 days ago</div>
+                        </div>
+                    </div>
+                    <div class="application-actions">
+                        <button class="btn btn-secondary btn-small">View Details</button>
+                        <button class="btn btn-success btn-small">Approve</button>
+                        <button class="btn btn-danger btn-small">Decline</button>
+                    </div>
+                </div>
+
+                <div class="application-card">
+                    <div class="application-info">
+                        <div class="tenant-avatar-large">DW</div>
+                        <div>
+                            <div class="tenant-name">David Wilson</div>
+                            <div class="tenant-status">Applied for Room 2B</div>
+                            <div class="application-date">Applied 4 days ago</div>
+                        </div>
+                    </div>
+                    <div class="application-actions">
+                        <button class="btn btn-secondary btn-small">View Details</button>
+                        <button class="btn btn-success btn-small">Approve</button>
+                        <button class="btn btn-danger btn-small">Decline</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Maintenance Tab -->
+        <div class="tab-content" id="maintenance">
+            <div class="card">
+                <h2 class="card-title">Open Maintenance Requests (2)</h2>
+
+                <div class="maintenance-item">
+                    <div class="maintenance-content">
+                        <div class="maintenance-title">Kitchen faucet leaking</div>
+                        <div class="maintenance-meta">Room 1A • Reported by John Smith • 2 days ago</div>
+                    </div>
+                    <span class="status-badge open">Open</span>
+                    <button class="btn btn-secondary btn-small">View Details</button>
+                </div>
+
+                <div class="maintenance-item">
+                    <div class="maintenance-content">
+                        <div class="maintenance-title">Bathroom light not working</div>
+                        <div class="maintenance-meta">Room 3A • Reported by Maria Garcia • 5 days ago</div>
+                    </div>
+                    <span class="status-badge in-progress">In Progress</span>
+                    <button class="btn btn-secondary btn-small">View Details</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>

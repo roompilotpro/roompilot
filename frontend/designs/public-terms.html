@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service - RoomPilot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-midnight: #0f1419;
+            --color-charcoal: #1a2332;
+            --color-slate: #3d4f5f;
+            --color-mist: #8899a6;
+            --color-cloud: #e8ecef;
+            --color-snow: #f7f9fa;
+            --color-white: #ffffff;
+            --color-primary: #2563eb;
+            --color-primary-light: #3b82f6;
+            --color-primary-dark: #1d4ed8;
+            --color-primary-bg: #eff6ff;
+            --font-display: 'Fraunces', Georgia, serif;
+            --font-body: 'DM Sans', -apple-system, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--color-midnight);
+            line-height: 1.7;
+        }
+
+        .nav {
+            background: var(--color-white);
+            border-bottom: 1px solid var(--color-cloud);
+            padding: 1rem 2rem;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-primary);
+            text-decoration: none;
+        }
+
+        .header {
+            background: var(--color-snow);
+            padding: 3rem 2rem;
+            border-bottom: 1px solid var(--color-cloud);
+        }
+
+        .header-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header h1 {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            color: var(--color-midnight);
+            margin-bottom: 0.5rem;
+        }
+
+        .last-updated {
+            color: var(--color-mist);
+            font-size: 0.9375rem;
+        }
+
+        .content-wrapper {
+            display: flex;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            gap: 3rem;
+        }
+
+        .toc {
+            flex: 0 0 250px;
+            position: sticky;
+            top: 2rem;
+            align-self: flex-start;
+            max-height: calc(100vh - 4rem);
+            overflow-y: auto;
+        }
+
+        .toc h3 {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--color-mist);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+        }
+
+        .toc ul {
+            list-style: none;
+        }
+
+        .toc ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .toc a {
+            color: var(--color-slate);
+            text-decoration: none;
+            font-size: 0.9375rem;
+            transition: color 0.2s;
+            display: block;
+            padding: 0.25rem 0;
+        }
+
+        .toc a:hover {
+            color: var(--color-primary);
+        }
+
+        .toc a.active {
+            color: var(--color-primary);
+            font-weight: 600;
+        }
+
+        .content {
+            flex: 1;
+            max-width: 800px;
+        }
+
+        .section {
+            margin-bottom: 3rem;
+        }
+
+        .section h2 {
+            font-family: var(--font-display);
+            font-size: 1.75rem;
+            color: var(--color-midnight);
+            margin-bottom: 1rem;
+            padding-top: 1rem;
+        }
+
+        .section h3 {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            color: var(--color-midnight);
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .section p {
+            margin-bottom: 1rem;
+            color: var(--color-slate);
+        }
+
+        .section ul,
+        .section ol {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+            color: var(--color-slate);
+        }
+
+        .section li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer {
+            background: var(--color-midnight);
+            color: var(--color-cloud);
+            padding: 3rem 2rem 1.5rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer h4 {
+            color: var(--color-white);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .footer ul {
+            list-style: none;
+        }
+
+        .footer ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer a {
+            color: var(--color-cloud);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer a:hover {
+            color: var(--color-white);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--color-slate);
+            padding-top: 1.5rem;
+            text-align: center;
+            color: var(--color-mist);
+        }
+
+        @media (max-width: 968px) {
+            .toc {
+                display: none;
+            }
+
+            .content-wrapper {
+                padding: 2rem 1rem;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="landing.html" class="logo">RoomPilot</a>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <section class="header">
+        <div class="header-container">
+            <h1>Terms of Service</h1>
+            <p class="last-updated">Last Updated: December 1, 2024</p>
+        </div>
+    </section>
+
+    <!-- Content -->
+    <div class="content-wrapper">
+        <!-- Table of Contents -->
+        <aside class="toc">
+            <h3>Contents</h3>
+            <ul>
+                <li><a href="#acceptance">1. Acceptance of Terms</a></li>
+                <li><a href="#definitions">2. Definitions</a></li>
+                <li><a href="#eligibility">3. Eligibility</a></li>
+                <li><a href="#account">4. Account Registration</a></li>
+                <li><a href="#hosts">5. Host Responsibilities</a></li>
+                <li><a href="#renters">6. Renter Responsibilities</a></li>
+                <li><a href="#payments">7. Payments and Fees</a></li>
+                <li><a href="#cancellation">8. Cancellation Policy</a></li>
+                <li><a href="#prohibited">9. Prohibited Conduct</a></li>
+                <li><a href="#intellectual">10. Intellectual Property</a></li>
+                <li><a href="#privacy">11. Privacy</a></li>
+                <li><a href="#disputes">12. Dispute Resolution</a></li>
+                <li><a href="#limitation">13. Limitation of Liability</a></li>
+                <li><a href="#indemnification">14. Indemnification</a></li>
+                <li><a href="#termination">15. Termination</a></li>
+                <li><a href="#changes">16. Changes to Terms</a></li>
+                <li><a href="#contact">17. Contact Information</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="content">
+            <section class="section" id="acceptance">
+                <h2>1. Acceptance of Terms</h2>
+                <p>Welcome to RoomPilot. By accessing or using our website, mobile application, or services (collectively, the "Platform"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, you may not use the Platform.</p>
+                <p>These Terms constitute a legally binding agreement between you and RoomPilot, Inc. ("RoomPilot," "we," "us," or "our"). We reserve the right to modify these Terms at any time, and your continued use of the Platform after such modifications constitutes acceptance of the updated Terms.</p>
+            </section>
+
+            <section class="section" id="definitions">
+                <h2>2. Definitions</h2>
+                <ul>
+                    <li><strong>Host:</strong> A user who lists a property or room for rent on the Platform.</li>
+                    <li><strong>Renter:</strong> A user who searches for and rents a room through the Platform.</li>
+                    <li><strong>Listing:</strong> A room or property advertised for rent by a Host on the Platform.</li>
+                    <li><strong>Booking:</strong> A confirmed rental agreement between a Host and Renter.</li>
+                    <li><strong>Service Fees:</strong> Fees charged by RoomPilot for use of the Platform.</li>
+                </ul>
+            </section>
+
+            <section class="section" id="eligibility">
+                <h2>3. Eligibility</h2>
+                <p>To use the Platform, you must:</p>
+                <ul>
+                    <li>Be at least 18 years of age</li>
+                    <li>Have the legal capacity to enter into binding contracts</li>
+                    <li>Not be prohibited from using the Platform under the laws of the United States or your jurisdiction</li>
+                    <li>Provide accurate, current, and complete information during registration</li>
+                </ul>
+                <p>By using the Platform, you represent and warrant that you meet these eligibility requirements.</p>
+            </section>
+
+            <section class="section" id="account">
+                <h2>4. Account Registration</h2>
+                <h3>4.1 Account Creation</h3>
+                <p>You must create an account to access certain features of the Platform. You agree to provide accurate and complete information during registration and to update this information as necessary.</p>
+
+                <h3>4.2 Account Security</h3>
+                <p>You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account. You must immediately notify us of any unauthorized use of your account.</p>
+
+                <h3>4.3 Identity Verification</h3>
+                <p>Hosts must complete identity verification, including providing government-issued identification and undergoing background screening. We reserve the right to verify the identity of any user at any time.</p>
+            </section>
+
+            <section class="section" id="hosts">
+                <h2>5. Host Responsibilities</h2>
+                <h3>5.1 Listing Accuracy</h3>
+                <p>Hosts must provide accurate, complete, and up-to-date information in their Listings, including property descriptions, photos, amenities, house rules, and pricing. Misleading or false information is strictly prohibited.</p>
+
+                <h3>5.2 Legal Compliance</h3>
+                <p>Hosts are responsible for ensuring their Listings comply with all applicable laws, regulations, zoning ordinances, and homeowner association rules. This includes obtaining necessary permits, licenses, and insurance.</p>
+
+                <h3>5.3 Property Standards</h3>
+                <p>Hosts must maintain their properties in safe, habitable condition and comply with all applicable housing codes and safety regulations, including working smoke detectors, carbon monoxide detectors, and emergency exits.</p>
+
+                <h3>5.4 Fair Housing</h3>
+                <p>Hosts must comply with all applicable fair housing laws and may not discriminate based on race, color, religion, sex, national origin, familial status, disability, or any other protected characteristic.</p>
+
+                <h3>5.5 Communication</h3>
+                <p>Hosts must respond to inquiries and booking requests in a timely manner and maintain professional communication with Renters throughout the rental period.</p>
+            </section>
+
+            <section class="section" id="renters">
+                <h2>6. Renter Responsibilities</h2>
+                <h3>6.1 Accurate Information</h3>
+                <p>Renters must provide accurate information in their profiles and rental applications, including employment history, references, and any other information requested by Hosts.</p>
+
+                <h3>6.2 Property Use</h3>
+                <p>Renters must use the property only for residential purposes and in accordance with the Listing description and house rules. Subletting or assigning the rental without Host permission is prohibited.</p>
+
+                <h3>6.3 Property Care</h3>
+                <p>Renters must maintain the property in good condition, report maintenance issues promptly, and reimburse Hosts for any damages beyond normal wear and tear.</p>
+
+                <h3>6.4 Payment Obligations</h3>
+                <p>Renters are responsible for timely payment of all rent, fees, and other charges as specified in their rental agreement.</p>
+            </section>
+
+            <section class="section" id="payments">
+                <h2>7. Payments and Fees</h2>
+                <h3>7.1 Payment Processing</h3>
+                <p>All payments are processed through Stripe. By using the Platform, you agree to Stripe's terms of service. RoomPilot is not responsible for any errors or issues with payment processing by third-party providers.</p>
+
+                <h3>7.2 Service Fees</h3>
+                <p>Hosts pay service fees as outlined in our pricing plans. Fees are subject to change with 30 days' notice. Current pricing is available at roompilot.com/pricing.</p>
+
+                <h3>7.3 Rent Collection</h3>
+                <p>Rent is automatically charged to Renters' payment methods according to the agreed schedule (weekly or monthly). Failed payments may result in late fees and potential eviction proceedings.</p>
+
+                <h3>7.4 Security Deposits</h3>
+                <p>Security deposits are held in escrow. Hosts may claim deductions for damages within 14 days of lease termination, providing photographic evidence. Renters may dispute claims through our resolution process.</p>
+
+                <h3>7.5 Refunds</h3>
+                <p>Refunds are handled according to the cancellation policy outlined in Section 8. Service fees are generally non-refundable.</p>
+            </section>
+
+            <section class="section" id="cancellation">
+                <h2>8. Cancellation Policy</h2>
+                <h3>8.1 Pre-Move-In Cancellations</h3>
+                <p>Renters may cancel bookings before move-in with full refund up to 48 hours before the scheduled move-in date. Cancellations within 48 hours forfeit the first week's rent.</p>
+
+                <h3>8.2 Lease Termination</h3>
+                <p>For month-to-month agreements, either party may terminate with 30 days' written notice. Fixed-term leases require adherence to the terms specified in the lease agreement.</p>
+
+                <h3>8.3 Host Cancellations</h3>
+                <p>Hosts who cancel confirmed bookings without valid reason may face penalties, including suspension from the Platform and liability for Renter relocation costs.</p>
+            </section>
+
+            <section class="section" id="prohibited">
+                <h2>9. Prohibited Conduct</h2>
+                <p>Users may not:</p>
+                <ul>
+                    <li>Violate any laws, regulations, or third-party rights</li>
+                    <li>Engage in fraudulent, deceptive, or misleading activities</li>
+                    <li>Harass, threaten, or intimidate other users</li>
+                    <li>Post false, inaccurate, or misleading content</li>
+                    <li>Circumvent or manipulate our fee structure or payment systems</li>
+                    <li>Use automated tools to access or scrape the Platform</li>
+                    <li>Transmit viruses, malware, or other harmful code</li>
+                    <li>Impersonate another person or entity</li>
+                    <li>Discriminate based on protected characteristics</li>
+                    <li>Use the Platform for any illegal purpose</li>
+                </ul>
+            </section>
+
+            <section class="section" id="intellectual">
+                <h2>10. Intellectual Property</h2>
+                <h3>10.1 Platform Ownership</h3>
+                <p>The Platform, including all software, text, graphics, logos, and other content, is owned by RoomPilot and protected by copyright, trademark, and other intellectual property laws.</p>
+
+                <h3>10.2 User Content</h3>
+                <p>You retain ownership of content you post to the Platform but grant RoomPilot a worldwide, non-exclusive, royalty-free license to use, reproduce, modify, and display such content for the purpose of operating and promoting the Platform.</p>
+
+                <h3>10.3 Trademarks</h3>
+                <p>RoomPilot, the RoomPilot logo, and other marks are trademarks of RoomPilot, Inc. You may not use these marks without our prior written permission.</p>
+            </section>
+
+            <section class="section" id="privacy">
+                <h2>11. Privacy</h2>
+                <p>Your use of the Platform is subject to our Privacy Policy, which is incorporated into these Terms by reference. Please review our Privacy Policy to understand how we collect, use, and protect your personal information.</p>
+            </section>
+
+            <section class="section" id="disputes">
+                <h2>12. Dispute Resolution</h2>
+                <h3>12.1 Between Users</h3>
+                <p>RoomPilot provides a resolution center to help users resolve disputes. While we may offer mediation services, we are not responsible for resolving disputes between users.</p>
+
+                <h3>12.2 With RoomPilot</h3>
+                <p>Any disputes between you and RoomPilot shall be resolved through binding arbitration in accordance with the American Arbitration Association's rules, except where prohibited by law.</p>
+
+                <h3>12.3 Class Action Waiver</h3>
+                <p>You agree to resolve disputes with RoomPilot on an individual basis and waive any right to participate in class action lawsuits or class-wide arbitration.</p>
+            </section>
+
+            <section class="section" id="limitation">
+                <h2>13. Limitation of Liability</h2>
+                <p>TO THE MAXIMUM EXTENT PERMITTED BY LAW, ROOMPILOT SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, OR ANY LOSS OF PROFITS OR REVENUES, WHETHER INCURRED DIRECTLY OR INDIRECTLY, OR ANY LOSS OF DATA, USE, GOODWILL, OR OTHER INTANGIBLE LOSSES.</p>
+                <p>IN NO EVENT SHALL ROOMPILOT'S TOTAL LIABILITY EXCEED THE AMOUNT OF FEES PAID BY YOU TO ROOMPILOT IN THE TWELVE MONTHS PRECEDING THE EVENT GIVING RISE TO LIABILITY.</p>
+            </section>
+
+            <section class="section" id="indemnification">
+                <h2>14. Indemnification</h2>
+                <p>You agree to indemnify, defend, and hold harmless RoomPilot and its officers, directors, employees, and agents from any claims, liabilities, damages, losses, and expenses arising from:</p>
+                <ul>
+                    <li>Your use of the Platform</li>
+                    <li>Your violation of these Terms</li>
+                    <li>Your violation of any rights of another person or entity</li>
+                    <li>Your Listings or rental activities</li>
+                </ul>
+            </section>
+
+            <section class="section" id="termination">
+                <h2>15. Termination</h2>
+                <p>We may suspend or terminate your account at any time for any reason, including violation of these Terms. Upon termination, you must cease all use of the Platform. Sections that by their nature should survive termination shall survive, including intellectual property provisions, disclaimers, and limitations of liability.</p>
+            </section>
+
+            <section class="section" id="changes">
+                <h2>16. Changes to Terms</h2>
+                <p>We reserve the right to modify these Terms at any time. We will notify users of material changes via email or Platform notification. Your continued use of the Platform after such modifications constitutes acceptance of the updated Terms.</p>
+            </section>
+
+            <section class="section" id="contact">
+                <h2>17. Contact Information</h2>
+                <p>For questions about these Terms, please contact us at:</p>
+                <p>
+                    RoomPilot, Inc.<br>
+                    Email: legal@roompilot.com<br>
+                    Address: 123 Main Street, San Francisco, CA 94105
+                </p>
+            </section>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div>
+                <h4>RoomPilot</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Press</a></li>
+                    <li><a href="#">Blog</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>For Renters</h4>
+                <ul>
+                    <li><a href="public-how-it-works-renters.html">How It Works</a></li>
+                    <li><a href="search-page.html">Find a Room</a></li>
+                    <li><a href="public-trust-safety.html">Trust & Safety</a></li>
+                    <li><a href="#">Renter Resources</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>For Hosts</h4>
+                <ul>
+                    <li><a href="public-how-it-works-landlords.html">Become a Host</a></li>
+                    <li><a href="#">List Your Property</a></li>
+                    <li><a href="public-pricing.html">Pricing</a></li>
+                    <li><a href="#">Host Resources</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="public-faq.html">FAQ</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="public-terms.html">Terms of Service</a></li>
+                    <li><a href="public-privacy.html">Privacy Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 RoomPilot. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for table of contents
+        document.querySelectorAll('.toc a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Highlight active section in TOC
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.getAttribute('id');
+                    document.querySelectorAll('.toc a').forEach(link => {
+                        link.classList.remove('active');
+                    });
+                    const activeLink = document.querySelector(`.toc a[href="#${id}"]`);
+                    if (activeLink) {
+                        activeLink.classList.add('active');
+                    }
+                }
+            });
+        }, {
+            rootMargin: '-100px 0px -80% 0px'
+        });
+
+        document.querySelectorAll('.section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>

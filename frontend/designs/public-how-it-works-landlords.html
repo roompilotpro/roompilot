@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How It Works for Hosts - RoomPilot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-midnight: #0f1419;
+            --color-charcoal: #1a2332;
+            --color-slate: #3d4f5f;
+            --color-mist: #8899a6;
+            --color-cloud: #e8ecef;
+            --color-snow: #f7f9fa;
+            --color-white: #ffffff;
+            --color-primary: #2563eb;
+            --color-primary-light: #3b82f6;
+            --color-primary-dark: #1d4ed8;
+            --color-primary-bg: #eff6ff;
+            --color-accent: #10b981;
+            --color-accent-bg: #ecfdf5;
+            --color-warm: #f59e0b;
+            --color-warm-bg: #fffbeb;
+            --color-coral: #f43f5e;
+            --color-coral-bg: #fff1f2;
+            --font-display: 'Fraunces', Georgia, serif;
+            --font-body: 'DM Sans', -apple-system, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--color-midnight);
+            line-height: 1.6;
+        }
+
+        .nav {
+            background: var(--color-white);
+            border-bottom: 1px solid var(--color-cloud);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-primary);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--color-slate);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--color-primary);
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.625rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9375rem;
+            display: inline-block;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--color-slate);
+            border: 1px solid var(--color-cloud);
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-snow);
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            color: var(--color-white);
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-dark);
+        }
+
+        .btn-large {
+            padding: 1rem 2rem;
+            font-size: 1.125rem;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--color-accent-bg) 0%, var(--color-white) 100%);
+            padding: 5rem 2rem;
+            text-align: center;
+        }
+
+        .hero-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            color: var(--color-midnight);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--color-slate);
+            margin-bottom: 2rem;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            color: var(--color-accent);
+            font-weight: 700;
+        }
+
+        .stat-label {
+            color: var(--color-slate);
+            font-size: 0.875rem;
+        }
+
+        .section {
+            padding: 5rem 2rem;
+        }
+
+        .section-alt {
+            background: var(--color-snow);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            color: var(--color-midnight);
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            font-size: 1.125rem;
+            color: var(--color-slate);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .step {
+            text-align: center;
+        }
+
+        .step-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--color-accent-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+        }
+
+        .step-number {
+            display: inline-block;
+            width: 32px;
+            height: 32px;
+            background: var(--color-accent);
+            color: var(--color-white);
+            border-radius: 50%;
+            font-weight: 700;
+            line-height: 32px;
+            margin-bottom: 1rem;
+        }
+
+        .step h3 {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            color: var(--color-midnight);
+            margin-bottom: 1rem;
+        }
+
+        .step p {
+            color: var(--color-slate);
+            line-height: 1.7;
+        }
+
+        .dashboard-preview {
+            background: var(--color-white);
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border: 1px solid var(--color-cloud);
+        }
+
+        .dashboard-preview h3 {
+            font-family: var(--font-display);
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+            color: var(--color-midnight);
+        }
+
+        .dashboard-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .dashboard-feature {
+            display: flex;
+            gap: 1rem;
+            align-items: start;
+        }
+
+        .dashboard-feature-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--color-primary-bg);
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .dashboard-feature h4 {
+            font-weight: 600;
+            color: var(--color-midnight);
+            margin-bottom: 0.25rem;
+        }
+
+        .dashboard-feature p {
+            color: var(--color-slate);
+            font-size: 0.9375rem;
+        }
+
+        .comparison-table-wrapper {
+            background: var(--color-white);
+            border-radius: 1rem;
+            overflow: hidden;
+            border: 1px solid var(--color-cloud);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .comparison-table thead {
+            background: var(--color-accent);
+            color: var(--color-white);
+        }
+
+        .comparison-table th {
+            padding: 1.25rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .comparison-table td {
+            padding: 1.25rem;
+            border-bottom: 1px solid var(--color-cloud);
+        }
+
+        .comparison-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table tbody tr:nth-child(even) {
+            background: var(--color-snow);
+        }
+
+        .comparison-table .highlight {
+            background: var(--color-accent-bg);
+            font-weight: 600;
+            color: var(--color-accent);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: var(--color-white);
+            padding: 2rem;
+            border-radius: 1rem;
+            border: 1px solid var(--color-cloud);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--color-warm-bg);
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            color: var(--color-midnight);
+            margin-bottom: 0.75rem;
+        }
+
+        .feature-card p {
+            color: var(--color-slate);
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, var(--color-accent) 0%, #059669 100%);
+            color: var(--color-white);
+            text-align: center;
+            padding: 5rem 2rem;
+        }
+
+        .cta-section h2 {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .btn-white {
+            background: var(--color-white);
+            color: var(--color-accent);
+        }
+
+        .btn-white:hover {
+            background: var(--color-snow);
+        }
+
+        .footer {
+            background: var(--color-midnight);
+            color: var(--color-cloud);
+            padding: 3rem 2rem 1.5rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer h4 {
+            color: var(--color-white);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .footer ul {
+            list-style: none;
+        }
+
+        .footer ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer a {
+            color: var(--color-cloud);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer a:hover {
+            color: var(--color-white);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--color-slate);
+            padding-top: 1.5rem;
+            text-align: center;
+            color: var(--color-mist);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
+            }
+
+            .hero-stats {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .steps {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="landing.html" class="logo">RoomPilot</a>
+            <ul class="nav-links">
+                <li><a href="public-how-it-works-renters.html">For Renters</a></li>
+                <li><a href="public-how-it-works-landlords.html">For Hosts</a></li>
+                <li><a href="public-pricing.html">Pricing</a></li>
+                <li><a href="public-trust-safety.html">Trust & Safety</a></li>
+                <li><a href="public-faq.html">FAQ</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="#" class="btn btn-secondary">Log In</a>
+                <a href="#" class="btn btn-primary">Sign Up</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-container">
+            <h1>Start Earning More From Your Rooms</h1>
+            <p>Weekly rent collection, automated billing, and better cashflow. List your property and start earning in days, not weeks.</p>
+            <a href="#steps" class="btn btn-primary btn-large">See How It Works</a>
+            <div class="hero-stats">
+                <div class="stat">
+                    <div class="stat-number">15%</div>
+                    <div class="stat-label">Higher occupancy rates</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">2x</div>
+                    <div class="stat-label">Faster tenant placement</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">98%</div>
+                    <div class="stat-label">On-time payments</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Steps Section -->
+    <section class="section" id="steps">
+        <div class="container">
+            <div class="section-header">
+                <h2>Your Journey as a Host</h2>
+                <p>From listing to getting paid, we automate the entire rental process.</p>
+            </div>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-icon">🏡</div>
+                    <div class="step-number">1</div>
+                    <h3>List Your Property</h3>
+                    <p>Upload photos, set your prices, and define house rules. List individual rooms or entire properties. Set weekly or monthly rates, include utilities, and control every detail of your listing.</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">✅</div>
+                    <div class="step-number">2</div>
+                    <h3>Review Applications</h3>
+                    <p>View renter profiles, employment history, and references. Request background checks if desired. You have complete control over who lives in your property - approve or decline with one click.</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">🔄</div>
+                    <div class="step-number">3</div>
+                    <h3>Automate Billing</h3>
+                    <p>Set it and forget it. Weekly or monthly rent is automatically charged to tenants' payment methods. Late fees applied automatically, reminders sent, zero manual invoicing required.</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">💰</div>
+                    <div class="step-number">4</div>
+                    <h3>Get Paid Fast</h3>
+                    <p>Receive payouts daily or weekly via Stripe Connect. Funds deposited directly to your bank account. Track earnings in real-time, download reports, and manage multiple properties from one dashboard.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Preview -->
+    <section class="section section-alt">
+        <div class="container">
+            <div class="section-header">
+                <h2>Powerful Dashboard, Simple Interface</h2>
+                <p>Everything you need to manage your rental business in one place.</p>
+            </div>
+            <div class="dashboard-preview">
+                <h3>Host Dashboard Features</h3>
+                <div class="dashboard-features">
+                    <div class="dashboard-feature">
+                        <div class="dashboard-feature-icon">📊</div>
+                        <div>
+                            <h4>Revenue Analytics</h4>
+                            <p>Track income, occupancy rates, and performance metrics across all properties.</p>
+                        </div>
+                    </div>
+                    <div class="dashboard-feature">
+                        <div class="dashboard-feature-icon">👥</div>
+                        <div>
+                            <h4>Tenant Management</h4>
+                            <p>View all current and past tenants, payment history, and lease details in one place.</p>
+                        </div>
+                    </div>
+                    <div class="dashboard-feature">
+                        <div class="dashboard-feature-icon">💬</div>
+                        <div>
+                            <h4>Secure Messaging</h4>
+                            <p>Communicate with applicants and tenants through our built-in messaging system.</p>
+                        </div>
+                    </div>
+                    <div class="dashboard-feature">
+                        <div class="dashboard-feature-icon">🔔</div>
+                        <div>
+                            <h4>Smart Notifications</h4>
+                            <p>Get alerts for new applications, late payments, lease expirations, and maintenance requests.</p>
+                        </div>
+                    </div>
+                    <div class="dashboard-feature">
+                        <div class="dashboard-feature-icon">📝</div>
+                        <div>
+                            <h4>Digital Leases</h4>
+                            <p>Generate, send, and sign leases electronically. All documents stored securely in the cloud.</p>
+                        </div>
+                    </div>
+                    <div class="dashboard-feature">
+                        <div class="dashboard-feature-icon">📄</div>
+                        <div>
+                            <h4>Financial Reports</h4>
+                            <p>Export transaction history, tax documents, and profit/loss statements for accounting.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fee Comparison -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Transparent, Competitive Pricing</h2>
+                <p>Compare our fees to the competition - we're significantly cheaper.</p>
+            </div>
+            <div class="comparison-table-wrapper">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Platform</th>
+                            <th>Monthly Fee</th>
+                            <th>Transaction Fee</th>
+                            <th>Cost for 5 Rooms at $600/mo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="highlight">
+                            <td><strong>RoomPilot (Transaction Plan)</strong></td>
+                            <td>$0</td>
+                            <td>2%</td>
+                            <td><strong>$60/month</strong></td>
+                        </tr>
+                        <tr class="highlight">
+                            <td><strong>RoomPilot (Flat Rate Plan)</strong></td>
+                            <td>$15/room</td>
+                            <td>0%</td>
+                            <td><strong>$75/month</strong></td>
+                        </tr>
+                        <tr>
+                            <td>PadSplit</td>
+                            <td>$99 + $10/room</td>
+                            <td>3%</td>
+                            <td>$239/month</td>
+                        </tr>
+                        <tr>
+                            <td>Bungalow</td>
+                            <td>12% of rent</td>
+                            <td>Included</td>
+                            <td>$360/month</td>
+                        </tr>
+                        <tr>
+                            <td>Traditional Property Manager</td>
+                            <td>8-10% of rent</td>
+                            <td>Varies</td>
+                            <td>$240-300/month</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Automation Features -->
+    <section class="section section-alt">
+        <div class="container">
+            <div class="section-header">
+                <h2>Built for Automation</h2>
+                <p>Spend less time on admin work, more time growing your business.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Auto Rent Collection</h3>
+                    <p>Rent is automatically charged weekly or monthly. No more chasing payments or manual invoicing. Late fees applied automatically based on your rules.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Tenant Screening</h3>
+                    <p>Background checks, employment verification, and reference checks handled through the platform. Review reports and make informed decisions fast.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📧</div>
+                    <h3>Automated Reminders</h3>
+                    <p>Payment reminders, lease renewal notices, and maintenance updates sent automatically. Keep tenants informed without lifting a finger.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💳</div>
+                    <h3>Stripe Integration</h3>
+                    <p>Bank-level security for all transactions. Fast payouts, fraud protection, and seamless ACH/card processing built-in.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Mobile App Access</h3>
+                    <p>Manage your properties from anywhere. Approve applications, respond to messages, and track payments on the go.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔧</div>
+                    <h3>Maintenance Tracking</h3>
+                    <p>Tenants submit maintenance requests through the app. Track status, assign vendors, and keep a complete repair history.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to Start Hosting?</h2>
+            <p>Join hundreds of landlords earning more with RoomPilot's automated platform.</p>
+            <a href="#" class="btn btn-white btn-large">List Your Property</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div>
+                <h4>RoomPilot</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Press</a></li>
+                    <li><a href="#">Blog</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>For Renters</h4>
+                <ul>
+                    <li><a href="public-how-it-works-renters.html">How It Works</a></li>
+                    <li><a href="search-page.html">Find a Room</a></li>
+                    <li><a href="public-trust-safety.html">Trust & Safety</a></li>
+                    <li><a href="#">Renter Resources</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>For Hosts</h4>
+                <ul>
+                    <li><a href="public-how-it-works-landlords.html">Become a Host</a></li>
+                    <li><a href="#">List Your Property</a></li>
+                    <li><a href="public-pricing.html">Pricing</a></li>
+                    <li><a href="#">Host Resources</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="public-faq.html">FAQ</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="public-terms.html">Terms of Service</a></li>
+                    <li><a href="public-privacy.html">Privacy Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 RoomPilot. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

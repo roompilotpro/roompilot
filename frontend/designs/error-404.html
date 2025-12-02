@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found | RoomPilot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --midnight: #0f172a;
+            --charcoal: #1e293b;
+            --slate: #475569;
+            --mist: #94a3b8;
+            --cloud: #e2e8f0;
+            --snow: #f8fafc;
+            --white: #ffffff;
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --accent: #10b981;
+            --warm: #f59e0b;
+            --coral: #f43f5e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            color: var(--charcoal);
+            background: linear-gradient(135deg, var(--snow) 0%, var(--cloud) 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Navigation */
+        nav {
+            background-color: var(--white);
+            border-bottom: 1px solid var(--cloud);
+            padding: 1rem 2rem;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+        }
+
+        .logo {
+            font-family: 'Fraunces', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        /* Main Content */
+        main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .error-container {
+            max-width: 600px;
+            text-align: center;
+        }
+
+        .error-illustration {
+            font-size: 8rem;
+            margin-bottom: 1rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .error-number {
+            font-family: 'Fraunces', serif;
+            font-size: 8rem;
+            font-weight: 800;
+            color: var(--primary);
+            line-height: 1;
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
+        }
+
+        .error-heading {
+            font-family: 'Fraunces', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--midnight);
+            margin-bottom: 1rem;
+        }
+
+        .error-description {
+            font-size: 1.125rem;
+            color: var(--slate);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+
+        .btn {
+            padding: 0.875rem 2rem;
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+            border: 2px solid var(--primary);
+            box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            border-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
+        }
+
+        .helpful-links {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .helpful-links h3 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.25rem;
+            color: var(--midnight);
+            margin-bottom: 1rem;
+        }
+
+        .links-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .links-list li {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .links-list a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .links-list a:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        .link-icon {
+            font-size: 1.25rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--white);
+            border-top: 1px solid var(--cloud);
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            color: var(--slate);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            list-style: none;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links a {
+            color: var(--slate);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .error-number {
+                font-size: 6rem;
+            }
+
+            .error-heading {
+                font-size: 2rem;
+            }
+
+            .error-illustration {
+                font-size: 6rem;
+            }
+
+            .button-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .error-number {
+                font-size: 4rem;
+            }
+
+            .error-heading {
+                font-size: 1.5rem;
+            }
+
+            .error-illustration {
+                font-size: 4rem;
+            }
+
+            .helpful-links {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="landing.html" class="logo">RoomPilot</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <div class="error-container">
+            <div class="error-illustration">🔍</div>
+            <div class="error-number">404</div>
+            <h1 class="error-heading">Oops! Page not found</h1>
+            <p class="error-description">
+                The page you're looking for doesn't exist or has been moved.
+                Don't worry, we'll help you find your way back.
+            </p>
+
+            <div class="button-group">
+                <a href="landing.html" class="btn btn-primary">Go Home</a>
+                <a href="search-page.html" class="btn btn-secondary">Search Listings</a>
+            </div>
+
+            <div class="helpful-links">
+                <h3>Need Help?</h3>
+                <ul class="links-list">
+                    <li>
+                        <span class="link-icon">💬</span>
+                        <a href="shared-contact.html">Contact Support</a>
+                    </li>
+                    <li>
+                        <span class="link-icon">📚</span>
+                        <a href="#help-center">Visit Help Center</a>
+                    </li>
+                    <li>
+                        <span class="link-icon">❓</span>
+                        <a href="#faq">Browse FAQ</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <ul class="footer-links">
+                <li><a href="#privacy">Privacy Policy</a></li>
+                <li><a href="#terms">Terms of Service</a></li>
+                <li><a href="shared-contact.html">Contact</a></li>
+            </ul>
+            <p>&copy; 2024 RoomPilot. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Log 404 error for analytics (placeholder)
+        console.log('404 Error: Page not found - ' + window.location.href);
+
+        // Optional: Track 404 events
+        document.addEventListener('DOMContentLoaded', function() {
+            // You can add analytics tracking here
+            // Example: gtag('event', 'page_not_found', { page_location: window.location.href });
+        });
+    </script>
+</body>
+</html>

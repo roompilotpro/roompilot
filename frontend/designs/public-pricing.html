@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing - RoomPilot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-midnight: #0f1419;
+            --color-charcoal: #1a2332;
+            --color-slate: #3d4f5f;
+            --color-mist: #8899a6;
+            --color-cloud: #e8ecef;
+            --color-snow: #f7f9fa;
+            --color-white: #ffffff;
+            --color-primary: #2563eb;
+            --color-primary-light: #3b82f6;
+            --color-primary-dark: #1d4ed8;
+            --color-primary-bg: #eff6ff;
+            --color-accent: #10b981;
+            --color-accent-bg: #ecfdf5;
+            --color-warm: #f59e0b;
+            --color-warm-bg: #fffbeb;
+            --color-coral: #f43f5e;
+            --color-coral-bg: #fff1f2;
+            --font-display: 'Fraunces', Georgia, serif;
+            --font-body: 'DM Sans', -apple-system, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--color-midnight);
+            line-height: 1.6;
+        }
+
+        .nav {
+            background: var(--color-white);
+            border-bottom: 1px solid var(--color-cloud);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-primary);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--color-slate);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--color-primary);
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.625rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9375rem;
+            display: inline-block;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--color-slate);
+            border: 1px solid var(--color-cloud);
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-snow);
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            color: var(--color-white);
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-dark);
+        }
+
+        .btn-large {
+            padding: 1rem 2rem;
+            font-size: 1.125rem;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--color-primary-bg) 0%, var(--color-white) 100%);
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .hero-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            color: var(--color-midnight);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--color-slate);
+        }
+
+        .section {
+            padding: 5rem 2rem;
+        }
+
+        .section-alt {
+            background: var(--color-snow);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            color: var(--color-midnight);
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            font-size: 1.125rem;
+            color: var(--color-slate);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .pricing-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            background: var(--color-white);
+            border: 2px solid var(--color-cloud);
+            border-radius: 1rem;
+            padding: 2.5rem;
+            position: relative;
+        }
+
+        .pricing-card.recommended {
+            border-color: var(--color-primary);
+            box-shadow: 0 8px 16px rgba(37, 99, 235, 0.15);
+        }
+
+        .recommended-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--color-primary);
+            color: var(--color-white);
+            padding: 0.25rem 1rem;
+            border-radius: 1rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .pricing-card h3 {
+            font-family: var(--font-display);
+            font-size: 1.75rem;
+            color: var(--color-midnight);
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-card .description {
+            color: var(--color-slate);
+            margin-bottom: 1.5rem;
+            min-height: 3rem;
+        }
+
+        .price {
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .price-amount {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--color-midnight);
+        }
+
+        .price-period {
+            color: var(--color-slate);
+            font-size: 1.125rem;
+        }
+
+        .features-list {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .features-list li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--color-cloud);
+            display: flex;
+            align-items: start;
+            gap: 0.75rem;
+        }
+
+        .features-list li:last-child {
+            border-bottom: none;
+        }
+
+        .check-icon {
+            color: var(--color-accent);
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .calculator {
+            background: var(--color-white);
+            border-radius: 1rem;
+            padding: 3rem;
+            border: 1px solid var(--color-cloud);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .calculator h3 {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .calculator-inputs {
+            display: grid;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .input-group label {
+            font-weight: 600;
+            color: var(--color-midnight);
+        }
+
+        .input-group input {
+            padding: 0.75rem;
+            border: 1px solid var(--color-cloud);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-family: var(--font-body);
+        }
+
+        .calculator-results {
+            background: var(--color-primary-bg);
+            border-radius: 0.75rem;
+            padding: 2rem;
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--color-cloud);
+        }
+
+        .result-row:last-child {
+            border-bottom: none;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--color-primary);
+            padding-top: 1rem;
+        }
+
+        .comparison-table-wrapper {
+            background: var(--color-white);
+            border-radius: 1rem;
+            overflow: hidden;
+            border: 1px solid var(--color-cloud);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .comparison-table thead {
+            background: var(--color-midnight);
+            color: var(--color-white);
+        }
+
+        .comparison-table th {
+            padding: 1.25rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .comparison-table td {
+            padding: 1.25rem;
+            border-bottom: 1px solid var(--color-cloud);
+        }
+
+        .comparison-table tbody tr:nth-child(even) {
+            background: var(--color-snow);
+        }
+
+        .comparison-table .highlight {
+            background: var(--color-accent-bg);
+            font-weight: 600;
+        }
+
+        .faq {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--color-white);
+            border: 1px solid var(--color-cloud);
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 1.25rem;
+            background: none;
+            border: none;
+            text-align: left;
+            font-family: var(--font-body);
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--color-midnight);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-question:hover {
+            background: var(--color-snow);
+        }
+
+        .faq-icon {
+            transition: transform 0.3s;
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-answer-content {
+            padding: 0 1.25rem 1.25rem;
+            color: var(--color-slate);
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+            color: var(--color-white);
+            text-align: center;
+            padding: 5rem 2rem;
+        }
+
+        .cta-section h2 {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .btn-white {
+            background: var(--color-white);
+            color: var(--color-primary);
+        }
+
+        .btn-white:hover {
+            background: var(--color-snow);
+        }
+
+        .footer {
+            background: var(--color-midnight);
+            color: var(--color-cloud);
+            padding: 3rem 2rem 1.5rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer h4 {
+            color: var(--color-white);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .footer ul {
+            list-style: none;
+        }
+
+        .footer ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer a {
+            color: var(--color-cloud);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer a:hover {
+            color: var(--color-white);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--color-slate);
+            padding-top: 1.5rem;
+            text-align: center;
+            color: var(--color-mist);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
+            }
+
+            .pricing-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="landing.html" class="logo">RoomPilot</a>
+            <ul class="nav-links">
+                <li><a href="public-how-it-works-renters.html">For Renters</a></li>
+                <li><a href="public-how-it-works-landlords.html">For Hosts</a></li>
+                <li><a href="public-pricing.html">Pricing</a></li>
+                <li><a href="public-trust-safety.html">Trust & Safety</a></li>
+                <li><a href="public-faq.html">FAQ</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="#" class="btn btn-secondary">Log In</a>
+                <a href="#" class="btn btn-primary">Sign Up</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-container">
+            <h1>Simple, Transparent Pricing</h1>
+            <p>No hidden fees. No surprises. Choose the plan that works best for your business.</p>
+        </div>
+    </section>
+
+    <!-- Pricing Cards -->
+    <section class="section">
+        <div class="container">
+            <div class="pricing-cards">
+                <div class="pricing-card recommended">
+                    <div class="recommended-badge">Most Popular</div>
+                    <h3>Transaction Fee Plan</h3>
+                    <p class="description">Perfect for hosts who want zero monthly overhead</p>
+                    <div class="price">
+                        <span class="price-amount">2%</span>
+                        <span class="price-period">per payment</span>
+                    </div>
+                    <ul class="features-list">
+                        <li><span class="check-icon">✓</span> No monthly subscription fee</li>
+                        <li><span class="check-icon">✓</span> Unlimited rooms</li>
+                        <li><span class="check-icon">✓</span> Automated rent collection</li>
+                        <li><span class="check-icon">✓</span> Daily/weekly payouts</li>
+                        <li><span class="check-icon">✓</span> Full dashboard access</li>
+                        <li><span class="check-icon">✓</span> Tenant screening tools</li>
+                        <li><span class="check-icon">✓</span> In-app messaging</li>
+                        <li><span class="check-icon">✓</span> Payment protection</li>
+                    </ul>
+                    <a href="#" class="btn btn-primary" style="width: 100%; text-align: center;">Get Started Free</a>
+                </div>
+
+                <div class="pricing-card">
+                    <h3>Flat Rate Plan</h3>
+                    <p class="description">Great for high-volume hosts with many rooms</p>
+                    <div class="price">
+                        <span class="price-amount">$15</span>
+                        <span class="price-period">per room/month</span>
+                    </div>
+                    <ul class="features-list">
+                        <li><span class="check-icon">✓</span> 0% transaction fees</li>
+                        <li><span class="check-icon">✓</span> Unlimited rooms</li>
+                        <li><span class="check-icon">✓</span> Automated rent collection</li>
+                        <li><span class="check-icon">✓</span> Daily/weekly payouts</li>
+                        <li><span class="check-icon">✓</span> Full dashboard access</li>
+                        <li><span class="check-icon">✓</span> Tenant screening tools</li>
+                        <li><span class="check-icon">✓</span> In-app messaging</li>
+                        <li><span class="check-icon">✓</span> Payment protection</li>
+                    </ul>
+                    <a href="#" class="btn btn-secondary" style="width: 100%; text-align: center;">Get Started Free</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What's Included -->
+    <section class="section section-alt">
+        <div class="container">
+            <div class="section-header">
+                <h2>Everything You Need, Included</h2>
+                <p>Both plans include all features. No upgrades, add-ons, or premium tiers.</p>
+            </div>
+            <div style="max-width: 800px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+                <div>
+                    <h4 style="font-weight: 600; margin-bottom: 1rem; color: var(--color-midnight);">Payment Processing</h4>
+                    <ul style="list-style: none; color: var(--color-slate);">
+                        <li style="padding: 0.5rem 0;">✓ Weekly/monthly rent collection</li>
+                        <li style="padding: 0.5rem 0;">✓ Automatic late fees</li>
+                        <li style="padding: 0.5rem 0;">✓ ACH & card payments</li>
+                        <li style="padding: 0.5rem 0;">✓ Fast payouts via Stripe</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="font-weight: 600; margin-bottom: 1rem; color: var(--color-midnight);">Tenant Management</h4>
+                    <ul style="list-style: none; color: var(--color-slate);">
+                        <li style="padding: 0.5rem 0;">✓ Application review system</li>
+                        <li style="padding: 0.5rem 0;">✓ Background check integration</li>
+                        <li style="padding: 0.5rem 0;">✓ Digital lease signing</li>
+                        <li style="padding: 0.5rem 0;">✓ Maintenance requests</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="font-weight: 600; margin-bottom: 1rem; color: var(--color-midnight);">Business Tools</h4>
+                    <ul style="list-style: none; color: var(--color-slate);">
+                        <li style="padding: 0.5rem 0;">✓ Revenue analytics</li>
+                        <li style="padding: 0.5rem 0;">✓ Financial reports</li>
+                        <li style="padding: 0.5rem 0;">✓ Multi-property management</li>
+                        <li style="padding: 0.5rem 0;">✓ Mobile app access</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Calculator -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Calculate Your Savings</h2>
+                <p>See how much you'll save compared to competitors</p>
+            </div>
+            <div class="calculator">
+                <h3>Savings Calculator</h3>
+                <div class="calculator-inputs">
+                    <div class="input-group">
+                        <label for="numRooms">Number of Rooms</label>
+                        <input type="number" id="numRooms" value="5" min="1" max="50">
+                    </div>
+                    <div class="input-group">
+                        <label for="avgRent">Average Monthly Rent per Room</label>
+                        <input type="number" id="avgRent" value="600" min="100" step="50">
+                    </div>
+                </div>
+                <div class="calculator-results">
+                    <div class="result-row">
+                        <span>RoomPilot (Transaction Plan):</span>
+                        <span id="roompilotTransaction">$60/mo</span>
+                    </div>
+                    <div class="result-row">
+                        <span>RoomPilot (Flat Rate Plan):</span>
+                        <span id="roompilotFlat">$75/mo</span>
+                    </div>
+                    <div class="result-row">
+                        <span>PadSplit:</span>
+                        <span id="padsplit">$239/mo</span>
+                    </div>
+                    <div class="result-row">
+                        <span>Bungalow:</span>
+                        <span id="bungalow">$360/mo</span>
+                    </div>
+                    <div class="result-row">
+                        <span>You Save (vs PadSplit):</span>
+                        <span id="savings">$179/mo</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Competitor Comparison -->
+    <section class="section section-alt">
+        <div class="container">
+            <div class="section-header">
+                <h2>How We Compare</h2>
+                <p>Side-by-side comparison with industry competitors</p>
+            </div>
+            <div class="comparison-table-wrapper">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>RoomPilot</th>
+                            <th>PadSplit</th>
+                            <th>Bungalow</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="highlight">
+                            <td>Starting Price</td>
+                            <td><strong>2% per payment or $15/room</strong></td>
+                            <td>$99 + $10/room + 3% fee</td>
+                            <td>12% of rent</td>
+                        </tr>
+                        <tr>
+                            <td>Weekly Rent Collection</td>
+                            <td>✓ Included</td>
+                            <td>✓ Included</td>
+                            <td>✗ Monthly only</td>
+                        </tr>
+                        <tr>
+                            <td>Transaction Fees</td>
+                            <td>2% or $0</td>
+                            <td>3%</td>
+                            <td>Included in 12%</td>
+                        </tr>
+                        <tr>
+                            <td>Monthly Base Fee</td>
+                            <td>$0 or $15/room</td>
+                            <td>$99 + $10/room</td>
+                            <td>None (% based)</td>
+                        </tr>
+                        <tr>
+                            <td>Payout Speed</td>
+                            <td>Daily or weekly</td>
+                            <td>Weekly</td>
+                            <td>Monthly</td>
+                        </tr>
+                        <tr>
+                            <td>Setup Fee</td>
+                            <td>$0</td>
+                            <td>$0</td>
+                            <td>$500+</td>
+                        </tr>
+                        <tr>
+                            <td>Host Controls Approval</td>
+                            <td>✓ Yes</td>
+                            <td>✓ Yes</td>
+                            <td>✗ No</td>
+                        </tr>
+                        <tr>
+                            <td>Custom House Rules</td>
+                            <td>✓ Yes</td>
+                            <td>Limited</td>
+                            <td>✗ No</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Pricing FAQ</h2>
+            </div>
+            <div class="faq">
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Which plan should I choose?
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            If you have 1-5 rooms, the Transaction Fee Plan (2% per payment) is usually cheaper. If you have 8+ rooms at higher rent prices, the Flat Rate Plan ($15/room) often saves more. Use our calculator above to compare!
+                        </div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Can I switch plans later?
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Absolutely! You can switch between plans at any time from your dashboard. Changes take effect on your next billing cycle. No penalties or fees for switching.
+                        </div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Are there any hidden fees?
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            None. What you see is what you pay. The only costs are your chosen plan fee. We don't charge for setup, cancellation, listing, applications, background checks, or support.
+                        </div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        When do I get paid?
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            You choose! Select daily or weekly payouts via Stripe Connect. Funds are deposited directly to your bank account. Most hosts receive payouts 1-2 business days after rent is collected.
+                        </div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Do renters pay any fees?
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Renters never pay subscription or membership fees. They only pay the rent amount shown on your listing. Optional background checks may have a small fee paid by the renter if they choose to run one.
+                        </div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Is there a free trial?
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Yes! You can list your property and explore all features for free. You only pay fees once you start collecting rent from tenants. No credit card required to get started.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to Get Started?</h2>
+            <p>Join RoomPilot today and start saving on property management fees.</p>
+            <a href="#" class="btn btn-white btn-large">Start Free Trial</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div>
+                <h4>RoomPilot</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Press</a></li>
+                    <li><a href="#">Blog</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>For Renters</h4>
+                <ul>
+                    <li><a href="public-how-it-works-renters.html">How It Works</a></li>
+                    <li><a href="search-page.html">Find a Room</a></li>
+                    <li><a href="public-trust-safety.html">Trust & Safety</a></li>
+                    <li><a href="#">Renter Resources</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>For Hosts</h4>
+                <ul>
+                    <li><a href="public-how-it-works-landlords.html">Become a Host</a></li>
+                    <li><a href="#">List Your Property</a></li>
+                    <li><a href="public-pricing.html">Pricing</a></li>
+                    <li><a href="#">Host Resources</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="public-faq.html">FAQ</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="public-terms.html">Terms of Service</a></li>
+                    <li><a href="public-privacy.html">Privacy Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 RoomPilot. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const faqItem = button.parentElement;
+                const isActive = faqItem.classList.contains('active');
+
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    item.classList.remove('active');
+                    item.querySelector('.faq-answer').style.maxHeight = null;
+                });
+
+                if (!isActive) {
+                    faqItem.classList.add('active');
+                    const answer = faqItem.querySelector('.faq-answer');
+                    answer.style.maxHeight = answer.scrollHeight + 'px';
+                }
+            });
+        });
+
+        // Calculator
+        function updateCalculator() {
+            const numRooms = parseInt(document.getElementById('numRooms').value) || 0;
+            const avgRent = parseInt(document.getElementById('avgRent').value) || 0;
+
+            const totalRent = numRooms * avgRent;
+
+            // RoomPilot Transaction Plan (2%)
+            const rpTransaction = Math.round(totalRent * 0.02);
+
+            // RoomPilot Flat Rate ($15/room)
+            const rpFlat = numRooms * 15;
+
+            // PadSplit ($99 + $10/room + 3%)
+            const padsplit = 99 + (numRooms * 10) + Math.round(totalRent * 0.03);
+
+            // Bungalow (12% of rent)
+            const bungalow = Math.round(totalRent * 0.12);
+
+            // Savings (using cheaper RoomPilot plan)
+            const bestRP = Math.min(rpTransaction, rpFlat);
+            const savings = padsplit - bestRP;
+
+            document.getElementById('roompilotTransaction').textContent = '$' + rpTransaction + '/mo';
+            document.getElementById('roompilotFlat').textContent = '$' + rpFlat + '/mo';
+            document.getElementById('padsplit').textContent = '$' + padsplit + '/mo';
+            document.getElementById('bungalow').textContent = '$' + bungalow + '/mo';
+            document.getElementById('savings').textContent = '$' + savings + '/mo';
+        }
+
+        document.getElementById('numRooms').addEventListener('input', updateCalculator);
+        document.getElementById('avgRent').addEventListener('input', updateCalculator);
+
+        updateCalculator();
+    </script>
+</body>
+</html>

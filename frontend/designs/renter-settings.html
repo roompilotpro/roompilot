@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings | RoomPilot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-midnight: #0f1419;
+            --color-charcoal: #1a2332;
+            --color-slate: #3d4f5f;
+            --color-mist: #8899a6;
+            --color-cloud: #e8ecef;
+            --color-snow: #f7f9fa;
+            --color-white: #ffffff;
+            --color-primary: #2563eb;
+            --color-primary-bg: #eff6ff;
+            --color-accent: #10b981;
+            --color-coral: #f43f5e;
+            --color-coral-bg: #fff1f2;
+            --font-display: 'Fraunces', Georgia, serif;
+            --font-body: 'DM Sans', -apple-system, sans-serif;
+            --shadow-sm: 0 1px 2px rgba(15, 20, 25, 0.05);
+            --shadow-md: 0 4px 12px rgba(15, 20, 25, 0.08);
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --nav-height: 72px;
+            --sidebar-width: 260px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: 15px;
+            line-height: 1.5;
+            color: var(--color-charcoal);
+            background: var(--color-snow);
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            height: var(--nav-height);
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--color-white);
+            border-bottom: 1px solid var(--color-cloud);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .nav-logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--color-primary) 0%, #1d4ed8 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .nav-logo-text {
+            font-family: var(--font-display);
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--color-midnight);
+        }
+
+        .nav-user {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 6px 12px 6px 6px;
+            background: var(--color-snow);
+            border-radius: 100px;
+        }
+
+        .nav-user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #34d399, var(--color-accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: var(--nav-height);
+            left: 0;
+            bottom: 0;
+            width: var(--sidebar-width);
+            background: var(--color-white);
+            border-right: 1px solid var(--color-cloud);
+            padding: 24px 16px;
+            overflow-y: auto;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: var(--radius-md);
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--color-slate);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            margin-bottom: 4px;
+        }
+
+        .sidebar-link:hover {
+            background: var(--color-snow);
+        }
+
+        .sidebar-link.active {
+            background: var(--color-primary-bg);
+            color: var(--color-primary);
+        }
+
+        /* Main Content */
+        .main {
+            margin-left: var(--sidebar-width);
+            margin-top: var(--nav-height);
+            min-height: calc(100vh - var(--nav-height));
+            padding: 32px;
+            max-width: 1000px;
+        }
+
+        .page-title {
+            font-family: var(--font-display);
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--color-midnight);
+            margin-bottom: 32px;
+        }
+
+        /* Card */
+        .card {
+            background: var(--color-white);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--color-cloud);
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--color-midnight);
+        }
+
+        .card-description {
+            font-size: 14px;
+            color: var(--color-slate);
+            margin-bottom: 20px;
+        }
+
+        /* Setting Item */
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--color-cloud);
+        }
+
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+
+        .setting-info {
+            flex: 1;
+        }
+
+        .setting-label {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+            margin-bottom: 4px;
+        }
+
+        .setting-description {
+            font-size: 13px;
+            color: var(--color-slate);
+        }
+
+        /* Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            width: 52px;
+            height: 28px;
+            background: var(--color-cloud);
+            border-radius: 100px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-switch.active {
+            background: var(--color-accent);
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-switch.active::after {
+            left: 26px;
+        }
+
+        /* Form */
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+            margin-bottom: 8px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--color-cloud);
+            border-radius: var(--radius-md);
+            font-family: var(--font-body);
+            font-size: 15px;
+            color: var(--color-charcoal);
+            transition: all 0.2s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px var(--color-primary-bg);
+        }
+
+        .form-input:disabled {
+            background: var(--color-snow);
+            color: var(--color-mist);
+        }
+
+        /* Connected Account */
+        .connected-account {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            background: var(--color-snow);
+            border-radius: var(--radius-lg);
+            margin-bottom: 12px;
+        }
+
+        .account-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            border: 1px solid var(--color-cloud);
+        }
+
+        .account-info {
+            flex: 1;
+        }
+
+        .account-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+            margin-bottom: 2px;
+        }
+
+        .account-email {
+            font-size: 13px;
+            color: var(--color-slate);
+        }
+
+        /* Danger Zone */
+        .danger-zone {
+            background: var(--color-coral-bg);
+            border-color: var(--color-coral);
+        }
+
+        .danger-zone .card-title {
+            color: var(--color-coral);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 24px;
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--color-charcoal);
+            border: 1px solid var(--color-cloud);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--color-charcoal);
+        }
+
+        .btn-danger {
+            background: var(--color-coral);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 20px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="#" class="nav-logo">
+            <div class="nav-logo-icon">R</div>
+            <span class="nav-logo-text">RoomPilot</span>
+        </a>
+        <div class="nav-user">
+            <div class="nav-user-avatar">JD</div>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <a href="resident-dashboard.html" class="sidebar-link">
+            <span style="font-size: 18px;">🏠</span>
+            Dashboard
+        </a>
+        <a href="renter-payments.html" class="sidebar-link">
+            <span style="font-size: 18px;">💳</span>
+            Payments
+        </a>
+        <a href="renter-messages.html" class="sidebar-link">
+            <span style="font-size: 18px;">💬</span>
+            Messages
+        </a>
+        <a href="renter-maintenance.html" class="sidebar-link">
+            <span style="font-size: 18px;">🔧</span>
+            Maintenance
+        </a>
+        <a href="#" class="sidebar-link">
+            <span style="font-size: 18px;">📄</span>
+            Documents
+        </a>
+        <a href="renter-profile.html" class="sidebar-link">
+            <span style="font-size: 18px;">👤</span>
+            Profile
+        </a>
+        <a href="renter-settings.html" class="sidebar-link active">
+            <span style="font-size: 18px;">⚙️</span>
+            Settings
+        </a>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main">
+        <h1 class="page-title">Settings</h1>
+
+        <!-- Account Settings -->
+        <div class="card">
+            <h2 class="card-title">Account</h2>
+            <p class="card-description">Manage your account settings and login credentials</p>
+
+            <div class="form-group">
+                <label class="form-label">Email Address</label>
+                <input type="email" class="form-input" value="james.davis@email.com" disabled>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Password</label>
+                <button class="btn btn-outline" style="width: 100%; justify-content: space-between;">
+                    Change Password
+                    <span>→</span>
+                </button>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Two-Factor Authentication</label>
+                <button class="btn btn-outline" style="width: 100%; justify-content: space-between;">
+                    Enable 2FA
+                    <span>→</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Notification Settings -->
+        <div class="card">
+            <h2 class="card-title">Notifications</h2>
+            <p class="card-description">Choose how you want to receive notifications</p>
+
+            <div class="setting-item">
+                <div class="setting-info">
+                    <div class="setting-label">Email Notifications</div>
+                    <div class="setting-description">Receive updates about payments and maintenance via email</div>
+                </div>
+                <div class="toggle-switch active" onclick="this.classList.toggle('active')"></div>
+            </div>
+
+            <div class="setting-item">
+                <div class="setting-info">
+                    <div class="setting-label">SMS Notifications</div>
+                    <div class="setting-description">Get text messages for important updates and reminders</div>
+                </div>
+                <div class="toggle-switch active" onclick="this.classList.toggle('active')"></div>
+            </div>
+
+            <div class="setting-item">
+                <div class="setting-info">
+                    <div class="setting-label">Push Notifications</div>
+                    <div class="setting-description">Receive push notifications on your mobile device</div>
+                </div>
+                <div class="toggle-switch" onclick="this.classList.toggle('active')"></div>
+            </div>
+
+            <div class="setting-item">
+                <div class="setting-info">
+                    <div class="setting-label">Payment Reminders</div>
+                    <div class="setting-description">Get reminded before rent is due</div>
+                </div>
+                <div class="toggle-switch active" onclick="this.classList.toggle('active')"></div>
+            </div>
+
+            <div class="setting-item">
+                <div class="setting-info">
+                    <div class="setting-label">Maintenance Updates</div>
+                    <div class="setting-description">Receive updates on your maintenance requests</div>
+                </div>
+                <div class="toggle-switch active" onclick="this.classList.toggle('active')"></div>
+            </div>
+
+            <div class="setting-item">
+                <div class="setting-info">
+                    <div class="setting-label">Marketing Emails</div>
+                    <div class="setting-description">Receive promotional offers and news from RoomPilot</div>
+                </div>
+                <div class="toggle-switch" onclick="this.classList.toggle('active')"></div>
+            </div>
+        </div>
+
+        <!-- Privacy Settings -->
+        <div class="card">
+            <h2 class="card-title">Privacy</h2>
+            <p class="card-description">Control your privacy and data preferences</p>
+
+            <div class="setting-item">
+                <div class="setting-info">
+                    <div class="setting-label">Profile Visibility</div>
+                    <div class="setting-description">Allow hosts to view your profile when you apply</div>
+                </div>
+                <div class="toggle-switch active" onclick="this.classList.toggle('active')"></div>
+            </div>
+
+            <div class="setting-item">
+                <div class="setting-info">
+                    <div class="setting-label">Show Rental History</div>
+                    <div class="setting-description">Display your rental history to potential hosts</div>
+                </div>
+                <div class="toggle-switch active" onclick="this.classList.toggle('active')"></div>
+            </div>
+
+            <div class="setting-item">
+                <div class="setting-info">
+                    <div class="setting-label">Data Sharing</div>
+                    <div class="setting-description">Share anonymized data to help improve RoomPilot</div>
+                </div>
+                <div class="toggle-switch active" onclick="this.classList.toggle('active')"></div>
+            </div>
+
+            <div style="margin-top: 16px;">
+                <button class="btn btn-outline">Download My Data</button>
+            </div>
+        </div>
+
+        <!-- Connected Accounts -->
+        <div class="card">
+            <h2 class="card-title">Connected Accounts</h2>
+            <p class="card-description">Manage your connected social and payment accounts</p>
+
+            <div class="connected-account">
+                <div class="account-icon">G</div>
+                <div class="account-info">
+                    <div class="account-name">Google</div>
+                    <div class="account-email">james.davis@gmail.com</div>
+                </div>
+                <button class="btn btn-outline" style="padding: 8px 16px;">Disconnect</button>
+            </div>
+
+            <div style="margin-top: 12px;">
+                <button class="btn btn-outline">+ Connect Facebook</button>
+            </div>
+        </div>
+
+        <!-- Danger Zone -->
+        <div class="card danger-zone">
+            <h2 class="card-title">Danger Zone</h2>
+            <p class="card-description">Permanent actions that cannot be undone</p>
+
+            <div class="setting-item">
+                <div class="setting-info">
+                    <div class="setting-label">Close Account</div>
+                    <div class="setting-description">Permanently delete your account and all associated data. This action cannot be reversed.</div>
+                </div>
+                <button class="btn btn-danger" onclick="confirmCloseAccount()">Close Account</button>
+            </div>
+        </div>
+
+        <!-- Save Button -->
+        <div style="margin-top: 32px; margin-bottom: 40px;">
+            <button class="btn btn-primary">Save Preferences</button>
+        </div>
+    </main>
+
+    <script>
+        function confirmCloseAccount() {
+            if (confirm('Are you sure you want to close your account? This action cannot be undone.')) {
+                if (confirm('This will permanently delete all your data. Are you absolutely sure?')) {
+                    alert('Account closure process initiated. Please check your email to confirm.');
+                }
+            }
+        }
+    </script>
+</body>
+</html>

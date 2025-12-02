@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send Announcement - RoomPilot Landlord</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-midnight: #0f1419;
+            --color-charcoal: #1a2332;
+            --color-slate: #3d4f5f;
+            --color-mist: #8899a6;
+            --color-cloud: #e8ecef;
+            --color-snow: #f7f9fa;
+            --color-white: #ffffff;
+            --color-primary: #2563eb;
+            --color-primary-light: #3b82f6;
+            --color-primary-dark: #1d4ed8;
+            --color-primary-bg: #eff6ff;
+            --color-accent: #10b981;
+            --color-accent-bg: #ecfdf5;
+            --color-warm: #f59e0b;
+            --color-warm-bg: #fffbeb;
+            --color-coral: #f43f5e;
+            --color-coral-bg: #fff1f2;
+            --font-display: 'Fraunces', Georgia, serif;
+            --font-body: 'DM Sans', -apple-system, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--color-snow);
+            color: var(--color-midnight);
+            min-height: 100vh;
+            display: flex;
+        }
+
+        .sidebar {
+            width: 260px;
+            background: var(--color-midnight);
+            color: var(--color-white);
+            padding: 24px 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-logo {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 700;
+            padding: 0 24px 32px;
+            color: var(--color-white);
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 24px;
+            color: var(--color-mist);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .sidebar-nav a:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--color-white);
+        }
+
+        .sidebar-nav a.active {
+            background: var(--color-primary);
+            color: var(--color-white);
+        }
+
+        .sidebar-nav-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        .main-content {
+            margin-left: 260px;
+            flex: 1;
+            padding: 32px;
+            max-width: 1400px;
+        }
+
+        .header {
+            margin-bottom: 32px;
+        }
+
+        .header-title {
+            font-family: var(--font-display);
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--color-midnight);
+            margin-bottom: 8px;
+        }
+
+        .header-subtitle {
+            color: var(--color-mist);
+            font-size: 16px;
+        }
+
+        .announcement-layout {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 32px;
+        }
+
+        .announcement-form {
+            background: var(--color-white);
+            border-radius: 12px;
+            padding: 32px;
+        }
+
+        .form-section {
+            margin-bottom: 32px;
+        }
+
+        .form-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .form-section-title {
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--color-midnight);
+            margin-bottom: 16px;
+        }
+
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border: 2px solid var(--color-cloud);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .radio-option:hover {
+            border-color: var(--color-primary-light);
+            background: var(--color-primary-bg);
+        }
+
+        .radio-option.selected {
+            border-color: var(--color-primary);
+            background: var(--color-primary-bg);
+        }
+
+        .radio-option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .radio-label {
+            flex: 1;
+        }
+
+        .radio-label-title {
+            font-weight: 600;
+            color: var(--color-midnight);
+        }
+
+        .radio-label-desc {
+            font-size: 14px;
+            color: var(--color-mist);
+        }
+
+        .conditional-field {
+            margin-top: 16px;
+            padding: 16px;
+            background: var(--color-snow);
+            border-radius: 8px;
+            display: none;
+        }
+
+        .conditional-field.show {
+            display: block;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: var(--color-midnight);
+            margin-bottom: 8px;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--color-cloud);
+            border-radius: 8px;
+            font-family: var(--font-body);
+            font-size: 14px;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--color-primary);
+        }
+
+        .form-textarea {
+            min-height: 200px;
+            resize: vertical;
+        }
+
+        .recipient-count {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: var(--color-accent-bg);
+            color: var(--color-accent);
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        .template-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .template-card {
+            padding: 16px;
+            border: 2px solid var(--color-cloud);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .template-card:hover {
+            border-color: var(--color-primary);
+            background: var(--color-primary-bg);
+        }
+
+        .template-title {
+            font-weight: 600;
+            color: var(--color-midnight);
+            margin-bottom: 4px;
+        }
+
+        .template-desc {
+            font-size: 13px;
+            color: var(--color-mist);
+        }
+
+        .attachment-upload {
+            border: 2px dashed var(--color-cloud);
+            border-radius: 8px;
+            padding: 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .attachment-upload:hover {
+            border-color: var(--color-primary);
+            background: var(--color-primary-bg);
+        }
+
+        .attachment-icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 12px;
+            opacity: 0.5;
+        }
+
+        .attachment-text {
+            color: var(--color-mist);
+            font-size: 14px;
+        }
+
+        .send-options {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            font-family: var(--font-body);
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            color: var(--color-white);
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-dark);
+        }
+
+        .btn-secondary {
+            background: var(--color-white);
+            color: var(--color-primary);
+            border: 2px solid var(--color-primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-primary-bg);
+        }
+
+        .datetime-picker {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 12px;
+            padding: 16px;
+            background: var(--color-snow);
+            border-radius: 8px;
+            display: none;
+        }
+
+        .datetime-picker.show {
+            display: grid;
+        }
+
+        .preview-panel {
+            background: var(--color-white);
+            border-radius: 12px;
+            padding: 32px;
+            position: sticky;
+            top: 32px;
+            height: fit-content;
+        }
+
+        .preview-title {
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--color-midnight);
+            margin-bottom: 16px;
+        }
+
+        .preview-card {
+            border: 1px solid var(--color-cloud);
+            border-radius: 8px;
+            padding: 20px;
+            background: var(--color-snow);
+        }
+
+        .preview-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--color-cloud);
+            margin-bottom: 16px;
+        }
+
+        .preview-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--color-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-white);
+        }
+
+        .preview-from {
+            font-weight: 600;
+            color: var(--color-midnight);
+        }
+
+        .preview-to {
+            font-size: 13px;
+            color: var(--color-mist);
+        }
+
+        .preview-subject {
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--color-midnight);
+            margin-bottom: 12px;
+        }
+
+        .preview-body {
+            color: var(--color-slate);
+            line-height: 1.6;
+        }
+
+        .preview-placeholder {
+            color: var(--color-mist);
+            font-style: italic;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--color-white);
+            border-radius: 12px;
+            padding: 32px;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .modal-title {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--color-midnight);
+            margin-bottom: 16px;
+        }
+
+        .modal-body {
+            color: var(--color-slate);
+            margin-bottom: 24px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 12px;
+            background: var(--color-white);
+            border: 1px solid var(--color-cloud);
+            border-radius: 8px;
+        }
+
+        .checkbox-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .checkbox-option input {
+            width: 18px;
+            height: 18px;
+        }
+
+        @media (max-width: 1024px) {
+            .announcement-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .preview-panel {
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">RoomPilot</div>
+        <nav class="sidebar-nav">
+            <a href="landing.html">
+                <svg class="sidebar-nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                </svg>
+                <span class="sidebar-nav-text">Dashboard</span>
+            </a>
+            <a href="search-page.html">
+                <svg class="sidebar-nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                </svg>
+                <span class="sidebar-nav-text">Search</span>
+            </a>
+            <a href="landlord-messages.html" class="active">
+                <svg class="sidebar-nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                </svg>
+                <span class="sidebar-nav-text">Messages</span>
+            </a>
+            <a href="room-details.html">
+                <svg class="sidebar-nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                </svg>
+                <span class="sidebar-nav-text">Properties</span>
+            </a>
+            <a href="landlord-maintenance.html">
+                <svg class="sidebar-nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+                <span class="sidebar-nav-text">Maintenance</span>
+            </a>
+            <a href="landlord-profile.html">
+                <svg class="sidebar-nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                </svg>
+                <span class="sidebar-nav-text">Profile</span>
+            </a>
+            <a href="landlord-settings.html">
+                <svg class="sidebar-nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+                <span class="sidebar-nav-text">Settings</span>
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="header">
+            <h1 class="header-title">Send Announcement</h1>
+            <p class="header-subtitle">Communicate with your tenants effectively</p>
+        </div>
+
+        <div class="announcement-layout">
+            <!-- Form -->
+            <div class="announcement-form">
+                <!-- Recipients -->
+                <div class="form-section">
+                    <h2 class="form-section-title">Recipients</h2>
+                    <div class="radio-group">
+                        <label class="radio-option selected">
+                            <input type="radio" name="recipients" value="all" checked>
+                            <div class="radio-label">
+                                <div class="radio-label-title">All Tenants</div>
+                                <div class="radio-label-desc">Send to everyone across all properties</div>
+                            </div>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="recipients" value="property">
+                            <div class="radio-label">
+                                <div class="radio-label-title">Specific Property</div>
+                                <div class="radio-label-desc">Send to all tenants in one property</div>
+                            </div>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="recipients" value="rooms">
+                            <div class="radio-label">
+                                <div class="radio-label-title">Specific Rooms</div>
+                                <div class="radio-label-desc">Select individual rooms or tenants</div>
+                            </div>
+                        </label>
+                    </div>
+
+                    <div class="conditional-field" id="property-field">
+                        <label class="form-label">Select Property</label>
+                        <select class="form-select" id="property-select">
+                            <option>Sunset Villa</option>
+                            <option>Oak Street Apartments</option>
+                            <option>Downtown Loft</option>
+                        </select>
+                    </div>
+
+                    <div class="conditional-field" id="rooms-field">
+                        <label class="form-label">Select Rooms</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-option">
+                                <input type="checkbox" value="room1">
+                                <span>Sunset Villa - Room 1A (Sarah Martinez)</span>
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" value="room2">
+                                <span>Sunset Villa - Room 1B (Marcus Rodriguez)</span>
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" value="room3">
+                                <span>Sunset Villa - Room 3A (Emily Chen)</span>
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" value="room4">
+                                <span>Oak Street - Room 2B (James Parker)</span>
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" value="room5">
+                                <span>Oak Street - Room 4C (Lisa Johnson)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <span class="recipient-count">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                        </svg>
+                        <span id="recipient-count">24 recipients</span>
+                    </span>
+                </div>
+
+                <!-- Templates -->
+                <div class="form-section">
+                    <h2 class="form-section-title">Message Templates</h2>
+                    <div class="template-grid">
+                        <div class="template-card" data-template="rent">
+                            <div class="template-title">Rent Reminder</div>
+                            <div class="template-desc">Monthly payment due date</div>
+                        </div>
+                        <div class="template-card" data-template="rules">
+                            <div class="template-title">Rule Reminder</div>
+                            <div class="template-desc">House rules and policies</div>
+                        </div>
+                        <div class="template-card" data-template="maintenance">
+                            <div class="template-title">Maintenance Notice</div>
+                            <div class="template-desc">Scheduled repairs or updates</div>
+                        </div>
+                        <div class="template-card" data-template="general">
+                            <div class="template-title">General Announcement</div>
+                            <div class="template-desc">Custom message</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Message Composer -->
+                <div class="form-section">
+                    <h2 class="form-section-title">Message</h2>
+                    <div style="margin-bottom: 16px;">
+                        <label class="form-label">Subject</label>
+                        <input type="text" class="form-input" id="subject-input" placeholder="Enter announcement subject">
+                    </div>
+                    <div>
+                        <label class="form-label">Message Body</label>
+                        <textarea class="form-textarea" id="message-body" placeholder="Type your announcement here..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Attachments -->
+                <div class="form-section">
+                    <h2 class="form-section-title">Attachments</h2>
+                    <div class="attachment-upload">
+                        <svg class="attachment-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                        </svg>
+                        <div class="attachment-text">Click to upload files or drag and drop</div>
+                    </div>
+                </div>
+
+                <!-- Send Options -->
+                <div class="form-section">
+                    <h2 class="form-section-title">Send Options</h2>
+                    <div class="send-options">
+                        <button class="btn btn-primary" onclick="showConfirmModal()">Send Now</button>
+                        <button class="btn btn-secondary" onclick="toggleSchedule()">Schedule for Later</button>
+                    </div>
+                    <div class="datetime-picker" id="datetime-picker">
+                        <div>
+                            <label class="form-label">Date</label>
+                            <input type="date" class="form-input">
+                        </div>
+                        <div>
+                            <label class="form-label">Time</label>
+                            <input type="time" class="form-input">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Preview Panel -->
+            <div class="preview-panel">
+                <h3 class="preview-title">Preview</h3>
+                <div class="preview-card">
+                    <div id="preview-content">
+                        <div class="preview-placeholder">
+                            Your announcement preview will appear here as you type
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Confirmation Modal -->
+    <div class="modal" id="confirm-modal">
+        <div class="modal-content">
+            <h2 class="modal-title">Confirm Send</h2>
+            <div class="modal-body">
+                <p>Are you sure you want to send this announcement to <strong id="modal-count">24 recipients</strong>?</p>
+                <p style="margin-top: 12px; color: var(--color-mist);">This action cannot be undone.</p>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="sendAnnouncement()">Send Announcement</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const templates = {
+            rent: {
+                subject: 'Rent Payment Reminder',
+                body: 'Dear Tenants,\n\nThis is a friendly reminder that rent for the upcoming month is due on the 1st. Please ensure your payment is submitted on time to avoid any late fees.\n\nThank you for your cooperation!'
+            },
+            rules: {
+                subject: 'House Rules Reminder',
+                body: 'Dear Tenants,\n\nAs a reminder, please keep noise levels down after 10 PM and ensure common areas are kept clean. We appreciate your cooperation in maintaining a pleasant living environment for everyone.'
+            },
+            maintenance: {
+                subject: 'Scheduled Maintenance Notice',
+                body: 'Dear Tenants,\n\nWe will be conducting scheduled maintenance on [DATE] from [TIME] to [TIME]. Please plan accordingly. We apologize for any inconvenience this may cause.'
+            },
+            general: {
+                subject: '',
+                body: ''
+            }
+        };
+
+        // Radio options
+        document.querySelectorAll('.radio-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const radio = this.querySelector('input[type="radio"]');
+                radio.checked = true;
+                document.querySelectorAll('.radio-option').forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+
+                // Show/hide conditional fields
+                document.querySelectorAll('.conditional-field').forEach(field => field.classList.remove('show'));
+                if (radio.value === 'property') {
+                    document.getElementById('property-field').classList.add('show');
+                } else if (radio.value === 'rooms') {
+                    document.getElementById('rooms-field').classList.add('show');
+                }
+                updateRecipientCount();
+            });
+        });
+
+        // Template selection
+        document.querySelectorAll('.template-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const templateKey = this.dataset.template;
+                const template = templates[templateKey];
+                document.getElementById('subject-input').value = template.subject;
+                document.getElementById('message-body').value = template.body;
+                updatePreview();
+            });
+        });
+
+        // Update preview
+        function updatePreview() {
+            const subject = document.getElementById('subject-input').value;
+            const body = document.getElementById('message-body').value;
+            const previewContent = document.getElementById('preview-content');
+
+            if (subject || body) {
+                previewContent.innerHTML = `
+                    <div class="preview-header">
+                        <div class="preview-icon">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="preview-from">RoomPilot Announcement</div>
+                            <div class="preview-to">To: Selected Recipients</div>
+                        </div>
+                    </div>
+                    ${subject ? `<div class="preview-subject">${subject}</div>` : ''}
+                    ${body ? `<div class="preview-body">${body.replace(/\n/g, '<br>')}</div>` : ''}
+                `;
+            } else {
+                previewContent.innerHTML = '<div class="preview-placeholder">Your announcement preview will appear here as you type</div>';
+            }
+        }
+
+        document.getElementById('subject-input').addEventListener('input', updatePreview);
+        document.getElementById('message-body').addEventListener('input', updatePreview);
+
+        // Update recipient count
+        function updateRecipientCount() {
+            const recipientType = document.querySelector('input[name="recipients"]:checked').value;
+            let count = 24;
+
+            if (recipientType === 'property') {
+                count = 8;
+            } else if (recipientType === 'rooms') {
+                count = document.querySelectorAll('.checkbox-option input:checked').length;
+            }
+
+            document.getElementById('recipient-count').textContent = `${count} recipient${count !== 1 ? 's' : ''}`;
+            document.getElementById('modal-count').textContent = `${count} recipient${count !== 1 ? 's' : ''}`;
+        }
+
+        document.querySelectorAll('.checkbox-option input').forEach(checkbox => {
+            checkbox.addEventListener('change', updateRecipientCount);
+        });
+
+        // Schedule toggle
+        function toggleSchedule() {
+            const picker = document.getElementById('datetime-picker');
+            picker.classList.toggle('show');
+        }
+
+        // Modal functions
+        function showConfirmModal() {
+            document.getElementById('confirm-modal').classList.add('show');
+        }
+
+        function closeModal() {
+            document.getElementById('confirm-modal').classList.remove('show');
+        }
+
+        function sendAnnouncement() {
+            alert('Announcement sent successfully!');
+            closeModal();
+            window.location.href = 'landlord-messages.html';
+        }
+    </script>
+</body>
+</html>

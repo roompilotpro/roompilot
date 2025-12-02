@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scheduled Maintenance - RoomPilot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --midnight: #0f172a;
+            --charcoal: #1e293b;
+            --slate: #475569;
+            --mist: #94a3b8;
+            --cloud: #e2e8f0;
+            --snow: #f8fafc;
+            --white: #ffffff;
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --accent: #10b981;
+            --warm: #f59e0b;
+            --coral: #f43f5e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            color: var(--charcoal);
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Navigation */
+        nav {
+            background-color: var(--white);
+            border-bottom: 1px solid var(--cloud);
+            padding: 1rem 2rem;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+        }
+
+        .logo {
+            font-family: 'Fraunces', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        /* Main Content */
+        main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .maintenance-container {
+            max-width: 700px;
+            text-align: center;
+        }
+
+        .maintenance-illustration {
+            font-size: 8rem;
+            margin-bottom: 1.5rem;
+            animation: rotate 4s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .maintenance-heading {
+            font-family: 'Fraunces', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--midnight);
+            margin-bottom: 1rem;
+        }
+
+        .maintenance-description {
+            font-size: 1.25rem;
+            color: var(--slate);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        /* Progress Card */
+        .progress-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .time-estimate {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .time-icon {
+            font-size: 2rem;
+        }
+
+        .time-text h3 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.5rem;
+            color: var(--midnight);
+            margin-bottom: 0.25rem;
+        }
+
+        .time-text p {
+            color: var(--slate);
+            font-size: 0.9375rem;
+        }
+
+        /* Progress Bar */
+        .progress-wrapper {
+            margin-bottom: 1rem;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 12px;
+            background: var(--cloud);
+            border-radius: 24px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--warm) 0%, var(--accent) 100%);
+            border-radius: 24px;
+            width: 0%;
+            transition: width 1s ease-in-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.3),
+                transparent
+            );
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        .progress-text {
+            color: var(--slate);
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Status Updates */
+        .status-updates {
+            background: var(--snow);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .status-updates h4 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.125rem;
+            color: var(--midnight);
+            margin-bottom: 1rem;
+        }
+
+        .status-item {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--cloud);
+        }
+
+        .status-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .status-time {
+            color: var(--mist);
+            font-size: 0.875rem;
+            font-weight: 600;
+            min-width: 60px;
+        }
+
+        .status-message {
+            color: var(--slate);
+            font-size: 0.9375rem;
+            flex: 1;
+        }
+
+        /* Subscribe Form */
+        .subscribe-section {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .subscribe-section h3 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.25rem;
+            color: var(--midnight);
+            margin-bottom: 0.5rem;
+        }
+
+        .subscribe-section p {
+            color: var(--slate);
+            margin-bottom: 1rem;
+        }
+
+        .subscribe-form {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .subscribe-input {
+            flex: 1;
+            min-width: 250px;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--cloud);
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .subscribe-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .btn-subscribe {
+            padding: 0.75rem 2rem;
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
+        }
+
+        .btn-subscribe:hover {
+            background: var(--primary-dark);
+        }
+
+        .subscribe-success {
+            color: var(--accent);
+            font-size: 0.9375rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .subscribe-success.show {
+            display: block;
+        }
+
+        /* Social Links */
+        .social-section {
+            margin-bottom: 2rem;
+        }
+
+        .social-section h4 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.125rem;
+            color: var(--midnight);
+            margin-bottom: 1rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--white);
+            color: var(--charcoal);
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .social-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .social-icon {
+            font-size: 1.25rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--white);
+            border-top: 1px solid var(--cloud);
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            color: var(--slate);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .maintenance-heading {
+                font-size: 2rem;
+            }
+
+            .maintenance-illustration {
+                font-size: 6rem;
+            }
+
+            .subscribe-form {
+                flex-direction: column;
+            }
+
+            .subscribe-input {
+                width: 100%;
+            }
+
+            .btn-subscribe {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .maintenance-heading {
+                font-size: 1.75rem;
+            }
+
+            .maintenance-illustration {
+                font-size: 4rem;
+            }
+
+            .progress-card,
+            .subscribe-section {
+                padding: 1.5rem;
+            }
+
+            .time-estimate {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="landing.html" class="logo">RoomPilot</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <div class="maintenance-container">
+            <div class="maintenance-illustration">🔧</div>
+            <h1 class="maintenance-heading">We'll be back soon!</h1>
+            <p class="maintenance-description">
+                RoomPilot is currently undergoing scheduled maintenance to improve your experience.
+                We appreciate your patience.
+            </p>
+
+            <!-- Progress Card -->
+            <div class="progress-card">
+                <div class="time-estimate">
+                    <span class="time-icon">⏱️</span>
+                    <div class="time-text">
+                        <h3 id="timeRemaining">2 hours</h3>
+                        <p>Estimated time remaining</p>
+                    </div>
+                </div>
+
+                <div class="progress-wrapper">
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" id="progressBar"></div>
+                    </div>
+                    <p class="progress-text" id="progressText">Maintenance in progress...</p>
+                </div>
+            </div>
+
+            <!-- Status Updates -->
+            <div class="status-updates">
+                <h4>Recent Updates</h4>
+                <div class="status-item">
+                    <span class="status-time">14:30</span>
+                    <span class="status-message">Database optimization in progress</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-time">14:15</span>
+                    <span class="status-message">Server upgrades started</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-time">14:00</span>
+                    <span class="status-message">Maintenance window opened</span>
+                </div>
+            </div>
+
+            <!-- Subscribe Section -->
+            <div class="subscribe-section">
+                <h3>Get Notified</h3>
+                <p>Enter your email to receive an update when we're back online.</p>
+                <form class="subscribe-form" id="subscribeForm">
+                    <input
+                        type="email"
+                        class="subscribe-input"
+                        placeholder="your@email.com"
+                        id="emailInput"
+                        required
+                    >
+                    <button type="submit" class="btn-subscribe">Notify Me</button>
+                </form>
+                <p class="subscribe-success" id="successMessage">
+                    ✓ Thanks! We'll notify you when we're back online.
+                </p>
+            </div>
+
+            <!-- Social Links -->
+            <div class="social-section">
+                <h4>Follow us for updates</h4>
+                <div class="social-links">
+                    <a href="#twitter" class="social-link">
+                        <span class="social-icon">🐦</span>
+                        <span>Twitter</span>
+                    </a>
+                    <a href="#facebook" class="social-link">
+                        <span class="social-icon">📘</span>
+                        <span>Facebook</span>
+                    </a>
+                    <a href="#instagram" class="social-link">
+                        <span class="social-icon">📸</span>
+                        <span>Instagram</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <p>&copy; 2024 RoomPilot. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Simulate progress
+        let progress = 0;
+        const totalDuration = 7200; // 2 hours in seconds
+        const startTime = Date.now();
+
+        function updateProgress() {
+            const elapsed = (Date.now() - startTime) / 1000;
+            progress = Math.min((elapsed / totalDuration) * 100, 100);
+
+            const progressBar = document.getElementById('progressBar');
+            progressBar.style.width = progress + '%';
+
+            // Update time remaining
+            const remaining = Math.max(totalDuration - elapsed, 0);
+            const hours = Math.floor(remaining / 3600);
+            const minutes = Math.floor((remaining % 3600) / 60);
+
+            let timeText = '';
+            if (hours > 0) {
+                timeText = `${hours} hour${hours > 1 ? 's' : ''} ${minutes} min`;
+            } else {
+                timeText = `${minutes} minute${minutes > 1 ? 's' : ''}`;
+            }
+
+            document.getElementById('timeRemaining').textContent = timeText;
+
+            // Update progress text
+            const progressText = document.getElementById('progressText');
+            if (progress >= 100) {
+                progressText.textContent = 'Maintenance complete! Redirecting...';
+                setTimeout(() => {
+                    window.location.href = 'landing.html';
+                }, 2000);
+            } else {
+                progressText.textContent = `${Math.round(progress)}% complete`;
+            }
+        }
+
+        // Update progress every second
+        setInterval(updateProgress, 1000);
+        updateProgress();
+
+        // Handle subscribe form
+        document.getElementById('subscribeForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const email = document.getElementById('emailInput').value;
+
+            if (email) {
+                // Show success message
+                document.getElementById('successMessage').classList.add('show');
+
+                // Clear input
+                document.getElementById('emailInput').value = '';
+
+                // Log subscription (placeholder)
+                console.log('Subscribed email:', email);
+
+                // Hide success message after 5 seconds
+                setTimeout(() => {
+                    document.getElementById('successMessage').classList.remove('show');
+                }, 5000);
+            }
+        });
+
+        // Auto-refresh page every 5 minutes to check if maintenance is complete
+        setInterval(() => {
+            console.log('Checking if maintenance is complete...');
+            // In production, this would make an API call to check status
+        }, 300000); // 5 minutes
+    </script>
+</body>
+</html>

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - RoomPilot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --color-midnight: #0f1419;
+            --color-charcoal: #1a2332;
+            --color-slate: #3d4f5f;
+            --color-mist: #8899a6;
+            --color-cloud: #e8ecef;
+            --color-snow: #f7f9fa;
+            --color-white: #ffffff;
+            --color-primary: #2563eb;
+            --color-primary-light: #3b82f6;
+            --color-primary-dark: #1d4ed8;
+            --color-primary-bg: #eff6ff;
+            --color-accent: #10b981;
+            --color-accent-bg: #ecfdf5;
+            --color-warm: #f59e0b;
+            --color-coral: #f43f5e;
+            --font-display: 'Fraunces', Georgia, serif;
+            --font-body: 'DM Sans', -apple-system, sans-serif;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: linear-gradient(135deg, var(--color-snow) 0%, var(--color-cloud) 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: var(--color-midnight);
+        }
+
+        .header {
+            padding: 2rem 1rem;
+            text-align: center;
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--color-primary);
+            text-decoration: none;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+            max-width: 1100px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .hero-section {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .hero-section h1 {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--color-midnight);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero-section p {
+            font-size: 1.125rem;
+            color: var(--color-slate);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .role-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+
+        .role-card {
+            background: var(--color-white);
+            border-radius: 16px;
+            padding: 2.5rem 2rem;
+            box-shadow: 0 4px 6px rgba(15, 20, 25, 0.1), 0 2px 4px rgba(15, 20, 25, 0.06);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+            text-align: center;
+        }
+
+        .role-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(37, 99, 235, 0.15), 0 8px 16px rgba(37, 99, 235, 0.1);
+            border-color: var(--color-primary);
+        }
+
+        .role-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--color-primary-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2.5rem;
+        }
+
+        .role-card.accent .role-icon {
+            background: var(--color-accent-bg);
+        }
+
+        .role-card h2 {
+            font-family: var(--font-display);
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--color-midnight);
+            margin-bottom: 1rem;
+        }
+
+        .role-card p {
+            font-size: 1rem;
+            color: var(--color-slate);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .role-btn {
+            display: inline-block;
+            width: 100%;
+            padding: 1rem 2rem;
+            background: var(--color-primary);
+            color: var(--color-white);
+            border: none;
+            border-radius: 8px;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .role-btn:hover {
+            background: var(--color-primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .role-card.accent .role-btn {
+            background: var(--color-accent);
+        }
+
+        .role-card.accent .role-btn:hover {
+            background: #059669;
+        }
+
+        .signin-link {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 1rem;
+            color: var(--color-slate);
+        }
+
+        .signin-link a {
+            color: var(--color-primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .signin-link a:hover {
+            text-decoration: underline;
+        }
+
+        .social-proof {
+            background: var(--color-white);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-top: 3rem;
+            display: flex;
+            gap: 3rem;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(15, 20, 25, 0.06);
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--color-primary);
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--color-slate);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+
+            .role-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .social-proof {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="#" class="logo">RoomPilot</a>
+    </header>
+
+    <main class="main-content">
+        <div class="hero-section">
+            <h1>Welcome to RoomPilot</h1>
+            <p>Join thousands finding their perfect room or connecting with great renters</p>
+        </div>
+
+        <div class="role-cards">
+            <div class="role-card" onclick="selectRole('renter')">
+                <div class="role-icon">🏠</div>
+                <h2>I'm looking for a room</h2>
+                <p>Find your next home with verified listings, transparent pricing, and a seamless search experience.</p>
+                <button class="role-btn">Sign up as Renter</button>
+            </div>
+
+            <div class="role-card accent" onclick="selectRole('host')">
+                <div class="role-icon">🔑</div>
+                <h2>I have rooms to rent</h2>
+                <p>List your property, connect with quality renters, and manage everything from one simple dashboard.</p>
+                <button class="role-btn">Sign up as Host</button>
+            </div>
+        </div>
+
+        <div class="signin-link">
+            Already have an account? <a href="auth-login.html">Sign in</a>
+        </div>
+
+        <div class="social-proof">
+            <div class="stat">
+                <span class="stat-number">12,487</span>
+                <span class="stat-label">Active Listings</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number">8,392</span>
+                <span class="stat-label">Trusted Hosts</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number">24,156</span>
+                <span class="stat-label">Happy Renters</span>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function selectRole(role) {
+            window.location.href = `auth-signup-form.html?role=${role}`;
+        }
+    </script>
+</body>
+</html>
