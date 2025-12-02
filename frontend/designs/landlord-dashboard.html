@@ -142,20 +142,9 @@
             flex: 1;
             padding: 16px 12px;
             overflow-y: auto;
-        }
-
-        .sidebar-section {
-            margin-bottom: 24px;
-        }
-
-        .sidebar-section-title {
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: var(--color-mist);
-            padding: 8px 12px;
-            margin-bottom: 4px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
         }
 
         .sidebar-link {
@@ -1282,67 +1271,41 @@
         </div>
 
         <nav class="sidebar-nav">
-            <div class="sidebar-section">
-                <div class="sidebar-section-title">Overview</div>
-                <a href="#" class="sidebar-link active">
-                    <span class="sidebar-link-icon">📊</span>
-                    Dashboard
-                </a>
-                <a href="#" class="sidebar-link">
-                    <span class="sidebar-link-icon">📥</span>
-                    Inbox
-                    <span class="sidebar-link-badge">3</span>
-                </a>
-            </div>
-
-            <div class="sidebar-section">
-                <div class="sidebar-section-title">Manage</div>
-                <a href="#" class="sidebar-link">
-                    <span class="sidebar-link-icon">🏠</span>
-                    Properties
-                </a>
-                <a href="#" class="sidebar-link">
-                    <span class="sidebar-link-icon">🚪</span>
-                    Rooms
-                </a>
-                <a href="#" class="sidebar-link">
-                    <span class="sidebar-link-icon">👥</span>
-                    Tenants
-                </a>
-                <a href="#" class="sidebar-link">
-                    <span class="sidebar-link-icon">📝</span>
-                    Applications
-                    <span class="sidebar-link-badge warning">2</span>
-                </a>
-            </div>
-
-            <div class="sidebar-section">
-                <div class="sidebar-section-title">Finances</div>
-                <a href="#" class="sidebar-link">
-                    <span class="sidebar-link-icon">💰</span>
-                    Payments
-                </a>
-                <a href="#" class="sidebar-link">
-                    <span class="sidebar-link-icon">📤</span>
-                    Payouts
-                </a>
-                <a href="#" class="sidebar-link">
-                    <span class="sidebar-link-icon">📈</span>
-                    Reports
-                </a>
-            </div>
-
-            <div class="sidebar-section">
-                <div class="sidebar-section-title">Settings</div>
-                <a href="#" class="sidebar-link">
-                    <span class="sidebar-link-icon">⚙️</span>
-                    Settings
-                </a>
-                <a href="#" class="sidebar-link">
-                    <span class="sidebar-link-icon">❓</span>
-                    Help Center
-                </a>
-            </div>
+            <a href="landlord-dashboard.html" class="sidebar-link active">
+                <span class="sidebar-link-icon">📊</span>
+                Dashboard
+            </a>
+            <a href="landlord-properties.html" class="sidebar-link">
+                <span class="sidebar-link-icon">🏠</span>
+                Properties
+            </a>
+            <a href="landlord-tenants.html" class="sidebar-link">
+                <span class="sidebar-link-icon">👥</span>
+                Tenants
+            </a>
+            <a href="landlord-applications.html" class="sidebar-link">
+                <span class="sidebar-link-icon">📝</span>
+                Applications
+                <span class="sidebar-link-badge warning">2</span>
+            </a>
+            <a href="landlord-maintenance.html" class="sidebar-link">
+                <span class="sidebar-link-icon">🔧</span>
+                Maintenance
+                <span class="sidebar-link-badge warning">1</span>
+            </a>
+            <a href="landlord-payouts.html" class="sidebar-link">
+                <span class="sidebar-link-icon">💰</span>
+                Finances
+            </a>
+            <a href="landlord-messages.html" class="sidebar-link">
+                <span class="sidebar-link-icon">💬</span>
+                Inbox
+                <span class="sidebar-link-badge">3</span>
+            </a>
+            <a href="landlord-settings.html" class="sidebar-link">
+                <span class="sidebar-link-icon">⚙️</span>
+                Settings
+            </a>
         </nav>
 
         <div class="sidebar-footer">
