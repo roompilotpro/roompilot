@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Gallery | RoomPilot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-midnight: #0f1419;
+            --color-charcoal: #1a2332;
+            --color-slate: #3d4f5f;
+            --color-mist: #8899a6;
+            --color-cloud: #e8ecef;
+            --color-snow: #f7f9fa;
+            --color-white: #ffffff;
+
+            --color-primary: #2563eb;
+            --color-primary-light: #3b82f6;
+            --color-primary-dark: #1d4ed8;
+            --color-primary-bg: #eff6ff;
+
+            --color-accent: #10b981;
+            --color-accent-light: #34d399;
+            --color-accent-bg: #ecfdf5;
+            --color-accent-dark: #059669;
+
+            --color-warm: #f59e0b;
+            --color-warm-bg: #fffbeb;
+            --color-coral: #f43f5e;
+            --color-coral-bg: #fff1f2;
+
+            --font-display: 'Fraunces', Georgia, serif;
+            --font-body: 'DM Sans', -apple-system, sans-serif;
+
+            --shadow-sm: 0 1px 2px rgba(15, 20, 25, 0.05);
+            --shadow-md: 0 4px 12px rgba(15, 20, 25, 0.08);
+            --shadow-lg: 0 12px 40px rgba(15, 20, 25, 0.12);
+
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: 15px;
+            line-height: 1.5;
+            color: var(--color-charcoal);
+            background: var(--color-snow);
+            padding: 40px;
+        }
+
+        /* Demo container */
+        .demo-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .demo-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .demo-title {
+            font-family: var(--font-display);
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--color-midnight);
+            margin-bottom: 8px;
+        }
+
+        .demo-description {
+            font-size: 16px;
+            color: var(--color-mist);
+        }
+
+        .demo-trigger {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 28px;
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .demo-trigger:hover {
+            background: var(--color-primary-dark);
+        }
+
+        /* Modal Overlay */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 20, 25, 0.95);
+            z-index: 9999;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Gallery Container */
+        .gallery-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Gallery Header */
+        .gallery-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 24px 32px;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .gallery-counter {
+            font-size: 16px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .gallery-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .gallery-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius-md);
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .gallery-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .gallery-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .gallery-close-btn {
+            background: var(--color-coral);
+            border-color: transparent;
+        }
+
+        .gallery-close-btn:hover {
+            background: #e11d48;
+        }
+
+        /* Gallery Main */
+        .gallery-main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            position: relative;
+        }
+
+        .gallery-image-container {
+            max-width: 90%;
+            max-height: 100%;
+            position: relative;
+        }
+
+        .gallery-image {
+            max-width: 100%;
+            max-height: 70vh;
+            object-fit: contain;
+            border-radius: var(--radius-lg);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Navigation Arrows */
+        .gallery-nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 56px;
+            height: 56px;
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            border-radius: 50%;
+            color: var(--color-charcoal);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .gallery-nav-btn:hover {
+            background: white;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .gallery-nav-btn.prev {
+            left: 32px;
+        }
+
+        .gallery-nav-btn.next {
+            right: 32px;
+        }
+
+        .gallery-nav-btn svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* Caption Area */
+        .gallery-caption {
+            padding: 24px 32px;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            text-align: center;
+        }
+
+        .gallery-caption-text {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Thumbnail Strip */
+        .gallery-thumbnails {
+            padding: 20px 32px;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            overflow-x: auto;
+        }
+
+        .thumbnails-container {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .thumbnail {
+            width: 80px;
+            height: 80px;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .thumbnail:hover {
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .thumbnail.active {
+            border-color: white;
+        }
+
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Placeholder images */
+        .placeholder-image {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: white;
+        }
+
+        .placeholder-image.img-1 { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .placeholder-image.img-2 { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .placeholder-image.img-3 { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .placeholder-image.img-4 { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+        .placeholder-image.img-5 { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+        .placeholder-image.img-6 { background: linear-gradient(135deg, #30cfd0 0%, #330867 100%); }
+        .placeholder-image.img-7 { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); }
+        .placeholder-image.img-8 { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); }
+        .placeholder-image.img-9 { background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); }
+        .placeholder-image.img-10 { background: linear-gradient(135deg, #ff6e7f 0%, #bfe9ff 100%); }
+        .placeholder-image.img-11 { background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%); }
+        .placeholder-image.img-12 { background: linear-gradient(135deg, #f8b500 0%, #fceabb 100%); }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .gallery-header,
+            .gallery-caption,
+            .gallery-thumbnails {
+                padding: 16px 20px;
+            }
+
+            .gallery-main {
+                padding: 20px;
+            }
+
+            .gallery-nav-btn {
+                width: 44px;
+                height: 44px;
+            }
+
+            .gallery-nav-btn.prev {
+                left: 16px;
+            }
+
+            .gallery-nav-btn.next {
+                right: 16px;
+            }
+
+            .thumbnail {
+                width: 60px;
+                height: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <div class="demo-header">
+            <h1 class="demo-title">Photo Gallery Modal</h1>
+            <p class="demo-description">Full-screen lightbox with navigation, thumbnails, and photo details</p>
+        </div>
+
+        <div style="text-align: center;">
+            <button class="demo-trigger" onclick="openGallery()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                    <circle cx="8.5" cy="8.5" r="1.5"/>
+                    <polyline points="21 15 16 10 5 21"/>
+                </svg>
+                Show All Photos
+            </button>
+        </div>
+    </div>
+
+    <!-- Photo Gallery Modal -->
+    <div class="modal-overlay" id="galleryModal">
+        <div class="gallery-container">
+            <!-- Header -->
+            <div class="gallery-header">
+                <div class="gallery-counter">
+                    <span id="currentPhoto">3</span> of <span id="totalPhotos">12</span>
+                </div>
+                <div class="gallery-actions">
+                    <button class="gallery-btn" title="Share" onclick="sharePhoto()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="18" cy="5" r="3"/>
+                            <circle cx="6" cy="12" r="3"/>
+                            <circle cx="18" cy="19" r="3"/>
+                            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+                            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+                        </svg>
+                    </button>
+                    <button class="gallery-btn" title="Download" onclick="downloadPhoto()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                            <polyline points="7 10 12 15 17 10"/>
+                            <line x1="12" y1="15" x2="12" y2="3"/>
+                        </svg>
+                    </button>
+                    <button class="gallery-btn gallery-close-btn" title="Close" onclick="closeGallery()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"/>
+                            <line x1="6" y1="6" x2="18" y2="18"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Main Image -->
+            <div class="gallery-main">
+                <button class="gallery-nav-btn prev" onclick="prevPhoto()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"/>
+                    </svg>
+                </button>
+
+                <div class="gallery-image-container">
+                    <div class="gallery-image placeholder-image img-3" id="mainImage">
+                        🏠
+                    </div>
+                </div>
+
+                <button class="gallery-nav-btn next" onclick="nextPhoto()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Caption -->
+            <div class="gallery-caption">
+                <p class="gallery-caption-text" id="photoCaption">
+                    Spacious living room with modern furnishings and natural lighting.
+                    Features include hardwood floors, large windows, and contemporary decor.
+                </p>
+            </div>
+
+            <!-- Thumbnails -->
+            <div class="gallery-thumbnails">
+                <div class="thumbnails-container" id="thumbnailsContainer">
+                    <!-- Thumbnails will be generated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Photo gallery data
+        const photos = [
+            { id: 1, caption: 'Modern exterior with welcoming entrance and landscaped front yard', class: 'img-1', icon: '🏡' },
+            { id: 2, caption: 'Bright and airy kitchen with stainless steel appliances and granite countertops', class: 'img-2', icon: '🍳' },
+            { id: 3, caption: 'Spacious living room with modern furnishings and natural lighting', class: 'img-3', icon: '🏠' },
+            { id: 4, caption: 'Comfortable bedroom with queen-size bed and ample closet space', class: 'img-4', icon: '🛏️' },
+            { id: 5, caption: 'Updated bathroom featuring shower/tub combo and modern fixtures', class: 'img-5', icon: '🛁' },
+            { id: 6, caption: 'Cozy second bedroom ideal for guests or home office', class: 'img-6', icon: '💼' },
+            { id: 7, caption: 'Dining area with elegant table setting and chandelier', class: 'img-7', icon: '🍽️' },
+            { id: 8, caption: 'Private backyard with deck perfect for outdoor entertaining', class: 'img-8', icon: '🌳' },
+            { id: 9, caption: 'Washer and dryer in convenient laundry area', class: 'img-9', icon: '🧺' },
+            { id: 10, caption: 'Dedicated parking space with covered carport', class: 'img-10', icon: '🚗' },
+            { id: 11, caption: 'Shared common area with seating and community amenities', class: 'img-11', icon: '👥' },
+            { id: 12, caption: 'Well-maintained neighborhood with tree-lined streets', class: 'img-12', icon: '🌲' }
+        ];
+
+        let currentPhotoIndex = 2; // Starting at photo 3
+
+        // Initialize gallery
+        function initGallery() {
+            const thumbnailsContainer = document.getElementById('thumbnailsContainer');
+            thumbnailsContainer.innerHTML = '';
+
+            photos.forEach((photo, index) => {
+                const thumbnail = document.createElement('div');
+                thumbnail.className = `thumbnail ${index === currentPhotoIndex ? 'active' : ''}`;
+                thumbnail.onclick = () => goToPhoto(index);
+
+                const thumbImg = document.createElement('div');
+                thumbImg.className = `placeholder-image ${photo.class}`;
+                thumbImg.style.width = '100%';
+                thumbImg.style.height = '100%';
+                thumbImg.textContent = photo.icon;
+                thumbImg.style.fontSize = '32px';
+
+                thumbnail.appendChild(thumbImg);
+                thumbnailsContainer.appendChild(thumbnail);
+            });
+
+            updateGallery();
+        }
+
+        function openGallery() {
+            document.getElementById('galleryModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            initGallery();
+        }
+
+        function closeGallery() {
+            document.getElementById('galleryModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function updateGallery() {
+            const photo = photos[currentPhotoIndex];
+
+            // Update counter
+            document.getElementById('currentPhoto').textContent = currentPhotoIndex + 1;
+            document.getElementById('totalPhotos').textContent = photos.length;
+
+            // Update main image
+            const mainImage = document.getElementById('mainImage');
+            mainImage.className = `gallery-image placeholder-image ${photo.class}`;
+            mainImage.textContent = photo.icon;
+
+            // Update caption
+            document.getElementById('photoCaption').textContent = photo.caption;
+
+            // Update active thumbnail
+            document.querySelectorAll('.thumbnail').forEach((thumb, index) => {
+                thumb.classList.toggle('active', index === currentPhotoIndex);
+            });
+
+            // Scroll active thumbnail into view
+            const activeThumbnail = document.querySelector('.thumbnail.active');
+            if (activeThumbnail) {
+                activeThumbnail.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            }
+        }
+
+        function nextPhoto() {
+            currentPhotoIndex = (currentPhotoIndex + 1) % photos.length;
+            updateGallery();
+        }
+
+        function prevPhoto() {
+            currentPhotoIndex = (currentPhotoIndex - 1 + photos.length) % photos.length;
+            updateGallery();
+        }
+
+        function goToPhoto(index) {
+            currentPhotoIndex = index;
+            updateGallery();
+        }
+
+        function sharePhoto() {
+            alert('Share functionality would open share dialog');
+        }
+
+        function downloadPhoto() {
+            alert('Download functionality would download the current photo');
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (!document.getElementById('galleryModal').classList.contains('active')) return;
+
+            if (e.key === 'ArrowLeft') {
+                prevPhoto();
+            } else if (e.key === 'ArrowRight') {
+                nextPhoto();
+            } else if (e.key === 'Escape') {
+                closeGallery();
+            }
+        });
+
+        // Close on backdrop click
+        document.getElementById('galleryModal').addEventListener('click', (e) => {
+            if (e.target.id === 'galleryModal') {
+                closeGallery();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decline Application | RoomPilot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-midnight: #0f1419;
+            --color-charcoal: #1a2332;
+            --color-slate: #3d4f5f;
+            --color-mist: #8899a6;
+            --color-cloud: #e8ecef;
+            --color-snow: #f7f9fa;
+            --color-white: #ffffff;
+
+            --color-primary: #2563eb;
+            --color-primary-light: #3b82f6;
+            --color-primary-dark: #1d4ed8;
+            --color-primary-bg: #eff6ff;
+
+            --color-accent: #10b981;
+            --color-accent-light: #34d399;
+            --color-accent-bg: #ecfdf5;
+            --color-accent-dark: #059669;
+
+            --color-warm: #f59e0b;
+            --color-warm-bg: #fffbeb;
+            --color-coral: #f43f5e;
+            --color-coral-bg: #fff1f2;
+
+            --font-display: 'Fraunces', Georgia, serif;
+            --font-body: 'DM Sans', -apple-system, sans-serif;
+
+            --shadow-sm: 0 1px 2px rgba(15, 20, 25, 0.05);
+            --shadow-md: 0 4px 12px rgba(15, 20, 25, 0.08);
+            --shadow-lg: 0 12px 40px rgba(15, 20, 25, 0.12);
+
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: 15px;
+            line-height: 1.5;
+            color: var(--color-charcoal);
+            background: var(--color-snow);
+            padding: 40px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        /* Modal Overlay */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 20, 25, 0.6);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 1000;
+            animation: fadeIn 0.2s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Modal Container */
+        .modal-container {
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            width: 100%;
+            max-width: 560px;
+            max-height: 90vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Modal Header */
+        .modal-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--color-cloud);
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .modal-header-content {
+            flex: 1;
+        }
+
+        .modal-title {
+            font-family: var(--font-display);
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--color-midnight);
+            margin-bottom: 4px;
+        }
+
+        .modal-subtitle {
+            font-size: 14px;
+            color: var(--color-mist);
+        }
+
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: none;
+            color: var(--color-slate);
+            cursor: pointer;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .modal-close:hover {
+            background: var(--color-snow);
+            color: var(--color-charcoal);
+        }
+
+        /* Modal Body */
+        .modal-body {
+            padding: 24px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        /* Applicant Info */
+        .applicant-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            background: var(--color-snow);
+            border-radius: var(--radius-md);
+            margin-bottom: 24px;
+        }
+
+        .applicant-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-primary) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .applicant-details {
+            flex: 1;
+        }
+
+        .applicant-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+            margin-bottom: 2px;
+        }
+
+        .applicant-room {
+            font-size: 13px;
+            color: var(--color-mist);
+        }
+
+        /* Form Group */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+            margin-bottom: 8px;
+        }
+
+        .form-label-required {
+            color: var(--color-coral);
+            margin-left: 4px;
+        }
+
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--color-cloud);
+            border-radius: var(--radius-md);
+            font-family: var(--font-body);
+            font-size: 14px;
+            color: var(--color-charcoal);
+            transition: all 0.2s ease;
+        }
+
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px var(--color-primary-bg);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-hint {
+            font-size: 13px;
+            color: var(--color-mist);
+            margin-top: 6px;
+        }
+
+        /* Toggle Field */
+        .toggle-field {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 16px;
+            background: var(--color-snow);
+            border-radius: var(--radius-md);
+            margin-bottom: 20px;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 44px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+
+        .toggle-input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--color-cloud);
+            border-radius: 12px;
+            transition: 0.3s;
+        }
+
+        .toggle-slider::before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background: white;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+
+        .toggle-input:checked + .toggle-slider {
+            background: var(--color-primary);
+        }
+
+        .toggle-input:checked + .toggle-slider::before {
+            transform: translateX(20px);
+        }
+
+        .toggle-content {
+            flex: 1;
+        }
+
+        .toggle-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+            margin-bottom: 4px;
+        }
+
+        .toggle-description {
+            font-size: 13px;
+            color: var(--color-mist);
+        }
+
+        /* Message Preview */
+        .message-preview {
+            padding: 16px;
+            background: var(--color-snow);
+            border-radius: var(--radius-md);
+            border-left: 3px solid var(--color-primary);
+            margin-top: 12px;
+            display: none;
+        }
+
+        .message-preview.active {
+            display: block;
+        }
+
+        .message-preview-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--color-slate);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+        }
+
+        .message-preview-text {
+            font-size: 14px;
+            color: var(--color-charcoal);
+            line-height: 1.6;
+        }
+
+        /* Warning Box */
+        .warning-box {
+            display: flex;
+            gap: 12px;
+            padding: 16px;
+            background: var(--color-coral-bg);
+            border-radius: var(--radius-md);
+            border-left: 3px solid var(--color-coral);
+            margin-bottom: 24px;
+        }
+
+        .warning-icon {
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .warning-content {
+            flex: 1;
+        }
+
+        .warning-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-coral);
+            margin-bottom: 4px;
+        }
+
+        .warning-text {
+            font-size: 13px;
+            color: var(--color-charcoal);
+        }
+
+        /* Modal Footer */
+        .modal-footer {
+            padding: 20px 24px;
+            border-top: 1px solid var(--color-cloud);
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 24px;
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary {
+            background: var(--color-snow);
+            color: var(--color-slate);
+            border: 1px solid var(--color-cloud);
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-cloud);
+            color: var(--color-charcoal);
+        }
+
+        .btn-danger {
+            background: var(--color-coral);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        @media (max-width: 640px) {
+            .modal-footer {
+                flex-direction: column-reverse;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="modal-overlay">
+        <div class="modal-container">
+            <!-- Header -->
+            <div class="modal-header">
+                <div class="modal-header-content">
+                    <h2 class="modal-title">Decline Application</h2>
+                    <p class="modal-subtitle">This action cannot be undone</p>
+                </div>
+                <button class="modal-close" aria-label="Close modal">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6L6 18M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Body -->
+            <div class="modal-body">
+                <!-- Applicant Info -->
+                <div class="applicant-info">
+                    <div class="applicant-avatar">DC</div>
+                    <div class="applicant-details">
+                        <div class="applicant-name">David Chen</div>
+                        <div class="applicant-room">Applied for: East Atlanta Bungalow - Room 4</div>
+                    </div>
+                </div>
+
+                <!-- Decline Reason -->
+                <div class="form-group">
+                    <label class="form-label">
+                        Reason for declining
+                        <span class="form-label-required">*</span>
+                    </label>
+                    <select class="form-select" id="declineReason" required>
+                        <option value="">Select a reason...</option>
+                        <option value="income">Income requirements not met</option>
+                        <option value="background">Background check concerns</option>
+                        <option value="references">References could not be verified</option>
+                        <option value="unavailable">Room no longer available</option>
+                        <option value="withdrew">Applicant withdrew</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <p class="form-hint">This reason is for internal records only</p>
+                </div>
+
+                <!-- Additional Notes -->
+                <div class="form-group">
+                    <label class="form-label">Additional notes (optional)</label>
+                    <textarea
+                        class="form-textarea"
+                        placeholder="Add any internal notes about this decision..."
+                    ></textarea>
+                    <p class="form-hint">These notes are private and will not be shared with the applicant</p>
+                </div>
+
+                <!-- Send Message Toggle -->
+                <div class="toggle-field">
+                    <label class="toggle-switch">
+                        <input type="checkbox" class="toggle-input" id="sendMessage" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <div class="toggle-content">
+                        <div class="toggle-label">Send message to applicant</div>
+                        <div class="toggle-description">Notify the applicant with a professional decline message</div>
+                    </div>
+                </div>
+
+                <!-- Message Preview -->
+                <div class="message-preview active" id="messagePreview">
+                    <div class="message-preview-label">Message Preview</div>
+                    <div class="message-preview-text">
+                        <p><strong>Subject:</strong> Application Update - East Atlanta Bungalow</p>
+                        <p style="margin-top: 12px;">Hi David,</p>
+                        <p style="margin-top: 8px;">Thank you for your interest in East Atlanta Bungalow. After careful consideration, we have decided to move forward with another applicant at this time.</p>
+                        <p style="margin-top: 8px;">We appreciate the time you took to apply and wish you the best in your housing search.</p>
+                        <p style="margin-top: 8px;">Best regards,<br>The RoomPilot Team</p>
+                    </div>
+                </div>
+
+                <!-- Warning -->
+                <div class="warning-box">
+                    <div class="warning-icon">⚠️</div>
+                    <div class="warning-content">
+                        <div class="warning-title">This action cannot be undone</div>
+                        <div class="warning-text">The applicant will be notified and their application will be permanently declined.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="modal-footer">
+                <button class="btn btn-secondary">Cancel</button>
+                <button class="btn btn-danger">Decline Application</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle message preview
+        const sendMessageToggle = document.getElementById('sendMessage');
+        const messagePreview = document.getElementById('messagePreview');
+
+        sendMessageToggle.addEventListener('change', function() {
+            if (this.checked) {
+                messagePreview.classList.add('active');
+            } else {
+                messagePreview.classList.remove('active');
+            }
+        });
+
+        // Close modal on overlay click
+        document.querySelector('.modal-overlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                console.log('Close modal');
+            }
+        });
+
+        // Close modal on close button click
+        document.querySelector('.modal-close').addEventListener('click', function() {
+            console.log('Close modal');
+        });
+
+        // Close modal on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                console.log('Close modal');
+            }
+        });
+    </script>
+</body>
+</html>

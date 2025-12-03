@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Bank Account | RoomPilot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-midnight: #0f1419;
+            --color-charcoal: #1a2332;
+            --color-slate: #3d4f5f;
+            --color-mist: #8899a6;
+            --color-cloud: #e8ecef;
+            --color-snow: #f7f9fa;
+            --color-white: #ffffff;
+
+            --color-primary: #2563eb;
+            --color-primary-light: #3b82f6;
+            --color-primary-dark: #1d4ed8;
+            --color-primary-bg: #eff6ff;
+
+            --color-accent: #10b981;
+            --color-accent-light: #34d399;
+            --color-accent-bg: #ecfdf5;
+            --color-accent-dark: #059669;
+
+            --color-warm: #f59e0b;
+            --color-warm-bg: #fffbeb;
+            --color-coral: #f43f5e;
+            --color-coral-bg: #fff1f2;
+
+            --font-display: 'Fraunces', Georgia, serif;
+            --font-body: 'DM Sans', -apple-system, sans-serif;
+
+            --shadow-sm: 0 1px 2px rgba(15, 20, 25, 0.05);
+            --shadow-md: 0 4px 12px rgba(15, 20, 25, 0.08);
+            --shadow-lg: 0 12px 40px rgba(15, 20, 25, 0.12);
+
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: 15px;
+            line-height: 1.5;
+            color: var(--color-charcoal);
+            background: var(--color-snow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Modal Overlay */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 20, 25, 0.6);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeIn 0.2s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Modal Container */
+        .modal-container {
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Modal Header */
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 24px 24px 20px;
+            border-bottom: 1px solid var(--color-cloud);
+        }
+
+        .modal-title {
+            font-family: var(--font-display);
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--color-midnight);
+        }
+
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            border-radius: var(--radius-sm);
+            background: none;
+            border: none;
+            color: var(--color-slate);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .modal-close:hover {
+            background: var(--color-snow);
+            color: var(--color-charcoal);
+        }
+
+        /* Modal Body */
+        .modal-body {
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        /* Current Account */
+        .current-account {
+            padding: 20px;
+            background: var(--color-accent-bg);
+            border-left: 4px solid var(--color-accent);
+            border-radius: var(--radius-md);
+            margin-bottom: 24px;
+        }
+
+        .current-account-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .current-account-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--color-accent);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .current-account-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-accent-dark);
+        }
+
+        .current-account-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .account-info {
+            font-size: 15px;
+            color: var(--color-charcoal);
+        }
+
+        .account-number {
+            font-weight: 600;
+        }
+
+        .verified-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: var(--color-accent);
+            color: white;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* Divider */
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 32px 0;
+        }
+
+        .divider-line {
+            flex: 1;
+            height: 1px;
+            background: var(--color-cloud);
+        }
+
+        .divider-text {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--color-mist);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Form Group */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+            margin-bottom: 8px;
+        }
+
+        .form-label-required {
+            color: var(--color-coral);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--color-cloud);
+            border-radius: var(--radius-md);
+            font-family: var(--font-body);
+            font-size: 15px;
+            color: var(--color-charcoal);
+            transition: all 0.2s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px var(--color-primary-bg);
+        }
+
+        .form-input.error {
+            border-color: var(--color-coral);
+        }
+
+        .form-error {
+            font-size: 13px;
+            color: var(--color-coral);
+            margin-top: 6px;
+            display: none;
+        }
+
+        .form-input.error + .form-error {
+            display: block;
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--color-cloud);
+            border-radius: var(--radius-md);
+            font-family: var(--font-body);
+            font-size: 15px;
+            color: var(--color-charcoal);
+            background: var(--color-white);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .form-select:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px var(--color-primary-bg);
+        }
+
+        /* Form Row */
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        /* Verification Method */
+        .verification-section {
+            margin-top: 24px;
+            padding: 20px;
+            background: var(--color-snow);
+            border-radius: var(--radius-md);
+        }
+
+        .verification-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+            margin-bottom: 12px;
+        }
+
+        .verification-options {
+            display: flex;
+            gap: 12px;
+        }
+
+        .verification-option {
+            flex: 1;
+            padding: 16px;
+            background: var(--color-white);
+            border: 2px solid var(--color-cloud);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .verification-option:hover {
+            border-color: var(--color-primary);
+        }
+
+        .verification-option.selected {
+            border-color: var(--color-primary);
+            background: var(--color-primary-bg);
+        }
+
+        .verification-option-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .verification-radio {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .verification-option-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+        }
+
+        .verification-option-badge {
+            margin-left: auto;
+            padding: 3px 8px;
+            background: var(--color-accent-bg);
+            color: var(--color-accent-dark);
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .verification-option-desc {
+            font-size: 13px;
+            color: var(--color-mist);
+            padding-left: 28px;
+        }
+
+        /* Security Badge */
+        .security-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px;
+            background: var(--color-snow);
+            border-radius: var(--radius-sm);
+            margin-top: 20px;
+        }
+
+        .security-icon {
+            color: var(--color-accent-dark);
+        }
+
+        .security-text {
+            font-size: 13px;
+            color: var(--color-slate);
+        }
+
+        /* Modal Footer */
+        .modal-footer {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 12px;
+            padding: 20px 24px;
+            border-top: 1px solid var(--color-cloud);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 20px;
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary {
+            background: var(--color-snow);
+            color: var(--color-slate);
+            border: 1px solid var(--color-cloud);
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-cloud);
+            color: var(--color-charcoal);
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-dark);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .modal-container {
+                max-width: 100%;
+                max-height: 100vh;
+                border-radius: 0;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .verification-options {
+                flex-direction: column;
+            }
+
+            .modal-footer {
+                flex-direction: column-reverse;
+            }
+
+            .modal-footer .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2 class="modal-title">Update Bank Account</h2>
+                <button class="modal-close" aria-label="Close modal">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6L6 18M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <!-- Current Account -->
+                <div class="current-account">
+                    <div class="current-account-header">
+                        <div class="current-account-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+                                <line x1="1" y1="10" x2="23" y2="10"/>
+                            </svg>
+                        </div>
+                        <span class="current-account-title">Current Account</span>
+                    </div>
+                    <div class="current-account-details">
+                        <div class="account-info">
+                            Chase Bank · <span class="account-number">••••1234</span>
+                        </div>
+                        <span class="verified-badge">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                <path d="M20 6L9 17l-5-5"/>
+                            </svg>
+                            Verified
+                        </span>
+                    </div>
+                </div>
+
+                <div class="divider">
+                    <div class="divider-line"></div>
+                    <span class="divider-text">Add New Account</span>
+                    <div class="divider-line"></div>
+                </div>
+
+                <!-- New Account Form -->
+                <form id="bank-form">
+                    <div class="form-group">
+                        <label class="form-label">
+                            Account Holder Name <span class="form-label-required">*</span>
+                        </label>
+                        <input
+                            type="text"
+                            class="form-input"
+                            placeholder="Full name on account"
+                            required
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            Account Type <span class="form-label-required">*</span>
+                        </label>
+                        <select class="form-select" required>
+                            <option value="">Select account type</option>
+                            <option value="checking">Checking</option>
+                            <option value="savings">Savings</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            Routing Number <span class="form-label-required">*</span>
+                        </label>
+                        <input
+                            type="text"
+                            class="form-input"
+                            placeholder="9-digit routing number"
+                            maxlength="9"
+                            pattern="[0-9]{9}"
+                            id="routing-number"
+                            required
+                        />
+                        <div class="form-error">Please enter a valid 9-digit routing number</div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">
+                                Account Number <span class="form-label-required">*</span>
+                            </label>
+                            <input
+                                type="text"
+                                class="form-input"
+                                placeholder="Account number"
+                                id="account-number"
+                                required
+                            />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                Confirm Account Number <span class="form-label-required">*</span>
+                            </label>
+                            <input
+                                type="text"
+                                class="form-input"
+                                placeholder="Re-enter account number"
+                                id="confirm-account"
+                                required
+                            />
+                            <div class="form-error">Account numbers do not match</div>
+                        </div>
+                    </div>
+
+                    <!-- Verification Method -->
+                    <div class="verification-section">
+                        <div class="verification-title">Verification Method</div>
+                        <div class="verification-options">
+                            <label class="verification-option">
+                                <div class="verification-option-header">
+                                    <input type="radio" name="verification" value="micro" class="verification-radio" checked>
+                                    <span class="verification-option-title">Micro-deposits</span>
+                                </div>
+                                <div class="verification-option-desc">1-2 business days</div>
+                            </label>
+
+                            <label class="verification-option">
+                                <div class="verification-option-header">
+                                    <input type="radio" name="verification" value="instant" class="verification-radio">
+                                    <span class="verification-option-title">Instant</span>
+                                    <span class="verification-option-badge">Recommended</span>
+                                </div>
+                                <div class="verification-option-desc">Via Plaid (minutes)</div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Security Badge -->
+                    <div class="security-badge">
+                        <svg class="security-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                            <path d="M7 11V7a5 5 0 0110 0v4"/>
+                        </svg>
+                        <span class="security-text">Secured by Stripe. Your bank information is encrypted and never stored on our servers.</span>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary">Cancel</button>
+                <button class="btn btn-primary" id="save-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 6L9 17l-5-5"/>
+                    </svg>
+                    Save Account
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Verification option selection
+        const verificationOptions = document.querySelectorAll('.verification-option');
+        const verificationRadios = document.querySelectorAll('.verification-radio');
+
+        verificationRadios.forEach((radio, index) => {
+            radio.addEventListener('change', function() {
+                verificationOptions.forEach(opt => opt.classList.remove('selected'));
+                if (this.checked) {
+                    verificationOptions[index].classList.add('selected');
+                }
+            });
+        });
+
+        verificationOptions.forEach((option, index) => {
+            option.addEventListener('click', function(e) {
+                if (e.target !== verificationRadios[index]) {
+                    verificationRadios[index].checked = true;
+                    verificationRadios[index].dispatchEvent(new Event('change'));
+                }
+            });
+        });
+
+        // Set initial selected state
+        verificationOptions[0].classList.add('selected');
+
+        // Form validation
+        const accountNumber = document.getElementById('account-number');
+        const confirmAccount = document.getElementById('confirm-account');
+        const routingNumber = document.getElementById('routing-number');
+
+        confirmAccount.addEventListener('blur', function() {
+            if (this.value && this.value !== accountNumber.value) {
+                this.classList.add('error');
+            } else {
+                this.classList.remove('error');
+            }
+        });
+
+        routingNumber.addEventListener('input', function() {
+            this.value = this.value.replace(/\D/g, '');
+            if (this.value.length === 9) {
+                this.classList.remove('error');
+            }
+        });
+
+        routingNumber.addEventListener('blur', function() {
+            if (this.value.length !== 9) {
+                this.classList.add('error');
+            }
+        });
+
+        // Save button
+        document.getElementById('save-btn').addEventListener('click', function() {
+            const form = document.getElementById('bank-form');
+            if (form.checkValidity()) {
+                if (accountNumber.value !== confirmAccount.value) {
+                    confirmAccount.classList.add('error');
+                    return;
+                }
+                if (routingNumber.value.length !== 9) {
+                    routingNumber.classList.add('error');
+                    return;
+                }
+                alert('Bank account saved successfully! Verification process initiated.');
+                document.querySelector('.modal-overlay').style.display = 'none';
+            } else {
+                form.reportValidity();
+            }
+        });
+
+        // Close modal
+        document.querySelector('.modal-close').addEventListener('click', function() {
+            document.querySelector('.modal-overlay').style.display = 'none';
+        });
+
+        document.querySelector('.btn-secondary').addEventListener('click', function() {
+            document.querySelector('.modal-overlay').style.display = 'none';
+        });
+
+        // Close on backdrop click
+        document.querySelector('.modal-overlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.style.display = 'none';
+            }
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.querySelector('.modal-overlay').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

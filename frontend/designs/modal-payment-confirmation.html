@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Confirmation | RoomPilot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-midnight: #0f1419;
+            --color-charcoal: #1a2332;
+            --color-slate: #3d4f5f;
+            --color-mist: #8899a6;
+            --color-cloud: #e8ecef;
+            --color-snow: #f7f9fa;
+            --color-white: #ffffff;
+
+            --color-primary: #2563eb;
+            --color-primary-light: #3b82f6;
+            --color-primary-dark: #1d4ed8;
+            --color-primary-bg: #eff6ff;
+
+            --color-accent: #10b981;
+            --color-accent-light: #34d399;
+            --color-accent-bg: #ecfdf5;
+            --color-accent-dark: #059669;
+
+            --color-warm: #f59e0b;
+            --color-warm-bg: #fffbeb;
+            --color-coral: #f43f5e;
+            --color-coral-bg: #fff1f2;
+
+            --font-display: 'Fraunces', Georgia, serif;
+            --font-body: 'DM Sans', -apple-system, sans-serif;
+
+            --shadow-sm: 0 1px 2px rgba(15, 20, 25, 0.05);
+            --shadow-md: 0 4px 12px rgba(15, 20, 25, 0.08);
+            --shadow-lg: 0 12px 40px rgba(15, 20, 25, 0.12);
+
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: 15px;
+            line-height: 1.5;
+            color: var(--color-charcoal);
+            background: var(--color-snow);
+            padding: 40px 20px;
+        }
+
+        /* Modal Overlay */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 20, 25, 0.6);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        /* Modal Container */
+        .modal {
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            width: 100%;
+            max-width: 480px;
+            text-align: center;
+            padding: 48px 32px;
+            position: relative;
+        }
+
+        /* Close Button */
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-sm);
+            background: none;
+            border: none;
+            color: var(--color-slate);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .modal-close:hover {
+            background: var(--color-snow);
+            color: var(--color-charcoal);
+        }
+
+        /* Status Icon */
+        .status-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            margin: 0 auto 24px;
+            animation: scaleIn 0.4s ease-out;
+        }
+
+        .status-icon.success {
+            background: var(--color-accent-bg);
+            color: var(--color-accent);
+        }
+
+        .status-icon.error {
+            background: var(--color-coral-bg);
+            color: var(--color-coral);
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Title */
+        .modal-title {
+            font-family: var(--font-display);
+            font-size: 26px;
+            font-weight: 600;
+            color: var(--color-midnight);
+            margin-bottom: 12px;
+        }
+
+        .modal-title.success {
+            color: var(--color-accent-dark);
+        }
+
+        .modal-title.error {
+            color: var(--color-coral);
+        }
+
+        /* Description */
+        .modal-description {
+            font-size: 15px;
+            color: var(--color-slate);
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+
+        /* Details Box */
+        .details-box {
+            background: var(--color-snow);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            margin-bottom: 24px;
+            text-align: left;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+        }
+
+        .detail-row:not(:last-child) {
+            border-bottom: 1px solid var(--color-cloud);
+        }
+
+        .detail-label {
+            font-size: 14px;
+            color: var(--color-mist);
+        }
+
+        .detail-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+        }
+
+        .detail-value.highlight {
+            font-family: var(--font-display);
+            font-size: 18px;
+            color: var(--color-accent-dark);
+        }
+
+        /* Confirmation Number */
+        .confirmation-number {
+            display: inline-block;
+            background: var(--color-primary-bg);
+            color: var(--color-primary);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        /* Error Box */
+        .error-box {
+            background: var(--color-coral-bg);
+            border: 1px solid var(--color-coral);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            margin-bottom: 24px;
+        }
+
+        .error-message {
+            font-size: 14px;
+            color: var(--color-coral);
+            line-height: 1.6;
+        }
+
+        /* Info Note */
+        .info-note {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--color-mist);
+            margin-bottom: 24px;
+            justify-content: center;
+        }
+
+        .info-icon {
+            font-size: 16px;
+        }
+
+        /* Buttons */
+        .modal-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 24px;
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-dark);
+        }
+
+        .btn-success {
+            background: var(--color-accent);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: var(--color-accent-dark);
+        }
+
+        .btn-secondary {
+            background: var(--color-snow);
+            color: var(--color-slate);
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-cloud);
+            color: var(--color-charcoal);
+        }
+
+        .btn-text {
+            background: none;
+            color: var(--color-primary);
+            padding: 8px;
+        }
+
+        .btn-text:hover {
+            background: var(--color-primary-bg);
+        }
+
+        /* Support Link */
+        .support-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            color: var(--color-slate);
+            text-decoration: none;
+            margin-top: 16px;
+            transition: color 0.2s ease;
+        }
+
+        .support-link:hover {
+            color: var(--color-primary);
+        }
+
+        /* State Management */
+        .state {
+            display: none;
+        }
+
+        .state.active {
+            display: block;
+        }
+
+        @media (max-width: 640px) {
+            .modal {
+                padding: 32px 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="modal-overlay">
+        <div class="modal">
+            <button class="modal-close" aria-label="Close">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 6L6 18M6 6l12 12"/>
+                </svg>
+            </button>
+
+            <!-- Success State -->
+            <div class="state active" id="success-state">
+                <div class="status-icon success">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M20 6L9 17l-5-5"/>
+                    </svg>
+                </div>
+
+                <h2 class="modal-title success">Payment Successful</h2>
+                <p class="modal-description">Your payment has been processed successfully.</p>
+
+                <div class="details-box">
+                    <div class="detail-row">
+                        <span class="detail-label">Amount Paid</span>
+                        <span class="detail-value highlight">$175.00</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Date</span>
+                        <span class="detail-value">December 1, 2024 at 2:45 PM</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Confirmation Number</span>
+                        <span class="detail-value">
+                            <span class="confirmation-number">RPT-2024-91847</span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="info-note">
+                    <span class="info-icon">✉️</span>
+                    <span>A receipt has been sent to your email</span>
+                </div>
+
+                <div class="modal-actions">
+                    <button class="btn btn-success">Done</button>
+                    <button class="btn btn-text">View Receipt</button>
+                </div>
+            </div>
+
+            <!-- Error State -->
+            <div class="state" id="error-state">
+                <div class="status-icon error">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M18 6L6 18M6 6l12 12"/>
+                    </svg>
+                </div>
+
+                <h2 class="modal-title error">Payment Failed</h2>
+                <p class="modal-description">We couldn't process your payment. Please try again.</p>
+
+                <div class="error-box">
+                    <p class="error-message">
+                        <strong>Error:</strong> Your card was declined. Please check your card details or try a different payment method.
+                    </p>
+                </div>
+
+                <div class="details-box">
+                    <div class="detail-row">
+                        <span class="detail-label">Attempted Amount</span>
+                        <span class="detail-value">$175.00</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Date</span>
+                        <span class="detail-value">December 1, 2024 at 2:45 PM</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Payment Method</span>
+                        <span class="detail-value">Visa ending in 4242</span>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button class="btn btn-primary">Try Again</button>
+                    <button class="btn btn-secondary">Use Different Method</button>
+                </div>
+
+                <a href="#" class="support-link">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/>
+                        <line x1="12" y1="17" x2="12.01" y2="17"/>
+                    </svg>
+                    Contact Support
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle between states for demo
+        let currentState = 'success';
+
+        function toggleState() {
+            if (currentState === 'success') {
+                document.getElementById('success-state').classList.remove('active');
+                document.getElementById('error-state').classList.add('active');
+                currentState = 'error';
+            } else {
+                document.getElementById('error-state').classList.remove('active');
+                document.getElementById('success-state').classList.add('active');
+                currentState = 'success';
+            }
+        }
+
+        // Click outside to toggle state (for demo purposes)
+        document.querySelector('.modal-overlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                toggleState();
+            }
+        });
+
+        // Close button
+        document.querySelector('.modal-close').addEventListener('click', function() {
+            console.log('Modal closed');
+        });
+
+        // Success state buttons
+        document.querySelectorAll('#success-state .btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                console.log('Button clicked:', this.textContent);
+            });
+        });
+
+        // Error state buttons
+        document.querySelectorAll('#error-state .btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                console.log('Button clicked:', this.textContent);
+            });
+        });
+
+        // Auto-close after 5 seconds on success (optional)
+        // setTimeout(() => {
+        //     if (currentState === 'success') {
+        //         console.log('Auto-closing modal');
+        //     }
+        // }, 5000);
+    </script>
+</body>
+</html>

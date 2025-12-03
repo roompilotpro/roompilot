@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto-Pay Setup | RoomPilot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-midnight: #0f1419;
+            --color-charcoal: #1a2332;
+            --color-slate: #3d4f5f;
+            --color-mist: #8899a6;
+            --color-cloud: #e8ecef;
+            --color-snow: #f7f9fa;
+            --color-white: #ffffff;
+
+            --color-primary: #2563eb;
+            --color-primary-light: #3b82f6;
+            --color-primary-dark: #1d4ed8;
+            --color-primary-bg: #eff6ff;
+
+            --color-accent: #10b981;
+            --color-accent-light: #34d399;
+            --color-accent-bg: #ecfdf5;
+            --color-accent-dark: #059669;
+
+            --color-warm: #f59e0b;
+            --color-warm-bg: #fffbeb;
+            --color-coral: #f43f5e;
+            --color-coral-bg: #fff1f2;
+
+            --font-display: 'Fraunces', Georgia, serif;
+            --font-body: 'DM Sans', -apple-system, sans-serif;
+
+            --shadow-sm: 0 1px 2px rgba(15, 20, 25, 0.05);
+            --shadow-md: 0 4px 12px rgba(15, 20, 25, 0.08);
+            --shadow-lg: 0 12px 40px rgba(15, 20, 25, 0.12);
+
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: 15px;
+            line-height: 1.5;
+            color: var(--color-charcoal);
+            background: var(--color-snow);
+            padding: 40px 20px;
+        }
+
+        /* Modal Overlay */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 20, 25, 0.6);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        /* Modal Container */
+        .modal {
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            width: 100%;
+            max-width: 560px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* Modal Header */
+        .modal-header {
+            padding: 24px 28px;
+            border-bottom: 1px solid var(--color-cloud);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .modal-title {
+            font-family: var(--font-display);
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--color-midnight);
+        }
+
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-sm);
+            background: none;
+            border: none;
+            color: var(--color-slate);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .modal-close:hover {
+            background: var(--color-snow);
+            color: var(--color-charcoal);
+        }
+
+        /* Modal Body */
+        .modal-body {
+            padding: 28px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        /* Toggle Section */
+        .toggle-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            background: var(--color-accent-bg);
+            border-radius: var(--radius-md);
+            margin-bottom: 28px;
+        }
+
+        .toggle-info {
+            flex: 1;
+        }
+
+        .toggle-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+            margin-bottom: 4px;
+        }
+
+        .toggle-description {
+            font-size: 13px;
+            color: var(--color-slate);
+        }
+
+        /* Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            width: 52px;
+            height: 28px;
+            background: var(--color-cloud);
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-switch.active {
+            background: var(--color-accent);
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .toggle-switch.active::after {
+            left: 26px;
+        }
+
+        /* Form Section */
+        .form-section {
+            margin-bottom: 28px;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--color-charcoal);
+            margin-bottom: 12px;
+        }
+
+        .section-description {
+            font-size: 13px;
+            color: var(--color-mist);
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+
+        /* Payment Method Selector */
+        .payment-method-selector {
+            border: 2px solid var(--color-cloud);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+        }
+
+        .payment-method-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: var(--color-white);
+        }
+
+        .payment-method-option:not(:last-child) {
+            border-bottom: 1px solid var(--color-cloud);
+        }
+
+        .payment-method-option:hover {
+            background: var(--color-snow);
+        }
+
+        .payment-method-option.selected {
+            background: var(--color-primary-bg);
+        }
+
+        .payment-method-radio {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--color-cloud);
+            border-radius: 50%;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .payment-method-option.selected .payment-method-radio {
+            border-color: var(--color-primary);
+        }
+
+        .payment-method-option.selected .payment-method-radio::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 10px;
+            height: 10px;
+            background: var(--color-primary);
+            border-radius: 50%;
+        }
+
+        .payment-method-icon {
+            font-size: 24px;
+        }
+
+        .payment-method-info {
+            flex: 1;
+        }
+
+        .payment-method-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+        }
+
+        .payment-method-details {
+            font-size: 13px;
+            color: var(--color-mist);
+        }
+
+        /* Schedule Options */
+        .schedule-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .schedule-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            border: 2px solid var(--color-cloud);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .schedule-option:hover {
+            border-color: var(--color-primary-light);
+            background: var(--color-snow);
+        }
+
+        .schedule-option.selected {
+            border-color: var(--color-primary);
+            background: var(--color-primary-bg);
+        }
+
+        .schedule-radio {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--color-cloud);
+            border-radius: 50%;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .schedule-option.selected .schedule-radio {
+            border-color: var(--color-primary);
+        }
+
+        .schedule-option.selected .schedule-radio::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 10px;
+            height: 10px;
+            background: var(--color-primary);
+            border-radius: 50%;
+        }
+
+        .schedule-info {
+            flex: 1;
+        }
+
+        .schedule-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+            margin-bottom: 2px;
+        }
+
+        .schedule-description {
+            font-size: 13px;
+            color: var(--color-mist);
+        }
+
+        /* Notification Options */
+        .notification-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .notification-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: var(--color-snow);
+            border-radius: var(--radius-md);
+        }
+
+        .checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--color-cloud);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .checkbox:checked {
+            background: var(--color-primary);
+            border-color: var(--color-primary);
+        }
+
+        .notification-label {
+            font-size: 14px;
+            color: var(--color-charcoal);
+            cursor: pointer;
+            flex: 1;
+        }
+
+        /* Rent Display */
+        .rent-display {
+            background: var(--color-snow);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            text-align: center;
+        }
+
+        .rent-label {
+            font-size: 13px;
+            color: var(--color-mist);
+            margin-bottom: 4px;
+        }
+
+        .rent-amount {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--color-charcoal);
+        }
+
+        .rent-period {
+            font-size: 13px;
+            color: var(--color-slate);
+        }
+
+        /* Terms Box */
+        .terms-box {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 16px;
+            background: var(--color-warm-bg);
+            border-radius: var(--radius-md);
+            margin-top: 24px;
+        }
+
+        .terms-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--color-warm);
+            border-radius: 6px;
+            cursor: pointer;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .terms-checkbox:checked {
+            background: var(--color-warm);
+            border-color: var(--color-warm);
+        }
+
+        .terms-text {
+            font-size: 13px;
+            color: var(--color-slate);
+            line-height: 1.6;
+        }
+
+        .terms-text a {
+            color: var(--color-primary);
+            text-decoration: none;
+        }
+
+        .terms-text a:hover {
+            text-decoration: underline;
+        }
+
+        /* Info Box */
+        .info-box {
+            display: flex;
+            gap: 12px;
+            padding: 16px;
+            background: var(--color-primary-bg);
+            border-radius: var(--radius-md);
+            margin-bottom: 24px;
+        }
+
+        .info-icon {
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .info-content {
+            flex: 1;
+        }
+
+        .info-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-primary);
+            margin-bottom: 4px;
+        }
+
+        .info-text {
+            font-size: 13px;
+            color: var(--color-slate);
+            line-height: 1.6;
+        }
+
+        /* Modal Footer */
+        .modal-footer {
+            padding: 20px 28px;
+            border-top: 1px solid var(--color-cloud);
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 24px;
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary {
+            background: var(--color-snow);
+            color: var(--color-slate);
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-cloud);
+            color: var(--color-charcoal);
+        }
+
+        .btn-primary {
+            background: var(--color-accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--color-accent-dark);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 640px) {
+            .modal {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="modal-overlay">
+        <div class="modal">
+            <!-- Header -->
+            <div class="modal-header">
+                <h2 class="modal-title">Auto-Pay Settings</h2>
+                <button class="modal-close" aria-label="Close">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6L6 18M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Body -->
+            <div class="modal-body">
+                <!-- Enable/Disable Toggle -->
+                <div class="toggle-section">
+                    <div class="toggle-info">
+                        <div class="toggle-title">Enable Auto-Pay</div>
+                        <div class="toggle-description">Automatically pay your rent on time, every time</div>
+                    </div>
+                    <div class="toggle-switch active" id="autopay-toggle"></div>
+                </div>
+
+                <!-- Rent Display -->
+                <div class="rent-display">
+                    <div class="rent-label">Weekly Rent Amount</div>
+                    <div class="rent-amount">$175.00</div>
+                    <div class="rent-period">Due every Monday</div>
+                </div>
+
+                <!-- Payment Method -->
+                <div class="form-section">
+                    <h3 class="section-title">Payment Method</h3>
+                    <p class="section-description">Select which payment method to use for automatic payments</p>
+                    <div class="payment-method-selector">
+                        <div class="payment-method-option selected">
+                            <div class="payment-method-radio"></div>
+                            <span class="payment-method-icon">💳</span>
+                            <div class="payment-method-info">
+                                <div class="payment-method-name">Visa ending in 4242</div>
+                                <div class="payment-method-details">Expires 12/2026</div>
+                            </div>
+                        </div>
+                        <div class="payment-method-option">
+                            <div class="payment-method-radio"></div>
+                            <span class="payment-method-icon">🏦</span>
+                            <div class="payment-method-info">
+                                <div class="payment-method-name">Bank Account</div>
+                                <div class="payment-method-details">Chase ending in 1234</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Schedule -->
+                <div class="form-section">
+                    <h3 class="section-title">Payment Schedule</h3>
+                    <div class="schedule-options">
+                        <div class="schedule-option selected">
+                            <div class="schedule-radio"></div>
+                            <div class="schedule-info">
+                                <div class="schedule-title">Pay on due date</div>
+                                <div class="schedule-description">Automatic payment on Monday morning</div>
+                            </div>
+                        </div>
+                        <div class="schedule-option">
+                            <div class="schedule-radio"></div>
+                            <div class="schedule-info">
+                                <div class="schedule-title">Pay 2 days before</div>
+                                <div class="schedule-description">Automatic payment on Saturday morning</div>
+                            </div>
+                        </div>
+                        <div class="schedule-option">
+                            <div class="schedule-radio"></div>
+                            <div class="schedule-info">
+                                <div class="schedule-title">Pay 5 days before</div>
+                                <div class="schedule-description">Automatic payment on Wednesday morning</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notification Preferences -->
+                <div class="form-section">
+                    <h3 class="section-title">Notification Preferences</h3>
+                    <div class="notification-options">
+                        <div class="notification-option">
+                            <input type="checkbox" id="email-notification" class="checkbox" checked>
+                            <label for="email-notification" class="notification-label">Email me 2 days before charge</label>
+                        </div>
+                        <div class="notification-option">
+                            <input type="checkbox" id="sms-notification" class="checkbox">
+                            <label for="sms-notification" class="notification-label">Send SMS reminder</label>
+                        </div>
+                        <div class="notification-option">
+                            <input type="checkbox" id="confirmation-notification" class="checkbox" checked>
+                            <label for="confirmation-notification" class="notification-label">Email confirmation after payment</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Info Box -->
+                <div class="info-box">
+                    <span class="info-icon">ℹ️</span>
+                    <div class="info-content">
+                        <div class="info-title">What if payment fails?</div>
+                        <div class="info-text">
+                            If your payment fails, we'll notify you immediately and retry once. You'll have 48 hours to update your payment method before late fees apply.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Terms Acceptance -->
+                <div class="terms-box">
+                    <input type="checkbox" id="terms-checkbox" class="terms-checkbox">
+                    <label for="terms-checkbox" class="terms-text">
+                        I authorize RoomPilot to automatically charge my selected payment method for weekly rent. I understand I can cancel auto-pay at any time. <a href="#">View terms</a>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="modal-footer">
+                <button class="btn btn-secondary">Cancel</button>
+                <button class="btn btn-primary" id="save-btn" disabled>Save Settings</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle switch
+        const toggle = document.getElementById('autopay-toggle');
+        let isEnabled = true;
+
+        toggle.addEventListener('click', function() {
+            isEnabled = !isEnabled;
+            this.classList.toggle('active');
+        });
+
+        // Payment method selection
+        document.querySelectorAll('.payment-method-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.payment-method-option').forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+
+        // Schedule selection
+        document.querySelectorAll('.schedule-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.schedule-option').forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+
+        // Terms checkbox - enable save button
+        const termsCheckbox = document.getElementById('terms-checkbox');
+        const saveBtn = document.getElementById('save-btn');
+
+        termsCheckbox.addEventListener('change', function() {
+            saveBtn.disabled = !this.checked;
+        });
+
+        // Close modal
+        document.querySelector('.modal-close').addEventListener('click', function() {
+            console.log('Modal closed');
+        });
+
+        document.querySelector('.btn-secondary').addEventListener('click', function() {
+            console.log('Modal cancelled');
+        });
+
+        saveBtn.addEventListener('click', function() {
+            if (termsCheckbox.checked) {
+                console.log('Auto-pay settings saved');
+            }
+        });
+    </script>
+</body>
+</html>

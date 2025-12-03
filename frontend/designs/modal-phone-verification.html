@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phone Verification | RoomPilot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-midnight: #0f1419;
+            --color-charcoal: #1a2332;
+            --color-slate: #3d4f5f;
+            --color-mist: #8899a6;
+            --color-cloud: #e8ecef;
+            --color-snow: #f7f9fa;
+            --color-white: #ffffff;
+
+            --color-primary: #2563eb;
+            --color-primary-light: #3b82f6;
+            --color-primary-dark: #1d4ed8;
+            --color-primary-bg: #eff6ff;
+
+            --color-accent: #10b981;
+            --color-accent-light: #34d399;
+            --color-accent-bg: #ecfdf5;
+            --color-accent-dark: #059669;
+
+            --color-warm: #f59e0b;
+            --color-warm-bg: #fffbeb;
+            --color-coral: #f43f5e;
+            --color-coral-bg: #fff1f2;
+
+            --font-display: 'Fraunces', Georgia, serif;
+            --font-body: 'DM Sans', -apple-system, sans-serif;
+
+            --shadow-sm: 0 1px 2px rgba(15, 20, 25, 0.05);
+            --shadow-md: 0 4px 12px rgba(15, 20, 25, 0.08);
+            --shadow-lg: 0 12px 40px rgba(15, 20, 25, 0.12);
+
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: 15px;
+            line-height: 1.5;
+            color: var(--color-charcoal);
+            background: var(--color-snow);
+            padding: 40px 20px;
+        }
+
+        /* Modal Overlay */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 20, 25, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeIn 0.2s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Modal Container */
+        .modal-container {
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 440px;
+            box-shadow: var(--shadow-lg);
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Modal Header */
+        .modal-header {
+            padding: 24px 24px 20px;
+            border-bottom: 1px solid var(--color-cloud);
+            position: relative;
+        }
+
+        .modal-header-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--color-primary-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin: 0 auto 16px;
+        }
+
+        .modal-title {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--color-midnight);
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .modal-subtitle {
+            font-size: 15px;
+            color: var(--color-mist);
+            text-align: center;
+        }
+
+        .modal-phone {
+            font-weight: 600;
+            color: var(--color-charcoal);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: none;
+            border: none;
+            color: var(--color-slate);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .modal-close:hover {
+            background: var(--color-snow);
+            color: var(--color-charcoal);
+        }
+
+        /* Modal Body */
+        .modal-body {
+            padding: 32px 24px;
+        }
+
+        /* OTP Input */
+        .otp-container {
+            margin-bottom: 28px;
+        }
+
+        .otp-inputs {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+
+        .otp-input {
+            width: 52px;
+            height: 60px;
+            border: 2px solid var(--color-cloud);
+            border-radius: var(--radius-md);
+            text-align: center;
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+            font-family: var(--font-body);
+            transition: all 0.2s ease;
+            outline: none;
+        }
+
+        .otp-input:focus {
+            border-color: var(--color-primary);
+            background: var(--color-primary-bg);
+        }
+
+        .otp-input.filled {
+            border-color: var(--color-primary);
+            background: var(--color-primary-bg);
+        }
+
+        .otp-input.error {
+            border-color: var(--color-coral);
+            background: var(--color-coral-bg);
+            animation: shake 0.4s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
+        }
+
+        /* Timer */
+        .otp-timer {
+            text-align: center;
+            font-size: 14px;
+            color: var(--color-mist);
+        }
+
+        .timer-countdown {
+            font-weight: 600;
+            color: var(--color-charcoal);
+        }
+
+        /* Resend Link */
+        .resend-container {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .resend-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-primary);
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .resend-link:hover {
+            color: var(--color-primary-dark);
+            text-decoration: underline;
+        }
+
+        .resend-link.disabled {
+            color: var(--color-mist);
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        /* Change Number Link */
+        .change-number {
+            text-align: center;
+            margin-top: 16px;
+        }
+
+        .change-number-link {
+            font-size: 14px;
+            color: var(--color-slate);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .change-number-link:hover {
+            color: var(--color-charcoal);
+            text-decoration: underline;
+        }
+
+        /* Modal Footer */
+        .modal-footer {
+            padding: 20px 24px 24px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            flex: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 24px;
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-dark);
+        }
+
+        .btn-primary:disabled {
+            background: var(--color-cloud);
+            color: var(--color-mist);
+            cursor: not-allowed;
+        }
+
+        .btn-ghost {
+            background: none;
+            color: var(--color-slate);
+            border: 1px solid var(--color-cloud);
+        }
+
+        .btn-ghost:hover {
+            background: var(--color-snow);
+            border-color: var(--color-slate);
+            color: var(--color-charcoal);
+        }
+
+        /* Success State */
+        .success-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: var(--color-accent-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin: 0 auto 20px;
+            animation: scaleIn 0.4s ease;
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .success-message {
+            text-align: center;
+            font-size: 16px;
+            color: var(--color-accent-dark);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .success-submessage {
+            text-align: center;
+            font-size: 14px;
+            color: var(--color-mist);
+        }
+    </style>
+</head>
+<body>
+    <div class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <button class="modal-close" aria-label="Close">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6L6 18M6 6l12 12"/>
+                    </svg>
+                </button>
+                <div class="modal-header-icon">📱</div>
+                <h2 class="modal-title">Verify Your Phone</h2>
+                <p class="modal-subtitle">
+                    We sent a code to <span class="modal-phone">***-***-1234</span>
+                </p>
+            </div>
+
+            <div class="modal-body">
+                <div class="otp-container">
+                    <div class="otp-inputs">
+                        <input type="text" maxlength="1" class="otp-input" pattern="[0-9]" inputmode="numeric" autofocus>
+                        <input type="text" maxlength="1" class="otp-input" pattern="[0-9]" inputmode="numeric">
+                        <input type="text" maxlength="1" class="otp-input" pattern="[0-9]" inputmode="numeric">
+                        <input type="text" maxlength="1" class="otp-input" pattern="[0-9]" inputmode="numeric">
+                        <input type="text" maxlength="1" class="otp-input" pattern="[0-9]" inputmode="numeric">
+                        <input type="text" maxlength="1" class="otp-input" pattern="[0-9]" inputmode="numeric">
+                    </div>
+                    <div class="otp-timer">
+                        Code expires in <span class="timer-countdown">00:60</span>
+                    </div>
+                </div>
+
+                <div class="resend-container">
+                    <a href="#" class="resend-link disabled" id="resendLink">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0118.8-4.3M22 12.5a10 10 0 01-18.8 4.2"/>
+                        </svg>
+                        Resend Code
+                    </a>
+                </div>
+
+                <div class="change-number">
+                    <a href="#" class="change-number-link">Use a different number</a>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-ghost">Cancel</button>
+                <button class="btn btn-primary" id="verifyBtn" disabled>Verify</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // OTP Input Logic
+        const otpInputs = document.querySelectorAll('.otp-input');
+        const verifyBtn = document.getElementById('verifyBtn');
+        const resendLink = document.getElementById('resendLink');
+        const timerElement = document.querySelector('.timer-countdown');
+
+        let countdown = 60;
+        let timerInterval;
+
+        // Auto-advance OTP inputs
+        otpInputs.forEach((input, index) => {
+            input.addEventListener('input', (e) => {
+                const value = e.target.value;
+
+                // Only allow numbers
+                if (!/^\d*$/.test(value)) {
+                    e.target.value = '';
+                    return;
+                }
+
+                if (value) {
+                    input.classList.add('filled');
+
+                    // Move to next input
+                    if (index < otpInputs.length - 1) {
+                        otpInputs[index + 1].focus();
+                    }
+                } else {
+                    input.classList.remove('filled');
+                }
+
+                // Check if all filled
+                checkAllFilled();
+            });
+
+            input.addEventListener('keydown', (e) => {
+                // Handle backspace
+                if (e.key === 'Backspace' && !input.value && index > 0) {
+                    otpInputs[index - 1].focus();
+                    otpInputs[index - 1].value = '';
+                    otpInputs[index - 1].classList.remove('filled');
+                }
+            });
+
+            input.addEventListener('paste', (e) => {
+                e.preventDefault();
+                const pastedData = e.clipboardData.getData('text').slice(0, 6);
+
+                if (/^\d+$/.test(pastedData)) {
+                    pastedData.split('').forEach((char, i) => {
+                        if (otpInputs[i]) {
+                            otpInputs[i].value = char;
+                            otpInputs[i].classList.add('filled');
+                        }
+                    });
+                    checkAllFilled();
+                }
+            });
+        });
+
+        function checkAllFilled() {
+            const allFilled = Array.from(otpInputs).every(input => input.value);
+            verifyBtn.disabled = !allFilled;
+
+            if (allFilled) {
+                // Auto-submit after all digits entered
+                setTimeout(() => {
+                    verifyBtn.click();
+                }, 300);
+            }
+        }
+
+        // Verify button
+        verifyBtn.addEventListener('click', () => {
+            const code = Array.from(otpInputs).map(input => input.value).join('');
+            console.log('Verifying code:', code);
+
+            // Simulate verification
+            verifyBtn.textContent = 'Verifying...';
+            verifyBtn.disabled = true;
+
+            setTimeout(() => {
+                // Success simulation
+                showSuccess();
+            }, 1500);
+        });
+
+        function showSuccess() {
+            const modalBody = document.querySelector('.modal-body');
+            const modalFooter = document.querySelector('.modal-footer');
+
+            modalBody.innerHTML = `
+                <div class="success-icon">✓</div>
+                <div class="success-message">Phone Verified!</div>
+                <div class="success-submessage">Your phone number has been successfully verified.</div>
+            `;
+
+            modalFooter.innerHTML = `
+                <button class="btn btn-primary" style="flex: 1;">Continue</button>
+            `;
+        }
+
+        function showError() {
+            otpInputs.forEach(input => {
+                input.classList.add('error');
+                setTimeout(() => input.classList.remove('error'), 400);
+            });
+        }
+
+        // Countdown timer
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                countdown--;
+                const minutes = Math.floor(countdown / 60);
+                const seconds = countdown % 60;
+                timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+                if (countdown <= 0) {
+                    clearInterval(timerInterval);
+                    resendLink.classList.remove('disabled');
+                    timerElement.parentElement.textContent = 'Code expired';
+                }
+            }, 1000);
+        }
+
+        // Resend code
+        resendLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (resendLink.classList.contains('disabled')) return;
+
+            console.log('Resending code...');
+            countdown = 60;
+            resendLink.classList.add('disabled');
+            document.querySelector('.otp-timer').innerHTML = 'Code expires in <span class="timer-countdown">00:60</span>';
+            startTimer();
+
+            // Clear inputs
+            otpInputs.forEach(input => {
+                input.value = '';
+                input.classList.remove('filled');
+            });
+            otpInputs[0].focus();
+        });
+
+        // Start timer on load
+        startTimer();
+    </script>
+</body>
+</html>

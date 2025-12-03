@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ID Verification | RoomPilot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-midnight: #0f1419;
+            --color-charcoal: #1a2332;
+            --color-slate: #3d4f5f;
+            --color-mist: #8899a6;
+            --color-cloud: #e8ecef;
+            --color-snow: #f7f9fa;
+            --color-white: #ffffff;
+
+            --color-primary: #2563eb;
+            --color-primary-light: #3b82f6;
+            --color-primary-dark: #1d4ed8;
+            --color-primary-bg: #eff6ff;
+
+            --color-accent: #10b981;
+            --color-accent-light: #34d399;
+            --color-accent-bg: #ecfdf5;
+            --color-accent-dark: #059669;
+
+            --color-warm: #f59e0b;
+            --color-warm-bg: #fffbeb;
+            --color-coral: #f43f5e;
+            --color-coral-bg: #fff1f2;
+
+            --font-display: 'Fraunces', Georgia, serif;
+            --font-body: 'DM Sans', -apple-system, sans-serif;
+
+            --shadow-sm: 0 1px 2px rgba(15, 20, 25, 0.05);
+            --shadow-md: 0 4px 12px rgba(15, 20, 25, 0.08);
+            --shadow-lg: 0 12px 40px rgba(15, 20, 25, 0.12);
+
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: 15px;
+            line-height: 1.5;
+            color: var(--color-charcoal);
+            background: var(--color-snow);
+            padding: 40px 20px;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 20, 25, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeIn 0.2s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-container {
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 560px;
+            max-height: 90vh;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            animation: slideUp 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            padding: 24px 24px 20px;
+            border-bottom: 1px solid var(--color-cloud);
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: none;
+            border: none;
+            color: var(--color-slate);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .modal-close:hover {
+            background: var(--color-snow);
+            color: var(--color-charcoal);
+        }
+
+        .modal-title {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--color-midnight);
+            margin-bottom: 8px;
+        }
+
+        .modal-subtitle {
+            font-size: 14px;
+            color: var(--color-mist);
+        }
+
+        /* Step Indicator */
+        .step-indicator {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .step {
+            flex: 1;
+            height: 4px;
+            background: var(--color-cloud);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .step.active {
+            background: var(--color-primary);
+        }
+
+        .step.completed {
+            background: var(--color-accent);
+        }
+
+        /* Modal Body */
+        .modal-body {
+            padding: 32px 24px;
+            overflow-y: auto;
+        }
+
+        .step-content {
+            display: none;
+        }
+
+        .step-content.active {
+            display: block;
+            animation: fadeInContent 0.3s ease;
+        }
+
+        @keyframes fadeInContent {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .step-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* ID Type Selector */
+        .id-type-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .id-type-option {
+            padding: 20px;
+            border: 2px solid var(--color-cloud);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            background: white;
+        }
+
+        .id-type-option:hover {
+            border-color: var(--color-primary-light);
+            background: var(--color-primary-bg);
+        }
+
+        .id-type-option.selected {
+            border-color: var(--color-primary);
+            background: var(--color-primary-bg);
+        }
+
+        .id-type-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .id-type-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+        }
+
+        /* Upload Area */
+        .upload-container {
+            margin-bottom: 24px;
+        }
+
+        .upload-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .upload-area {
+            border: 2px dashed var(--color-cloud);
+            border-radius: var(--radius-md);
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: var(--color-snow);
+        }
+
+        .upload-area:hover {
+            border-color: var(--color-primary);
+            background: var(--color-primary-bg);
+        }
+
+        .upload-area.dragover {
+            border-color: var(--color-primary);
+            background: var(--color-primary-bg);
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .upload-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+            margin-bottom: 8px;
+        }
+
+        .upload-subtitle {
+            font-size: 14px;
+            color: var(--color-mist);
+            margin-bottom: 16px;
+        }
+
+        .upload-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .upload-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 20px;
+            background: white;
+            border: 1px solid var(--color-cloud);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .upload-btn:hover {
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+        }
+
+        .upload-formats {
+            font-size: 12px;
+            color: var(--color-mist);
+            margin-top: 12px;
+        }
+
+        /* Photo Preview */
+        .photo-preview {
+            display: none;
+            border: 2px solid var(--color-accent);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            background: var(--color-accent-bg);
+        }
+
+        .photo-preview.show {
+            display: block;
+        }
+
+        .preview-image {
+            width: 100%;
+            height: 200px;
+            object-fit: contain;
+            background: var(--color-white);
+            border-radius: var(--radius-sm);
+            margin-bottom: 12px;
+        }
+
+        .preview-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .retake-btn {
+            flex: 1;
+            padding: 10px 16px;
+            background: white;
+            border: 1px solid var(--color-cloud);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .retake-btn:hover {
+            border-color: var(--color-coral);
+            color: var(--color-coral);
+        }
+
+        /* Guidelines */
+        .guidelines {
+            background: var(--color-warm-bg);
+            border: 1px solid var(--color-warm);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            margin-top: 20px;
+        }
+
+        .guidelines-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-warm);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .guidelines-list {
+            list-style: none;
+            font-size: 13px;
+            color: var(--color-charcoal);
+        }
+
+        .guidelines-list li {
+            padding-left: 20px;
+            position: relative;
+            margin-bottom: 6px;
+        }
+
+        .guidelines-list li:before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--color-accent);
+            font-weight: bold;
+        }
+
+        /* Privacy Notice */
+        .privacy-notice {
+            background: var(--color-snow);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            margin-top: 20px;
+        }
+
+        .privacy-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .privacy-text {
+            font-size: 13px;
+            color: var(--color-slate);
+            line-height: 1.6;
+        }
+
+        /* Modal Footer */
+        .modal-footer {
+            padding: 20px 24px 24px;
+            border-top: 1px solid var(--color-cloud);
+            display: flex;
+            gap: 12px;
+            background: var(--color-white);
+        }
+
+        .btn {
+            flex: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 24px;
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-dark);
+        }
+
+        .btn-primary:disabled {
+            background: var(--color-cloud);
+            color: var(--color-mist);
+            cursor: not-allowed;
+        }
+
+        .btn-ghost {
+            background: none;
+            color: var(--color-slate);
+            border: 1px solid var(--color-cloud);
+        }
+
+        .btn-ghost:hover {
+            background: var(--color-snow);
+            border-color: var(--color-slate);
+            color: var(--color-charcoal);
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <button class="modal-close" aria-label="Close">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6L6 18M6 6l12 12"/>
+                    </svg>
+                </button>
+                <h2 class="modal-title">Verify Your Identity</h2>
+                <p class="modal-subtitle">Upload a government-issued ID for verification</p>
+
+                <div class="step-indicator">
+                    <div class="step active" data-step="1"></div>
+                    <div class="step" data-step="2"></div>
+                    <div class="step" data-step="3"></div>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <!-- Step 1: Select ID Type -->
+                <div class="step-content active" data-step="1">
+                    <h3 class="step-title">Select ID Type</h3>
+
+                    <div class="id-type-grid">
+                        <div class="id-type-option" data-type="drivers-license">
+                            <div class="id-type-icon">🪪</div>
+                            <div class="id-type-name">Driver's License</div>
+                        </div>
+                        <div class="id-type-option" data-type="state-id">
+                            <div class="id-type-icon">🆔</div>
+                            <div class="id-type-name">State ID</div>
+                        </div>
+                        <div class="id-type-option" data-type="passport">
+                            <div class="id-type-icon">📘</div>
+                            <div class="id-type-name">Passport</div>
+                        </div>
+                        <div class="id-type-option" data-type="passport-card">
+                            <div class="id-type-icon">💳</div>
+                            <div class="id-type-name">Passport Card</div>
+                        </div>
+                    </div>
+
+                    <div class="privacy-notice">
+                        <div class="privacy-title">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                                <path d="M7 11V7a5 5 0 0110 0v4"/>
+                            </svg>
+                            Your Privacy is Protected
+                        </div>
+                        <p class="privacy-text">
+                            Your ID is encrypted and stored securely. We only use it to verify your identity and never share it with third parties.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Step 2: Upload Front -->
+                <div class="step-content" data-step="2">
+                    <h3 class="step-title">Upload Front of ID</h3>
+
+                    <div class="upload-container">
+                        <div class="upload-area" id="uploadFront">
+                            <div class="upload-icon">📷</div>
+                            <div class="upload-title">Take or Upload Photo</div>
+                            <div class="upload-subtitle">Drag and drop or click to browse</div>
+                            <div class="upload-buttons">
+                                <label for="fileFront" class="upload-btn">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
+                                    </svg>
+                                    Browse Files
+                                </label>
+                                <button class="upload-btn">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/>
+                                        <circle cx="12" cy="13" r="4"/>
+                                    </svg>
+                                    Take Photo
+                                </button>
+                            </div>
+                            <div class="upload-formats">JPG, PNG, or PDF (max 10MB)</div>
+                        </div>
+                        <input type="file" id="fileFront" accept="image/*,.pdf">
+
+                        <div class="photo-preview" id="previewFront">
+                            <img src="" alt="ID Front Preview" class="preview-image" id="previewImageFront">
+                            <div class="preview-actions">
+                                <button class="retake-btn" id="retakeFront">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0118.8-4.3M22 12.5a10 10 0 01-18.8 4.2"/>
+                                    </svg>
+                                    Retake Photo
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="guidelines">
+                        <div class="guidelines-title">
+                            💡 Photo Guidelines
+                        </div>
+                        <ul class="guidelines-list">
+                            <li>Make sure all text is clear and readable</li>
+                            <li>Capture all four corners of the ID</li>
+                            <li>Use good lighting, avoid glare and shadows</li>
+                            <li>Place ID on a dark, contrasting background</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Step 3: Upload Back -->
+                <div class="step-content" data-step="3">
+                    <h3 class="step-title">Upload Back of ID</h3>
+
+                    <div class="upload-container">
+                        <div class="upload-area" id="uploadBack">
+                            <div class="upload-icon">📷</div>
+                            <div class="upload-title">Take or Upload Photo</div>
+                            <div class="upload-subtitle">Drag and drop or click to browse</div>
+                            <div class="upload-buttons">
+                                <label for="fileBack" class="upload-btn">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
+                                    </svg>
+                                    Browse Files
+                                </label>
+                                <button class="upload-btn">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/>
+                                        <circle cx="12" cy="13" r="4"/>
+                                    </svg>
+                                    Take Photo
+                                </button>
+                            </div>
+                            <div class="upload-formats">JPG, PNG, or PDF (max 10MB)</div>
+                        </div>
+                        <input type="file" id="fileBack" accept="image/*,.pdf">
+
+                        <div class="photo-preview" id="previewBack">
+                            <img src="" alt="ID Back Preview" class="preview-image" id="previewImageBack">
+                            <div class="preview-actions">
+                                <button class="retake-btn" id="retakeBack">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0118.8-4.3M22 12.5a10 10 0 01-18.8 4.2"/>
+                                    </svg>
+                                    Retake Photo
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="privacy-notice">
+                        <div class="privacy-title">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                            </svg>
+                            Review Timeline
+                        </div>
+                        <p class="privacy-text">
+                            Your ID will be reviewed within 24-48 hours. You'll receive a notification once verification is complete.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-ghost" id="backBtn" style="display: none;">Back</button>
+                <button class="btn btn-ghost" id="cancelBtn">Cancel</button>
+                <button class="btn btn-primary" id="nextBtn" disabled>Next</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        let selectedIdType = null;
+        let frontPhotoUploaded = false;
+        let backPhotoUploaded = false;
+
+        const steps = document.querySelectorAll('.step');
+        const stepContents = document.querySelectorAll('.step-content');
+        const nextBtn = document.getElementById('nextBtn');
+        const backBtn = document.getElementById('backBtn');
+
+        // ID Type Selection
+        document.querySelectorAll('.id-type-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.id-type-option').forEach(o => o.classList.remove('selected'));
+                this.classList.add('selected');
+                selectedIdType = this.dataset.type;
+                nextBtn.disabled = false;
+            });
+        });
+
+        // File Upload - Front
+        const fileFrontInput = document.getElementById('fileFront');
+        const uploadFrontArea = document.getElementById('uploadFront');
+        const previewFront = document.getElementById('previewFront');
+        const previewImageFront = document.getElementById('previewImageFront');
+
+        fileFrontInput.addEventListener('change', function(e) {
+            handleFileUpload(e.target.files[0], previewImageFront, previewFront, uploadFrontArea);
+            frontPhotoUploaded = true;
+            nextBtn.disabled = false;
+        });
+
+        document.getElementById('retakeFront').addEventListener('click', function() {
+            previewFront.classList.remove('show');
+            uploadFrontArea.style.display = 'block';
+            frontPhotoUploaded = false;
+            nextBtn.disabled = true;
+        });
+
+        // File Upload - Back
+        const fileBackInput = document.getElementById('fileBack');
+        const uploadBackArea = document.getElementById('uploadBack');
+        const previewBack = document.getElementById('previewBack');
+        const previewImageBack = document.getElementById('previewImageBack');
+
+        fileBackInput.addEventListener('change', function(e) {
+            handleFileUpload(e.target.files[0], previewImageBack, previewBack, uploadBackArea);
+            backPhotoUploaded = true;
+            nextBtn.disabled = false;
+            nextBtn.textContent = 'Submit for Review';
+        });
+
+        document.getElementById('retakeBack').addEventListener('click', function() {
+            previewBack.classList.remove('show');
+            uploadBackArea.style.display = 'block';
+            backPhotoUploaded = false;
+            nextBtn.disabled = true;
+            nextBtn.textContent = 'Next';
+        });
+
+        function handleFileUpload(file, imgElement, previewContainer, uploadArea) {
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imgElement.src = e.target.result;
+                    previewContainer.classList.add('show');
+                    uploadArea.style.display = 'none';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Next Button
+        nextBtn.addEventListener('click', function() {
+            if (currentStep < 3) {
+                currentStep++;
+                updateStepDisplay();
+            } else {
+                // Submit
+                console.log('Submitting ID verification...');
+                nextBtn.textContent = 'Submitting...';
+                nextBtn.disabled = true;
+
+                setTimeout(() => {
+                    alert('ID verification submitted successfully! You will be notified within 24-48 hours.');
+                }, 1500);
+            }
+        });
+
+        // Back Button
+        backBtn.addEventListener('click', function() {
+            if (currentStep > 1) {
+                currentStep--;
+                updateStepDisplay();
+            }
+        });
+
+        function updateStepDisplay() {
+            // Update step indicators
+            steps.forEach((step, index) => {
+                const stepNum = index + 1;
+                step.classList.remove('active', 'completed');
+
+                if (stepNum < currentStep) {
+                    step.classList.add('completed');
+                } else if (stepNum === currentStep) {
+                    step.classList.add('active');
+                }
+            });
+
+            // Update step content
+            stepContents.forEach(content => {
+                content.classList.remove('active');
+                if (parseInt(content.dataset.step) === currentStep) {
+                    content.classList.add('active');
+                }
+            });
+
+            // Update buttons
+            backBtn.style.display = currentStep > 1 ? 'block' : 'none';
+
+            // Disable next button until current step is complete
+            if (currentStep === 1) {
+                nextBtn.disabled = !selectedIdType;
+                nextBtn.textContent = 'Next';
+            } else if (currentStep === 2) {
+                nextBtn.disabled = !frontPhotoUploaded;
+                nextBtn.textContent = 'Next';
+            } else if (currentStep === 3) {
+                nextBtn.disabled = !backPhotoUploaded;
+                nextBtn.textContent = backPhotoUploaded ? 'Submit for Review' : 'Next';
+            }
+        }
+
+        // Drag and drop
+        [uploadFrontArea, uploadBackArea].forEach(area => {
+            area.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                area.classList.add('dragover');
+            });
+
+            area.addEventListener('dragleave', () => {
+                area.classList.remove('dragover');
+            });
+
+            area.addEventListener('drop', (e) => {
+                e.preventDefault();
+                area.classList.remove('dragover');
+                const file = e.dataTransfer.files[0];
+
+                if (area === uploadFrontArea) {
+                    handleFileUpload(file, previewImageFront, previewFront, uploadFrontArea);
+                    frontPhotoUploaded = true;
+                } else {
+                    handleFileUpload(file, previewImageBack, previewBack, uploadBackArea);
+                    backPhotoUploaded = true;
+                }
+                nextBtn.disabled = false;
+            });
+        });
+    </script>
+</body>
+</html>

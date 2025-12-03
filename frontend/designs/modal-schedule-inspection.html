@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule Inspection | RoomPilot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-midnight: #0f1419;
+            --color-charcoal: #1a2332;
+            --color-slate: #3d4f5f;
+            --color-mist: #8899a6;
+            --color-cloud: #e8ecef;
+            --color-snow: #f7f9fa;
+            --color-white: #ffffff;
+
+            --color-primary: #2563eb;
+            --color-primary-light: #3b82f6;
+            --color-primary-dark: #1d4ed8;
+            --color-primary-bg: #eff6ff;
+
+            --color-accent: #10b981;
+            --color-accent-light: #34d399;
+            --color-accent-bg: #ecfdf5;
+            --color-accent-dark: #059669;
+
+            --color-warm: #f59e0b;
+            --color-warm-bg: #fffbeb;
+            --color-coral: #f43f5e;
+            --color-coral-bg: #fff1f2;
+
+            --font-display: 'Fraunces', Georgia, serif;
+            --font-body: 'DM Sans', -apple-system, sans-serif;
+
+            --shadow-sm: 0 1px 2px rgba(15, 20, 25, 0.05);
+            --shadow-md: 0 4px 12px rgba(15, 20, 25, 0.08);
+            --shadow-lg: 0 12px 40px rgba(15, 20, 25, 0.12);
+
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: 15px;
+            line-height: 1.5;
+            color: var(--color-charcoal);
+            background: var(--color-snow);
+            padding: 40px;
+        }
+
+        .demo-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .demo-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .demo-title {
+            font-family: var(--font-display);
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--color-midnight);
+            margin-bottom: 8px;
+        }
+
+        .demo-description {
+            font-size: 16px;
+            color: var(--color-mist);
+        }
+
+        .demo-trigger {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 28px;
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .demo-trigger:hover {
+            background: var(--color-primary-dark);
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 20, 25, 0.7);
+            backdrop-filter: blur(4px);
+            z-index: 9999;
+            overflow-y: auto;
+            padding: 40px 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+        }
+
+        .modal-container {
+            background: white;
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 700px;
+            box-shadow: var(--shadow-lg);
+            margin: auto;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 24px 28px;
+            border-bottom: 1px solid var(--color-cloud);
+        }
+
+        .modal-title {
+            font-family: var(--font-display);
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--color-midnight);
+        }
+
+        .modal-close {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-md);
+            background: none;
+            border: none;
+            color: var(--color-slate);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .modal-close:hover {
+            background: var(--color-snow);
+            color: var(--color-charcoal);
+        }
+
+        .modal-body {
+            padding: 28px;
+        }
+
+        .info-card {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            background: var(--color-snow);
+            border-radius: var(--radius-md);
+            margin-bottom: 28px;
+        }
+
+        .info-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-primary) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .info-details {
+            flex: 1;
+        }
+
+        .info-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+            margin-bottom: 4px;
+        }
+
+        .info-property {
+            font-size: 14px;
+            color: var(--color-mist);
+        }
+
+        .form-section {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+            margin-bottom: 8px;
+        }
+
+        .form-select,
+        .form-input,
+        .form-textarea {
+            width: 100%;
+            padding: 10px 14px;
+            font-family: var(--font-body);
+            font-size: 15px;
+            color: var(--color-charcoal);
+            background: white;
+            border: 1px solid var(--color-cloud);
+            border-radius: var(--radius-md);
+            transition: all 0.2s ease;
+        }
+
+        .form-select:focus,
+        .form-input:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px var(--color-primary-bg);
+        }
+
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .time-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .time-slot {
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 500;
+            background: var(--color-snow);
+            border: 2px solid var(--color-cloud);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .time-slot:hover:not(.disabled) {
+            border-color: var(--color-primary);
+            background: var(--color-primary-bg);
+        }
+
+        .time-slot.selected {
+            background: var(--color-primary);
+            color: white;
+            border-color: var(--color-primary);
+        }
+
+        .time-slot.disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .toggle-section {
+            padding: 16px;
+            background: var(--color-snow);
+            border-radius: var(--radius-md);
+        }
+
+        .toggle-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .toggle-label {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 48px;
+            height: 28px;
+            background: var(--color-cloud);
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .toggle-switch.active {
+            background: var(--color-accent);
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 22px;
+            height: 22px;
+            background: white;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+        }
+
+        .toggle-switch.active::after {
+            left: 23px;
+        }
+
+        .toggle-description {
+            font-size: 13px;
+            color: var(--color-mist);
+        }
+
+        .duration-pills {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .duration-pill {
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            background: var(--color-snow);
+            border: 2px solid var(--color-cloud);
+            border-radius: 100px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .duration-pill:hover {
+            border-color: var(--color-primary);
+            background: var(--color-primary-bg);
+        }
+
+        .duration-pill.selected {
+            background: var(--color-primary);
+            color: white;
+            border-color: var(--color-primary);
+        }
+
+        .modal-footer {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 12px;
+            padding: 20px 28px;
+            border-top: 1px solid var(--color-cloud);
+            background: var(--color-snow);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 20px;
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: var(--radius-md);
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-ghost {
+            background: none;
+            color: var(--color-slate);
+        }
+
+        .btn-ghost:hover {
+            background: var(--color-cloud);
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-dark);
+        }
+
+        @media (max-width: 768px) {
+            .modal-header,
+            .modal-body,
+            .modal-footer {
+                padding: 20px;
+            }
+
+            .time-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <div class="demo-header">
+            <h1 class="demo-title">Schedule Inspection Modal</h1>
+            <p class="demo-description">Schedule property inspection for maintenance</p>
+        </div>
+
+        <div style="text-align: center;">
+            <button class="demo-trigger" onclick="openModal()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                    <line x1="16" y1="2" x2="16" y2="6"/>
+                    <line x1="8" y1="2" x2="8" y2="6"/>
+                    <line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+                Schedule Inspection
+            </button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="inspectionModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2 class="modal-title">Schedule Inspection</h2>
+                <button class="modal-close" onclick="closeModal()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="info-card">
+                    <div class="info-avatar">ST</div>
+                    <div class="info-details">
+                        <div class="info-name">Sarah Thompson</div>
+                        <div class="info-property">Midtown Modern House • Room 2</div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <label class="form-label" for="purpose">Purpose of inspection</label>
+                    <select class="form-select" id="purpose">
+                        <option value="">Select a purpose...</option>
+                        <option value="maintenance">Maintenance follow-up</option>
+                        <option value="pre-moveout">Pre-move-out inspection</option>
+                        <option value="routine">Routine inspection</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-section">
+                    <label class="form-label" for="date">Select date</label>
+                    <input type="date" class="form-input" id="date" value="2024-12-05">
+                </div>
+
+                <div class="form-section">
+                    <label class="form-label">Select time</label>
+                    <div class="time-grid">
+                        <div class="time-slot">9:00 AM</div>
+                        <div class="time-slot">10:00 AM</div>
+                        <div class="time-slot disabled">11:00 AM</div>
+                        <div class="time-slot">12:00 PM</div>
+                        <div class="time-slot selected">1:00 PM</div>
+                        <div class="time-slot">2:00 PM</div>
+                        <div class="time-slot">3:00 PM</div>
+                        <div class="time-slot">4:00 PM</div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <label class="form-label">Estimated duration</label>
+                    <div class="duration-pills">
+                        <div class="duration-pill">15 min</div>
+                        <div class="duration-pill selected">30 min</div>
+                        <div class="duration-pill">1 hour</div>
+                        <div class="duration-pill">2 hours</div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <div class="toggle-section">
+                        <div class="toggle-header">
+                            <div class="toggle-label">Notify tenant</div>
+                            <div class="toggle-switch active" onclick="toggleNotify()"></div>
+                        </div>
+                        <p class="toggle-description">
+                            Send email and SMS notification to tenant about the scheduled inspection
+                        </p>
+                    </div>
+                </div>
+
+                <div class="form-section" id="messageSection">
+                    <label class="form-label" for="message">Custom message (optional)</label>
+                    <textarea
+                        class="form-textarea"
+                        id="message"
+                        placeholder="Add any special instructions or notes for the tenant..."
+                    ></textarea>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+                <button class="btn btn-primary">Schedule Inspection</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openModal() {
+            document.getElementById('inspectionModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('inspectionModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function toggleNotify() {
+            const toggle = document.querySelector('.toggle-switch');
+            const messageSection = document.getElementById('messageSection');
+
+            toggle.classList.toggle('active');
+
+            if (toggle.classList.contains('active')) {
+                messageSection.style.display = 'block';
+            } else {
+                messageSection.style.display = 'none';
+            }
+        }
+
+        // Time slot selection
+        document.querySelectorAll('.time-slot').forEach(slot => {
+            slot.addEventListener('click', function() {
+                if (!this.classList.contains('disabled')) {
+                    document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
+                    this.classList.add('selected');
+                }
+            });
+        });
+
+        // Duration pill selection
+        document.querySelectorAll('.duration-pill').forEach(pill => {
+            pill.addEventListener('click', function() {
+                document.querySelectorAll('.duration-pill').forEach(p => p.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+
+        // Close on backdrop click
+        document.getElementById('inspectionModal').addEventListener('click', (e) => {
+            if (e.target.id === 'inspectionModal') {
+                closeModal();
+            }
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && document.getElementById('inspectionModal').classList.contains('active')) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

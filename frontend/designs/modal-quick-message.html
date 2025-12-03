@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Message | RoomPilot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-midnight: #0f1419;
+            --color-charcoal: #1a2332;
+            --color-slate: #3d4f5f;
+            --color-mist: #8899a6;
+            --color-cloud: #e8ecef;
+            --color-snow: #f7f9fa;
+            --color-white: #ffffff;
+
+            --color-primary: #2563eb;
+            --color-primary-light: #3b82f6;
+            --color-primary-dark: #1d4ed8;
+            --color-primary-bg: #eff6ff;
+
+            --color-accent: #10b981;
+            --color-accent-light: #34d399;
+            --color-accent-bg: #ecfdf5;
+            --color-accent-dark: #059669;
+
+            --color-warm: #f59e0b;
+            --color-warm-bg: #fffbeb;
+            --color-coral: #f43f5e;
+            --color-coral-bg: #fff1f2;
+
+            --font-display: 'Fraunces', Georgia, serif;
+            --font-body: 'DM Sans', -apple-system, sans-serif;
+
+            --shadow-sm: 0 1px 2px rgba(15, 20, 25, 0.05);
+            --shadow-md: 0 4px 12px rgba(15, 20, 25, 0.08);
+            --shadow-lg: 0 12px 40px rgba(15, 20, 25, 0.12);
+
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: 15px;
+            line-height: 1.5;
+            color: var(--color-charcoal);
+            background: var(--color-snow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Modal Overlay */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 20, 25, 0.6);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeIn 0.2s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Modal Container */
+        .modal-container {
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Modal Header */
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 24px 24px 20px;
+            border-bottom: 1px solid var(--color-cloud);
+        }
+
+        .modal-title {
+            font-family: var(--font-display);
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--color-midnight);
+        }
+
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            border-radius: var(--radius-sm);
+            background: none;
+            border: none;
+            color: var(--color-slate);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .modal-close:hover {
+            background: var(--color-snow);
+            color: var(--color-charcoal);
+        }
+
+        /* Modal Body */
+        .modal-body {
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        /* Recipient */
+        .recipient {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            background: var(--color-snow);
+            border-radius: var(--radius-md);
+            margin-bottom: 20px;
+        }
+
+        .recipient-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-primary) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .recipient-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .recipient-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+            margin-bottom: 2px;
+        }
+
+        .recipient-role {
+            font-size: 13px;
+            color: var(--color-mist);
+        }
+
+        /* Form Group */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+            margin-bottom: 8px;
+        }
+
+        .form-label-optional {
+            font-size: 13px;
+            font-weight: 400;
+            color: var(--color-mist);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--color-cloud);
+            border-radius: var(--radius-md);
+            font-family: var(--font-body);
+            font-size: 15px;
+            color: var(--color-charcoal);
+            transition: all 0.2s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px var(--color-primary-bg);
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--color-cloud);
+            border-radius: var(--radius-md);
+            font-family: var(--font-body);
+            font-size: 15px;
+            color: var(--color-charcoal);
+            background: var(--color-white);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .form-select:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px var(--color-primary-bg);
+        }
+
+        /* Templates Dropdown */
+        .templates-section {
+            margin-bottom: 20px;
+        }
+
+        .templates-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--color-slate);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Attachment Button */
+        .attachment-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            background: var(--color-snow);
+            border: 1px solid var(--color-cloud);
+            border-radius: var(--radius-md);
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--color-slate);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .attachment-btn:hover {
+            background: var(--color-cloud);
+            border-color: var(--color-slate);
+            color: var(--color-charcoal);
+        }
+
+        /* Modal Footer */
+        .modal-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 20px 24px;
+            border-top: 1px solid var(--color-cloud);
+        }
+
+        .character-count {
+            font-size: 13px;
+            color: var(--color-mist);
+        }
+
+        .footer-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 20px;
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary {
+            background: var(--color-snow);
+            color: var(--color-slate);
+            border: 1px solid var(--color-cloud);
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-cloud);
+            color: var(--color-charcoal);
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-dark);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Recent Messages */
+        .recent-messages {
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid var(--color-cloud);
+        }
+
+        .recent-messages-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--color-slate);
+            margin-bottom: 12px;
+        }
+
+        .message-preview {
+            padding: 12px;
+            background: var(--color-snow);
+            border-radius: var(--radius-sm);
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .message-preview:hover {
+            background: var(--color-cloud);
+        }
+
+        .message-preview-subject {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+            margin-bottom: 4px;
+        }
+
+        .message-preview-text {
+            font-size: 13px;
+            color: var(--color-mist);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .message-preview-date {
+            font-size: 12px;
+            color: var(--color-mist);
+            margin-top: 4px;
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .modal-container {
+                max-width: 100%;
+                max-height: 100vh;
+                border-radius: 0;
+            }
+
+            .modal-header {
+                padding: 20px 16px 16px;
+            }
+
+            .modal-body {
+                padding: 16px;
+            }
+
+            .modal-footer {
+                padding: 16px;
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .footer-actions {
+                width: 100%;
+            }
+
+            .footer-actions .btn {
+                flex: 1;
+            }
+
+            .character-count {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2 class="modal-title">Send Message</h2>
+                <button class="modal-close" aria-label="Close modal">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6L6 18M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <!-- Recipient -->
+                <div class="recipient">
+                    <div class="recipient-avatar">JD</div>
+                    <div class="recipient-info">
+                        <div class="recipient-name">James Davis</div>
+                        <div class="recipient-role">Tenant · Midtown Modern House, Room 2</div>
+                    </div>
+                </div>
+
+                <!-- Quick Templates -->
+                <div class="templates-section">
+                    <label class="templates-label">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                        </svg>
+                        Quick Reply Templates
+                    </label>
+                    <select class="form-select" id="template-select">
+                        <option value="">Choose a template...</option>
+                        <option value="payment-reminder">Payment reminder</option>
+                        <option value="maintenance-update">Maintenance update</option>
+                        <option value="lease-renewal">Lease renewal offer</option>
+                        <option value="general-followup">General follow-up</option>
+                        <option value="move-in">Move-in instructions</option>
+                        <option value="inspection">Inspection schedule</option>
+                    </select>
+                </div>
+
+                <!-- Subject -->
+                <div class="form-group">
+                    <label class="form-label">
+                        Subject <span class="form-label-optional">(optional)</span>
+                    </label>
+                    <input
+                        type="text"
+                        class="form-input"
+                        placeholder="e.g., Regarding your rent payment"
+                    />
+                </div>
+
+                <!-- Message -->
+                <div class="form-group">
+                    <label class="form-label">Message</label>
+                    <textarea
+                        class="form-input form-textarea"
+                        placeholder="Type your message here..."
+                        id="message-textarea"
+                    ></textarea>
+                </div>
+
+                <!-- Attachment Button -->
+                <button class="attachment-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"/>
+                    </svg>
+                    Attach File
+                </button>
+
+                <!-- Recent Messages Preview -->
+                <div class="recent-messages">
+                    <div class="recent-messages-title">Recent messages with James</div>
+                    <div class="message-preview">
+                        <div class="message-preview-subject">Re: AC maintenance completed</div>
+                        <div class="message-preview-text">Thank you for taking care of that so quickly!</div>
+                        <div class="message-preview-date">3 days ago</div>
+                    </div>
+                    <div class="message-preview">
+                        <div class="message-preview-subject">Monthly rent payment</div>
+                        <div class="message-preview-text">Payment received. Thank you!</div>
+                        <div class="message-preview-date">1 week ago</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div class="character-count">
+                    <span id="char-count">0</span> / 500 characters
+                </div>
+                <div class="footer-actions">
+                    <button class="btn btn-secondary">Cancel</button>
+                    <button class="btn btn-primary">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+                        </svg>
+                        Send Message
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Character counter
+        const textarea = document.getElementById('message-textarea');
+        const charCount = document.getElementById('char-count');
+
+        textarea.addEventListener('input', function() {
+            charCount.textContent = this.value.length;
+        });
+
+        // Template selection
+        const templateSelect = document.getElementById('template-select');
+        const templates = {
+            'payment-reminder': 'Hi James, just a friendly reminder that your weekly rent payment is due soon. Please let me know if you have any questions. Thanks!',
+            'maintenance-update': 'Hi James, wanted to update you on the maintenance request. We\'ll have someone come by to take a look this week. What day works best for you?',
+            'lease-renewal': 'Hi James, your lease is coming up for renewal soon. I\'d love to discuss terms for continuing your stay. Would you like to schedule a time to chat?',
+            'general-followup': 'Hi James, just checking in to see how everything is going. Let me know if there\'s anything you need!',
+            'move-in': 'Hi James, welcome to your new home! Here are the move-in details and important information you\'ll need.',
+            'inspection': 'Hi James, it\'s time to schedule a routine inspection. Please let me know what dates work for you in the next two weeks.'
+        };
+
+        templateSelect.addEventListener('change', function() {
+            if (this.value && templates[this.value]) {
+                textarea.value = templates[this.value];
+                charCount.textContent = textarea.value.length;
+            }
+        });
+
+        // Close modal
+        document.querySelector('.modal-close').addEventListener('click', function() {
+            document.querySelector('.modal-overlay').style.display = 'none';
+        });
+
+        document.querySelector('.btn-secondary').addEventListener('click', function() {
+            document.querySelector('.modal-overlay').style.display = 'none';
+        });
+
+        // Close on backdrop click
+        document.querySelector('.modal-overlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.style.display = 'none';
+            }
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.querySelector('.modal-overlay').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

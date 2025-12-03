@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Payment Method | RoomPilot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-midnight: #0f1419;
+            --color-charcoal: #1a2332;
+            --color-slate: #3d4f5f;
+            --color-mist: #8899a6;
+            --color-cloud: #e8ecef;
+            --color-snow: #f7f9fa;
+            --color-white: #ffffff;
+
+            --color-primary: #2563eb;
+            --color-primary-light: #3b82f6;
+            --color-primary-dark: #1d4ed8;
+            --color-primary-bg: #eff6ff;
+
+            --color-accent: #10b981;
+            --color-accent-light: #34d399;
+            --color-accent-bg: #ecfdf5;
+            --color-accent-dark: #059669;
+
+            --color-warm: #f59e0b;
+            --color-warm-bg: #fffbeb;
+            --color-coral: #f43f5e;
+            --color-coral-bg: #fff1f2;
+
+            --font-display: 'Fraunces', Georgia, serif;
+            --font-body: 'DM Sans', -apple-system, sans-serif;
+
+            --shadow-sm: 0 1px 2px rgba(15, 20, 25, 0.05);
+            --shadow-md: 0 4px 12px rgba(15, 20, 25, 0.08);
+            --shadow-lg: 0 12px 40px rgba(15, 20, 25, 0.12);
+
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: 15px;
+            line-height: 1.5;
+            color: var(--color-charcoal);
+            background: var(--color-snow);
+            padding: 40px 20px;
+        }
+
+        /* Modal Overlay */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 20, 25, 0.6);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        /* Modal Container */
+        .modal {
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            width: 100%;
+            max-width: 520px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* Modal Header */
+        .modal-header {
+            padding: 24px 28px;
+            border-bottom: 1px solid var(--color-cloud);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .modal-title {
+            font-family: var(--font-display);
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--color-midnight);
+        }
+
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-sm);
+            background: none;
+            border: none;
+            color: var(--color-slate);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .modal-close:hover {
+            background: var(--color-snow);
+            color: var(--color-charcoal);
+        }
+
+        /* Modal Body */
+        .modal-body {
+            padding: 28px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 28px;
+            background: var(--color-snow);
+            padding: 4px;
+            border-radius: var(--radius-md);
+        }
+
+        .tab {
+            flex: 1;
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-slate);
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .tab.active {
+            background: var(--color-white);
+            color: var(--color-charcoal);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Form */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+            margin-bottom: 8px;
+        }
+
+        .form-label-optional {
+            font-weight: 400;
+            color: var(--color-mist);
+            font-size: 13px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid var(--color-cloud);
+            border-radius: var(--radius-md);
+            font-family: var(--font-body);
+            font-size: 15px;
+            color: var(--color-charcoal);
+            transition: all 0.2s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px var(--color-primary-bg);
+        }
+
+        .form-input.error {
+            border-color: var(--color-coral);
+        }
+
+        .form-input.error:focus {
+            box-shadow: 0 0 0 3px var(--color-coral-bg);
+        }
+
+        .form-input-icon {
+            position: relative;
+        }
+
+        .form-input-icon .form-input {
+            padding-right: 48px;
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 24px;
+            pointer-events: none;
+        }
+
+        .form-error {
+            display: none;
+            margin-top: 6px;
+            font-size: 13px;
+            color: var(--color-coral);
+        }
+
+        .form-input.error + .form-error {
+            display: block;
+        }
+
+        .form-hint {
+            margin-top: 6px;
+            font-size: 13px;
+            color: var(--color-mist);
+        }
+
+        /* Form Grid */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-grid-3 {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 16px;
+        }
+
+        /* Checkbox */
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--color-cloud);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .checkbox:checked {
+            background: var(--color-primary);
+            border-color: var(--color-primary);
+        }
+
+        .checkbox-label {
+            font-size: 14px;
+            color: var(--color-charcoal);
+            cursor: pointer;
+        }
+
+        /* Security Badges */
+        .security-badges {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            background: var(--color-snow);
+            border-radius: var(--radius-md);
+            margin-top: 24px;
+        }
+
+        .security-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--color-slate);
+        }
+
+        .security-icon {
+            font-size: 18px;
+        }
+
+        /* Modal Footer */
+        .modal-footer {
+            padding: 20px 28px;
+            border-top: 1px solid var(--color-cloud);
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 24px;
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary {
+            background: var(--color-snow);
+            color: var(--color-slate);
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-cloud);
+            color: var(--color-charcoal);
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-dark);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Content sections */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Select */
+        select.form-input {
+            background: white;
+            cursor: pointer;
+        }
+
+        /* Expandable section */
+        .expandable-section {
+            margin-top: 20px;
+        }
+
+        .expandable-trigger {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px;
+            background: none;
+            border: none;
+            color: var(--color-primary);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            text-align: left;
+            border-radius: var(--radius-md);
+            transition: all 0.2s ease;
+        }
+
+        .expandable-trigger:hover {
+            background: var(--color-primary-bg);
+        }
+
+        .expandable-content {
+            display: none;
+            padding-top: 16px;
+        }
+
+        .expandable-content.active {
+            display: block;
+        }
+
+        @media (max-width: 640px) {
+            .form-grid,
+            .form-grid-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .modal {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="modal-overlay">
+        <div class="modal">
+            <!-- Header -->
+            <div class="modal-header">
+                <h2 class="modal-title">Add Payment Method</h2>
+                <button class="modal-close" aria-label="Close">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6L6 18M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Body -->
+            <div class="modal-body">
+                <!-- Tabs -->
+                <div class="tabs">
+                    <button class="tab active" data-tab="card">Credit/Debit Card</button>
+                    <button class="tab" data-tab="bank">Bank Account</button>
+                </div>
+
+                <!-- Card Form -->
+                <div class="tab-content active" id="card-content">
+                    <form>
+                        <div class="form-group">
+                            <label class="form-label">Card Number</label>
+                            <div class="form-input-icon">
+                                <input type="text" class="form-input" placeholder="1234 5678 9012 3456" maxlength="19">
+                                <span class="input-icon">💳</span>
+                            </div>
+                            <p class="form-error">Please enter a valid card number</p>
+                        </div>
+
+                        <div class="form-grid-3">
+                            <div class="form-group">
+                                <label class="form-label">Expiration Date</label>
+                                <input type="text" class="form-input" placeholder="MM / YY" maxlength="7">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">CVV</label>
+                                <input type="text" class="form-input" placeholder="123" maxlength="4">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Cardholder Name</label>
+                            <input type="text" class="form-input" placeholder="Full name as shown on card">
+                        </div>
+
+                        <!-- Billing Address (Expandable) -->
+                        <div class="expandable-section">
+                            <button type="button" class="expandable-trigger" onclick="toggleExpandable()">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 18l6-6-6-6"/>
+                                </svg>
+                                Add Billing Address
+                            </button>
+                            <div class="expandable-content" id="billing-address">
+                                <div class="form-group">
+                                    <label class="form-label">Street Address</label>
+                                    <input type="text" class="form-input" placeholder="123 Main St">
+                                </div>
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label class="form-label">City</label>
+                                        <input type="text" class="form-input" placeholder="Atlanta">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">State</label>
+                                        <input type="text" class="form-input" placeholder="GA">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">ZIP Code</label>
+                                    <input type="text" class="form-input" placeholder="30301">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="default-card" class="checkbox">
+                            <label for="default-card" class="checkbox-label">Set as default payment method</label>
+                        </div>
+
+                        <div class="security-badges">
+                            <div class="security-badge">
+                                <span class="security-icon">🔒</span>
+                                <span>Secured by Stripe</span>
+                            </div>
+                            <div class="security-badge">
+                                <span class="security-icon">✓</span>
+                                <span>256-bit encrypted</span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Bank Account Form -->
+                <div class="tab-content" id="bank-content">
+                    <form>
+                        <div class="form-group">
+                            <label class="form-label">Account Holder Name</label>
+                            <input type="text" class="form-input" placeholder="Full legal name">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Routing Number</label>
+                            <input type="text" class="form-input" placeholder="9 digits" maxlength="9">
+                            <p class="form-hint">Find this on your check or online banking</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Account Number</label>
+                            <input type="text" class="form-input" placeholder="Account number">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Confirm Account Number</label>
+                            <input type="text" class="form-input" placeholder="Re-enter account number">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Account Type</label>
+                            <select class="form-input">
+                                <option value="">Select account type</option>
+                                <option value="checking">Checking</option>
+                                <option value="savings">Savings</option>
+                            </select>
+                        </div>
+
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="default-bank" class="checkbox">
+                            <label for="default-bank" class="checkbox-label">Set as default payment method</label>
+                        </div>
+
+                        <div class="security-badges">
+                            <div class="security-badge">
+                                <span class="security-icon">🔒</span>
+                                <span>Secured by Stripe</span>
+                            </div>
+                            <div class="security-badge">
+                                <span class="security-icon">🏦</span>
+                                <span>ACH verified</span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="modal-footer">
+                <button class="btn btn-secondary">Cancel</button>
+                <button class="btn btn-primary">Save Payment Method</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                const targetTab = this.getAttribute('data-tab');
+
+                // Update active tab
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+
+                // Update active content
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                document.getElementById(targetTab + '-content').classList.add('active');
+            });
+        });
+
+        // Toggle expandable section
+        function toggleExpandable() {
+            const content = document.getElementById('billing-address');
+            const trigger = document.querySelector('.expandable-trigger');
+            content.classList.toggle('active');
+
+            if (content.classList.contains('active')) {
+                trigger.querySelector('svg').style.transform = 'rotate(90deg)';
+            } else {
+                trigger.querySelector('svg').style.transform = 'rotate(0deg)';
+            }
+        }
+
+        // Card number formatting
+        document.querySelector('#card-content input[placeholder="1234 5678 9012 3456"]').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\s/g, '');
+            let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+            e.target.value = formattedValue;
+        });
+
+        // Expiration date formatting
+        document.querySelector('#card-content input[placeholder="MM / YY"]').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\s/g, '').replace(/\//g, '');
+            if (value.length >= 2) {
+                e.target.value = value.slice(0, 2) + ' / ' + value.slice(2, 4);
+            } else {
+                e.target.value = value;
+            }
+        });
+
+        // Close modal
+        document.querySelector('.modal-close').addEventListener('click', function() {
+            console.log('Modal closed');
+        });
+
+        document.querySelector('.btn-secondary').addEventListener('click', function() {
+            console.log('Modal cancelled');
+        });
+
+        document.querySelector('.btn-primary').addEventListener('click', function() {
+            console.log('Payment method saved');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>End Tenancy | RoomPilot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-midnight: #0f1419;
+            --color-charcoal: #1a2332;
+            --color-slate: #3d4f5f;
+            --color-mist: #8899a6;
+            --color-cloud: #e8ecef;
+            --color-snow: #f7f9fa;
+            --color-white: #ffffff;
+
+            --color-primary: #2563eb;
+            --color-primary-light: #3b82f6;
+            --color-primary-dark: #1d4ed8;
+            --color-primary-bg: #eff6ff;
+
+            --color-accent: #10b981;
+            --color-accent-light: #34d399;
+            --color-accent-bg: #ecfdf5;
+            --color-accent-dark: #059669;
+
+            --color-warm: #f59e0b;
+            --color-warm-bg: #fffbeb;
+            --color-coral: #f43f5e;
+            --color-coral-bg: #fff1f2;
+
+            --font-display: 'Fraunces', Georgia, serif;
+            --font-body: 'DM Sans', -apple-system, sans-serif;
+
+            --shadow-sm: 0 1px 2px rgba(15, 20, 25, 0.05);
+            --shadow-md: 0 4px 12px rgba(15, 20, 25, 0.08);
+            --shadow-lg: 0 12px 40px rgba(15, 20, 25, 0.12);
+
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: 15px;
+            line-height: 1.5;
+            color: var(--color-charcoal);
+            background: var(--color-snow);
+            padding: 40px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 20, 25, 0.6);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 1000;
+            animation: fadeIn 0.2s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-container {
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            width: 100%;
+            max-width: 650px;
+            max-height: 90vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--color-cloud);
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .modal-header-content {
+            flex: 1;
+        }
+
+        .modal-title {
+            font-family: var(--font-display);
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--color-midnight);
+            margin-bottom: 4px;
+        }
+
+        .modal-subtitle {
+            font-size: 14px;
+            color: var(--color-mist);
+        }
+
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: none;
+            color: var(--color-slate);
+            cursor: pointer;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .modal-close:hover {
+            background: var(--color-snow);
+            color: var(--color-charcoal);
+        }
+
+        .modal-body {
+            padding: 24px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        /* Tenant Info */
+        .tenant-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            background: var(--color-snow);
+            border-radius: var(--radius-md);
+            margin-bottom: 24px;
+        }
+
+        .tenant-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-primary) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .tenant-details {
+            flex: 1;
+        }
+
+        .tenant-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+            margin-bottom: 2px;
+        }
+
+        .tenant-room {
+            font-size: 13px;
+            color: var(--color-mist);
+        }
+
+        /* Form Group */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--color-slate);
+            margin-bottom: 8px;
+        }
+
+        .form-select,
+        .form-input,
+        .form-textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--color-cloud);
+            border-radius: var(--radius-md);
+            font-family: var(--font-body);
+            font-size: 14px;
+            color: var(--color-charcoal);
+            transition: all 0.2s ease;
+        }
+
+        .form-select:focus,
+        .form-input:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px var(--color-primary-bg);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* Checklist */
+        .checklist {
+            padding: 16px;
+            background: var(--color-snow);
+            border-radius: var(--radius-md);
+            margin-bottom: 20px;
+        }
+
+        .checklist-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--color-slate);
+            margin-bottom: 12px;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 0;
+        }
+
+        .checklist-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--color-cloud);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .checklist-checkbox:checked {
+            background: var(--color-accent);
+            border-color: var(--color-accent);
+        }
+
+        .checklist-label {
+            font-size: 14px;
+            color: var(--color-charcoal);
+        }
+
+        /* Radio Group */
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            border: 2px solid var(--color-cloud);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .radio-item:hover {
+            background: var(--color-snow);
+            border-color: var(--color-slate);
+        }
+
+        .radio-item.selected {
+            background: var(--color-accent-bg);
+            border-color: var(--color-accent);
+        }
+
+        .radio-input {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--color-cloud);
+            border-radius: 50%;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .radio-input:checked {
+            border-color: var(--color-accent);
+        }
+
+        .radio-input:checked::after {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: var(--color-accent);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .radio-label {
+            font-size: 14px;
+            color: var(--color-charcoal);
+            cursor: pointer;
+        }
+
+        .radio-item.selected .radio-label {
+            font-weight: 600;
+            color: var(--color-accent-dark);
+        }
+
+        /* Deduction Items */
+        .deduction-section {
+            display: none;
+            padding: 16px;
+            background: var(--color-warm-bg);
+            border-radius: var(--radius-md);
+            margin-top: 16px;
+        }
+
+        .deduction-section.active {
+            display: block;
+        }
+
+        .deduction-item {
+            display: grid;
+            grid-template-columns: 1fr 120px 36px;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .deduction-input {
+            padding: 10px;
+            border: 1px solid var(--color-cloud);
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+        }
+
+        .deduction-amount {
+            padding: 10px;
+            border: 1px solid var(--color-cloud);
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .btn-remove {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: var(--color-coral-bg);
+            color: var(--color-coral);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-remove:hover {
+            background: var(--color-coral);
+            color: white;
+        }
+
+        .btn-add-deduction {
+            padding: 8px 16px;
+            background: none;
+            border: 1px dashed var(--color-cloud);
+            border-radius: var(--radius-sm);
+            color: var(--color-slate);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 8px;
+        }
+
+        .btn-add-deduction:hover {
+            border-color: var(--color-slate);
+            background: var(--color-snow);
+        }
+
+        .deduction-total {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 2px solid var(--color-cloud);
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+        }
+
+        .modal-footer {
+            padding: 20px 24px;
+            border-top: 1px solid var(--color-cloud);
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 24px;
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary {
+            background: var(--color-snow);
+            color: var(--color-slate);
+            border: 1px solid var(--color-cloud);
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-cloud);
+            color: var(--color-charcoal);
+        }
+
+        .btn-danger {
+            background: var(--color-coral);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        @media (max-width: 640px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-footer {
+                flex-direction: column-reverse;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .deduction-item {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="modal-overlay">
+        <div class="modal-container">
+            <!-- Header -->
+            <div class="modal-header">
+                <div class="modal-header-content">
+                    <h2 class="modal-title">End Tenancy</h2>
+                    <p class="modal-subtitle">Process move-out and security deposit</p>
+                </div>
+                <button class="modal-close" aria-label="Close modal">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6L6 18M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Body -->
+            <div class="modal-body">
+                <!-- Tenant Info -->
+                <div class="tenant-info">
+                    <div class="tenant-avatar">JD</div>
+                    <div class="tenant-details">
+                        <div class="tenant-name">James Davis</div>
+                        <div class="tenant-room">Midtown Modern House - Room 2</div>
+                    </div>
+                </div>
+
+                <!-- Reason and Date -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">End reason</label>
+                        <select class="form-select">
+                            <option value="">Select a reason...</option>
+                            <option value="voluntary">Tenant request / voluntary</option>
+                            <option value="violation">Lease violation</option>
+                            <option value="nonpayment">Non-payment of rent</option>
+                            <option value="endofterm">End of lease term</option>
+                            <option value="property">Property sold/renovated</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Move-out date</label>
+                        <input type="date" class="form-input" value="2024-12-31">
+                    </div>
+                </div>
+
+                <!-- Move-out Checklist -->
+                <div class="checklist">
+                    <div class="checklist-title">Move-out checklist</div>
+                    <label class="checklist-item">
+                        <input type="checkbox" class="checklist-checkbox">
+                        <span class="checklist-label">Final inspection scheduled</span>
+                    </label>
+                    <label class="checklist-item">
+                        <input type="checkbox" class="checklist-checkbox">
+                        <span class="checklist-label">Outstanding balance reviewed</span>
+                    </label>
+                    <label class="checklist-item">
+                        <input type="checkbox" class="checklist-checkbox">
+                        <span class="checklist-label">Security deposit disposition ready</span>
+                    </label>
+                </div>
+
+                <!-- Security Deposit -->
+                <div class="form-group">
+                    <label class="form-label">Security deposit handling</label>
+                    <div class="radio-group">
+                        <label class="radio-item">
+                            <input type="radio" name="deposit" class="radio-input" value="full" checked>
+                            <span class="radio-label">Full refund ($350.00)</span>
+                        </label>
+                        <label class="radio-item">
+                            <input type="radio" name="deposit" class="radio-input" value="partial">
+                            <span class="radio-label">Partial refund (with deductions)</span>
+                        </label>
+                        <label class="radio-item">
+                            <input type="radio" name="deposit" class="radio-input" value="none">
+                            <span class="radio-label">No refund (with documentation)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Deduction Section -->
+                <div class="deduction-section" id="deductionSection">
+                    <div class="deduction-item">
+                        <input type="text" class="deduction-input" placeholder="Deduction reason (e.g., Cleaning)">
+                        <input type="text" class="deduction-amount" placeholder="$0.00">
+                        <button class="btn-remove">×</button>
+                    </div>
+                    <button class="btn-add-deduction">+ Add deduction</button>
+                    <div class="deduction-total">
+                        <span>Refund amount:</span>
+                        <span>$350.00</span>
+                    </div>
+                </div>
+
+                <!-- Final Message -->
+                <div class="form-group">
+                    <label class="form-label">Message to tenant</label>
+                    <textarea class="form-textarea" placeholder="Add a final message to the tenant...">Thank you for being a great tenant. Your security deposit will be processed within 30 days as required by law.
+
+We wish you all the best in your next home!</textarea>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="modal-footer">
+                <button class="btn btn-secondary">Cancel</button>
+                <button class="btn btn-danger">Process Move-Out</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Radio button handling
+        document.querySelectorAll('.radio-item').forEach(item => {
+            const radio = item.querySelector('.radio-input');
+
+            radio.addEventListener('change', function() {
+                document.querySelectorAll('.radio-item').forEach(r => r.classList.remove('selected'));
+                if (this.checked) {
+                    item.classList.add('selected');
+
+                    // Show/hide deduction section
+                    const deductionSection = document.getElementById('deductionSection');
+                    if (this.value === 'partial' || this.value === 'none') {
+                        deductionSection.classList.add('active');
+                    } else {
+                        deductionSection.classList.remove('active');
+                    }
+                }
+            });
+
+            item.addEventListener('click', function(e) {
+                if (e.target !== radio) {
+                    radio.click();
+                }
+            });
+        });
+
+        // Set initial selected state
+        document.querySelector('.radio-input:checked').parentElement.classList.add('selected');
+
+        // Close modal functionality
+        document.querySelector('.modal-overlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                console.log('Close modal');
+            }
+        });
+
+        document.querySelector('.modal-close').addEventListener('click', function() {
+            console.log('Close modal');
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                console.log('Close modal');
+            }
+        });
+    </script>
+</body>
+</html>

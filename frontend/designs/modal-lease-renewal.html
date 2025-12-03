@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lease Renewal Offer | RoomPilot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-midnight: #0f1419;
+            --color-charcoal: #1a2332;
+            --color-slate: #3d4f5f;
+            --color-mist: #8899a6;
+            --color-cloud: #e8ecef;
+            --color-snow: #f7f9fa;
+            --color-white: #ffffff;
+
+            --color-primary: #2563eb;
+            --color-primary-light: #3b82f6;
+            --color-primary-dark: #1d4ed8;
+            --color-primary-bg: #eff6ff;
+
+            --color-accent: #10b981;
+            --color-accent-light: #34d399;
+            --color-accent-bg: #ecfdf5;
+            --color-accent-dark: #059669;
+
+            --color-warm: #f59e0b;
+            --color-warm-bg: #fffbeb;
+            --color-coral: #f43f5e;
+            --color-coral-bg: #fff1f2;
+
+            --font-display: 'Fraunces', Georgia, serif;
+            --font-body: 'DM Sans', -apple-system, sans-serif;
+
+            --shadow-sm: 0 1px 2px rgba(15, 20, 25, 0.05);
+            --shadow-md: 0 4px 12px rgba(15, 20, 25, 0.08);
+            --shadow-lg: 0 12px 40px rgba(15, 20, 25, 0.12);
+
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: 15px;
+            line-height: 1.5;
+            color: var(--color-charcoal);
+            background: var(--color-snow);
+            padding: 40px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 20, 25, 0.6);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 1000;
+            animation: fadeIn 0.2s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-container {
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--color-cloud);
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .modal-header-content {
+            flex: 1;
+        }
+
+        .modal-title {
+            font-family: var(--font-display);
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--color-midnight);
+            margin-bottom: 4px;
+        }
+
+        .modal-subtitle {
+            font-size: 14px;
+            color: var(--color-mist);
+        }
+
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: none;
+            color: var(--color-slate);
+            cursor: pointer;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .modal-close:hover {
+            background: var(--color-snow);
+            color: var(--color-charcoal);
+        }
+
+        .modal-body {
+            padding: 24px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        /* Tenant Info */
+        .tenant-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            background: var(--color-snow);
+            border-radius: var(--radius-md);
+            margin-bottom: 24px;
+        }
+
+        .tenant-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--color-accent-light) 0%, var(--color-accent) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .tenant-details {
+            flex: 1;
+        }
+
+        .tenant-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+            margin-bottom: 2px;
+        }
+
+        .tenant-room {
+            font-size: 13px;
+            color: var(--color-mist);
+        }
+
+        /* Current Lease Summary */
+        .lease-summary {
+            padding: 16px;
+            background: var(--color-primary-bg);
+            border-radius: var(--radius-md);
+            margin-bottom: 24px;
+        }
+
+        .lease-summary-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--color-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
+        }
+
+        .lease-summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            font-size: 14px;
+        }
+
+        .lease-summary-label {
+            color: var(--color-slate);
+        }
+
+        .lease-summary-value {
+            font-weight: 600;
+            color: var(--color-charcoal);
+        }
+
+        /* Section Title */
+        .section-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+            margin-bottom: 16px;
+        }
+
+        /* Form Fields */
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--color-slate);
+            margin-bottom: 8px;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--color-cloud);
+            border-radius: var(--radius-md);
+            font-family: var(--font-body);
+            font-size: 14px;
+            color: var(--color-charcoal);
+            transition: all 0.2s ease;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--color-accent);
+            box-shadow: 0 0 0 3px var(--color-accent-bg);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* Rent Change Badge */
+        .rent-change {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .rent-change.increase {
+            background: var(--color-coral-bg);
+            color: var(--color-coral);
+        }
+
+        .rent-change.decrease {
+            background: var(--color-accent-bg);
+            color: var(--color-accent-dark);
+        }
+
+        .rent-change.same {
+            background: var(--color-cloud);
+            color: var(--color-slate);
+        }
+
+        /* Incentives */
+        .incentives-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .incentive-card {
+            padding: 16px;
+            border: 2px solid var(--color-cloud);
+            border-radius: var(--radius-md);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .incentive-card:hover {
+            border-color: var(--color-accent);
+            background: var(--color-accent-bg);
+        }
+
+        .incentive-card.selected {
+            background: var(--color-accent-bg);
+            border-color: var(--color-accent);
+        }
+
+        .incentive-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .incentive-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+        }
+
+        .incentive-card.selected .incentive-label {
+            color: var(--color-accent-dark);
+        }
+
+        .incentive-desc {
+            font-size: 12px;
+            color: var(--color-mist);
+            margin-top: 4px;
+        }
+
+        /* Info Box */
+        .info-box {
+            display: flex;
+            gap: 12px;
+            padding: 16px;
+            background: var(--color-warm-bg);
+            border-radius: var(--radius-md);
+            border-left: 3px solid var(--color-warm);
+            margin-top: 24px;
+            font-size: 13px;
+            color: var(--color-charcoal);
+        }
+
+        .info-icon {
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .modal-footer {
+            padding: 20px 24px;
+            border-top: 1px solid var(--color-cloud);
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 24px;
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary {
+            background: var(--color-snow);
+            color: var(--color-slate);
+            border: 1px solid var(--color-cloud);
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-cloud);
+            color: var(--color-charcoal);
+        }
+
+        .btn-success {
+            background: var(--color-accent);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: var(--color-accent-dark);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        @media (max-width: 640px) {
+            .form-row,
+            .incentives-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-footer {
+                flex-direction: column-reverse;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="modal-overlay">
+        <div class="modal-container">
+            <!-- Header -->
+            <div class="modal-header">
+                <div class="modal-header-content">
+                    <h2 class="modal-title">Lease Renewal Offer</h2>
+                    <p class="modal-subtitle">Offer a lease renewal to your tenant</p>
+                </div>
+                <button class="modal-close" aria-label="Close modal">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6L6 18M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Body -->
+            <div class="modal-body">
+                <!-- Tenant Info -->
+                <div class="tenant-info">
+                    <div class="tenant-avatar">ST</div>
+                    <div class="tenant-details">
+                        <div class="tenant-name">Sarah Thompson</div>
+                        <div class="tenant-room">Grant Park Victorian - Room 1</div>
+                    </div>
+                </div>
+
+                <!-- Current Lease Summary -->
+                <div class="lease-summary">
+                    <div class="lease-summary-title">Current Lease</div>
+                    <div class="lease-summary-row">
+                        <span class="lease-summary-label">Start date</span>
+                        <span class="lease-summary-value">January 1, 2024</span>
+                    </div>
+                    <div class="lease-summary-row">
+                        <span class="lease-summary-label">End date</span>
+                        <span class="lease-summary-value">December 31, 2024</span>
+                    </div>
+                    <div class="lease-summary-row">
+                        <span class="lease-summary-label">Current rent</span>
+                        <span class="lease-summary-value">$160.00/week</span>
+                    </div>
+                    <div class="lease-summary-row">
+                        <span class="lease-summary-label">Lease type</span>
+                        <span class="lease-summary-value">12-month fixed</span>
+                    </div>
+                </div>
+
+                <!-- New Terms -->
+                <h3 class="section-title">New Lease Terms</h3>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">New start date</label>
+                        <input type="date" class="form-input" value="2025-01-01">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Lease duration</label>
+                        <select class="form-select">
+                            <option value="month">Month-to-month</option>
+                            <option value="6">6 months</option>
+                            <option value="12" selected>12 months</option>
+                            <option value="24">24 months</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        New weekly rent
+                        <span class="rent-change increase">+6.3%</span>
+                    </label>
+                    <input type="text" class="form-input" value="$170.00" id="newRent">
+                </div>
+
+                <!-- Renewal Incentives -->
+                <h3 class="section-title">Renewal Incentives (Optional)</h3>
+                <div class="incentives-grid">
+                    <div class="incentive-card">
+                        <div class="incentive-icon">🎁</div>
+                        <div class="incentive-label">One week free</div>
+                        <div class="incentive-desc">First week free</div>
+                    </div>
+                    <div class="incentive-card">
+                        <div class="incentive-icon">💰</div>
+                        <div class="incentive-label">Reduced month</div>
+                        <div class="incentive-desc">50% off first month</div>
+                    </div>
+                    <div class="incentive-card">
+                        <div class="incentive-icon">✨</div>
+                        <div class="incentive-label">Waived fees</div>
+                        <div class="incentive-desc">No renewal fee</div>
+                    </div>
+                </div>
+
+                <!-- Message -->
+                <div class="form-group">
+                    <label class="form-label">Message to tenant</label>
+                    <textarea class="form-textarea" placeholder="Add a personal message...">Hi Sarah,
+
+We've really enjoyed having you as a tenant this past year! You've been a great resident and we'd love to have you stay.
+
+We're offering you a lease renewal with the terms above. Please review and let us know if you have any questions.
+
+Looking forward to another great year together!</textarea>
+                </div>
+
+                <!-- Response Deadline -->
+                <div class="form-group">
+                    <label class="form-label">Response deadline</label>
+                    <input type="date" class="form-input" value="2024-12-15">
+                </div>
+
+                <!-- Info Box -->
+                <div class="info-box">
+                    <span class="info-icon">💡</span>
+                    <div>
+                        The tenant will receive an email with your renewal offer and have until the deadline to accept or decline. If accepted, a new license agreement will be generated automatically.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="modal-footer">
+                <button class="btn btn-secondary">Cancel</button>
+                <button class="btn btn-success">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+                    </svg>
+                    Send Renewal Offer
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Incentive card selection
+        document.querySelectorAll('.incentive-card').forEach(card => {
+            card.addEventListener('click', function() {
+                this.classList.toggle('selected');
+            });
+        });
+
+        // Calculate rent change percentage
+        const newRentInput = document.getElementById('newRent');
+        const currentRent = 160;
+
+        newRentInput.addEventListener('input', function() {
+            const newRent = parseFloat(this.value.replace('$', ''));
+            const change = ((newRent - currentRent) / currentRent * 100).toFixed(1);
+            const badge = document.querySelector('.rent-change');
+
+            if (change > 0) {
+                badge.className = 'rent-change increase';
+                badge.textContent = `+${change}%`;
+            } else if (change < 0) {
+                badge.className = 'rent-change decrease';
+                badge.textContent = `${change}%`;
+            } else {
+                badge.className = 'rent-change same';
+                badge.textContent = 'No change';
+            }
+        });
+
+        // Close modal functionality
+        document.querySelector('.modal-overlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                console.log('Close modal');
+            }
+        });
+
+        document.querySelector('.modal-close').addEventListener('click', function() {
+            console.log('Close modal');
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                console.log('Close modal');
+            }
+        });
+    </script>
+</body>
+</html>

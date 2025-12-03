@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Avatar | RoomPilot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-midnight: #0f1419;
+            --color-charcoal: #1a2332;
+            --color-slate: #3d4f5f;
+            --color-mist: #8899a6;
+            --color-cloud: #e8ecef;
+            --color-snow: #f7f9fa;
+            --color-white: #ffffff;
+
+            --color-primary: #2563eb;
+            --color-primary-light: #3b82f6;
+            --color-primary-dark: #1d4ed8;
+            --color-primary-bg: #eff6ff;
+
+            --color-accent: #10b981;
+            --color-accent-light: #34d399;
+            --color-accent-bg: #ecfdf5;
+            --color-accent-dark: #059669;
+
+            --color-warm: #f59e0b;
+            --color-warm-bg: #fffbeb;
+            --color-coral: #f43f5e;
+            --color-coral-bg: #fff1f2;
+
+            --font-display: 'Fraunces', Georgia, serif;
+            --font-body: 'DM Sans', -apple-system, sans-serif;
+
+            --shadow-sm: 0 1px 2px rgba(15, 20, 25, 0.05);
+            --shadow-md: 0 4px 12px rgba(15, 20, 25, 0.08);
+            --shadow-lg: 0 12px 40px rgba(15, 20, 25, 0.12);
+
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: 15px;
+            line-height: 1.5;
+            color: var(--color-charcoal);
+            background: var(--color-snow);
+            padding: 40px 20px;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 20, 25, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeIn 0.2s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-container {
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 540px;
+            box-shadow: var(--shadow-lg);
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            padding: 24px 24px 20px;
+            border-bottom: 1px solid var(--color-cloud);
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: none;
+            border: none;
+            color: var(--color-slate);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .modal-close:hover {
+            background: var(--color-snow);
+            color: var(--color-charcoal);
+        }
+
+        .modal-title {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--color-midnight);
+            margin-bottom: 8px;
+        }
+
+        .modal-subtitle {
+            font-size: 14px;
+            color: var(--color-mist);
+        }
+
+        /* Modal Body */
+        .modal-body {
+            padding: 32px 24px;
+        }
+
+        /* Current Avatar */
+        .current-avatar-section {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .current-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-primary) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            font-weight: 600;
+            color: white;
+            margin: 0 auto 16px;
+            border: 4px solid var(--color-white);
+            box-shadow: 0 4px 16px rgba(37, 99, 235, 0.2);
+        }
+
+        .current-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .avatar-label {
+            font-size: 14px;
+            color: var(--color-mist);
+        }
+
+        /* Upload Options */
+        .upload-options {
+            display: grid;
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+
+        .upload-option {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            border: 2px solid var(--color-cloud);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: white;
+        }
+
+        .upload-option:hover {
+            border-color: var(--color-primary);
+            background: var(--color-primary-bg);
+        }
+
+        .upload-option-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--color-snow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .upload-option-info {
+            flex: 1;
+        }
+
+        .upload-option-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+            margin-bottom: 2px;
+        }
+
+        .upload-option-description {
+            font-size: 13px;
+            color: var(--color-mist);
+        }
+
+        .upload-option.remove {
+            border-color: var(--color-coral-bg);
+        }
+
+        .upload-option.remove:hover {
+            border-color: var(--color-coral);
+            background: var(--color-coral-bg);
+        }
+
+        .upload-option.remove .upload-option-icon {
+            background: var(--color-coral-bg);
+        }
+
+        /* Crop Editor */
+        .crop-editor {
+            display: none;
+            margin-top: 24px;
+            padding: 20px;
+            background: var(--color-snow);
+            border-radius: var(--radius-md);
+        }
+
+        .crop-editor.active {
+            display: block;
+            animation: fadeInContent 0.3s ease;
+        }
+
+        @keyframes fadeInContent {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .crop-canvas-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 0 auto 20px;
+            background: var(--color-white);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+        }
+
+        .crop-frame {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 240px;
+            height: 240px;
+            border: 3px solid var(--color-primary);
+            border-radius: 50%;
+            pointer-events: none;
+            box-shadow: 0 0 0 1000px rgba(15, 20, 25, 0.5);
+        }
+
+        .crop-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        /* Crop Controls */
+        .crop-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .control-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+            min-width: 60px;
+        }
+
+        .control-slider {
+            flex: 1;
+            height: 6px;
+            border-radius: 3px;
+            background: var(--color-cloud);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .control-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--color-primary);
+            cursor: pointer;
+        }
+
+        .control-slider::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--color-primary);
+            cursor: pointer;
+            border: none;
+        }
+
+        .control-value {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--color-slate);
+            min-width: 40px;
+            text-align: right;
+        }
+
+        .rotate-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .rotate-btn {
+            flex: 1;
+            padding: 10px 16px;
+            background: white;
+            border: 1px solid var(--color-cloud);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .rotate-btn:hover {
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+        }
+
+        /* Preview */
+        .preview-section {
+            margin-top: 24px;
+            padding: 20px;
+            background: var(--color-snow);
+            border-radius: var(--radius-md);
+        }
+
+        .preview-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .preview-sizes {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 20px;
+        }
+
+        .preview-item {
+            text-align: center;
+        }
+
+        .preview-avatar {
+            border-radius: 50%;
+            background: var(--color-cloud);
+            margin-bottom: 6px;
+            border: 2px solid var(--color-white);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .preview-avatar.large {
+            width: 80px;
+            height: 80px;
+        }
+
+        .preview-avatar.medium {
+            width: 48px;
+            height: 48px;
+        }
+
+        .preview-avatar.small {
+            width: 32px;
+            height: 32px;
+        }
+
+        .preview-size-label {
+            font-size: 11px;
+            color: var(--color-mist);
+        }
+
+        /* Modal Footer */
+        .modal-footer {
+            padding: 20px 24px 24px;
+            border-top: 1px solid var(--color-cloud);
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            flex: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 24px;
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-dark);
+        }
+
+        .btn-primary:disabled {
+            background: var(--color-cloud);
+            color: var(--color-mist);
+            cursor: not-allowed;
+        }
+
+        .btn-ghost {
+            background: none;
+            color: var(--color-slate);
+            border: 1px solid var(--color-cloud);
+        }
+
+        .btn-ghost:hover {
+            background: var(--color-snow);
+            border-color: var(--color-slate);
+            color: var(--color-charcoal);
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <button class="modal-close" aria-label="Close">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6L6 18M6 6l12 12"/>
+                    </svg>
+                </button>
+                <h2 class="modal-title">Update Profile Photo</h2>
+                <p class="modal-subtitle">Choose a photo that represents you</p>
+            </div>
+
+            <div class="modal-body">
+                <!-- Current Avatar -->
+                <div class="current-avatar-section">
+                    <div class="current-avatar" id="currentAvatar">
+                        JS
+                    </div>
+                    <div class="avatar-label">Current photo</div>
+                </div>
+
+                <!-- Upload Options -->
+                <div class="upload-options">
+                    <label for="fileInput" class="upload-option">
+                        <div class="upload-option-icon">📁</div>
+                        <div class="upload-option-info">
+                            <div class="upload-option-title">Upload from Computer</div>
+                            <div class="upload-option-description">JPG, PNG or GIF (max 5MB)</div>
+                        </div>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 18l6-6-6-6"/>
+                        </svg>
+                    </label>
+                    <input type="file" id="fileInput" accept="image/*">
+
+                    <button class="upload-option" id="cameraBtn">
+                        <div class="upload-option-icon">📷</div>
+                        <div class="upload-option-info">
+                            <div class="upload-option-title">Take Photo</div>
+                            <div class="upload-option-description">Use your device camera</div>
+                        </div>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 18l6-6-6-6"/>
+                        </svg>
+                    </button>
+
+                    <button class="upload-option remove" id="removeBtn">
+                        <div class="upload-option-icon">🗑️</div>
+                        <div class="upload-option-info">
+                            <div class="upload-option-title">Remove Photo</div>
+                            <div class="upload-option-description">Return to default avatar</div>
+                        </div>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 18l6-6-6-6"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Crop Editor -->
+                <div class="crop-editor" id="cropEditor">
+                    <div class="crop-canvas-container">
+                        <img src="" alt="Crop preview" class="crop-image" id="cropImage">
+                        <div class="crop-frame"></div>
+                    </div>
+
+                    <div class="crop-controls">
+                        <div class="control-group">
+                            <span class="control-label">Zoom</span>
+                            <input type="range" class="control-slider" id="zoomSlider" min="100" max="200" value="100">
+                            <span class="control-value" id="zoomValue">100%</span>
+                        </div>
+
+                        <div class="control-group">
+                            <span class="control-label">Rotate</span>
+                            <div class="rotate-buttons">
+                                <button class="rotate-btn" id="rotateLeftBtn">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M2.5 2v6h6M2 11.5a10 10 0 0118.8-4.3"/>
+                                    </svg>
+                                    Left
+                                </button>
+                                <button class="rotate-btn" id="rotateRightBtn">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21.5 2v6h-6M22 11.5a10 10 0 01-18.8-4.3"/>
+                                    </svg>
+                                    Right
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Preview -->
+                    <div class="preview-section">
+                        <div class="preview-label">Preview at different sizes</div>
+                        <div class="preview-sizes">
+                            <div class="preview-item">
+                                <div class="preview-avatar large" id="previewLarge"></div>
+                                <div class="preview-size-label">Large</div>
+                            </div>
+                            <div class="preview-item">
+                                <div class="preview-avatar medium" id="previewMedium"></div>
+                                <div class="preview-size-label">Medium</div>
+                            </div>
+                            <div class="preview-item">
+                                <div class="preview-avatar small" id="previewSmall"></div>
+                                <div class="preview-size-label">Small</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-ghost" id="cancelBtn">Cancel</button>
+                <button class="btn btn-primary" id="saveBtn" disabled>Save Photo</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentRotation = 0;
+        let currentZoom = 1;
+        let uploadedImage = null;
+
+        const fileInput = document.getElementById('fileInput');
+        const cropEditor = document.getElementById('cropEditor');
+        const cropImage = document.getElementById('cropImage');
+        const zoomSlider = document.getElementById('zoomSlider');
+        const zoomValue = document.getElementById('zoomValue');
+        const saveBtn = document.getElementById('saveBtn');
+
+        // File upload
+        fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                handleImageUpload(file);
+            }
+        });
+
+        function handleImageUpload(file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                uploadedImage = e.target.result;
+                cropImage.src = uploadedImage;
+                cropEditor.classList.add('active');
+                saveBtn.disabled = false;
+                updatePreviews();
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Camera button (simulated)
+        document.getElementById('cameraBtn').addEventListener('click', function() {
+            alert('Camera feature would open device camera on mobile devices');
+        });
+
+        // Remove photo
+        document.getElementById('removeBtn').addEventListener('click', function() {
+            if (confirm('Are you sure you want to remove your profile photo?')) {
+                document.getElementById('currentAvatar').innerHTML = 'JS';
+                cropEditor.classList.remove('active');
+                uploadedImage = null;
+                saveBtn.disabled = true;
+                console.log('Photo removed');
+            }
+        });
+
+        // Zoom control
+        zoomSlider.addEventListener('input', function() {
+            currentZoom = this.value / 100;
+            zoomValue.textContent = this.value + '%';
+            updateImageTransform();
+            updatePreviews();
+        });
+
+        // Rotate controls
+        document.getElementById('rotateLeftBtn').addEventListener('click', function() {
+            currentRotation -= 90;
+            updateImageTransform();
+            updatePreviews();
+        });
+
+        document.getElementById('rotateRightBtn').addEventListener('click', function() {
+            currentRotation += 90;
+            updateImageTransform();
+            updatePreviews();
+        });
+
+        function updateImageTransform() {
+            cropImage.style.transform = `scale(${currentZoom}) rotate(${currentRotation}deg)`;
+        }
+
+        function updatePreviews() {
+            // In a real implementation, this would generate actual preview images
+            // For demo, we'll just add the uploaded image to previews
+            ['previewLarge', 'previewMedium', 'previewSmall'].forEach(id => {
+                const preview = document.getElementById(id);
+                preview.style.backgroundImage = `url(${uploadedImage})`;
+                preview.style.backgroundSize = 'cover';
+                preview.style.backgroundPosition = 'center';
+            });
+        }
+
+        // Save button
+        saveBtn.addEventListener('click', function() {
+            this.textContent = 'Saving...';
+            this.disabled = true;
+
+            setTimeout(() => {
+                console.log('Avatar saved with rotation:', currentRotation, 'zoom:', currentZoom);
+                document.getElementById('currentAvatar').innerHTML = `<img src="${uploadedImage}" alt="Avatar">`;
+                alert('Profile photo updated successfully!');
+            }, 1000);
+        });
+
+        // Cancel button
+        document.getElementById('cancelBtn').addEventListener('click', function() {
+            if (uploadedImage && !confirm('Discard changes?')) {
+                return;
+            }
+            console.log('Modal closed');
+        });
+    </script>
+</body>
+</html>

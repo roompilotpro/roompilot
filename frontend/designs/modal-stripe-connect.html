@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect Stripe | RoomPilot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-midnight: #0f1419;
+            --color-charcoal: #1a2332;
+            --color-slate: #3d4f5f;
+            --color-mist: #8899a6;
+            --color-cloud: #e8ecef;
+            --color-snow: #f7f9fa;
+            --color-white: #ffffff;
+
+            --color-primary: #2563eb;
+            --color-primary-light: #3b82f6;
+            --color-primary-dark: #1d4ed8;
+            --color-primary-bg: #eff6ff;
+
+            --color-accent: #10b981;
+            --color-accent-light: #34d399;
+            --color-accent-bg: #ecfdf5;
+            --color-accent-dark: #059669;
+
+            --color-warm: #f59e0b;
+            --color-warm-bg: #fffbeb;
+            --color-coral: #f43f5e;
+            --color-coral-bg: #fff1f2;
+
+            --color-purple: #8b5cf6;
+            --color-purple-bg: #f5f3ff;
+
+            --font-display: 'Fraunces', Georgia, serif;
+            --font-body: 'DM Sans', -apple-system, sans-serif;
+
+            --shadow-sm: 0 1px 2px rgba(15, 20, 25, 0.05);
+            --shadow-md: 0 4px 12px rgba(15, 20, 25, 0.08);
+            --shadow-lg: 0 12px 40px rgba(15, 20, 25, 0.12);
+
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: 15px;
+            line-height: 1.5;
+            color: var(--color-charcoal);
+            background: var(--color-snow);
+            padding: 40px 20px;
+        }
+
+        /* Modal Overlay */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 20, 25, 0.6);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        /* Modal Container */
+        .modal {
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            width: 100%;
+            max-width: 540px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* Modal Header */
+        .modal-header {
+            padding: 32px 32px 0;
+            text-align: center;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-sm);
+            background: none;
+            border: none;
+            color: var(--color-slate);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .modal-close:hover {
+            background: var(--color-snow);
+            color: var(--color-charcoal);
+        }
+
+        .stripe-logo {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--color-purple) 0%, #6d28d9 100%);
+            border-radius: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.3);
+        }
+
+        .stripe-logo-text {
+            font-family: var(--font-display);
+            font-size: 28px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .modal-title {
+            font-family: var(--font-display);
+            font-size: 26px;
+            font-weight: 600;
+            color: var(--color-midnight);
+            margin-bottom: 12px;
+        }
+
+        .modal-subtitle {
+            font-size: 15px;
+            color: var(--color-slate);
+            line-height: 1.6;
+            margin-bottom: 28px;
+        }
+
+        /* Modal Body */
+        .modal-body {
+            padding: 0 32px 32px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        /* Info Section */
+        .info-section {
+            background: var(--color-purple-bg);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            margin-bottom: 28px;
+        }
+
+        .info-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+            margin-bottom: 12px;
+        }
+
+        .info-icon {
+            font-size: 20px;
+        }
+
+        .info-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .info-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 14px;
+            color: var(--color-slate);
+            line-height: 1.6;
+        }
+
+        .info-list li::before {
+            content: '✓';
+            color: var(--color-purple);
+            font-weight: 700;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        /* Requirements Checklist */
+        .requirements-section {
+            margin-bottom: 28px;
+        }
+
+        .section-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--color-charcoal);
+            margin-bottom: 16px;
+        }
+
+        .requirements-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .requirement-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 16px;
+            background: var(--color-snow);
+            border-radius: var(--radius-md);
+        }
+
+        .requirement-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .requirement-icon.id {
+            background: var(--color-primary-bg);
+        }
+
+        .requirement-icon.bank {
+            background: var(--color-accent-bg);
+        }
+
+        .requirement-icon.business {
+            background: var(--color-warm-bg);
+        }
+
+        .requirement-content {
+            flex: 1;
+        }
+
+        .requirement-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-charcoal);
+            margin-bottom: 2px;
+        }
+
+        .requirement-description {
+            font-size: 13px;
+            color: var(--color-mist);
+        }
+
+        /* Connect Button */
+        .connect-btn {
+            width: 100%;
+            padding: 16px 24px;
+            background: var(--color-purple);
+            color: white;
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 600;
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.2s ease;
+            margin-bottom: 16px;
+        }
+
+        .connect-btn:hover {
+            background: #7c3aed;
+            box-shadow: 0 4px 16px rgba(139, 92, 246, 0.4);
+        }
+
+        .connect-btn-icon {
+            font-size: 20px;
+        }
+
+        /* Security Note */
+        .security-note {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px;
+            background: var(--color-snow);
+            border-radius: var(--radius-md);
+            font-size: 13px;
+            color: var(--color-slate);
+            margin-bottom: 20px;
+        }
+
+        .security-note-icon {
+            font-size: 16px;
+        }
+
+        /* Benefits Section */
+        .benefits-section {
+            background: var(--color-accent-bg);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .benefits-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--color-accent-dark);
+            margin-bottom: 12px;
+        }
+
+        .benefits-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .benefits-list li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            color: var(--color-slate);
+        }
+
+        .benefits-list li::before {
+            content: '●';
+            color: var(--color-accent);
+            font-size: 12px;
+        }
+
+        /* Skip Link */
+        .skip-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 12px;
+            background: none;
+            border: none;
+            color: var(--color-slate);
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .skip-link:hover {
+            color: var(--color-charcoal);
+            text-decoration: underline;
+        }
+
+        /* Help Link */
+        .help-section {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid var(--color-cloud);
+        }
+
+        .help-text {
+            font-size: 13px;
+            color: var(--color-mist);
+        }
+
+        .help-link {
+            color: var(--color-primary);
+            text-decoration: none;
+        }
+
+        .help-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Badge */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            background: var(--color-warm-bg);
+            color: var(--color-warm);
+        }
+
+        @media (max-width: 640px) {
+            .modal {
+                max-width: 100%;
+            }
+
+            .modal-header {
+                padding: 24px 24px 0;
+            }
+
+            .modal-body {
+                padding: 0 24px 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="modal-overlay">
+        <div class="modal">
+            <button class="modal-close" aria-label="Close">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 6L6 18M6 6l12 12"/>
+                </svg>
+            </button>
+
+            <!-- Header -->
+            <div class="modal-header">
+                <div class="stripe-logo">
+                    <span class="stripe-logo-text">S</span>
+                </div>
+                <h2 class="modal-title">Connect with Stripe</h2>
+                <p class="modal-subtitle">
+                    Set up secure payouts to receive rent payments directly to your bank account
+                </p>
+            </div>
+
+            <!-- Body -->
+            <div class="modal-body">
+                <!-- Why Stripe Section -->
+                <div class="info-section">
+                    <div class="info-title">
+                        <span class="info-icon">ℹ️</span>
+                        Why Stripe is required
+                    </div>
+                    <ul class="info-list">
+                        <li>Secure, PCI-compliant payment processing</li>
+                        <li>Fast direct deposits to your bank account</li>
+                        <li>Automatic rent collection and tracking</li>
+                        <li>Protection against fraud and chargebacks</li>
+                    </ul>
+                </div>
+
+                <!-- Requirements Checklist -->
+                <div class="requirements-section">
+                    <h3 class="section-title">What you'll need</h3>
+                    <div class="requirements-list">
+                        <div class="requirement-item">
+                            <div class="requirement-icon id">🆔</div>
+                            <div class="requirement-content">
+                                <div class="requirement-title">Government-issued ID</div>
+                                <div class="requirement-description">Driver's license, passport, or state ID</div>
+                            </div>
+                        </div>
+                        <div class="requirement-item">
+                            <div class="requirement-icon bank">🏦</div>
+                            <div class="requirement-content">
+                                <div class="requirement-title">Bank Account</div>
+                                <div class="requirement-description">Routing and account numbers for deposits</div>
+                            </div>
+                        </div>
+                        <div class="requirement-item">
+                            <div class="requirement-icon business">📋</div>
+                            <div class="requirement-content">
+                                <div class="requirement-title">Business Information</div>
+                                <div class="requirement-description">Legal name, SSN or EIN, and address <span class="badge">Optional</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Benefits Section -->
+                <div class="benefits-section">
+                    <div class="benefits-title">What happens next?</div>
+                    <ul class="benefits-list">
+                        <li>Complete Stripe's secure onboarding (5-10 minutes)</li>
+                        <li>Verify your identity and bank account</li>
+                        <li>Start receiving automatic payouts</li>
+                        <li>Track all your earnings in one place</li>
+                    </ul>
+                </div>
+
+                <!-- Connect Button -->
+                <button class="connect-btn">
+                    <span class="connect-btn-icon">🔗</span>
+                    Connect with Stripe
+                </button>
+
+                <!-- Security Note -->
+                <div class="security-note">
+                    <span class="security-note-icon">🔒</span>
+                    <span>Your data is encrypted and securely processed by Stripe</span>
+                </div>
+
+                <!-- Skip Link -->
+                <a href="#" class="skip-link">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 18l6-6-6-6"/>
+                    </svg>
+                    I'll do this later
+                </a>
+
+                <!-- Help Section -->
+                <div class="help-section">
+                    <p class="help-text">
+                        Need help? <a href="#" class="help-link">View setup guide</a> or <a href="#" class="help-link">contact support</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Close button
+        document.querySelector('.modal-close').addEventListener('click', function() {
+            console.log('Modal closed');
+        });
+
+        // Connect button - would open Stripe OAuth flow
+        document.querySelector('.connect-btn').addEventListener('click', function() {
+            console.log('Opening Stripe Connect...');
+            // In production, this would open:
+            // window.open('https://connect.stripe.com/oauth/authorize?...');
+        });
+
+        // Skip link
+        document.querySelector('.skip-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log('User skipped Stripe setup');
+        });
+
+        // Help links
+        document.querySelectorAll('.help-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('Help clicked:', this.textContent);
+            });
+        });
+    </script>
+</body>
+</html>
