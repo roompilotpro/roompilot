@@ -13,11 +13,20 @@ export * from './cards'
 // Layout
 export * from './layout'
 
+// Navigation
+export * from './navigation'
+
+// Feedback
+export * from './feedback'
+
+// Data Display
+export * from './data-display'
+
+// Auth
+export * from './auth'
+
 // Future exports will be added as components are implemented:
-// export * from './navigation'
-// export * from './feedback'
 // export * from './modals'
-// export * from './data-display'
 // export * from './search'
 // export * from './map'
 // export * from './messaging'

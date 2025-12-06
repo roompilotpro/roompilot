@@ -14,6 +14,26 @@ import TrustSafetyPage from '../pages/public/TrustSafetyPage'
 import PrivacyPage from '../pages/public/PrivacyPage'
 import TermsPage from '../pages/public/TermsPage'
 
+// Auth pages
+import {
+  LoginPage,
+  SignupPage,
+  SignupFormPage,
+  ForgotPasswordPage,
+  ResetPasswordPage,
+  OnboardingRenterPage,
+  OnboardingHostPage,
+} from '../pages/auth'
+
+// Landlord pages
+import {
+  LandlordDashboardPage,
+  PropertiesListPage,
+  PropertyDetailPage,
+  AddPropertyPage,
+  AddRoomPage,
+} from '../pages/landlord'
+
 // Error pages
 import NotFoundPage from '../pages/error/NotFoundPage'
 import ServerErrorPage from '../pages/error/ServerErrorPage'
@@ -38,6 +58,22 @@ function AppRouter() {
           <Route path={ROUTES.PRIVACY} element={<PrivacyPage />} />
           <Route path={ROUTES.TERMS} element={<TermsPage />} />
         </Route>
+
+        {/* Auth pages (standalone - no layout wrapper) */}
+        <Route path={ROUTES.LOGIN} element={<LoginPage />} />
+        <Route path={ROUTES.SIGNUP} element={<SignupPage />} />
+        <Route path={ROUTES.SIGNUP_FORM} element={<SignupFormPage />} />
+        <Route path={ROUTES.FORGOT_PASSWORD} element={<ForgotPasswordPage />} />
+        <Route path={ROUTES.RESET_PASSWORD} element={<ResetPasswordPage />} />
+        <Route path={ROUTES.ONBOARDING_RENTER} element={<OnboardingRenterPage />} />
+        <Route path={ROUTES.ONBOARDING_HOST} element={<OnboardingHostPage />} />
+
+        {/* Landlord pages (AppShell layout is in each page) */}
+        <Route path={ROUTES.LANDLORD.DASHBOARD} element={<LandlordDashboardPage />} />
+        <Route path={ROUTES.LANDLORD.PROPERTIES} element={<PropertiesListPage />} />
+        <Route path={ROUTES.LANDLORD.PROPERTY_NEW} element={<AddPropertyPage />} />
+        <Route path={ROUTES.LANDLORD.PROPERTY_DETAIL} element={<PropertyDetailPage />} />
+        <Route path={ROUTES.LANDLORD.ROOM_NEW} element={<AddRoomPage />} />
 
         {/* Error pages (no layout) */}
         <Route path={ROUTES.ERROR} element={<ServerErrorPage />} />

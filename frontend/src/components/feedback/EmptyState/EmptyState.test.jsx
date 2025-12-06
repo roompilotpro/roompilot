@@ -16,12 +16,7 @@ describe('EmptyState', () => {
 
   // Description
   it('renders description when provided', () => {
-    render(
-      <EmptyState
-        title="No results"
-        description="Try adjusting your filters"
-      />
-    )
+    render(<EmptyState title="No results" description="Try adjusting your filters" />)
     expect(screen.getByText('Try adjusting your filters')).toBeInTheDocument()
   })
 
@@ -49,10 +44,7 @@ describe('EmptyState', () => {
 
   it('renders custom icon element', () => {
     const { container } = render(
-      <EmptyState
-        title="No results"
-        icon={<img src="/icon.svg" alt="" />}
-      />
+      <EmptyState title="No results" icon={<img src="/icon.svg" alt="" />} />
     )
     // Icon container is aria-hidden, so use querySelector
     expect(container.querySelector('img')).toBeInTheDocument()
@@ -60,12 +52,7 @@ describe('EmptyState', () => {
 
   // Action
   it('renders action when provided', () => {
-    render(
-      <EmptyState
-        title="No results"
-        action={<button>Add item</button>}
-      />
-    )
+    render(<EmptyState title="No results" action={<button>Add item</button>} />)
     expect(screen.getByRole('button', { name: 'Add item' })).toBeInTheDocument()
   })
 

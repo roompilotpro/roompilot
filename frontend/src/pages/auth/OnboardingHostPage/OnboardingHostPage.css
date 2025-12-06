@@ -1,0 +1,249 @@
+/* OnboardingHostPage styles */
+
+.onboarding-host__content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.onboarding-host__card {
+  background: var(--color-white);
+  border-radius: 16px;
+  padding: 2.5rem;
+  box-shadow: 0 4px 6px rgba(15, 20, 25, 0.1), 0 2px 4px rgba(15, 20, 25, 0.06);
+  margin-bottom: 2rem;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.onboarding-host__title {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-midnight);
+  margin-bottom: 0.5rem;
+}
+
+.onboarding-host__subtitle {
+  color: var(--color-slate);
+  font-size: 1.125rem;
+  margin-bottom: 2rem;
+}
+
+.onboarding-host__btn-group {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.onboarding-host__btn-group .btn {
+  flex: 1;
+}
+
+/* Stripe Card */
+.onboarding-host__stripe-card {
+  background: linear-gradient(135deg, #635bff 0%, #4b43c8 100%);
+  color: var(--color-white);
+  padding: 2rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+}
+
+.onboarding-host__stripe-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.onboarding-host__stripe-logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.onboarding-host__stripe-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.onboarding-host__stripe-card p {
+  opacity: 0.9;
+  line-height: 1.6;
+  margin-bottom: 0.5rem;
+}
+
+.onboarding-host__stripe-benefits {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0;
+}
+
+.onboarding-host__stripe-benefits li {
+  padding: 0.5rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.onboarding-host__skip {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.onboarding-host__skip button {
+  background: none;
+  border: none;
+  color: var(--color-slate);
+  padding: 1rem;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 1rem;
+}
+
+.onboarding-host__skip button:hover {
+  color: var(--color-primary);
+}
+
+/* Option Cards */
+.onboarding-host__option-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.onboarding-host__option-card {
+  padding: 1.5rem;
+  border: 2px solid var(--color-cloud);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.onboarding-host__option-card:hover {
+  border-color: var(--color-primary);
+  background: var(--color-primary-bg);
+}
+
+.onboarding-host__option-card--selected {
+  border-color: var(--color-primary);
+  background: var(--color-primary-bg);
+}
+
+.onboarding-host__option-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.onboarding-host__option-title {
+  font-weight: 600;
+  color: var(--color-midnight);
+  margin-bottom: 0.25rem;
+}
+
+.onboarding-host__option-desc {
+  font-size: 0.875rem;
+  color: var(--color-slate);
+}
+
+.onboarding-host__property-fields {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 2px solid var(--color-cloud);
+  animation: fadeIn 0.3s ease;
+}
+
+/* Completion Screen */
+.onboarding-host__completion {
+  text-align: center;
+  padding: 3rem 2rem;
+}
+
+.onboarding-host__celebration {
+  font-size: 5rem;
+  margin-bottom: 1.5rem;
+  animation: bounce 1s ease infinite;
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.onboarding-host__completion-title {
+  font-family: var(--font-display);
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--color-midnight);
+  margin-bottom: 1rem;
+}
+
+.onboarding-host__completion-text {
+  font-size: 1.125rem;
+  color: var(--color-slate);
+  margin-bottom: 2rem;
+}
+
+.onboarding-host__next-steps {
+  background: var(--color-snow);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 2rem 0;
+  text-align: left;
+}
+
+.onboarding-host__next-steps h3 {
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--color-midnight);
+}
+
+.onboarding-host__next-steps ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.onboarding-host__next-steps li {
+  padding: 0.75rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--color-slate);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .onboarding-host__option-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .onboarding-host__btn-group {
+    flex-direction: column;
+  }
+
+  .onboarding-host__card {
+    padding: 2rem 1.5rem;
+  }
+
+  .onboarding-host__title {
+    font-size: 1.625rem;
+  }
+}

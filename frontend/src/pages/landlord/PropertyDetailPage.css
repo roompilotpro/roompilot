@@ -1,0 +1,432 @@
+.property-detail-content {
+  padding: 32px;
+}
+
+/* Breadcrumb */
+.property-breadcrumb {
+  margin-bottom: 24px;
+}
+
+/* Property Hero */
+.property-hero {
+  display: grid;
+  grid-template-columns: 400px 1fr;
+  gap: 32px;
+  margin-bottom: 32px;
+}
+
+.property-hero-image {
+  height: 280px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.property-placeholder-large {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 80px;
+  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+}
+
+.property-hero-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.property-hero-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.property-hero-stat {
+  background: var(--color-white);
+  padding: 24px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-cloud);
+  text-align: center;
+}
+
+.property-hero-stat-value {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--color-midnight);
+  margin-bottom: 4px;
+}
+
+.property-hero-stat-label {
+  font-size: 13px;
+  color: var(--color-mist);
+}
+
+/* Header Actions */
+.property-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Tabs */
+.property-tabs {
+  margin-bottom: 24px;
+}
+
+/* Tab Content */
+.property-tab-content {
+  min-height: 400px;
+}
+
+/* Overview Tab */
+.property-overview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.property-about-card {
+  grid-column: 1 / -1;
+}
+
+.property-description {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--color-charcoal);
+  margin: 0;
+}
+
+/* Amenities */
+.amenities-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+}
+
+.amenity-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  background: var(--color-snow);
+  border-radius: var(--radius-md);
+}
+
+.amenity-icon {
+  font-size: 20px;
+}
+
+.amenity-label {
+  font-size: 14px;
+  color: var(--color-charcoal);
+}
+
+/* House Rules */
+.rules-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.rule-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: var(--color-snow);
+  border-radius: var(--radius-md);
+}
+
+.rule-icon {
+  font-size: 20px;
+}
+
+.rule-text {
+  font-size: 14px;
+  color: var(--color-charcoal);
+}
+
+/* Rooms Tab */
+.rooms-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 24px;
+}
+
+.room-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.room-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.room-card-name {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--color-charcoal);
+  margin: 0 0 4px;
+}
+
+.room-card-type {
+  font-size: 13px;
+  color: var(--color-mist);
+  margin: 0;
+}
+
+.room-card-details {
+  display: flex;
+  gap: 24px;
+}
+
+.room-card-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.room-card-detail-label {
+  font-size: 12px;
+  color: var(--color-mist);
+}
+
+.room-card-detail-value {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-charcoal);
+}
+
+.room-card-tenant {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: var(--color-snow);
+  border-radius: var(--radius-md);
+}
+
+.room-card-tenant-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.room-card-tenant-name {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-charcoal);
+}
+
+.room-card-tenant-since {
+  font-size: 12px;
+  color: var(--color-mist);
+}
+
+.room-card-vacant {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  background: var(--color-warm-bg);
+  border-radius: var(--radius-md);
+}
+
+.room-card-vacant-text {
+  font-size: 14px;
+  color: var(--color-warm);
+  font-weight: 500;
+}
+
+/* Tenants Tab */
+.tenants-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 24px;
+}
+
+.tenant-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.tenant-card-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.tenant-card-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.tenant-card-name {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--color-charcoal);
+  margin: 0 0 4px;
+}
+
+.tenant-card-room {
+  font-size: 13px;
+  color: var(--color-mist);
+  margin: 0;
+}
+
+.tenant-card-details {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  padding: 16px;
+  background: var(--color-snow);
+  border-radius: var(--radius-md);
+}
+
+.tenant-card-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tenant-card-detail-label {
+  font-size: 12px;
+  color: var(--color-mist);
+}
+
+.tenant-card-detail-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-charcoal);
+}
+
+.tenant-card-actions {
+  display: flex;
+  gap: 12px;
+}
+
+/* Applications Tab */
+.applications-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.application-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.application-card-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.application-card-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.application-card-name {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--color-charcoal);
+  margin: 0 0 4px;
+}
+
+.application-card-room {
+  font-size: 14px;
+  color: var(--color-slate);
+  margin: 0 0 2px;
+}
+
+.application-card-date {
+  font-size: 13px;
+  color: var(--color-mist);
+  margin: 0;
+}
+
+.application-card-contact {
+  display: flex;
+  gap: 24px;
+  padding: 12px;
+  background: var(--color-snow);
+  border-radius: var(--radius-md);
+}
+
+.application-card-contact-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--color-slate);
+}
+
+.application-card-contact-item svg {
+  color: var(--color-mist);
+}
+
+.application-card-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+/* Maintenance Tab */
+.maintenance-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .property-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .property-hero-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .property-detail-content {
+    padding: 20px;
+  }
+
+  .property-hero-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .property-overview-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .rooms-grid,
+  .tenants-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .tenant-card-details {
+    grid-template-columns: 1fr;
+  }
+
+  .application-card-contact {
+    flex-direction: column;
+    gap: 12px;
+  }
+}

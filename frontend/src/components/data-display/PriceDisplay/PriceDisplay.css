@@ -1,0 +1,80 @@
+/* PriceDisplay - Currency display */
+
+.price-display {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-1);
+  font-family: var(--font-family);
+}
+
+/* Amount */
+.price-display__amount {
+  font-weight: var(--font-bold);
+  color: var(--color-gray-900);
+}
+
+/* Period */
+.price-display__period {
+  font-weight: var(--font-normal);
+  color: var(--color-gray-500);
+}
+
+/* Original price (strikethrough) */
+.price-display__original {
+  font-weight: var(--font-normal);
+  color: var(--color-gray-400);
+  text-decoration: line-through;
+}
+
+/* Discount styling */
+.price-display--has-discount .price-display__amount {
+  color: var(--color-error-600);
+}
+
+/* ====================
+   Size: Small
+   ==================== */
+.price-display--sm .price-display__amount {
+  font-size: var(--text-sm);
+}
+
+.price-display--sm .price-display__period,
+.price-display--sm .price-display__original {
+  font-size: var(--text-xs);
+}
+
+/* ====================
+   Size: Medium (default)
+   ==================== */
+.price-display--md .price-display__amount {
+  font-size: var(--text-lg);
+}
+
+.price-display--md .price-display__period,
+.price-display--md .price-display__original {
+  font-size: var(--text-sm);
+}
+
+/* ====================
+   Size: Large
+   ==================== */
+.price-display--lg .price-display__amount {
+  font-size: var(--text-2xl);
+}
+
+.price-display--lg .price-display__period,
+.price-display--lg .price-display__original {
+  font-size: var(--text-base);
+}
+
+/* ====================
+   Size: Extra Large
+   ==================== */
+.price-display--xl .price-display__amount {
+  font-size: var(--text-3xl);
+}
+
+.price-display--xl .price-display__period,
+.price-display--xl .price-display__original {
+  font-size: var(--text-lg);
+}

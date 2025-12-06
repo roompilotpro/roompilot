@@ -14,16 +14,7 @@ import './EmptyState.css'
  * @param {string} [className] - Additional CSS classes
  */
 const EmptyState = forwardRef(function EmptyState(
-  {
-    icon,
-    title,
-    description,
-    action,
-    size = 'md',
-    bordered = false,
-    className,
-    ...props
-  },
+  { icon, title, description, action, size = 'md', bordered = false, className, ...props },
   ref
 ) {
   return (
@@ -45,13 +36,9 @@ const EmptyState = forwardRef(function EmptyState(
 
       <h3 className="empty-state__title">{title}</h3>
 
-      {description && (
-        <p className="empty-state__description">{description}</p>
-      )}
+      {description && <p className="empty-state__description">{description}</p>}
 
-      {action && (
-        <div className="empty-state__action">{action}</div>
-      )}
+      {action && <div className="empty-state__action">{action}</div>}
     </div>
   )
 })

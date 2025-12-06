@@ -1,0 +1,5 @@
+export { default as LandlordDashboardPage } from './LandlordDashboardPage'
+export { default as PropertiesListPage } from './PropertiesListPage'
+export { default as PropertyDetailPage } from './PropertyDetailPage'
+export { default as AddPropertyPage } from './AddPropertyPage'
+export { default as AddRoomPage } from './AddRoomPage'
