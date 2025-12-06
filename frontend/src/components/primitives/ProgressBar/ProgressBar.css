@@ -34,7 +34,7 @@
    SIZE VARIANTS
    ============================================ */
 .progress-bar--sm .progress-bar__track {
-  height: 4px;
+  height: 6px;
 }
 
 .progress-bar--sm .progress-bar__label {

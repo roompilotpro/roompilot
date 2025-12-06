@@ -224,13 +224,12 @@ function AddPropertyPage() {
                     <span className="rule-toggle-icon">🚭</span>
                     <div>
                       <span className="rule-toggle-label">Smoking Allowed</span>
-                      <span className="rule-toggle-description">Permit smoking in designated areas</span>
+                      <span className="rule-toggle-description">
+                        Permit smoking in designated areas
+                      </span>
                     </div>
                   </div>
-                  <Toggle
-                    checked={formData.rules.smoking}
-                    onChange={() => toggleRule('smoking')}
-                  />
+                  <Toggle checked={formData.rules.smoking} onChange={() => toggleRule('smoking')} />
                 </div>
 
                 <div className="rule-toggle">
@@ -241,10 +240,7 @@ function AddPropertyPage() {
                       <span className="rule-toggle-description">Allow tenants to have pets</span>
                     </div>
                   </div>
-                  <Toggle
-                    checked={formData.rules.pets}
-                    onChange={() => toggleRule('pets')}
-                  />
+                  <Toggle checked={formData.rules.pets} onChange={() => toggleRule('pets')} />
                 </div>
 
                 <div className="rule-toggle">
@@ -255,10 +251,7 @@ function AddPropertyPage() {
                       <span className="rule-toggle-description">Allow overnight guests</span>
                     </div>
                   </div>
-                  <Toggle
-                    checked={formData.rules.guests}
-                    onChange={() => toggleRule('guests')}
-                  />
+                  <Toggle checked={formData.rules.guests} onChange={() => toggleRule('guests')} />
                 </div>
 
                 <div className="rule-toggle">
@@ -266,7 +259,9 @@ function AddPropertyPage() {
                     <span className="rule-toggle-icon">🔇</span>
                     <div>
                       <span className="rule-toggle-label">Quiet Hours</span>
-                      <span className="rule-toggle-description">Enforce quiet hours for shared spaces</span>
+                      <span className="rule-toggle-description">
+                        Enforce quiet hours for shared spaces
+                      </span>
                     </div>
                   </div>
                   <Toggle
@@ -330,7 +325,8 @@ function AddPropertyPage() {
                   <div className="review-item">
                     <span className="review-label">Type</span>
                     <span className="review-value">
-                      {propertyTypeOptions.find((o) => o.value === formData.propertyType)?.label || 'Not set'}
+                      {propertyTypeOptions.find((o) => o.value === formData.propertyType)?.label ||
+                        'Not set'}
                     </span>
                   </div>
                   <div className="review-item full-width">
@@ -412,11 +408,7 @@ function AddPropertyPage() {
     >
       <div className="add-property-content">
         {/* Progress Steps */}
-        <ProgressSteps
-          steps={STEPS}
-          currentStep={currentStep}
-          className="add-property-progress"
-        />
+        <ProgressSteps steps={STEPS} currentStep={currentStep} className="add-property-progress" />
 
         {/* Form Card */}
         <Card className="add-property-card">

@@ -33,7 +33,7 @@
 .avatar--md {
   width: var(--avatar-md);
   height: var(--avatar-md);
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .avatar--lg {

@@ -22,11 +22,16 @@ export * from './feedback'
 // Data Display
 export * from './data-display'
 
+// Tables & Lists
+export * from './tables'
+
 // Auth
 export * from './auth'
 
+// Modals
+export * from './modals'
+
 // Future exports will be added as components are implemented:
-// export * from './modals'
 // export * from './search'
 // export * from './map'
 // export * from './messaging'

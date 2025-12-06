@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { ROUTES } from '../../router/routes'
 import { useLandlordLayout } from '../../hooks/useLandlordLayout'
 import { AppShell } from '../../components/layout'
-import { StatCard, Card, QuickActionCard, WalletCard, PropertyCard } from '../../components/cards'
+import { StatCard, Card, QuickActionCard, PropertyCard } from '../../components/cards'
 import { Button, Avatar, Badge, IconButton } from '../../components/primitives'
 import {
   mockProperties,
@@ -32,13 +32,27 @@ function LandlordDashboardPage() {
   const headerContent = (
     <div className="dashboard-header-actions">
       <IconButton label="Search" variant="ghost">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+        >
           <circle cx="11" cy="11" r="8" />
           <path d="M21 21l-4.35-4.35" />
         </svg>
       </IconButton>
       <IconButton label="Notifications" variant="ghost" className="notification-btn">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+        >
           <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9" />
           <path d="M13.73 21a2 2 0 01-3.46 0" />
         </svg>
@@ -47,7 +61,14 @@ function LandlordDashboardPage() {
       <Button
         variant="primary"
         leftIcon={
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+          >
             <path d="M12 5v14M5 12h14" />
           </svg>
         }
@@ -124,12 +145,14 @@ function LandlordDashboardPage() {
                   <PropertyCard
                     key={property.id}
                     imageUrl={property.imageUrl}
+                    placeholderColor={property.placeholderColor}
                     name={property.name}
                     address={property.address}
                     occupiedRooms={property.occupiedRooms}
                     totalRooms={property.totalRooms}
-                    revenue={property.revenue}
+                    revenue={`$${property.revenue.toLocaleString()}/month`}
                     status={property.status}
+                    statusLabel={property.statusLabel}
                     onView={() => navigate(`/landlord/properties/${property.id}`)}
                     onMenuClick={() => {}}
                   />
@@ -215,24 +238,53 @@ function LandlordDashboardPage() {
           {/* Right Column */}
           <div className="dashboard-right">
             {/* Payout Summary */}
-            <WalletCard
-              balance={mockWalletBalance.available}
-              label="Available for payout"
-              onAddFunds={() => navigate(ROUTES.LANDLORD.PAYOUTS)}
-              className="payout-card"
-            />
+            <div className="payout-card">
+              <div className="payout-content">
+                <div className="payout-label">Available for payout</div>
+                <div className="payout-value">
+                  $
+                  {mockWalletBalance.available.toLocaleString('en-US', {
+                    minimumFractionDigits: 2,
+                  })}
+                </div>
+                <div className="payout-details">
+                  <div className="payout-detail">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    >
+                      <path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" />
+                    </svg>
+                    Next payout: {mockWalletBalance.nextPayout}
+                  </div>
+                </div>
+                <button className="payout-btn" onClick={() => navigate(ROUTES.LANDLORD.PAYOUTS)}>
+                  View Payout Details
+                </button>
+              </div>
+            </div>
 
             {/* Pending Actions */}
             <Card title="Needs Attention" className="pending-card">
               <div className="pending-list">
                 {mockPendingActions.map((action) => (
                   <Link key={action.id} to={action.href} className="pending-item">
-                    <div className={`pending-icon ${action.icon === '📝' ? 'application' : action.icon === '💳' ? 'payment' : 'maintenance'}`}>
-                      {action.icon}
-                    </div>
+                    <div className={`pending-icon ${action.type}`}>{action.icon}</div>
                     <div className="pending-content">
                       <div className="pending-title">{action.title}</div>
                       <div className="pending-description">{action.description}</div>
+                      <div className="pending-meta">
+                        <span className="pending-time">{action.time}</span>
+                        {action.tag && (
+                          <span className={`pending-tag ${action.tag}`}>
+                            {action.tag === 'new' ? 'New' : 'Urgent'}
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </Link>
                 ))}
@@ -242,7 +294,7 @@ function LandlordDashboardPage() {
             {/* Automation Status */}
             <Card className="automation-card" padding="none">
               <div className="automation-header">
-                <span className="automation-title">Automation Status</span>
+                <span className="automation-title">🤖 Automation Status</span>
               </div>
               <div className="automation-stats">
                 <div className="automation-stat">
@@ -277,10 +329,26 @@ function LandlordDashboardPage() {
             {/* Quick Actions */}
             <Card title="Quick Actions" padding="none" className="quick-actions-card">
               <div className="quick-actions-grid">
-                <QuickActionCard icon="🏠" label="Add Room" onClick={() => navigate(ROUTES.LANDLORD.ROOM_NEW)} />
-                <QuickActionCard icon="👤" label="Add Tenant" onClick={() => navigate(ROUTES.LANDLORD.TENANTS)} />
-                <QuickActionCard icon="💬" label="Message" onClick={() => navigate(ROUTES.LANDLORD.MESSAGES)} />
-                <QuickActionCard icon="📄" label="Reports" onClick={() => navigate(ROUTES.LANDLORD.PAYOUTS)} />
+                <QuickActionCard
+                  icon="🏠"
+                  label="Add Room"
+                  onClick={() => navigate(ROUTES.LANDLORD.ROOM_NEW)}
+                />
+                <QuickActionCard
+                  icon="👤"
+                  label="Add Tenant"
+                  onClick={() => navigate(ROUTES.LANDLORD.TENANTS)}
+                />
+                <QuickActionCard
+                  icon="💬"
+                  label="Message"
+                  onClick={() => navigate(ROUTES.LANDLORD.MESSAGES)}
+                />
+                <QuickActionCard
+                  icon="📄"
+                  label="Reports"
+                  onClick={() => navigate(ROUTES.LANDLORD.PAYOUTS)}
+                />
               </div>
             </Card>
           </div>

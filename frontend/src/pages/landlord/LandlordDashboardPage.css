@@ -318,6 +318,37 @@
 .pending-description {
   font-size: 13px;
   color: var(--color-mist);
+  margin-bottom: 8px;
+}
+
+.pending-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pending-time {
+  font-size: 12px;
+  color: var(--color-mist);
+}
+
+.pending-tag {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.pending-tag.urgent {
+  background: var(--color-coral-bg);
+  color: var(--color-coral);
+}
+
+.pending-tag.new {
+  background: var(--color-primary-bg);
+  color: var(--color-primary);
 }
 
 /* Automation Card */
@@ -417,6 +448,58 @@
 /* Payout Card */
 .payout-card {
   background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-dark) 100%);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.payout-content {
+  padding: 24px;
+  color: white;
+}
+
+.payout-label {
+  font-size: 13px;
+  opacity: 0.8;
+  margin-bottom: 4px;
+}
+
+.payout-value {
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.payout-details {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 20px;
+}
+
+.payout-detail {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.payout-btn {
+  width: 100%;
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  border-radius: var(--radius-md);
+  color: white;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.payout-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
 }
 
 /* Responsive */

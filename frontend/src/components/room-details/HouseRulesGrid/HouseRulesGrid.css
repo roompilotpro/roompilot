@@ -1,0 +1,51 @@
+/* HouseRulesGrid styles */
+
+.house-rules-grid {
+  padding: 32px 0;
+  border-bottom: 1px solid var(--color-cloud);
+}
+
+.house-rules-grid__title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--color-midnight);
+  margin-bottom: 20px;
+}
+
+.house-rules-grid__list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.house-rules-grid__item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  background: var(--color-snow);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  color: var(--color-charcoal);
+}
+
+.house-rules-grid__icon {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.house-rules-grid__item--allowed .house-rules-grid__icon {
+  color: var(--color-accent);
+}
+
+.house-rules-grid__item--not-allowed .house-rules-grid__icon {
+  color: var(--color-coral);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .house-rules-grid__list {
+    grid-template-columns: 1fr;
+  }
+}

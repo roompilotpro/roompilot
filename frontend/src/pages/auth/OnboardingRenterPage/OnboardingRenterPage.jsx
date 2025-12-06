@@ -292,18 +292,12 @@ function OnboardingRenterPage() {
             <div className="onboarding-renter__completion">
               <div className="onboarding-renter__celebration">🎉</div>
               <h2 className="onboarding-renter__completion-title">You're all set!</h2>
-              <p className="onboarding-renter__completion-text">
-                Time to find your perfect room
-              </p>
+              <p className="onboarding-renter__completion-text">Time to find your perfect room</p>
 
               <div className="onboarding-renter__cta-card">
                 <h3>Start browsing rooms</h3>
                 <p>We've got thousands of verified listings waiting for you</p>
-                <Button
-                  variant="white"
-                  size="lg"
-                  onClick={startSearching}
-                >
+                <Button variant="white" size="lg" onClick={startSearching}>
                   Start Searching
                 </Button>
               </div>

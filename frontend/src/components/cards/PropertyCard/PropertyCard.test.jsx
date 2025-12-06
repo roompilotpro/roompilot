@@ -24,7 +24,7 @@ describe('PropertyCard', () => {
 
   it('renders occupancy text', () => {
     render(<PropertyCard {...defaultProps} />)
-    expect(screen.getByText('8/10')).toBeInTheDocument()
+    expect(screen.getByText('8/10 rooms')).toBeInTheDocument()
   })
 
   it('renders revenue', () => {
@@ -43,23 +43,23 @@ describe('PropertyCard', () => {
 
   it('renders placeholder icon when no imageUrl', () => {
     const { container } = render(<PropertyCard {...defaultProps} />)
-    expect(container.querySelector('.property-card__image svg')).toBeInTheDocument()
+    expect(container.querySelector('.property-card__image span')).toBeInTheDocument()
   })
 
   // Status
   it('renders active status by default', () => {
     render(<PropertyCard {...defaultProps} />)
-    expect(screen.getByText('Active')).toBeInTheDocument()
+    expect(screen.getByText('All good')).toBeInTheDocument()
   })
 
   it('renders pending status', () => {
     render(<PropertyCard {...defaultProps} status="pending" />)
-    expect(screen.getByText('Pending')).toBeInTheDocument()
+    expect(screen.getByText('1 vacancy')).toBeInTheDocument()
   })
 
   it('renders issue status', () => {
     render(<PropertyCard {...defaultProps} status="issue" />)
-    expect(screen.getByText('Issue')).toBeInTheDocument()
+    expect(screen.getByText('1 late payment')).toBeInTheDocument()
   })
 
   // Actions
@@ -99,12 +99,12 @@ describe('PropertyCard', () => {
   // Occupancy edge cases
   it('handles zero rooms', () => {
     render(<PropertyCard {...defaultProps} occupiedRooms={0} totalRooms={0} />)
-    expect(screen.getByText('0/0')).toBeInTheDocument()
+    expect(screen.getByText('0/0 rooms')).toBeInTheDocument()
   })
 
   it('handles full occupancy', () => {
     render(<PropertyCard {...defaultProps} occupiedRooms={10} totalRooms={10} />)
-    expect(screen.getByText('10/10')).toBeInTheDocument()
+    expect(screen.getByText('10/10 rooms')).toBeInTheDocument()
   })
 
   // Custom className

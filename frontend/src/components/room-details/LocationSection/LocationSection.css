@@ -1,0 +1,109 @@
+/* LocationSection styles */
+
+.location-section {
+  padding: 32px 0;
+  border-bottom: 1px solid var(--color-cloud);
+}
+
+.location-section__title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--color-midnight);
+  margin-bottom: 20px;
+}
+
+/* Map placeholder */
+.location-section__map {
+  height: 280px;
+  background: linear-gradient(135deg, #e8f4f8 0%, #d4e8e4 50%, #e0ece0 100%);
+  border-radius: var(--radius-lg);
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.location-section__map-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(200, 210, 205, 0.4) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200, 210, 205, 0.4) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.location-section__map-circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 160px;
+  height: 160px;
+  background: rgba(37, 99, 235, 0.1);
+  border: 2px solid rgba(37, 99, 235, 0.2);
+  border-radius: 50%;
+}
+
+.location-section__map-marker {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -100%);
+}
+
+.location-section__map-marker-dot {
+  width: 48px;
+  height: 48px;
+  background: var(--color-primary);
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-lg);
+}
+
+.location-section__map-marker-icon {
+  transform: rotate(45deg);
+  color: white;
+  font-size: 20px;
+}
+
+/* Details */
+.location-section__details {
+  display: flex;
+  gap: 24px;
+}
+
+.location-section__detail {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.location-section__detail-icon {
+  font-size: 20px;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.location-section__detail-text {
+  font-size: 15px;
+  color: var(--color-slate);
+  line-height: 1.4;
+}
+
+.location-section__detail-title {
+  display: block;
+  color: var(--color-charcoal);
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .location-section__details {
+    flex-direction: column;
+    gap: 16px;
+  }
+}

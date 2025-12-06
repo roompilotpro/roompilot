@@ -6,7 +6,11 @@ import { AppShell } from '../../components/layout'
 import { Card, TenantCard, RequestCard } from '../../components/cards'
 import { Button, Avatar, Badge, IconButton } from '../../components/primitives'
 import { Tabs, Breadcrumb } from '../../components/navigation'
-import { mockProperties, mockApplications, mockMaintenanceRequests } from '../../data/mockLandlordData'
+import {
+  mockProperties,
+  mockApplications,
+  mockMaintenanceRequests,
+} from '../../data/mockLandlordData'
 import './PropertyDetailPage.css'
 
 function PropertyDetailPage() {
@@ -26,7 +30,11 @@ function PropertyDetailPage() {
   const tabs = [
     { id: 'overview', label: 'Overview' },
     { id: 'rooms', label: 'Rooms', badge: property.rooms?.length?.toString() },
-    { id: 'tenants', label: 'Tenants', badge: property.rooms?.filter((r) => r.tenant).length?.toString() },
+    {
+      id: 'tenants',
+      label: 'Tenants',
+      badge: property.rooms?.filter((r) => r.tenant).length?.toString(),
+    },
     { id: 'applications', label: 'Applications', badge: '2' },
     { id: 'maintenance', label: 'Maintenance', badge: '1' },
   ]
@@ -36,7 +44,14 @@ function PropertyDetailPage() {
       <Button
         variant="outline"
         leftIcon={
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
             <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" />
             <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
           </svg>
@@ -47,7 +62,14 @@ function PropertyDetailPage() {
       <Button
         variant="primary"
         leftIcon={
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+          >
             <path d="M12 5v14M5 12h14" />
           </svg>
         }
@@ -115,7 +137,9 @@ function PropertyDetailPage() {
                 <span className="property-hero-stat-label">Occupied</span>
               </div>
               <div className="property-hero-stat">
-                <span className="property-hero-stat-value">${property.revenue.toLocaleString()}</span>
+                <span className="property-hero-stat-value">
+                  ${property.revenue.toLocaleString()}
+                </span>
                 <span className="property-hero-stat-label">Monthly Revenue</span>
               </div>
               <div className="property-hero-stat">
@@ -200,7 +224,9 @@ function PropertyDetailPage() {
                           <Avatar name={room.tenant.name} size="sm" />
                           <div className="room-card-tenant-info">
                             <span className="room-card-tenant-name">{room.tenant.name}</span>
-                            <span className="room-card-tenant-since">Since {room.tenant.moveInDate}</span>
+                            <span className="room-card-tenant-since">
+                              Since {room.tenant.moveInDate}
+                            </span>
                           </div>
                           <Badge
                             variant={getPaymentStatusBadge(room.tenant.paymentStatus).variant}
@@ -241,7 +267,14 @@ function PropertyDetailPage() {
                           <p className="tenant-card-room">{room.name}</p>
                         </div>
                         <IconButton label="More options" variant="ghost">
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                          >
                             <circle cx="12" cy="12" r="1" />
                             <circle cx="19" cy="12" r="1" />
                             <circle cx="5" cy="12" r="1" />
@@ -301,14 +334,28 @@ function PropertyDetailPage() {
 
                     <div className="application-card-contact">
                       <div className="application-card-contact-item">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                        >
                           <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
                           <polyline points="22,6 12,13 2,6" />
                         </svg>
                         <span>{application.applicant.email}</span>
                       </div>
                       <div className="application-card-contact-item">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                        >
                           <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" />
                         </svg>
                         <span>{application.applicant.phone}</span>

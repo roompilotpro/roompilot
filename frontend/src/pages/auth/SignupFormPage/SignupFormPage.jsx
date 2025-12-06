@@ -70,7 +70,9 @@ function SignupFormPage() {
           RoomPilot
         </Link>
 
-        <div className={`signup-form-page__role-badge ${isHost ? 'signup-form-page__role-badge--host' : ''}`}>
+        <div
+          className={`signup-form-page__role-badge ${isHost ? 'signup-form-page__role-badge--host' : ''}`}
+        >
           <span>{isHost ? '🔑' : '🏠'}</span>
           <span>Signing up as a {isHost ? 'Host' : 'Renter'}</span>
         </div>
@@ -151,8 +153,7 @@ function SignupFormPage() {
                 required
                 label={
                   <>
-                    I agree to RoomPilot's{' '}
-                    <Link to={ROUTES.TERMS}>Terms of Service</Link> and{' '}
+                    I agree to RoomPilot's <Link to={ROUTES.TERMS}>Terms of Service</Link> and{' '}
                     <Link to={ROUTES.PRIVACY}>Privacy Policy</Link>
                   </>
                 }

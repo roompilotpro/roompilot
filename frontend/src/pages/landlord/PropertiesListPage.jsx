@@ -35,7 +35,8 @@ function PropertiesListPage() {
     if (occupancyFilter !== 'all') {
       const occupancyRate = property.occupiedRooms / property.totalRooms
       if (occupancyFilter === 'full' && occupancyRate < 1) return false
-      if (occupancyFilter === 'partial' && (occupancyRate === 0 || occupancyRate === 1)) return false
+      if (occupancyFilter === 'partial' && (occupancyRate === 0 || occupancyRate === 1))
+        return false
       if (occupancyFilter === 'vacant' && occupancyRate > 0) return false
     }
     return true
@@ -45,7 +46,14 @@ function PropertiesListPage() {
     <Button
       variant="primary"
       leftIcon={
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.5"
+        >
           <path d="M12 5v14M5 12h14" />
         </svg>
       }
@@ -97,7 +105,14 @@ function PropertiesListPage() {
               onClick={() => setViewMode('grid')}
               aria-label="Grid view"
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
                 <rect x="3" y="3" width="7" height="7" />
                 <rect x="14" y="3" width="7" height="7" />
                 <rect x="14" y="14" width="7" height="7" />
@@ -109,7 +124,14 @@ function PropertiesListPage() {
               onClick={() => setViewMode('list')}
               aria-label="List view"
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
                 <line x1="8" y1="6" x2="21" y2="6" />
                 <line x1="8" y1="12" x2="21" y2="12" />
                 <line x1="8" y1="18" x2="21" y2="18" />
@@ -150,7 +172,11 @@ function PropertiesListPage() {
                   onClick={() => navigate(`/landlord/properties/${property.id}`)}
                 >
                   <div className="property-grid-image">
-                    <div className={`property-placeholder img-${(parseInt(property.id, 10) % 3) + 1}`}>🏠</div>
+                    <div
+                      className={`property-placeholder img-${(parseInt(property.id, 10) % 3) + 1}`}
+                    >
+                      🏠
+                    </div>
                     <Badge variant={statusInfo.variant} className="property-status-badge">
                       {statusInfo.label}
                     </Badge>
@@ -166,7 +192,9 @@ function PropertiesListPage() {
                           <div className="occupancy-bar">
                             <div
                               className={`occupancy-bar-fill ${getOccupancyClass(property.occupiedRooms, property.totalRooms)}`}
-                              style={{ width: `${(property.occupiedRooms / property.totalRooms) * 100}%` }}
+                              style={{
+                                width: `${(property.occupiedRooms / property.totalRooms) * 100}%`,
+                              }}
                             />
                           </div>
                           <span className="occupancy-text">
@@ -176,7 +204,9 @@ function PropertiesListPage() {
                       </div>
                       <div className="property-grid-stat">
                         <span className="property-grid-stat-label">Revenue</span>
-                        <span className="property-grid-stat-value">${property.revenue.toLocaleString()}/mo</span>
+                        <span className="property-grid-stat-value">
+                          ${property.revenue.toLocaleString()}/mo
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -197,7 +227,11 @@ function PropertiesListPage() {
                   >
                     <div className="property-list-info">
                       <div className="property-list-image">
-                        <div className={`property-placeholder img-${(parseInt(property.id, 10) % 3) + 1}`}>🏠</div>
+                        <div
+                          className={`property-placeholder img-${(parseInt(property.id, 10) % 3) + 1}`}
+                        >
+                          🏠
+                        </div>
                       </div>
                       <div className="property-list-details">
                         <div className="property-list-name">{property.name}</div>
@@ -208,7 +242,9 @@ function PropertiesListPage() {
                       <div className="occupancy-bar">
                         <div
                           className={`occupancy-bar-fill ${getOccupancyClass(property.occupiedRooms, property.totalRooms)}`}
-                          style={{ width: `${(property.occupiedRooms / property.totalRooms) * 100}%` }}
+                          style={{
+                            width: `${(property.occupiedRooms / property.totalRooms) * 100}%`,
+                          }}
                         />
                       </div>
                       <div className="occupancy-text">
@@ -233,7 +269,14 @@ function PropertiesListPage() {
                           navigate(`/landlord/properties/${property.id}`)
                         }}
                       >
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                        >
                           <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
                           <circle cx="12" cy="12" r="3" />
                         </svg>
@@ -243,7 +286,14 @@ function PropertiesListPage() {
                         variant="ghost"
                         onClick={(e) => e.stopPropagation()}
                       >
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                        >
                           <circle cx="12" cy="12" r="1" />
                           <circle cx="19" cy="12" r="1" />
                           <circle cx="5" cy="12" r="1" />
@@ -261,7 +311,9 @@ function PropertiesListPage() {
           <div className="properties-empty">
             <div className="properties-empty-icon">🏠</div>
             <h3 className="properties-empty-title">No properties found</h3>
-            <p className="properties-empty-text">Try adjusting your filters or add a new property</p>
+            <p className="properties-empty-text">
+              Try adjusting your filters or add a new property
+            </p>
             <Button variant="primary" onClick={() => navigate(ROUTES.LANDLORD.PROPERTY_NEW)}>
               Add Property
             </Button>

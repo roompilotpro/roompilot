@@ -9,7 +9,9 @@
   background: var(--color-white);
   border-radius: 16px;
   padding: 2.5rem;
-  box-shadow: 0 4px 6px rgba(15, 20, 25, 0.1), 0 2px 4px rgba(15, 20, 25, 0.06);
+  box-shadow:
+    0 4px 6px rgba(15, 20, 25, 0.1),
+    0 2px 4px rgba(15, 20, 25, 0.06);
   margin-bottom: 2rem;
   animation: fadeIn 0.3s ease;
 }

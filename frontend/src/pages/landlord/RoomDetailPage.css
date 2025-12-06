@@ -1,0 +1,313 @@
+.room-detail-content {
+  padding: 0;
+}
+
+.breadcrumb {
+  color: var(--color-slate);
+  font-size: 14px;
+  margin-bottom: 24px;
+}
+
+.breadcrumb a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.breadcrumb-separator {
+  margin: 0 8px;
+}
+
+.room-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: 32px;
+}
+
+.room-title-section h1 {
+  font-family: var(--font-display);
+  font-size: 32px;
+  color: var(--color-midnight);
+  margin-bottom: 8px;
+}
+
+.room-meta {
+  color: var(--color-slate);
+  font-size: 15px;
+}
+
+.header-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.room-content-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+}
+
+.room-left-column,
+.room-right-column {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.card {
+  background: var(--color-white);
+  border-radius: 12px;
+  border: 1px solid var(--color-cloud);
+  padding: 24px;
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-midnight);
+  margin-bottom: 16px;
+}
+
+/* Photo Gallery */
+.photo-gallery {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.photo-item {
+  height: 200px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--color-primary-bg) 0%, var(--color-accent-bg) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+}
+
+.photo-item.large {
+  grid-column: 1 / -1;
+  height: 300px;
+  font-size: 64px;
+}
+
+/* Detail Rows */
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--color-cloud);
+}
+
+.detail-row:last-child {
+  border-bottom: none;
+}
+
+.detail-label {
+  color: var(--color-slate);
+  font-weight: 500;
+}
+
+.detail-value {
+  color: var(--color-midnight);
+  font-weight: 600;
+}
+
+/* Amenities */
+.amenities-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.amenity-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+  color: var(--color-midnight);
+}
+
+.amenity-icon {
+  font-size: 18px;
+}
+
+/* Tenant Section */
+.tenant-section {
+  display: flex;
+  gap: 16px;
+  align-items: start;
+  padding: 20px;
+  background: var(--color-snow);
+  border-radius: 8px;
+}
+
+.tenant-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--color-primary-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: var(--color-primary);
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.tenant-info {
+  flex: 1;
+}
+
+.tenant-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-midnight);
+  margin-bottom: 4px;
+}
+
+.tenant-meta {
+  color: var(--color-slate);
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.tenant-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.payment-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: var(--color-accent-bg);
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-accent);
+}
+
+/* Payment Table */
+.payment-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.payment-table thead {
+  background: var(--color-snow);
+}
+
+.payment-table th {
+  text-align: left;
+  padding: 12px;
+  border-bottom: 2px solid var(--color-cloud);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-slate);
+}
+
+.payment-table td {
+  padding: 12px;
+  border-bottom: 1px solid var(--color-cloud);
+  font-size: 14px;
+  color: var(--color-midnight);
+}
+
+.payment-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Form Elements */
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group:last-child {
+  margin-bottom: 0;
+}
+
+.form-label {
+  display: block;
+  font-weight: 600;
+  color: var(--color-midnight);
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--color-cloud);
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--color-midnight);
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.input-group {
+  display: flex;
+  gap: 12px;
+}
+
+.input-group .form-input {
+  flex: 1;
+}
+
+.editable-field {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rent-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-midnight);
+}
+
+.edit-btn {
+  padding: 4px 12px;
+  font-size: 12px;
+  background: transparent;
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-family: var(--font-body);
+}
+
+.edit-btn:hover {
+  background: var(--color-primary-bg);
+}
+
+.action-note {
+  font-size: 12px;
+  color: var(--color-slate);
+  margin-top: 8px;
+}
+
+@media (max-width: 1024px) {
+  .room-content-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .room-header {
+    flex-direction: column;
+    gap: 16px;
+  }
+}

@@ -4,7 +4,9 @@
   background: var(--color-white);
   border-radius: 16px;
   padding: 2.5rem 2rem;
-  box-shadow: 0 4px 6px rgba(15, 20, 25, 0.1), 0 2px 4px rgba(15, 20, 25, 0.06);
+  box-shadow:
+    0 4px 6px rgba(15, 20, 25, 0.1),
+    0 2px 4px rgba(15, 20, 25, 0.06);
   transition: all 0.3s ease;
   cursor: pointer;
   border: 2px solid transparent;
@@ -13,7 +15,9 @@
 
 .role-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 24px rgba(37, 99, 235, 0.15), 0 8px 16px rgba(37, 99, 235, 0.1);
+  box-shadow:
+    0 12px 24px rgba(37, 99, 235, 0.15),
+    0 8px 16px rgba(37, 99, 235, 0.1);
   border-color: var(--color-primary);
 }
 

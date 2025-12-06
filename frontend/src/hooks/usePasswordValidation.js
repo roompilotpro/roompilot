@@ -50,10 +50,8 @@ export function usePasswordValidation(password = '', confirmPassword = '') {
     const allRequirementsMet = Object.values(requirements).every(Boolean)
 
     // Check if basic requirements are met (length + one of each char type)
-    const basicRequirementsMet = requirements.length &&
-      requirements.uppercase &&
-      requirements.lowercase &&
-      requirements.number
+    const basicRequirementsMet =
+      requirements.length && requirements.uppercase && requirements.lowercase && requirements.number
 
     return {
       requirements,

@@ -8,8 +8,8 @@
   gap: var(--space-1);
   font-family: var(--font-body);
   font-weight: var(--font-semibold);
-  border-radius: var(--radius-sm);
-  padding: 2px 6px;
+  border-radius: 6px;
+  padding: 4px 8px;
 }
 
 .trend__arrow {
@@ -20,7 +20,7 @@
    SIZE VARIANTS
    ============================================ */
 .trend--sm {
-  font-size: 11px;
+  font-size: 12px;
 }
 
 .trend--sm .trend__arrow {

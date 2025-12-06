@@ -1,0 +1,110 @@
+/* SearchNavigation styles */
+
+.search-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-fixed);
+  height: var(--nav-height);
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--color-white);
+  border-bottom: 1px solid var(--color-cloud);
+}
+
+.search-nav__left {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.search-nav__logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.search-nav__logo-icon {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 18px;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+}
+
+.search-nav__logo-text {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--color-midnight);
+  letter-spacing: -0.02em;
+}
+
+.search-nav__search-bar {
+  /* Inherit styles from SearchBar */
+}
+
+.search-nav__right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.search-nav__link {
+  padding: 10px 16px;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-slate);
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-normal) var(--ease-out);
+}
+
+.search-nav__link:hover {
+  background: var(--color-snow);
+  color: var(--color-charcoal);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .search-nav__link {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .search-nav {
+    padding: 0 16px;
+  }
+
+  .search-nav__left {
+    gap: 16px;
+    flex: 1;
+  }
+
+  .search-nav__logo-text {
+    display: none;
+  }
+
+  .search-nav__search-bar {
+    flex: 1;
+  }
+
+  .search-nav__right {
+    gap: 4px;
+  }
+
+  .search-nav__right .btn {
+    padding: 8px 12px;
+  }
+}

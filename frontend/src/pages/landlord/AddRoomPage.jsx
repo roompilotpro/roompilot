@@ -6,8 +6,21 @@ import { AppShell } from '../../components/layout'
 import { Card } from '../../components/cards'
 import { Button } from '../../components/primitives'
 import { Breadcrumb } from '../../components/navigation'
-import { Input, Select, Textarea, Checkbox, Toggle, FileUpload, DatePicker } from '../../components/forms'
-import { bedTypeOptions, minimumStayOptions, roomAmenities, mockProperties } from '../../data/mockLandlordData'
+import {
+  Input,
+  Select,
+  Textarea,
+  Checkbox,
+  Toggle,
+  FileUpload,
+  DatePicker,
+} from '../../components/forms'
+import {
+  bedTypeOptions,
+  minimumStayOptions,
+  roomAmenities,
+  mockProperties,
+} from '../../data/mockLandlordData'
 import './AddRoomPage.css'
 
 function AddRoomPage() {
@@ -259,7 +272,8 @@ function AddRoomPage() {
           <section className="form-section">
             <h2 className="form-section-title">Room-Specific Amenities</h2>
             <p className="form-section-description">
-              Select amenities that are specific to this room (property amenities are already included)
+              Select amenities that are specific to this room (property amenities are already
+              included)
             </p>
 
             <div className="amenities-grid">

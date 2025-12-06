@@ -34,9 +34,7 @@ function ProgressSteps({ steps, currentStep, totalSteps, className }) {
                 isCompleted && 'progress-steps__step--completed'
               )}
             >
-              <div className="progress-steps__circle">
-                {isCompleted ? '✓' : stepNum}
-              </div>
+              <div className="progress-steps__circle">{isCompleted ? '✓' : stepNum}</div>
               <div className="progress-steps__label">{label}</div>
             </div>
           )

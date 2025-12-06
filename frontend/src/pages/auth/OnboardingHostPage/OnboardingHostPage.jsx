@@ -89,9 +89,7 @@ function OnboardingHostPage() {
         {currentStep === 1 && (
           <div className="onboarding-host__card">
             <h1 className="onboarding-host__title">Let's get you set up</h1>
-            <p className="onboarding-host__subtitle">
-              Tell us a bit about yourself to get started
-            </p>
+            <p className="onboarding-host__subtitle">Tell us a bit about yourself to get started</p>
 
             <form>
               <Input

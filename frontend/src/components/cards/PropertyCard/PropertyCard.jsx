@@ -9,12 +9,14 @@ import './PropertyCard.css'
 const PropertyCard = forwardRef(function PropertyCard(
   {
     imageUrl,
+    placeholderColor = 'blue',
     name,
     address,
     occupiedRooms = 0,
     totalRooms = 0,
     revenue,
     status = 'active',
+    statusLabel,
     onView,
     onMenuClick,
     className,
@@ -23,37 +25,37 @@ const PropertyCard = forwardRef(function PropertyCard(
   ref
 ) {
   const occupancyPercentage = totalRooms > 0 ? (occupiedRooms / totalRooms) * 100 : 0
-  const occupancyText = `${occupiedRooms}/${totalRooms}`
+  const occupancyText = `${occupiedRooms}/${totalRooms} rooms`
 
-  const statusLabels = {
-    active: 'Active',
-    pending: 'Pending',
-    issue: 'Issue',
+  // Parse revenue to separate value and period
+  const revenueValue = revenue ? revenue.replace('/month', '').replace('/mo', '') : ''
+  const revenuePeriod = '/month'
+
+  const defaultStatusLabels = {
+    active: 'All good',
+    pending: '1 vacancy',
+    issue: '1 late payment',
   }
 
   const statusMapping = {
     active: 'success',
-    pending: 'pending',
+    pending: 'warning',
     issue: 'error',
   }
+
+  const displayLabel = statusLabel || defaultStatusLabels[status]
 
   return (
     <article ref={ref} className={classNames('property-card', className)} {...props}>
       {/* Property Info Column */}
       <div className="property-card__info">
-        <div className="property-card__image">
-          {imageUrl ? (
-            <img src={imageUrl} alt={name} />
-          ) : (
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path
-                d="M3 21V7L12 2L21 7V21H15V14H9V21H3Z"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinejoin="round"
-              />
-            </svg>
+        <div
+          className={classNames(
+            'property-card__image',
+            `property-card__image--${placeholderColor}`
           )}
+        >
+          {imageUrl ? <img src={imageUrl} alt={name} /> : <span aria-hidden="true">🏠</span>}
         </div>
         <div className="property-card__details">
           <h3 className="property-card__name">{name}</h3>
@@ -70,8 +72,8 @@ const PropertyCard = forwardRef(function PropertyCard(
               occupancyPercentage >= 80
                 ? 'success'
                 : occupancyPercentage >= 50
-                  ? 'primary'
-                  : 'warning'
+                  ? 'warning'
+                  : 'danger'
             }
             size="sm"
           />
@@ -80,11 +82,14 @@ const PropertyCard = forwardRef(function PropertyCard(
       </div>
 
       {/* Revenue Column */}
-      <div className="property-card__revenue">{revenue}</div>
+      <div className="property-card__revenue">
+        <div className="property-card__revenue-value">{revenueValue}</div>
+        <div className="property-card__revenue-period">{revenuePeriod}</div>
+      </div>
 
       {/* Status Column */}
       <div className="property-card__status">
-        <StatusBadge status={statusMapping[status]}>{statusLabels[status]}</StatusBadge>
+        <StatusBadge status={statusMapping[status]}>{displayLabel}</StatusBadge>
       </div>
 
       {/* Actions Column */}
@@ -105,9 +110,9 @@ const PropertyCard = forwardRef(function PropertyCard(
         {onMenuClick && (
           <IconButton label="More options" onClick={onMenuClick} size="sm">
             <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-              <circle cx="10" cy="4" r="1.5" />
+              <circle cx="4" cy="10" r="1.5" />
               <circle cx="10" cy="10" r="1.5" />
-              <circle cx="10" cy="16" r="1.5" />
+              <circle cx="16" cy="10" r="1.5" />
             </svg>
           </IconButton>
         )}

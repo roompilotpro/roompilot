@@ -1,0 +1,10 @@
+// Room details components
+export { default as PhotoGallery } from './PhotoGallery'
+export { default as ListingHeader } from './ListingHeader'
+export { default as HostStrip } from './HostStrip'
+export { default as BookingCard } from './BookingCard'
+export { default as AmenitiesGrid } from './AmenitiesGrid'
+export { default as HouseRulesGrid } from './HouseRulesGrid'
+export { default as LocationSection } from './LocationSection'
+export { default as ReviewsSection } from './ReviewsSection'
+export { default as SimilarListings } from './SimilarListings'

@@ -25,6 +25,10 @@ import {
   OnboardingHostPage,
 } from '../pages/auth'
 
+// Search & Discovery pages
+import SearchPage from '../pages/search'
+import RoomDetailsPage from '../pages/room-details'
+
 // Landlord pages
 import {
   LandlordDashboardPage,
@@ -32,6 +36,19 @@ import {
   PropertyDetailPage,
   AddPropertyPage,
   AddRoomPage,
+  TenantsListPage,
+  TenantDetailPage,
+  ApplicationsListPage,
+  ApplicationDetailPage,
+  RoomDetailPage,
+  MaintenancePage as LandlordMaintenancePage,
+  MessagesPage as LandlordMessagesPage,
+  AnnouncementPage,
+  PayoutsPage,
+  PayoutSettingsPage,
+  BillingSettingsPage,
+  SettingsPage as LandlordSettingsPage,
+  ProfilePage as LandlordProfilePage,
 } from '../pages/landlord'
 
 // Error pages
@@ -68,12 +85,29 @@ function AppRouter() {
         <Route path={ROUTES.ONBOARDING_RENTER} element={<OnboardingRenterPage />} />
         <Route path={ROUTES.ONBOARDING_HOST} element={<OnboardingHostPage />} />
 
+        {/* Search & Discovery pages (standalone - no layout wrapper) */}
+        <Route path={ROUTES.SEARCH} element={<SearchPage />} />
+        <Route path={ROUTES.ROOM_DETAILS} element={<RoomDetailsPage />} />
+
         {/* Landlord pages (AppShell layout is in each page) */}
         <Route path={ROUTES.LANDLORD.DASHBOARD} element={<LandlordDashboardPage />} />
         <Route path={ROUTES.LANDLORD.PROPERTIES} element={<PropertiesListPage />} />
         <Route path={ROUTES.LANDLORD.PROPERTY_NEW} element={<AddPropertyPage />} />
         <Route path={ROUTES.LANDLORD.PROPERTY_DETAIL} element={<PropertyDetailPage />} />
         <Route path={ROUTES.LANDLORD.ROOM_NEW} element={<AddRoomPage />} />
+        <Route path={ROUTES.LANDLORD.ROOM_DETAIL} element={<RoomDetailPage />} />
+        <Route path={ROUTES.LANDLORD.TENANTS} element={<TenantsListPage />} />
+        <Route path={ROUTES.LANDLORD.TENANT_DETAIL} element={<TenantDetailPage />} />
+        <Route path={ROUTES.LANDLORD.APPLICATIONS} element={<ApplicationsListPage />} />
+        <Route path={ROUTES.LANDLORD.APPLICATION_DETAIL} element={<ApplicationDetailPage />} />
+        <Route path={ROUTES.LANDLORD.MAINTENANCE} element={<LandlordMaintenancePage />} />
+        <Route path={ROUTES.LANDLORD.MESSAGES} element={<LandlordMessagesPage />} />
+        <Route path={ROUTES.LANDLORD.ANNOUNCEMENTS} element={<AnnouncementPage />} />
+        <Route path={ROUTES.LANDLORD.PAYOUTS} element={<PayoutsPage />} />
+        <Route path={ROUTES.LANDLORD.PAYOUT_SETTINGS} element={<PayoutSettingsPage />} />
+        <Route path={ROUTES.LANDLORD.BILLING} element={<BillingSettingsPage />} />
+        <Route path={ROUTES.LANDLORD.SETTINGS} element={<LandlordSettingsPage />} />
+        <Route path={ROUTES.LANDLORD.PROFILE} element={<LandlordProfilePage />} />
 
         {/* Error pages (no layout) */}
         <Route path={ROUTES.ERROR} element={<ServerErrorPage />} />

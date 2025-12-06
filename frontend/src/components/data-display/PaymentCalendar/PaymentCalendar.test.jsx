@@ -42,25 +42,19 @@ describe('PaymentCalendar', () => {
 
   // Payment status styling
   it('applies paid status class to paid days', () => {
-    const { container } = render(
-      <PaymentCalendar year={2024} month={11} payments={mockPayments} />
-    )
+    const { container } = render(<PaymentCalendar year={2024} month={11} payments={mockPayments} />)
     const paidDay = container.querySelector('.payment-calendar__day--paid')
     expect(paidDay).toBeInTheDocument()
   })
 
   it('applies due status class to due days', () => {
-    const { container } = render(
-      <PaymentCalendar year={2024} month={11} payments={mockPayments} />
-    )
+    const { container } = render(<PaymentCalendar year={2024} month={11} payments={mockPayments} />)
     const dueDay = container.querySelector('.payment-calendar__day--due')
     expect(dueDay).toBeInTheDocument()
   })
 
   it('applies overdue status class to overdue days', () => {
-    const { container } = render(
-      <PaymentCalendar year={2024} month={11} payments={mockPayments} />
-    )
+    const { container } = render(<PaymentCalendar year={2024} month={11} payments={mockPayments} />)
     const overdueDay = container.querySelector('.payment-calendar__day--overdue')
     expect(overdueDay).toBeInTheDocument()
   })
@@ -69,12 +63,7 @@ describe('PaymentCalendar', () => {
   it('calls onDateClick when day is clicked', () => {
     const handleClick = vi.fn()
     render(
-      <PaymentCalendar
-        year={2024}
-        month={11}
-        payments={mockPayments}
-        onDateClick={handleClick}
-      />
+      <PaymentCalendar year={2024} month={11} payments={mockPayments} onDateClick={handleClick} />
     )
     fireEvent.click(screen.getByText('15'))
     expect(handleClick).toHaveBeenCalledTimes(1)
@@ -97,9 +86,7 @@ describe('PaymentCalendar', () => {
   })
 
   it('applies clickable class when onDateClick is provided', () => {
-    const { container } = render(
-      <PaymentCalendar year={2024} month={11} onDateClick={() => {}} />
-    )
+    const { container } = render(<PaymentCalendar year={2024} month={11} onDateClick={() => {}} />)
     expect(container.querySelector('.payment-calendar__day--clickable')).toBeInTheDocument()
   })
 
@@ -114,9 +101,7 @@ describe('PaymentCalendar', () => {
   // Date string support
   it('accepts date strings in payments', () => {
     // Use ISO string with time to avoid timezone issues
-    const paymentsWithStrings = [
-      { date: '2024-12-01T12:00:00', amount: 175, status: 'paid' },
-    ]
+    const paymentsWithStrings = [{ date: '2024-12-01T12:00:00', amount: 175, status: 'paid' }]
     const { container } = render(
       <PaymentCalendar year={2024} month={11} payments={paymentsWithStrings} />
     )
@@ -167,9 +152,7 @@ describe('PaymentCalendar', () => {
   })
 
   it('sets aria-label on days with payments', () => {
-    const { container } = render(
-      <PaymentCalendar year={2024} month={11} payments={mockPayments} />
-    )
+    const { container } = render(<PaymentCalendar year={2024} month={11} payments={mockPayments} />)
     const paidDay = container.querySelector('.payment-calendar__day--paid')
     expect(paidDay).toHaveAttribute('aria-label', expect.stringContaining('paid'))
   })
@@ -214,9 +197,7 @@ describe('PaymentCalendar', () => {
 
   // Indicator for payment days
   it('shows indicator on payment days', () => {
-    const { container } = render(
-      <PaymentCalendar year={2024} month={11} payments={mockPayments} />
-    )
+    const { container } = render(<PaymentCalendar year={2024} month={11} payments={mockPayments} />)
     const indicators = container.querySelectorAll('.payment-calendar__indicator')
     expect(indicators).toHaveLength(4) // 4 payments
   })
