@@ -1,0 +1,60 @@
+/**
+ * ButtonGroup Component Styles
+ */
+
+.btn-group {
+  display: inline-flex;
+}
+
+.btn-group--horizontal {
+  flex-direction: row;
+  gap: var(--space-2);
+}
+
+.btn-group--vertical {
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+/* ============================================
+   ATTACHED VARIANT
+   ============================================ */
+.btn-group--attached {
+  gap: 0;
+}
+
+.btn-group--attached.btn-group--horizontal > :first-child {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.btn-group--attached.btn-group--horizontal > :last-child {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.btn-group--attached.btn-group--horizontal > :not(:first-child):not(:last-child) {
+  border-radius: 0;
+}
+
+.btn-group--attached.btn-group--horizontal > :not(:first-child) {
+  margin-left: -1px;
+}
+
+.btn-group--attached.btn-group--vertical > :first-child {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.btn-group--attached.btn-group--vertical > :last-child {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.btn-group--attached.btn-group--vertical > :not(:first-child):not(:last-child) {
+  border-radius: 0;
+}
+
+.btn-group--attached.btn-group--vertical > :not(:first-child) {
+  margin-top: -1px;
+}

@@ -1,0 +1,93 @@
+/* FilterChip - Interactive filter pill */
+
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2-5) var(--space-4);
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-full);
+  font-family: var(--font-family);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-gray-900);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-out);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.filter-chip:hover:not(:disabled) {
+  border-color: var(--color-gray-400);
+}
+
+.filter-chip:focus-visible {
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 2px;
+}
+
+/* Active state */
+.filter-chip--active {
+  background: var(--color-gray-900);
+  border-color: var(--color-gray-900);
+  color: var(--color-white);
+}
+
+.filter-chip--active:hover:not(:disabled) {
+  background: var(--color-gray-800);
+  border-color: var(--color-gray-800);
+}
+
+/* Disabled state */
+.filter-chip--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Icon */
+.filter-chip__icon {
+  font-size: var(--text-base);
+  line-height: 1;
+}
+
+/* Label */
+.filter-chip__label {
+  line-height: 1.2;
+}
+
+/* Dropdown arrow */
+.filter-chip__arrow {
+  font-size: 10px;
+  opacity: 0.6;
+  margin-left: var(--space-1);
+}
+
+/* Remove button */
+.filter-chip__remove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  margin-left: var(--space-1);
+  margin-right: calc(-1 * var(--space-1));
+  border-radius: var(--radius-full);
+  font-size: 14px;
+  font-weight: var(--font-bold);
+  line-height: 1;
+  color: var(--color-white);
+  background: rgba(255, 255, 255, 0.2);
+  transition: background var(--duration-fast) var(--ease-out);
+}
+
+.filter-chip__remove:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.filter-chip__remove:focus-visible {
+  outline: 2px solid var(--color-white);
+  outline-offset: 1px;
+}
+
+/* Size variants could be added later if needed */

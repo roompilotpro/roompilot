@@ -1,0 +1,32 @@
+/**
+ * FormRow Component Styles
+ */
+
+.form-row {
+  display: grid;
+  grid-template-columns: var(--form-row-columns, repeat(2, 1fr));
+}
+
+/* ============================================
+   GAP VARIANTS
+   ============================================ */
+.form-row--gap-sm {
+  gap: var(--space-3);
+}
+
+.form-row--gap-md {
+  gap: var(--space-4);
+}
+
+.form-row--gap-lg {
+  gap: var(--space-6);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 640px) {
+  .form-row--responsive {
+    grid-template-columns: 1fr;
+  }
+}

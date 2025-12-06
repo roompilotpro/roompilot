@@ -1,0 +1,63 @@
+/* WalletCard - Wallet balance card with gradient */
+
+.wallet-card {
+  background: linear-gradient(135deg, var(--color-gray-800) 0%, var(--color-gray-900) 100%);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  color: var(--color-white);
+}
+
+/* Label */
+.wallet-card__label {
+  display: block;
+  font-size: var(--text-sm);
+  opacity: 0.8;
+  margin-bottom: var(--space-2);
+}
+
+/* Balance */
+.wallet-card__balance {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 48px;
+  font-weight: var(--font-bold);
+  line-height: 1.1;
+  margin-bottom: var(--space-5);
+}
+
+/* Skeleton for loading state */
+.wallet-card__skeleton {
+  margin-bottom: var(--space-5);
+}
+
+/* Actions */
+.wallet-card__actions {
+  display: flex;
+  gap: var(--space-3);
+}
+
+/* Withdraw button override for dark background */
+.wallet-card__withdraw-btn {
+  --btn-border-color: rgba(255, 255, 255, 0.3);
+  --btn-color: var(--color-white);
+}
+
+.wallet-card__withdraw-btn:hover:not(:disabled) {
+  --btn-border-color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .wallet-card__balance {
+    font-size: 36px;
+  }
+
+  .wallet-card__actions {
+    flex-direction: column;
+  }
+
+  .wallet-card__actions .btn {
+    width: 100%;
+  }
+}

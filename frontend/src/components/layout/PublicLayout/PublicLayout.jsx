@@ -1,0 +1,55 @@
+import { Outlet } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import PublicNavigation from '../PublicNavigation'
+import Footer from '../Footer'
+import { Button } from '../../primitives'
+import {
+  PUBLIC_NAV_LINKS,
+  FOOTER_COLUMNS,
+  FOOTER_LEGAL_LINKS,
+  ROUTES,
+} from '../../../router/routes'
+import './PublicLayout.css'
+
+/**
+ * PublicLayout - Layout wrapper for public/marketing pages
+ * Includes PublicNavigation header and Footer
+ * Uses react-router Outlet for nested route content
+ */
+function PublicLayout() {
+  // Convert nav links to use Link component
+  const navLinks = PUBLIC_NAV_LINKS.map((link) => ({
+    ...link,
+    href: link.href,
+  }))
+
+  // Navigation action buttons
+  const navActions = (
+    <>
+      <Link to={ROUTES.LOGIN}>
+        <Button variant="ghost">Log In</Button>
+      </Link>
+      <Link to={ROUTES.SIGNUP}>
+        <Button variant="primary">Get Started</Button>
+      </Link>
+    </>
+  )
+
+  return (
+    <div className="public-layout">
+      <PublicNavigation links={navLinks} actions={navActions} variant="default" />
+
+      <main className="public-layout__main">
+        <Outlet />
+      </main>
+
+      <Footer
+        tagline="The automation-first room rental marketplace. More control. Lower fees. Faster payouts."
+        columns={FOOTER_COLUMNS}
+        legalLinks={FOOTER_LEGAL_LINKS}
+      />
+    </div>
+  )
+}
+
+export default PublicLayout

@@ -1,0 +1,86 @@
+/* FilterBar - Container for filter chips */
+
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-6);
+  background: var(--color-white);
+  border-bottom: 1px solid var(--color-gray-200);
+}
+
+.filter-bar--sticky {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+}
+
+/* Chips container with horizontal scroll */
+.filter-bar__chips {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  flex: 1;
+  min-width: 0;
+}
+
+.filter-bar__chips::-webkit-scrollbar {
+  display: none;
+}
+
+/* Actions section */
+.filter-bar__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-shrink: 0;
+}
+
+/* Clear all button */
+.filter-bar__clear {
+  padding: var(--space-2) var(--space-3);
+  background: none;
+  border: none;
+  font-family: var(--font-family);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-primary-600);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.filter-bar__clear:hover {
+  color: var(--color-primary-700);
+}
+
+.filter-bar__clear:focus-visible {
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* Divider between filter groups */
+.filter-bar__divider {
+  width: 1px;
+  height: 32px;
+  background: var(--color-gray-200);
+  flex-shrink: 0;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .filter-bar {
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .filter-bar__actions {
+    position: absolute;
+    right: var(--space-4);
+    background: linear-gradient(to right, transparent, var(--color-white) 20%);
+    padding-left: var(--space-6);
+  }
+}

@@ -1,0 +1,148 @@
+/**
+ * Toggle Component Styles
+ */
+
+.toggle-wrapper {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  cursor: pointer;
+  user-select: none;
+}
+
+.toggle-wrapper--label-left {
+  flex-direction: row-reverse;
+}
+
+.toggle-wrapper--disabled {
+  cursor: not-allowed;
+}
+
+/* ============================================
+   TOGGLE CONTAINER
+   ============================================ */
+.toggle-container {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+/* ============================================
+   TOGGLE INPUT (hidden)
+   ============================================ */
+.toggle__input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* ============================================
+   TOGGLE TRACK
+   ============================================ */
+.toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  background: var(--color-cloud);
+  border-radius: var(--radius-full);
+  transition: background var(--duration-fast) var(--ease-out);
+}
+
+.toggle--sm {
+  width: 36px;
+  height: 20px;
+}
+
+.toggle--md {
+  width: 44px;
+  height: 24px;
+}
+
+/* Focus state */
+.toggle__input:focus-visible + .toggle {
+  box-shadow: var(--shadow-focus);
+}
+
+/* Checked state */
+.toggle--checked {
+  background: var(--color-primary);
+}
+
+/* Disabled state */
+.toggle--disabled {
+  background: var(--color-snow);
+}
+
+.toggle--disabled.toggle--checked {
+  background: var(--color-mist);
+}
+
+/* ============================================
+   TOGGLE THUMB
+   ============================================ */
+.toggle__thumb {
+  position: absolute;
+  background: var(--color-white);
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+
+.toggle--sm .toggle__thumb {
+  width: 16px;
+  height: 16px;
+  left: 2px;
+}
+
+.toggle--md .toggle__thumb {
+  width: 20px;
+  height: 20px;
+  left: 2px;
+}
+
+/* Checked position */
+.toggle--sm.toggle--checked .toggle__thumb {
+  transform: translateX(16px);
+}
+
+.toggle--md.toggle--checked .toggle__thumb {
+  transform: translateX(20px);
+}
+
+/* Disabled thumb */
+.toggle--disabled .toggle__thumb {
+  background: var(--color-cloud);
+}
+
+/* ============================================
+   TOGGLE CONTENT
+   ============================================ */
+.toggle__content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.toggle__label {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: var(--font-medium);
+  color: var(--color-charcoal);
+  line-height: 1.4;
+}
+
+.toggle-wrapper--disabled .toggle__label {
+  color: var(--color-mist);
+}
+
+.toggle__description {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--color-slate);
+  line-height: 1.4;
+}
+
+.toggle-wrapper--disabled .toggle__description {
+  color: var(--color-mist);
+}
