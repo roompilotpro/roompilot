@@ -1,6 +1,5 @@
 import { forwardRef } from 'react'
 import classNames from '../../../utils/classNames'
-import './FilterChip.css'
 
 /**
  * FilterChip - Interactive filter pill for search and filtering interfaces
@@ -47,10 +46,12 @@ const FilterChip = forwardRef(function FilterChip(
       ref={ref}
       type="button"
       className={classNames(
-        'filter-chip',
-        active && 'filter-chip--active',
-        disabled && 'filter-chip--disabled',
-        removable && active && 'filter-chip--removable',
+        'inline-flex items-center gap-2 py-2.5 px-4 bg-white border border-cloud rounded-full font-body text-sm font-medium text-charcoal cursor-pointer transition-all duration-150 whitespace-nowrap select-none',
+        'hover:not-disabled:border-slate',
+        'focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2',
+        active &&
+          'bg-charcoal border-charcoal text-white hover:not-disabled:bg-charcoal/90 hover:not-disabled:border-charcoal/90',
+        disabled && 'opacity-50 cursor-not-allowed',
         className
       )}
       onClick={onClick}
@@ -60,19 +61,19 @@ const FilterChip = forwardRef(function FilterChip(
       {...props}
     >
       {icon && (
-        <span className="filter-chip__icon" aria-hidden="true">
+        <span className="text-base leading-none" aria-hidden="true">
           {icon}
         </span>
       )}
-      <span className="filter-chip__label">{label}</span>
+      <span className="leading-tight">{label}</span>
       {hasDropdown && !active && (
-        <span className="filter-chip__arrow" aria-hidden="true">
+        <span className="text-[10px] opacity-60 ml-1" aria-hidden="true">
           ▼
         </span>
       )}
       {removable && active && (
         <span
-          className="filter-chip__remove"
+          className="flex items-center justify-center w-4 h-4 ml-1 -mr-1 rounded-full text-sm font-bold leading-none text-white bg-white/20 transition-colors duration-150 hover:bg-white/30 focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-1"
           onClick={handleRemove}
           onKeyDown={(e) => {
             if (e.key === 'Enter' || e.key === ' ') {

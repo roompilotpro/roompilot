@@ -1,5 +1,26 @@
 import { classNames } from '../../../utils/classNames'
-import './ProgressBar.css'
+
+// Track height by size
+const trackHeightStyles = {
+  sm: 'h-1.5',
+  md: 'h-2',
+  lg: 'h-3',
+}
+
+// Label size by size
+const labelSizeStyles = {
+  sm: 'text-xs',
+  md: 'text-sm',
+  lg: 'text-base',
+}
+
+// Fill color by variant
+const fillColorStyles = {
+  primary: 'bg-primary',
+  success: 'bg-accent',
+  warning: 'bg-warm',
+  danger: 'bg-coral',
+}
 
 /**
  * ProgressBar component for displaying progress
@@ -23,12 +44,7 @@ function ProgressBar({
 
   return (
     <div
-      className={classNames(
-        'progress-bar',
-        `progress-bar--${variant}`,
-        `progress-bar--${size}`,
-        className
-      )}
+      className={classNames('flex items-center gap-2 w-full', className)}
       role="progressbar"
       aria-valuenow={percentage}
       aria-valuemin={0}
@@ -36,10 +52,30 @@ function ProgressBar({
       aria-label={`${percentage}% complete`}
       {...props}
     >
-      <div className="progress-bar__track">
-        <div className="progress-bar__fill" style={{ width: `${percentage}%` }} />
+      <div
+        className={classNames(
+          'flex-1 bg-cloud rounded-full overflow-hidden',
+          trackHeightStyles[size]
+        )}
+      >
+        <div
+          className={classNames(
+            'h-full rounded-full transition-all duration-250 ease-out',
+            fillColorStyles[variant]
+          )}
+          style={{ width: `${percentage}%` }}
+        />
       </div>
-      {showLabel && <span className="progress-bar__label">{Math.round(percentage)}%</span>}
+      {showLabel && (
+        <span
+          className={classNames(
+            'font-medium text-text-secondary min-w-[3em] text-right',
+            labelSizeStyles[size]
+          )}
+        >
+          {Math.round(percentage)}%
+        </span>
+      )}
     </div>
   )
 }

@@ -3,14 +3,12 @@
  * =================================
  *
  * Import order is important:
- * 1. Design tokens (CSS custom properties)
- * 2. Base styles (reset, typography defaults)
- * 3. Component styles (imported by components themselves)
+ * 1. Google Fonts
+ * 2. Tailwind CSS v4 (includes preflight reset and design tokens via @theme)
  */
 
 /* Google Fonts - Fraunces (Display) and DM Sans (Body) */
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&display=swap');
 
-/* Design System */
-@import './styles/tokens.css';
-@import './styles/base.css';
+/* Tailwind CSS v4 with design system tokens */
+@import './styles/tailwind.css';

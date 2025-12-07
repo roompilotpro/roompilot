@@ -1,6 +1,13 @@
 import { forwardRef, useState, useEffect, useRef, useId, useCallback } from 'react'
 import { classNames } from '../../../utils/classNames'
-import './Textarea.css'
+
+// Resize variant styles
+const resizeStyles = {
+  vertical: 'resize-y',
+  horizontal: 'resize-x',
+  both: 'resize',
+  none: 'resize-none',
+}
 
 /**
  * Textarea component with auto-resize and character count
@@ -89,18 +96,15 @@ const Textarea = forwardRef(function Textarea(
   }
 
   return (
-    <div
-      className={classNames(
-        'textarea-wrapper',
-        fullWidth && 'textarea-wrapper--full-width',
-        className
-      )}
-    >
+    <div className={classNames('flex flex-col', fullWidth && 'w-full', className)}>
       {label && (
-        <label htmlFor={textareaId} className="textarea__label">
+        <label
+          htmlFor={textareaId}
+          className="block font-body text-sm font-semibold text-midnight mb-2"
+        >
           {label}
           {required && (
-            <span className="textarea__required" aria-hidden="true">
+            <span className="text-coral ml-0.5" aria-hidden="true">
               *
             </span>
           )}
@@ -110,11 +114,12 @@ const Textarea = forwardRef(function Textarea(
         ref={textareaRef}
         id={textareaId}
         className={classNames(
-          'textarea',
-          error && 'textarea--error',
-          disabled && 'textarea--disabled',
-          `textarea--resize-${resize}`,
-          autoResize && 'textarea--auto-resize'
+          'w-full min-h-[100px] py-3 px-3.5 bg-white border rounded-sm font-body text-sm leading-relaxed text-midnight transition-all duration-150 ease-out outline-none placeholder:text-mist',
+          error
+            ? 'border-coral focus:shadow-focus-error'
+            : 'border-cloud focus:border-primary focus:shadow-focus',
+          disabled && 'bg-snow text-mist cursor-not-allowed',
+          autoResize ? 'resize-none overflow-hidden' : resizeStyles[resize]
         )}
         placeholder={placeholder}
         disabled={disabled}
@@ -131,19 +136,19 @@ const Textarea = forwardRef(function Textarea(
         }
         {...props}
       />
-      <div className="textarea__footer">
+      <div className="flex justify-between items-start gap-2 min-h-5">
         {error && (
-          <span id={`${textareaId}-error`} className="textarea__error" role="alert">
+          <span id={`${textareaId}-error`} className="block text-xs text-coral mt-1" role="alert">
             {error}
           </span>
         )}
         {helperText && !error && (
-          <span id={`${textareaId}-helper`} className="textarea__helper">
+          <span id={`${textareaId}-helper`} className="block text-xs text-slate mt-1">
             {helperText}
           </span>
         )}
         {showCharCount && (
-          <span className="textarea__char-count">
+          <span className="ml-auto text-xs text-mist mt-1">
             {charCount}
             {maxLength ? `/${maxLength}` : ''}
           </span>

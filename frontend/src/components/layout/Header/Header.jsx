@@ -1,6 +1,5 @@
 import { forwardRef } from 'react'
 import { classNames } from '../../../utils/classNames'
-import './Header.css'
 
 /**
  * Header - Page header with title, subtitle, and actions
@@ -23,19 +22,27 @@ const Header = forwardRef(function Header(
   return (
     <header
       ref={ref}
-      className={classNames('header', sticky && 'header--sticky', className)}
+      className={classNames(
+        'h-16 md:h-[72px] bg-white border-b border-cloud flex items-center justify-between px-4 md:px-8 z-50',
+        sticky && 'sticky top-0',
+        className
+      )}
       {...props}
     >
-      <div className="header__left">
+      <div className="flex items-center gap-6">
         {leftContent || (
           <>
-            {title && <h1 className="header__title">{title}</h1>}
-            {subtitle && <span className="header__subtitle">{subtitle}</span>}
+            {title && (
+              <h1 className="font-display text-xl md:text-2xl font-semibold text-midnight m-0">
+                {title}
+              </h1>
+            )}
+            {subtitle && <span className="text-sm text-mist hidden md:inline">{subtitle}</span>}
           </>
         )}
       </div>
 
-      {rightSlot && <div className="header__right">{rightSlot}</div>}
+      {rightSlot && <div className="flex items-center gap-3">{rightSlot}</div>}
     </header>
   )
 })

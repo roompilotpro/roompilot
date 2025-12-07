@@ -1,8 +1,19 @@
 import { forwardRef, createContext, useContext, useId } from 'react'
 import { classNames } from '../../../utils/classNames'
-import './RadioGroup.css'
 
 const RadioGroupContext = createContext(null)
+
+// Size styles for the radio circle
+const circleSizeStyles = {
+  sm: 'w-4 h-4',
+  md: 'w-5 h-5',
+}
+
+// Size styles for the dot
+const dotSizeStyles = {
+  sm: 'w-2 h-2',
+  md: 'w-2.5 h-2.5',
+}
 
 /**
  * RadioGroup component with standard and card variants
@@ -57,25 +68,29 @@ const RadioGroup = forwardRef(function RadioGroup(
         aria-labelledby={label ? `${groupId}-label` : undefined}
         aria-invalid={error ? 'true' : undefined}
         aria-describedby={error ? `${groupId}-error` : undefined}
-        className={classNames(
-          'radio-group',
-          `radio-group--${orientation}`,
-          `radio-group--${variant}`,
-          className
-        )}
+        className={classNames('flex flex-col gap-2', className)}
         {...props}
       >
         {label && (
-          <span id={`${groupId}-label`} className="radio-group__label">
+          <span
+            id={`${groupId}-label`}
+            className="block font-body text-sm font-semibold text-midnight mb-1"
+          >
             {label}
             {required && (
-              <span className="radio-group__required" aria-hidden="true">
+              <span className="text-coral ml-0.5" aria-hidden="true">
                 *
               </span>
             )}
           </span>
         )}
-        <div className="radio-group__options">
+        <div
+          className={classNames(
+            'flex gap-3',
+            orientation === 'vertical' && 'flex-col',
+            orientation === 'horizontal' && 'flex-row flex-wrap'
+          )}
+        >
           {options
             ? options.map((option) => (
                 <Radio
@@ -89,7 +104,7 @@ const RadioGroup = forwardRef(function RadioGroup(
             : children}
         </div>
         {error && (
-          <span id={`${groupId}-error`} className="radio-group__error" role="alert">
+          <span id={`${groupId}-error`} className="block text-xs text-coral mt-1" role="alert">
             {error}
           </span>
         )}
@@ -116,11 +131,12 @@ const Radio = forwardRef(function Radio(
     <label
       htmlFor={radioId}
       className={classNames(
-        'radio',
-        `radio--${size}`,
-        `radio--${variant}`,
-        isChecked && 'radio--checked',
-        isDisabled && 'radio--disabled',
+        'inline-flex items-start gap-3 cursor-pointer select-none',
+        variant === 'card' &&
+          'flex-1 p-4 bg-white border-2 border-cloud rounded-md transition-all duration-150 ease-out hover:border-primary hover:bg-primary-bg',
+        variant === 'card' && isChecked && 'border-primary bg-primary-bg',
+        variant === 'card' && isDisabled && 'bg-snow hover:border-cloud hover:bg-snow',
+        isDisabled && 'cursor-not-allowed',
         className
       )}
     >
@@ -133,19 +149,51 @@ const Radio = forwardRef(function Radio(
         checked={isChecked}
         disabled={isDisabled}
         onChange={context?.onChange}
-        className="radio__input"
+        className="absolute opacity-0 w-0 h-0 peer"
         {...props}
       />
       <span
-        className={classNames('radio__circle', isChecked && 'radio__circle--checked')}
+        className={classNames(
+          'shrink-0 flex items-center justify-center bg-white border-2 rounded-full transition-colors duration-150 ease-out',
+          circleSizeStyles[size],
+          isChecked ? 'border-primary' : 'border-cloud hover:border-primary',
+          isDisabled && 'bg-snow border-cloud',
+          'peer-focus-visible:border-primary peer-focus-visible:shadow-focus'
+        )}
         aria-hidden="true"
       >
-        {isChecked && <span className="radio__dot" />}
+        {isChecked && (
+          <span
+            className={classNames(
+              'rounded-full',
+              dotSizeStyles[size],
+              isDisabled ? 'bg-mist' : 'bg-primary'
+            )}
+          />
+        )}
       </span>
       {(label || description) && (
-        <span className="radio__content">
-          {label && <span className="radio__label">{label}</span>}
-          {description && <span className="radio__description">{description}</span>}
+        <span className="flex flex-col gap-0.5 pt-px">
+          {label && (
+            <span
+              className={classNames(
+                'font-body text-sm font-medium leading-snug',
+                isDisabled ? 'text-mist' : 'text-charcoal'
+              )}
+            >
+              {label}
+            </span>
+          )}
+          {description && (
+            <span
+              className={classNames(
+                'font-body text-sm leading-snug',
+                isDisabled ? 'text-mist' : 'text-slate'
+              )}
+            >
+              {description}
+            </span>
+          )}
         </span>
       )}
     </label>

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useLandlordLayout } from '../../hooks/useLandlordLayout'
 import { AppShell } from '../../components/layout'
-import './AnnouncementPage.css'
+import { classNames } from '../../utils'
 
 function AnnouncementPage() {
   const navigate = useNavigate()
@@ -63,21 +63,28 @@ function AnnouncementPage() {
 
   return (
     <AppShell sidebar={{ links: navLinks, user, logoBadge }}>
-      <div className="announcement-page">
-        <div className="announcement-header">
-          <h1 className="announcement-header-title">Send Announcement</h1>
-          <p className="announcement-header-subtitle">Communicate with your tenants effectively</p>
+      <div className="max-w-[1400px]">
+        <div className="mb-8">
+          <h1 className="font-display text-[32px] font-bold text-midnight mb-2">
+            Send Announcement
+          </h1>
+          <p className="text-slate text-base">Communicate with your tenants effectively</p>
         </div>
 
-        <div className="announcement-layout">
+        <div className="grid grid-cols-[1fr_400px] lg:grid-cols-1 gap-8">
           {/* Form */}
-          <div className="announcement-form">
+          <div className="bg-white rounded-xl p-8">
             {/* Recipients */}
-            <div className="form-section">
-              <h2 className="form-section-title">Recipients</h2>
-              <div className="radio-group">
+            <div className="mb-8">
+              <h2 className="font-bold text-lg text-midnight mb-4">Recipients</h2>
+              <div className="flex flex-col gap-3">
                 <label
-                  className={`radio-option ${recipientType === 'all' ? 'selected' : ''}`}
+                  className={classNames(
+                    'flex items-center gap-3 p-3 border-2 rounded-lg cursor-pointer transition-all duration-200',
+                    recipientType === 'all'
+                      ? 'border-primary bg-primary-bg'
+                      : 'border-cloud hover:border-primary-light hover:bg-primary-bg'
+                  )}
                   onClick={() => setRecipientType('all')}
                 >
                   <input
@@ -86,14 +93,20 @@ function AnnouncementPage() {
                     value="all"
                     checked={recipientType === 'all'}
                     onChange={() => setRecipientType('all')}
+                    className="w-5 h-5 cursor-pointer"
                   />
-                  <div className="radio-label">
-                    <div className="radio-label-title">All Tenants</div>
-                    <div className="radio-label-desc">Send to everyone across all properties</div>
+                  <div className="flex-1">
+                    <div className="font-semibold text-midnight">All Tenants</div>
+                    <div className="text-sm text-slate">Send to everyone across all properties</div>
                   </div>
                 </label>
                 <label
-                  className={`radio-option ${recipientType === 'property' ? 'selected' : ''}`}
+                  className={classNames(
+                    'flex items-center gap-3 p-3 border-2 rounded-lg cursor-pointer transition-all duration-200',
+                    recipientType === 'property'
+                      ? 'border-primary bg-primary-bg'
+                      : 'border-cloud hover:border-primary-light hover:bg-primary-bg'
+                  )}
                   onClick={() => setRecipientType('property')}
                 >
                   <input
@@ -102,14 +115,20 @@ function AnnouncementPage() {
                     value="property"
                     checked={recipientType === 'property'}
                     onChange={() => setRecipientType('property')}
+                    className="w-5 h-5 cursor-pointer"
                   />
-                  <div className="radio-label">
-                    <div className="radio-label-title">Specific Property</div>
-                    <div className="radio-label-desc">Send to all tenants in one property</div>
+                  <div className="flex-1">
+                    <div className="font-semibold text-midnight">Specific Property</div>
+                    <div className="text-sm text-slate">Send to all tenants in one property</div>
                   </div>
                 </label>
                 <label
-                  className={`radio-option ${recipientType === 'rooms' ? 'selected' : ''}`}
+                  className={classNames(
+                    'flex items-center gap-3 p-3 border-2 rounded-lg cursor-pointer transition-all duration-200',
+                    recipientType === 'rooms'
+                      ? 'border-primary bg-primary-bg'
+                      : 'border-cloud hover:border-primary-light hover:bg-primary-bg'
+                  )}
                   onClick={() => setRecipientType('rooms')}
                 >
                   <input
@@ -118,19 +137,20 @@ function AnnouncementPage() {
                     value="rooms"
                     checked={recipientType === 'rooms'}
                     onChange={() => setRecipientType('rooms')}
+                    className="w-5 h-5 cursor-pointer"
                   />
-                  <div className="radio-label">
-                    <div className="radio-label-title">Specific Rooms</div>
-                    <div className="radio-label-desc">Select individual rooms or tenants</div>
+                  <div className="flex-1">
+                    <div className="font-semibold text-midnight">Specific Rooms</div>
+                    <div className="text-sm text-slate">Select individual rooms or tenants</div>
                   </div>
                 </label>
               </div>
 
               {recipientType === 'property' && (
-                <div className="conditional-field show">
-                  <label className="form-label">Select Property</label>
+                <div className="mt-4 p-4 bg-snow rounded-lg">
+                  <label className="block font-semibold text-midnight mb-2">Select Property</label>
                   <select
-                    className="form-select"
+                    className="w-full py-3 px-4 border border-cloud rounded-lg font-body text-sm transition-colors duration-200 focus:outline-none focus:border-primary"
                     value={selectedProperty}
                     onChange={(e) => setSelectedProperty(e.target.value)}
                   >
@@ -142,9 +162,9 @@ function AnnouncementPage() {
               )}
 
               {recipientType === 'rooms' && (
-                <div className="conditional-field show">
-                  <label className="form-label">Select Rooms</label>
-                  <div className="checkbox-group">
+                <div className="mt-4 p-4 bg-snow rounded-lg">
+                  <label className="block font-semibold text-midnight mb-2">Select Rooms</label>
+                  <div className="flex flex-col gap-2 max-h-[200px] overflow-y-auto p-3 bg-white border border-cloud rounded-lg">
                     {[
                       { id: 'room1', label: 'Sunset Villa - Room 1A (Sarah Martinez)' },
                       { id: 'room2', label: 'Sunset Villa - Room 1B (Marcus Rodriguez)' },
@@ -152,12 +172,13 @@ function AnnouncementPage() {
                       { id: 'room4', label: 'Oak Street - Room 2B (James Parker)' },
                       { id: 'room5', label: 'Oak Street - Room 4C (Lisa Johnson)' },
                     ].map((room) => (
-                      <label key={room.id} className="checkbox-option">
+                      <label key={room.id} className="flex items-center gap-2">
                         <input
                           type="checkbox"
                           value={room.id}
                           checked={selectedRooms.includes(room.id)}
                           onChange={() => handleRoomToggle(room.id)}
+                          className="w-[18px] h-[18px] cursor-pointer"
                         />
                         <span>{room.label}</span>
                       </label>
@@ -166,7 +187,7 @@ function AnnouncementPage() {
                 </div>
               )}
 
-              <span className="recipient-count">
+              <span className="inline-flex items-center gap-2 py-2 px-4 bg-accent-bg text-accent rounded-md font-semibold text-sm mt-2">
                 <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     strokeLinecap="round"
@@ -180,9 +201,9 @@ function AnnouncementPage() {
             </div>
 
             {/* Templates */}
-            <div className="form-section">
-              <h2 className="form-section-title">Message Templates</h2>
-              <div className="template-grid">
+            <div className="mb-8">
+              <h2 className="font-bold text-lg text-midnight mb-4">Message Templates</h2>
+              <div className="grid grid-cols-2 gap-3">
                 {[
                   { key: 'rent', title: 'Rent Reminder', desc: 'Monthly payment due date' },
                   { key: 'rules', title: 'Rule Reminder', desc: 'House rules and policies' },
@@ -195,33 +216,33 @@ function AnnouncementPage() {
                 ].map((template) => (
                   <div
                     key={template.key}
-                    className="template-card"
+                    className="p-4 border-2 border-cloud rounded-lg cursor-pointer transition-all duration-200 hover:border-primary hover:bg-primary-bg"
                     onClick={() => handleTemplateSelect(template.key)}
                   >
-                    <div className="template-title">{template.title}</div>
-                    <div className="template-desc">{template.desc}</div>
+                    <div className="font-semibold text-midnight mb-1">{template.title}</div>
+                    <div className="text-[13px] text-slate">{template.desc}</div>
                   </div>
                 ))}
               </div>
             </div>
 
             {/* Message Composer */}
-            <div className="form-section">
-              <h2 className="form-section-title">Message</h2>
-              <div style={{ marginBottom: '16px' }}>
-                <label className="form-label">Subject</label>
+            <div className="mb-8">
+              <h2 className="font-bold text-lg text-midnight mb-4">Message</h2>
+              <div className="mb-4">
+                <label className="block font-semibold text-midnight mb-2">Subject</label>
                 <input
                   type="text"
-                  className="form-input"
+                  className="w-full py-3 px-4 border border-cloud rounded-lg font-body text-sm transition-colors duration-200 focus:outline-none focus:border-primary"
                   placeholder="Enter announcement subject"
                   value={subject}
                   onChange={(e) => setSubject(e.target.value)}
                 />
               </div>
               <div>
-                <label className="form-label">Message Body</label>
+                <label className="block font-semibold text-midnight mb-2">Message Body</label>
                 <textarea
-                  className="form-textarea"
+                  className="w-full py-3 px-4 border border-cloud rounded-lg font-body text-sm min-h-[200px] resize-y transition-colors duration-200 focus:outline-none focus:border-primary"
                   placeholder="Type your announcement here..."
                   value={messageBody}
                   onChange={(e) => setMessageBody(e.target.value)}
@@ -230,11 +251,11 @@ function AnnouncementPage() {
             </div>
 
             {/* Attachments */}
-            <div className="form-section">
-              <h2 className="form-section-title">Attachments</h2>
-              <div className="attachment-upload">
+            <div className="mb-8">
+              <h2 className="font-bold text-lg text-midnight mb-4">Attachments</h2>
+              <div className="border-2 border-dashed border-cloud rounded-lg p-6 text-center cursor-pointer transition-all duration-200 hover:border-primary hover:bg-primary-bg">
                 <svg
-                  className="attachment-icon"
+                  className="w-12 h-12 mx-auto mb-3 opacity-50"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -246,33 +267,42 @@ function AnnouncementPage() {
                     d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
                   />
                 </svg>
-                <div className="attachment-text">Click to upload files or drag and drop</div>
+                <div className="text-slate text-sm">Click to upload files or drag and drop</div>
               </div>
             </div>
 
             {/* Send Options */}
-            <div className="form-section">
-              <h2 className="form-section-title">Send Options</h2>
-              <div className="send-options">
-                <button className="btn btn-primary" onClick={handleSendClick}>
+            <div>
+              <h2 className="font-bold text-lg text-midnight mb-4">Send Options</h2>
+              <div className="flex gap-3">
+                <button
+                  className="py-3.5 px-7 rounded-lg font-semibold text-base cursor-pointer transition-all duration-200 border-none font-body bg-primary text-white hover:bg-primary-dark"
+                  onClick={handleSendClick}
+                >
                   Send Now
                 </button>
                 <button
-                  className="btn btn-secondary"
+                  className="py-3.5 px-7 rounded-lg font-semibold text-base cursor-pointer transition-all duration-200 font-body bg-white text-primary border-2 border-primary hover:bg-primary-bg"
                   onClick={() => setShowSchedule(!showSchedule)}
                 >
                   Schedule for Later
                 </button>
               </div>
               {showSchedule && (
-                <div className="datetime-picker show">
+                <div className="grid grid-cols-2 gap-3 mt-3 p-4 bg-snow rounded-lg">
                   <div>
-                    <label className="form-label">Date</label>
-                    <input type="date" className="form-input" />
+                    <label className="block font-semibold text-midnight mb-2">Date</label>
+                    <input
+                      type="date"
+                      className="w-full py-3 px-4 border border-cloud rounded-lg font-body text-sm focus:outline-none focus:border-primary"
+                    />
                   </div>
                   <div>
-                    <label className="form-label">Time</label>
-                    <input type="time" className="form-input" />
+                    <label className="block font-semibold text-midnight mb-2">Time</label>
+                    <input
+                      type="time"
+                      className="w-full py-3 px-4 border border-cloud rounded-lg font-body text-sm focus:outline-none focus:border-primary"
+                    />
                   </div>
                 </div>
               )}
@@ -280,13 +310,13 @@ function AnnouncementPage() {
           </div>
 
           {/* Preview Panel */}
-          <div className="preview-panel">
-            <h3 className="preview-title">Preview</h3>
-            <div className="preview-card">
+          <div className="bg-white rounded-xl p-8 sticky top-8 h-fit lg:static">
+            <h3 className="font-bold text-lg text-midnight mb-4">Preview</h3>
+            <div className="border border-cloud rounded-lg p-5 bg-snow">
               {subject || messageBody ? (
                 <div>
-                  <div className="preview-header">
-                    <div className="preview-icon">
+                  <div className="flex items-center gap-3 pb-4 border-b border-cloud mb-4">
+                    <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white">
                       <svg
                         width="20"
                         height="20"
@@ -303,13 +333,13 @@ function AnnouncementPage() {
                       </svg>
                     </div>
                     <div>
-                      <div className="preview-from">RoomPilot Announcement</div>
-                      <div className="preview-to">To: Selected Recipients</div>
+                      <div className="font-semibold text-midnight">RoomPilot Announcement</div>
+                      <div className="text-[13px] text-slate">To: Selected Recipients</div>
                     </div>
                   </div>
-                  {subject && <div className="preview-subject">{subject}</div>}
+                  {subject && <div className="font-bold text-lg text-midnight mb-3">{subject}</div>}
                   {messageBody && (
-                    <div className="preview-body">
+                    <div className="text-slate leading-relaxed">
                       {messageBody.split('\n').map((line, i) => (
                         <span key={i}>
                           {line}
@@ -320,7 +350,7 @@ function AnnouncementPage() {
                   )}
                 </div>
               ) : (
-                <div className="preview-placeholder">
+                <div className="text-slate italic text-center py-10 px-5">
                   Your announcement preview will appear here as you type
                 </div>
               )}
@@ -330,23 +360,33 @@ function AnnouncementPage() {
 
         {/* Confirmation Modal */}
         {showConfirmModal && (
-          <div className="modal show" onClick={() => setShowConfirmModal(false)}>
-            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-              <h2 className="modal-title">Confirm Send</h2>
-              <div className="modal-body">
+          <div
+            className="fixed inset-0 bg-black/50 flex items-center justify-center z-[1000]"
+            onClick={() => setShowConfirmModal(false)}
+          >
+            <div
+              className="bg-white rounded-xl p-8 max-w-[500px] w-[90%]"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <h2 className="font-display text-2xl font-bold text-midnight mb-4">Confirm Send</h2>
+              <div className="text-slate mb-6">
                 <p>
                   Are you sure you want to send this announcement to{' '}
                   <strong>{getRecipientCount()} recipients</strong>?
                 </p>
-                <p style={{ marginTop: '12px', color: 'var(--color-mist)' }}>
-                  This action cannot be undone.
-                </p>
+                <p className="mt-3 text-slate">This action cannot be undone.</p>
               </div>
-              <div className="modal-actions">
-                <button className="btn btn-secondary" onClick={() => setShowConfirmModal(false)}>
+              <div className="flex gap-3 justify-end">
+                <button
+                  className="py-3.5 px-7 rounded-lg font-semibold text-base cursor-pointer transition-all duration-200 font-body bg-white text-primary border-2 border-primary hover:bg-primary-bg"
+                  onClick={() => setShowConfirmModal(false)}
+                >
                   Cancel
                 </button>
-                <button className="btn btn-primary" onClick={handleConfirmSend}>
+                <button
+                  className="py-3.5 px-7 rounded-lg font-semibold text-base cursor-pointer transition-all duration-200 border-none font-body bg-primary text-white hover:bg-primary-dark"
+                  onClick={handleConfirmSend}
+                >
                   Send Announcement
                 </button>
               </div>

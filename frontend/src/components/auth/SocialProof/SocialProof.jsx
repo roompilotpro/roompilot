@@ -1,5 +1,4 @@
 import { classNames } from '../../../utils/classNames'
-import './SocialProof.css'
 
 /**
  * SocialProof component - Stats section
@@ -19,11 +18,18 @@ function SocialProof({
   className,
 }) {
   return (
-    <div className={classNames('social-proof', className)}>
+    <div
+      className={classNames(
+        'bg-white p-8 rounded-lg mt-12 flex gap-12 justify-center shadow-sm md:flex-col md:gap-6',
+        className
+      )}
+    >
       {stats.map((stat, index) => (
-        <div key={index} className="social-proof__stat">
-          <span className="social-proof__number">{stat.number}</span>
-          <span className="social-proof__label">{stat.label}</span>
+        <div key={index} className="text-center">
+          <span className="font-display text-3xl font-bold text-primary block mb-1">
+            {stat.number}
+          </span>
+          <span className="text-sm text-slate uppercase tracking-wide">{stat.label}</span>
         </div>
       ))}
     </div>

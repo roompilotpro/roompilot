@@ -2,7 +2,13 @@ import { forwardRef, useState, useCallback } from 'react'
 import classNames from '../../../utils/classNames'
 import { Checkbox } from '../../forms'
 import { Skeleton } from '../../primitives'
-import './DataTable.css'
+
+// Alignment styles
+const alignStyles = {
+  left: 'text-left',
+  center: 'text-center',
+  right: 'text-right',
+}
 
 /**
  * DataTable - Reusable data table with sorting, selection, and pagination
@@ -139,9 +145,9 @@ const DataTable = forwardRef(function DataTable(
   const renderLoadingSkeleton = () => (
     <>
       {Array.from({ length: loadingRows }).map((_, rowIndex) => (
-        <tr key={`skeleton-${rowIndex}`} className="data-table__row">
+        <tr key={`skeleton-${rowIndex}`} className="border-b border-cloud">
           {selectable && (
-            <td className="data-table__cell data-table__cell--checkbox">
+            <td className="w-12 px-4 py-3">
               <Skeleton variant="circular" width={20} height={20} />
             </td>
           )}
@@ -149,8 +155,8 @@ const DataTable = forwardRef(function DataTable(
             <td
               key={column.key}
               className={classNames(
-                'data-table__cell',
-                column.align && `data-table__cell--${column.align}`
+                'px-4 py-3 font-body text-sm text-charcoal',
+                column.align && alignStyles[column.align]
               )}
             >
               <Skeleton variant="text" width="80%" />
@@ -163,11 +169,11 @@ const DataTable = forwardRef(function DataTable(
 
   const renderEmptyState = () => (
     <tr>
-      <td colSpan={columns.length + (selectable ? 1 : 0)} className="data-table__empty">
+      <td colSpan={columns.length + (selectable ? 1 : 0)} className="text-center py-12">
         {emptyState || (
-          <div className="data-table__empty-default">
-            <span className="data-table__empty-icon">📋</span>
-            <p className="data-table__empty-text">No data available</p>
+          <div className="flex flex-col items-center gap-2">
+            <span className="text-4xl">📋</span>
+            <p className="text-sm text-slate">No data available</p>
           </div>
         )}
       </td>
@@ -175,14 +181,17 @@ const DataTable = forwardRef(function DataTable(
   )
 
   return (
-    <div ref={ref} className={classNames('data-table', className)} {...props}>
-      <table className="data-table__table" role="grid">
+    <div ref={ref} className={classNames('overflow-x-auto', className)} {...props}>
+      <table className="w-full border-collapse" role="grid">
         <thead
-          className={classNames('data-table__header', stickyHeader && 'data-table__header--sticky')}
+          className={classNames(
+            'bg-snow border-b border-cloud',
+            stickyHeader && 'sticky top-0 z-10'
+          )}
         >
-          <tr className="data-table__header-row">
+          <tr>
             {selectable && (
-              <th className="data-table__header-cell data-table__header-cell--checkbox">
+              <th className="w-12 px-4 py-3">
                 <Checkbox
                   checked={isAllSelected}
                   indeterminate={isSomeSelected}
@@ -197,9 +206,9 @@ const DataTable = forwardRef(function DataTable(
                 <th
                   key={column.key}
                   className={classNames(
-                    'data-table__header-cell',
-                    isSortable && 'data-table__header-cell--sortable',
-                    column.align && `data-table__header-cell--${column.align}`
+                    'px-4 py-3 font-body text-xs font-semibold text-slate uppercase tracking-wider',
+                    isSortable && 'cursor-pointer hover:bg-cloud/50 select-none',
+                    column.align ? alignStyles[column.align] : 'text-left'
                   )}
                   style={column.width ? { width: column.width } : undefined}
                   onClick={isSortable ? () => handleSort(column.key) : undefined}
@@ -211,18 +220,16 @@ const DataTable = forwardRef(function DataTable(
                       : undefined
                   }
                 >
-                  <span className="data-table__header-content">
+                  <span className="inline-flex items-center gap-2">
                     {column.label}
-                    {isSortable && (
-                      <span className="data-table__sort-icon">{getSortIcon(column.key)}</span>
-                    )}
+                    {isSortable && <span className="text-mist">{getSortIcon(column.key)}</span>}
                   </span>
                 </th>
               )
             })}
           </tr>
         </thead>
-        <tbody className="data-table__body">
+        <tbody>
           {loading
             ? renderLoadingSkeleton()
             : sortedData.length === 0
@@ -235,16 +242,16 @@ const DataTable = forwardRef(function DataTable(
                     <tr
                       key={rowId ?? rowIndex}
                       className={classNames(
-                        'data-table__row',
-                        isSelected && 'data-table__row--selected',
-                        onRowClick && 'data-table__row--clickable'
+                        'border-b border-cloud hover:bg-snow transition-colors',
+                        isSelected && 'bg-primary-bg',
+                        onRowClick && 'cursor-pointer'
                       )}
                       onClick={onRowClick ? (e) => handleRowClick(row, rowIndex, e) : undefined}
                       role="row"
                       aria-selected={selectable ? isSelected : undefined}
                     >
                       {selectable && (
-                        <td className="data-table__cell data-table__cell--checkbox">
+                        <td className="w-12 px-4 py-3">
                           <Checkbox
                             checked={isSelected}
                             onChange={() => handleSelectRow(row)}
@@ -257,8 +264,8 @@ const DataTable = forwardRef(function DataTable(
                         <td
                           key={column.key}
                           className={classNames(
-                            'data-table__cell',
-                            column.align && `data-table__cell--${column.align}`
+                            'px-4 py-3 font-body text-sm text-charcoal',
+                            column.align && alignStyles[column.align]
                           )}
                         >
                           {renderCell(row, column, rowIndex)}

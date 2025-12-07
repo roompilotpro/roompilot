@@ -8,7 +8,6 @@ import { Button } from '../../components/primitives'
 import { ProgressSteps } from '../../components/navigation'
 import { Input, Select, Textarea, Checkbox, Toggle, FileUpload } from '../../components/forms'
 import { propertyTypeOptions, propertyAmenities } from '../../data/mockLandlordData'
-import './AddPropertyPage.css'
 
 const STEPS = [
   { id: 1, label: 'Basic Details' },
@@ -94,11 +93,11 @@ function AddPropertyPage() {
     switch (currentStep) {
       case 1:
         return (
-          <div className="step-content">
-            <h2 className="step-title">Basic Property Details</h2>
-            <p className="step-description">Tell us about your property</p>
+          <div className="mb-8">
+            <h2 className="font-display text-2xl font-semibold text-midnight mb-2">Basic Property Details</h2>
+            <p className="text-[15px] text-slate mb-6">Tell us about your property</p>
 
-            <div className="form-grid">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <Input
                 label="Property Name"
                 placeholder="e.g., Sunshine House"
@@ -124,7 +123,7 @@ function AddPropertyPage() {
                 onChange={(e) => updateFormData('address', e.target.value)}
                 required
                 fullWidth
-                className="full-width"
+                className="md:col-span-2"
               />
 
               <Input
@@ -161,7 +160,7 @@ function AddPropertyPage() {
                 onChange={(e) => updateFormData('description', e.target.value)}
                 minRows={4}
                 fullWidth
-                className="full-width"
+                className="md:col-span-2"
               />
             </div>
           </div>
@@ -169,9 +168,9 @@ function AddPropertyPage() {
 
       case 2:
         return (
-          <div className="step-content">
-            <h2 className="step-title">Property Photos</h2>
-            <p className="step-description">Add photos to showcase your property</p>
+          <div className="mb-8">
+            <h2 className="font-display text-2xl font-semibold text-midnight mb-2">Property Photos</h2>
+            <p className="text-[15px] text-slate mb-6">Add photos to showcase your property</p>
 
             <FileUpload
               label="Upload Photos"
@@ -182,11 +181,11 @@ function AddPropertyPage() {
             />
 
             {formData.photos.length > 0 && (
-              <div className="photo-preview-grid">
+              <div className="grid grid-cols-[repeat(auto-fill,minmax(140px,1fr))] gap-3 mt-6">
                 {Array.from(formData.photos).map((photo, index) => (
-                  <div key={index} className="photo-preview">
-                    <span className="photo-preview-icon">📷</span>
-                    <span className="photo-preview-name">{photo.name}</span>
+                  <div key={index} className="flex flex-col items-center gap-2 p-4 bg-snow rounded-xl">
+                    <span className="text-[32px]">📷</span>
+                    <span className="text-xs text-slate text-center break-all max-w-full overflow-hidden text-ellipsis whitespace-nowrap">{photo.name}</span>
                   </div>
                 ))}
               </div>
@@ -196,13 +195,13 @@ function AddPropertyPage() {
 
       case 3:
         return (
-          <div className="step-content">
-            <h2 className="step-title">Amenities & House Rules</h2>
-            <p className="step-description">Select what your property offers</p>
+          <div className="mb-8">
+            <h2 className="font-display text-2xl font-semibold text-midnight mb-2">Amenities & House Rules</h2>
+            <p className="text-[15px] text-slate mb-6">Select what your property offers</p>
 
-            <div className="section-group">
-              <h3 className="section-subtitle">Amenities</h3>
-              <div className="amenities-selection-grid">
+            <div className="mb-8">
+              <h3 className="text-lg font-semibold text-charcoal mb-4 pb-3 border-b-2 border-cloud">Amenities</h3>
+              <div className="grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-3">
                 {propertyAmenities.map((amenity) => (
                   <Checkbox
                     key={amenity.id}
@@ -216,15 +215,15 @@ function AddPropertyPage() {
               </div>
             </div>
 
-            <div className="section-group">
-              <h3 className="section-subtitle">House Rules</h3>
-              <div className="rules-toggles">
-                <div className="rule-toggle">
-                  <div className="rule-toggle-info">
-                    <span className="rule-toggle-icon">🚭</span>
+            <div>
+              <h3 className="text-lg font-semibold text-charcoal mb-4 pb-3 border-b-2 border-cloud">House Rules</h3>
+              <div className="flex flex-col gap-4 mb-6">
+                <div className="flex items-center justify-between p-4 bg-snow rounded-xl">
+                  <div className="flex items-center gap-4">
+                    <span className="text-2xl">🚭</span>
                     <div>
-                      <span className="rule-toggle-label">Smoking Allowed</span>
-                      <span className="rule-toggle-description">
+                      <span className="block text-[15px] font-semibold text-charcoal mb-0.5">Smoking Allowed</span>
+                      <span className="block text-[13px] text-slate">
                         Permit smoking in designated areas
                       </span>
                     </div>
@@ -232,34 +231,34 @@ function AddPropertyPage() {
                   <Toggle checked={formData.rules.smoking} onChange={() => toggleRule('smoking')} />
                 </div>
 
-                <div className="rule-toggle">
-                  <div className="rule-toggle-info">
-                    <span className="rule-toggle-icon">🐕</span>
+                <div className="flex items-center justify-between p-4 bg-snow rounded-xl">
+                  <div className="flex items-center gap-4">
+                    <span className="text-2xl">🐕</span>
                     <div>
-                      <span className="rule-toggle-label">Pets Allowed</span>
-                      <span className="rule-toggle-description">Allow tenants to have pets</span>
+                      <span className="block text-[15px] font-semibold text-charcoal mb-0.5">Pets Allowed</span>
+                      <span className="block text-[13px] text-slate">Allow tenants to have pets</span>
                     </div>
                   </div>
                   <Toggle checked={formData.rules.pets} onChange={() => toggleRule('pets')} />
                 </div>
 
-                <div className="rule-toggle">
-                  <div className="rule-toggle-info">
-                    <span className="rule-toggle-icon">👥</span>
+                <div className="flex items-center justify-between p-4 bg-snow rounded-xl">
+                  <div className="flex items-center gap-4">
+                    <span className="text-2xl">👥</span>
                     <div>
-                      <span className="rule-toggle-label">Guests Allowed</span>
-                      <span className="rule-toggle-description">Allow overnight guests</span>
+                      <span className="block text-[15px] font-semibold text-charcoal mb-0.5">Guests Allowed</span>
+                      <span className="block text-[13px] text-slate">Allow overnight guests</span>
                     </div>
                   </div>
                   <Toggle checked={formData.rules.guests} onChange={() => toggleRule('guests')} />
                 </div>
 
-                <div className="rule-toggle">
-                  <div className="rule-toggle-info">
-                    <span className="rule-toggle-icon">🔇</span>
+                <div className="flex items-center justify-between p-4 bg-snow rounded-xl">
+                  <div className="flex items-center gap-4">
+                    <span className="text-2xl">🔇</span>
                     <div>
-                      <span className="rule-toggle-label">Quiet Hours</span>
-                      <span className="rule-toggle-description">
+                      <span className="block text-[15px] font-semibold text-charcoal mb-0.5">Quiet Hours</span>
+                      <span className="block text-[13px] text-slate">
                         Enforce quiet hours for shared spaces
                       </span>
                     </div>
@@ -285,14 +284,14 @@ function AddPropertyPage() {
 
       case 4:
         return (
-          <div className="step-content">
-            <h2 className="step-title">Rooms</h2>
-            <p className="step-description">You can add rooms now or after publishing</p>
+          <div className="mb-8">
+            <h2 className="font-display text-2xl font-semibold text-midnight mb-2">Rooms</h2>
+            <p className="text-[15px] text-slate mb-6">You can add rooms now or after publishing</p>
 
-            <div className="rooms-placeholder">
-              <div className="rooms-placeholder-icon">🛏️</div>
-              <h3 className="rooms-placeholder-title">No rooms added yet</h3>
-              <p className="rooms-placeholder-text">
+            <div className="flex flex-col items-center justify-center py-16 px-6 bg-snow rounded-2xl text-center">
+              <div className="text-5xl mb-4">🛏️</div>
+              <h3 className="text-lg font-semibold text-charcoal mb-2">No rooms added yet</h3>
+              <p className="text-sm text-slate mb-6 max-w-[300px]">
                 You can add rooms after creating the property, or skip this step for now.
               </p>
               <Button
@@ -310,77 +309,77 @@ function AddPropertyPage() {
 
       case 5:
         return (
-          <div className="step-content">
-            <h2 className="step-title">Review & Publish</h2>
-            <p className="step-description">Review your property details before publishing</p>
+          <div className="mb-8">
+            <h2 className="font-display text-2xl font-semibold text-midnight mb-2">Review & Publish</h2>
+            <p className="text-[15px] text-slate mb-6">Review your property details before publishing</p>
 
-            <div className="review-sections">
-              <div className="review-section">
-                <h3 className="review-section-title">Basic Details</h3>
-                <div className="review-grid">
-                  <div className="review-item">
-                    <span className="review-label">Property Name</span>
-                    <span className="review-value">{formData.name || 'Not set'}</span>
+            <div className="flex flex-col gap-6">
+              <div className="p-5 bg-snow rounded-xl">
+                <h3 className="text-base font-semibold text-charcoal mb-4 pb-3 border-b border-cloud">Basic Details</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="flex flex-col gap-1">
+                    <span className="text-xs text-slate uppercase tracking-wide">Property Name</span>
+                    <span className="text-sm text-charcoal">{formData.name || 'Not set'}</span>
                   </div>
-                  <div className="review-item">
-                    <span className="review-label">Type</span>
-                    <span className="review-value">
+                  <div className="flex flex-col gap-1">
+                    <span className="text-xs text-slate uppercase tracking-wide">Type</span>
+                    <span className="text-sm text-charcoal">
                       {propertyTypeOptions.find((o) => o.value === formData.propertyType)?.label ||
                         'Not set'}
                     </span>
                   </div>
-                  <div className="review-item full-width">
-                    <span className="review-label">Address</span>
-                    <span className="review-value">
+                  <div className="flex flex-col gap-1 md:col-span-2">
+                    <span className="text-xs text-slate uppercase tracking-wide">Address</span>
+                    <span className="text-sm text-charcoal">
                       {formData.address
                         ? `${formData.address}, ${formData.city}, ${formData.state} ${formData.zipCode}`
                         : 'Not set'}
                     </span>
                   </div>
-                  <div className="review-item full-width">
-                    <span className="review-label">Description</span>
-                    <span className="review-value">{formData.description || 'Not set'}</span>
+                  <div className="flex flex-col gap-1 md:col-span-2">
+                    <span className="text-xs text-slate uppercase tracking-wide">Description</span>
+                    <span className="text-sm text-charcoal">{formData.description || 'Not set'}</span>
                   </div>
                 </div>
               </div>
 
-              <div className="review-section">
-                <h3 className="review-section-title">Photos</h3>
-                <span className="review-value">{formData.photos.length} photos uploaded</span>
+              <div className="p-5 bg-snow rounded-xl">
+                <h3 className="text-base font-semibold text-charcoal mb-4 pb-3 border-b border-cloud">Photos</h3>
+                <span className="text-sm text-charcoal">{formData.photos.length} photos uploaded</span>
               </div>
 
-              <div className="review-section">
-                <h3 className="review-section-title">Amenities</h3>
-                <div className="review-amenities">
+              <div className="p-5 bg-snow rounded-xl">
+                <h3 className="text-base font-semibold text-charcoal mb-4 pb-3 border-b border-cloud">Amenities</h3>
+                <div className="flex flex-wrap gap-2">
                   {Object.entries(formData.amenities)
                     .filter(([, enabled]) => enabled)
                     .map(([id]) => {
                       const amenity = propertyAmenities.find((a) => a.id === id)
                       return amenity ? (
-                        <span key={id} className="review-amenity">
+                        <span key={id} className="py-2 px-3 bg-white rounded-lg text-[13px] text-charcoal">
                           {amenity.icon} {amenity.label}
                         </span>
                       ) : null
                     })}
                   {Object.values(formData.amenities).filter(Boolean).length === 0 && (
-                    <span className="review-value">No amenities selected</span>
+                    <span className="text-sm text-charcoal">No amenities selected</span>
                   )}
                 </div>
               </div>
 
-              <div className="review-section">
-                <h3 className="review-section-title">House Rules</h3>
-                <div className="review-rules">
-                  <span className="review-rule">
+              <div className="p-5 bg-snow rounded-xl">
+                <h3 className="text-base font-semibold text-charcoal mb-4 pb-3 border-b border-cloud">House Rules</h3>
+                <div className="flex flex-col gap-2">
+                  <span className="text-sm text-charcoal">
                     🚭 Smoking: {formData.rules.smoking ? 'Allowed' : 'Not allowed'}
                   </span>
-                  <span className="review-rule">
+                  <span className="text-sm text-charcoal">
                     🐕 Pets: {formData.rules.pets ? 'Allowed' : 'Not allowed'}
                   </span>
-                  <span className="review-rule">
+                  <span className="text-sm text-charcoal">
                     👥 Guests: {formData.rules.guests ? 'Allowed' : 'Not allowed'}
                   </span>
-                  <span className="review-rule">
+                  <span className="text-sm text-charcoal">
                     🔇 Quiet Hours: {formData.rules.quietHours ? 'Enforced' : 'Not enforced'}
                   </span>
                 </div>
@@ -406,24 +405,24 @@ function AddPropertyPage() {
         subtitle: 'List a new property on RoomPilot',
       }}
     >
-      <div className="add-property-content">
+      <div className="p-8 max-w-[900px] mx-auto md:p-5">
         {/* Progress Steps */}
-        <ProgressSteps steps={STEPS} currentStep={currentStep} className="add-property-progress" />
+        <ProgressSteps steps={STEPS} currentStep={currentStep} className="mb-8" />
 
         {/* Form Card */}
-        <Card className="add-property-card">
+        <Card className="p-8 md:p-6">
           {renderStepContent()}
 
           {/* Actions */}
-          <div className="add-property-actions">
-            <div className="add-property-actions-left">
+          <div className="flex flex-col md:flex-row items-center justify-between pt-6 border-t border-cloud gap-4">
+            <div className="flex gap-3 w-full md:w-auto justify-center md:justify-start">
               {currentStep > 1 && (
                 <Button variant="ghost" onClick={handleBack}>
                   Back
                 </Button>
               )}
             </div>
-            <div className="add-property-actions-right">
+            <div className="flex gap-3 w-full md:w-auto justify-center md:justify-end">
               <Button variant="outline" onClick={handleSaveDraft}>
                 Save Draft
               </Button>

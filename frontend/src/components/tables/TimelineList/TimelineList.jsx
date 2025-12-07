@@ -1,6 +1,18 @@
 import { forwardRef } from 'react'
 import classNames from '../../../utils/classNames'
-import './TimelineList.css'
+
+// Icon type border/text color styles
+const iconTypeStyles = {
+  success: 'border-accent text-accent',
+  completed: 'border-accent text-accent',
+  paid: 'border-accent text-accent',
+  warning: 'border-warm text-warm',
+  pending: 'border-warm text-warm',
+  error: 'border-coral text-coral',
+  failed: 'border-coral text-coral',
+  overdue: 'border-coral text-coral',
+  info: 'border-primary text-primary',
+}
 
 /**
  * TimelineList - Vertical timeline with icons
@@ -13,24 +25,8 @@ const TimelineList = forwardRef(function TimelineList(
   { events = [], emptyState, className, ...props },
   ref
 ) {
-  const getIconClass = (type) => {
-    switch (type?.toLowerCase()) {
-      case 'success':
-      case 'completed':
-      case 'paid':
-        return 'timeline-list__icon--success'
-      case 'warning':
-      case 'pending':
-        return 'timeline-list__icon--warning'
-      case 'error':
-      case 'failed':
-      case 'overdue':
-        return 'timeline-list__icon--error'
-      case 'info':
-        return 'timeline-list__icon--info'
-      default:
-        return ''
-    }
+  const getIconStyles = (type) => {
+    return iconTypeStyles[type?.toLowerCase()] || 'border-cloud'
   }
 
   const getDefaultIcon = (type) => {
@@ -76,12 +72,12 @@ const TimelineList = forwardRef(function TimelineList(
 
   if (events.length === 0) {
     return (
-      <div ref={ref} className={classNames('timeline-list', className)} {...props}>
-        <div className="timeline-list__empty">
+      <div ref={ref} className={classNames('relative pl-1', className)} {...props}>
+        <div className="py-12 px-6 text-center">
           {emptyState || (
-            <div className="timeline-list__empty-default">
-              <span className="timeline-list__empty-icon">📅</span>
-              <p className="timeline-list__empty-text">No events</p>
+            <div className="flex flex-col items-center gap-3">
+              <span className="text-4xl opacity-50">📅</span>
+              <p className="text-sm text-slate m-0">No events</p>
             </div>
           )}
         </div>
@@ -92,21 +88,35 @@ const TimelineList = forwardRef(function TimelineList(
   return (
     <div
       ref={ref}
-      className={classNames('timeline-list', className)}
+      className={classNames('relative pl-1', className)}
       role="list"
       aria-label="Timeline"
       {...props}
     >
-      <div className="timeline-list__line" aria-hidden="true" />
+      {/* Connector line */}
+      <div className="absolute left-[23px] top-6 bottom-6 w-0.5 bg-cloud" aria-hidden="true" />
       {events.map((event, index) => (
-        <div key={event.id ?? index} className="timeline-list__item" role="listitem">
-          <div className={classNames('timeline-list__icon', getIconClass(event.type))}>
+        <div
+          key={event.id ?? index}
+          className="flex gap-4 py-4 relative first:pt-0 last:pb-0"
+          role="listitem"
+        >
+          <div
+            className={classNames(
+              'shrink-0 w-12 h-12 flex items-center justify-center text-lg bg-white border-2 rounded-full z-[1]',
+              getIconStyles(event.type)
+            )}
+          >
             {event.icon || getDefaultIcon(event.type)}
           </div>
-          <div className="timeline-list__content">
-            <span className="timeline-list__title">{event.title}</span>
-            {event.description && <p className="timeline-list__description">{event.description}</p>}
-            <span className="timeline-list__time">{formatTimestamp(event.timestamp)}</span>
+          <div className="flex-1 pt-3 min-w-0">
+            <span className="block font-semibold text-charcoal">{event.title}</span>
+            {event.description && (
+              <p className="text-sm text-slate leading-relaxed mt-1 mb-0">{event.description}</p>
+            )}
+            <span className="block text-xs text-slate mt-1">
+              {formatTimestamp(event.timestamp)}
+            </span>
           </div>
         </div>
       ))}

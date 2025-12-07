@@ -1,6 +1,23 @@
 import { forwardRef, useId } from 'react'
 import { classNames } from '../../../utils/classNames'
-import './Toggle.css'
+
+// Size styles for the track
+const trackSizeStyles = {
+  sm: 'w-9 h-5',
+  md: 'w-11 h-6',
+}
+
+// Size styles for the thumb
+const thumbSizeStyles = {
+  sm: 'w-4 h-4',
+  md: 'w-5 h-5',
+}
+
+// Thumb translation when checked
+const thumbCheckedStyles = {
+  sm: 'translate-x-4',
+  md: 'translate-x-5',
+}
 
 /**
  * Toggle/Switch component
@@ -37,13 +54,13 @@ const Toggle = forwardRef(function Toggle(
     <label
       htmlFor={toggleId}
       className={classNames(
-        'toggle-wrapper',
-        `toggle-wrapper--label-${labelPosition}`,
-        disabled && 'toggle-wrapper--disabled',
+        'inline-flex items-start gap-3 cursor-pointer select-none',
+        labelPosition === 'left' && 'flex-row-reverse',
+        disabled && 'cursor-not-allowed',
         className
       )}
     >
-      <div className="toggle-container">
+      <div className="shrink-0 flex items-center">
         <input
           ref={ref}
           type="checkbox"
@@ -52,26 +69,53 @@ const Toggle = forwardRef(function Toggle(
           checked={checked}
           disabled={disabled}
           onChange={onChange}
-          className="toggle__input"
+          className="absolute opacity-0 w-0 h-0 peer"
           aria-checked={checked}
           {...props}
         />
         <span
           className={classNames(
-            'toggle',
-            `toggle--${size}`,
-            checked && 'toggle--checked',
-            disabled && 'toggle--disabled'
+            'relative inline-flex items-center rounded-full transition-colors duration-150 ease-out',
+            trackSizeStyles[size],
+            checked ? 'bg-primary' : 'bg-cloud',
+            disabled && !checked && 'bg-snow',
+            disabled && checked && 'bg-mist',
+            'peer-focus-visible:shadow-focus'
           )}
           aria-hidden="true"
         >
-          <span className="toggle__thumb" />
+          <span
+            className={classNames(
+              'absolute left-0.5 bg-white rounded-full shadow-sm transition-transform duration-150 ease-out',
+              thumbSizeStyles[size],
+              checked && thumbCheckedStyles[size],
+              disabled && 'bg-cloud'
+            )}
+          />
         </span>
       </div>
       {(label || description) && (
-        <span className="toggle__content">
-          {label && <span className="toggle__label">{label}</span>}
-          {description && <span className="toggle__description">{description}</span>}
+        <span className="flex flex-col gap-0.5">
+          {label && (
+            <span
+              className={classNames(
+                'font-body text-sm font-medium leading-snug',
+                disabled ? 'text-mist' : 'text-charcoal'
+              )}
+            >
+              {label}
+            </span>
+          )}
+          {description && (
+            <span
+              className={classNames(
+                'font-body text-sm leading-snug',
+                disabled ? 'text-mist' : 'text-slate'
+              )}
+            >
+              {description}
+            </span>
+          )}
         </span>
       )}
     </label>

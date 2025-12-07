@@ -1,5 +1,18 @@
 import { classNames } from '../../../utils/classNames'
-import './Avatar.css'
+
+// Base avatar styles
+const baseStyles =
+  'inline-flex items-center justify-center rounded-full bg-gradient-to-br from-primary-light to-primary text-white font-semibold overflow-hidden shrink-0'
+
+// Size variants (using CSS variables for avatar sizes)
+const sizeStyles = {
+  xs: 'w-[var(--avatar-xs)] h-[var(--avatar-xs)] text-[10px]',
+  sm: 'w-[var(--avatar-sm)] h-[var(--avatar-sm)] text-[13px]',
+  md: 'w-[var(--avatar-md)] h-[var(--avatar-md)] text-base',
+  lg: 'w-[var(--avatar-lg)] h-[var(--avatar-lg)] text-base',
+  xl: 'w-[var(--avatar-xl)] h-[var(--avatar-xl)] text-[22px]',
+  '2xl': 'w-[var(--avatar-2xl)] h-[var(--avatar-2xl)] text-[40px]',
+}
 
 /**
  * Avatar component for user profile images
@@ -22,11 +35,14 @@ function Avatar({ src, alt, name, size = 'md', className, ...props }) {
   const initials = getInitials(name)
 
   return (
-    <div className={classNames('avatar', `avatar--${size}`, className)} {...props}>
+    <div className={classNames(baseStyles, sizeStyles[size], className)} {...props}>
       {src ? (
-        <img src={src} alt={alt || name || 'Avatar'} className="avatar__image" />
+        <img src={src} alt={alt || name || 'Avatar'} className="w-full h-full object-cover" />
       ) : (
-        <span className="avatar__initials" aria-label={name || 'Avatar'}>
+        <span
+          className="flex items-center justify-center w-full h-full uppercase tracking-wide"
+          aria-label={name || 'Avatar'}
+        >
           {initials}
         </span>
       )}

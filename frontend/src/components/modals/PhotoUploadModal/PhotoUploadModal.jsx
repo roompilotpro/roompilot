@@ -2,7 +2,6 @@ import { forwardRef, useState, useRef } from 'react'
 import ModalBase from '../ModalBase'
 import { Button, IconButton } from '../../primitives'
 import classNames from '../../../utils/classNames'
-import './PhotoUploadModal.css'
 
 /**
  * PhotoUploadModal - Drag and drop photo upload modal
@@ -166,14 +165,14 @@ const PhotoUploadModal = forwardRef(function PhotoUploadModal(
       subtitle={`Add up to ${maxPhotos} photos`}
       footer={footer}
       size="lg"
-      className={classNames('photo-upload-modal', className)}
+      className={className}
       {...props}
     >
       {/* Dropzone */}
       <div
         className={classNames(
-          'photo-upload-modal__dropzone',
-          isDragging && 'photo-upload-modal__dropzone--dragover'
+          'border-2 border-dashed border-cloud rounded-lg py-10 px-6 text-center cursor-pointer transition-all duration-200 bg-snow hover:border-primary/50 hover:bg-primary-bg/50 sm:py-6',
+          isDragging && 'border-primary bg-primary-bg'
         )}
         onDragEnter={handleDragEnter}
         onDragLeave={handleDragLeave}
@@ -190,10 +189,10 @@ const PhotoUploadModal = forwardRef(function PhotoUploadModal(
           accept={acceptedFormats.join(',')}
           multiple
           onChange={handleFileInputChange}
-          className="photo-upload-modal__input"
+          className="hidden"
           aria-hidden="true"
         />
-        <div className="photo-upload-modal__dropzone-icon">
+        <div className="w-12 h-12 mx-auto mb-4 text-slate [&>svg]:w-full [&>svg]:h-full">
           <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path
               d="M4 16l4-4 4 4m8-4l-3-3-3 3M4 20h16a2 2 0 002-2V6a2 2 0 00-2-2H4a2 2 0 00-2 2v12a2 2 0 002 2z"
@@ -204,41 +203,52 @@ const PhotoUploadModal = forwardRef(function PhotoUploadModal(
             />
           </svg>
         </div>
-        <p className="photo-upload-modal__dropzone-text">
-          <strong>Click to upload</strong> or drag and drop
+        <p className="text-base text-charcoal m-0 mb-1">
+          <strong className="text-primary">Click to upload</strong> or drag and drop
         </p>
-        <p className="photo-upload-modal__dropzone-hint">
+        <p className="text-sm text-slate m-0">
           JPG, PNG or WebP (max {Math.round(maxFileSize / 1024 / 1024)}MB)
         </p>
       </div>
 
       {/* Error message */}
-      {error && <p className="photo-upload-modal__error">{error}</p>}
+      {error && (
+        <p className="text-sm text-coral mt-3 py-2 px-3 bg-coral-bg rounded-md m-0">{error}</p>
+      )}
 
       {/* Info items */}
       {infoItems && infoItems.length > 0 && (
-        <ul className="photo-upload-modal__info">
+        <ul className="mt-4 p-0 list-none">
           {infoItems.map((item, index) => (
-            <li key={index}>{item}</li>
+            <li
+              key={index}
+              className="text-sm text-slate py-1 pl-5 relative before:content-[''] before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1.5 before:h-1.5 before:rounded-full before:bg-slate/50"
+            >
+              {item}
+            </li>
           ))}
         </ul>
       )}
 
       {/* Photo grid */}
       {photos.length > 0 && (
-        <div className="photo-upload-modal__grid">
+        <div className="grid grid-cols-4 gap-3 mt-5 sm:grid-cols-3">
           {photos.map((photo) => (
-            <div key={photo.id} className="photo-upload-modal__photo">
-              <img src={photo.src} alt="" />
-              {photo.isCover && <span className="photo-upload-modal__cover-badge">Cover</span>}
-              <div className="photo-upload-modal__photo-overlay">
+            <div key={photo.id} className="relative aspect-square rounded-md overflow-hidden group">
+              <img src={photo.src} alt="" className="w-full h-full object-cover" />
+              {photo.isCover && (
+                <span className="absolute top-2 left-2 bg-primary text-white py-1 px-2 rounded-sm text-xs font-semibold">
+                  Cover
+                </span>
+              )}
+              <div className="absolute inset-0 bg-black/50 opacity-0 flex items-center justify-center gap-2 transition-opacity duration-200 group-hover:opacity-100">
                 {!photo.isCover && (
                   <IconButton
                     variant="ghost"
                     size="sm"
                     onClick={() => handleSetCover(photo.id)}
                     label="Set as cover"
-                    className="photo-upload-modal__photo-action"
+                    className="text-white bg-white/20 hover:bg-white/30"
                   >
                     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
                       <path
@@ -256,7 +266,7 @@ const PhotoUploadModal = forwardRef(function PhotoUploadModal(
                   size="sm"
                   onClick={() => handleDelete(photo.id)}
                   label="Delete photo"
-                  className="photo-upload-modal__photo-action"
+                  className="text-white bg-white/20 hover:bg-white/30"
                 >
                   <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
                     <path
@@ -276,13 +286,10 @@ const PhotoUploadModal = forwardRef(function PhotoUploadModal(
 
       {/* Photo count */}
       {photos.length > 0 && (
-        <p className="photo-upload-modal__count">
+        <p className="text-sm text-slate mt-3 text-center m-0">
           {photos.length} of {maxPhotos} photos
           {photos.length < minPhotos && (
-            <span className="photo-upload-modal__count-warning">
-              {' '}
-              (minimum {minPhotos} required)
-            </span>
+            <span className="text-warm"> (minimum {minPhotos} required)</span>
           )}
         </p>
       )}

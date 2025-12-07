@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Button } from '../../components/primitives'
 import { ROUTES } from '../../router/routes'
-import './FAQPage.css'
+import { classNames } from '../../utils'
 
 const FAQ_DATA = {
   'getting-started': {
@@ -106,26 +106,30 @@ function FAQPage() {
   }, {})
 
   return (
-    <div className="faq-page">
-      <section className="faq-hero">
-        <h1>Frequently Asked Questions</h1>
-        <p>Find answers to common questions about RoomPilot</p>
-        <div className="faq-search">
+    <div className="bg-white">
+      <section className="bg-gradient-to-br from-primary-bg to-white py-20 px-10 text-center md:px-5 md:py-15">
+        <h1 className="font-display text-[clamp(2rem,4vw,3rem)] text-midnight mb-4">Frequently Asked Questions</h1>
+        <p className="text-lg text-slate mb-8">Find answers to common questions about RoomPilot</p>
+        <div className="max-w-[600px] mx-auto relative">
           <input
             type="text"
             placeholder="Search for answers..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full py-4 pr-12 pl-5 border-2 border-cloud rounded-md text-base font-body focus:outline-none focus:border-primary"
           />
-          <span className="search-icon">&#128269;</span>
+          <span className="absolute right-5 top-1/2 -translate-y-1/2 text-slate">&#128269;</span>
         </div>
       </section>
 
-      <section className="faq-content">
-        <div className="faq-container">
-          <div className="faq-tabs">
+      <section className="py-15 px-10 md:px-5">
+        <div className="max-w-[900px] mx-auto">
+          <div className="flex gap-4 mb-12 flex-wrap justify-center border-b-2 border-cloud pb-0 md:gap-2">
             <button
-              className={`faq-tab ${activeCategory === 'all' ? 'active' : ''}`}
+              className={classNames(
+                'py-3 px-6 bg-transparent border-none font-body text-base font-semibold text-slate cursor-pointer border-b-[3px] border-transparent -mb-0.5 transition-colors hover:text-primary md:py-2 md:px-4 md:text-sm',
+                activeCategory === 'all' && 'text-primary border-b-primary'
+              )}
               onClick={() => setActiveCategory('all')}
             >
               All
@@ -133,7 +137,10 @@ function FAQPage() {
             {categories.map((cat) => (
               <button
                 key={cat}
-                className={`faq-tab ${activeCategory === cat ? 'active' : ''}`}
+                className={classNames(
+                  'py-3 px-6 bg-transparent border-none font-body text-base font-semibold text-slate cursor-pointer border-b-[3px] border-transparent -mb-0.5 transition-colors hover:text-primary md:py-2 md:px-4 md:text-sm',
+                  activeCategory === cat && 'text-primary border-b-primary'
+                )}
                 onClick={() => setActiveCategory(cat)}
               >
                 {FAQ_DATA[cat].title}
@@ -142,21 +149,24 @@ function FAQPage() {
           </div>
 
           {Object.entries(filteredData).map(([key, category]) => (
-            <div key={key} className="faq-category">
-              <h2 className="faq-category-title">{category.title}</h2>
+            <div key={key} className="mb-12">
+              <h2 className="font-display text-[2rem] text-midnight mb-6 pb-3 border-b-2 border-cloud">{category.title}</h2>
               {category.questions.map((item, idx) => {
                 const itemKey = `${key}-${idx}`
                 return (
-                  <div key={itemKey} className={`faq-item ${openItems[itemKey] ? 'active' : ''}`}>
-                    <button className="faq-question" onClick={() => toggleItem(itemKey)}>
+                  <div key={itemKey} className="bg-white border border-cloud rounded-sm mb-4 overflow-hidden">
+                    <button
+                      className="w-full p-5 bg-transparent border-none text-left font-body text-lg font-semibold text-midnight cursor-pointer flex justify-between items-center hover:bg-snow"
+                      onClick={() => toggleItem(itemKey)}
+                    >
                       {item.q}
-                      <span className="faq-icon">&#9660;</span>
+                      <span className={classNames('transition-transform duration-300 shrink-0 ml-4', openItems[itemKey] && 'rotate-180')}>&#9660;</span>
                     </button>
                     <div
-                      className="faq-answer"
+                      className="overflow-hidden transition-[max-height] duration-300"
                       style={{ maxHeight: openItems[itemKey] ? '500px' : '0' }}
                     >
-                      <div className="faq-answer-content">{item.a}</div>
+                      <div className="px-5 pb-5 text-slate leading-relaxed">{item.a}</div>
                     </div>
                   </div>
                 )
@@ -166,10 +176,10 @@ function FAQPage() {
         </div>
       </section>
 
-      <section className="faq-cta">
-        <h2>Still Have Questions?</h2>
-        <p>Our support team is here to help 24/7</p>
-        <Link to={ROUTES.CONTACT}>
+      <section className="bg-snow py-20 px-10 text-center md:px-5 md:py-15">
+        <h2 className="font-display text-[2rem] text-midnight mb-4">Still Have Questions?</h2>
+        <p className="text-lg text-slate mb-8">Our support team is here to help 24/7</p>
+        <Link to={ROUTES.CONTACT} className="no-underline">
           <Button variant="primary" size="lg">
             Contact Support
           </Button>

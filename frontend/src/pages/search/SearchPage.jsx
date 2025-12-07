@@ -3,8 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useSearchFilters } from '../../hooks'
 import { ROUTES } from '../../router/routes'
 import { SearchNavigation, ListingsPanel, MapPanel, FilterDropdown } from '../../components/search'
-import { FilterBar, FilterChip } from '../../components/navigation'
-import './SearchPage.css'
+import { FilterChip } from '../../components/navigation'
 
 // Mock data for listings
 const MOCK_LISTINGS = [
@@ -247,7 +246,7 @@ function SearchPage() {
   }
 
   return (
-    <div className="search-page">
+    <div className="min-h-screen bg-white">
       {/* Navigation */}
       <SearchNavigation
         location={filters.location}
@@ -258,9 +257,9 @@ function SearchPage() {
       />
 
       {/* Filter Bar */}
-      <div className="search-page__filter-bar">
+      <div className="fixed top-[var(--nav-height)] left-0 right-0 z-[999] h-16 px-6 flex items-center gap-3 bg-white border-b border-cloud md:overflow-x-auto md:scrollbar-hide">
         {FILTER_DEFINITIONS.map((filter) => (
-          <div key={filter.id} className="search-page__filter-wrapper">
+          <div key={filter.id} className="relative">
             <FilterChip
               icon={filter.icon}
               label={filter.label}
@@ -282,19 +281,19 @@ function SearchPage() {
           </div>
         ))}
 
-        <div className="search-page__filter-divider" />
+        <div className="w-px h-8 bg-cloud mx-1 md:hidden" />
 
         <FilterChip icon="🔍" label="More Filters" hasDropdown onClick={() => {}} />
 
         {activeFilterCount > 0 && (
-          <button type="button" className="search-page__clear-filters" onClick={clearFilters}>
+          <button type="button" className="ml-auto py-2 px-4 bg-transparent border-none font-body text-sm font-medium text-primary cursor-pointer underline hover:text-[#1d4ed8] whitespace-nowrap" onClick={clearFilters}>
             Clear all ({activeFilterCount})
           </button>
         )}
       </div>
 
       {/* Main Content */}
-      <main className="search-page__main">
+      <main className="flex mt-[calc(var(--nav-height)+64px)] h-[calc(100vh-var(--nav-height)-64px)]">
         <ListingsPanel
           listings={MOCK_LISTINGS}
           totalCount={47}

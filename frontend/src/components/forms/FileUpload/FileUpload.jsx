@@ -1,6 +1,5 @@
 import { forwardRef, useState, useRef, useId } from 'react'
 import { classNames } from '../../../utils/classNames'
-import './FileUpload.css'
 
 /**
  * FileUpload component with drag and drop support
@@ -141,15 +140,17 @@ const FileUpload = forwardRef(function FileUpload(
   const isImage = (file) => file.type.startsWith('image/')
 
   return (
-    <div className={classNames('file-upload-wrapper', className)}>
-      {label && <span className="file-upload__label">{label}</span>}
+    <div className={classNames('flex flex-col gap-2', className)}>
+      {label && <span className="font-body text-sm font-semibold text-midnight">{label}</span>}
       <div
         ref={ref}
         className={classNames(
-          'file-upload',
-          isDragging && 'file-upload--dragging',
-          disabled && 'file-upload--disabled',
-          displayError && 'file-upload--error'
+          'flex flex-col items-center justify-center min-h-[160px] p-8 border-2 border-dashed rounded-md bg-white cursor-pointer transition-all duration-150 ease-out outline-none',
+          isDragging && 'border-primary bg-primary-bg',
+          !isDragging && !displayError && 'border-cloud hover:border-primary hover:bg-primary-bg',
+          displayError && 'border-coral',
+          disabled && 'bg-snow cursor-not-allowed opacity-60',
+          'focus:border-primary focus:shadow-focus'
         )}
         onDragEnter={handleDragEnter}
         onDragLeave={handleDragLeave}
@@ -174,22 +175,31 @@ const FileUpload = forwardRef(function FileUpload(
           multiple={multiple}
           disabled={disabled}
           onChange={handleInputChange}
-          className="file-upload__input"
+          className="absolute w-0 h-0 opacity-0 pointer-events-none"
           {...props}
         />
-        <div className="file-upload__content">
-          <span className="file-upload__icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <div className="flex flex-col items-center text-center gap-2">
+          <span
+            className="flex items-center justify-center w-12 h-12 text-primary mb-2"
+            aria-hidden="true"
+          >
+            <svg
+              className="w-full h-full"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
               <polyline points="17 8 12 3 7 8" />
               <line x1="12" y1="3" x2="12" y2="15" />
             </svg>
           </span>
-          <span className="file-upload__text">
-            <strong>Click to upload</strong> or drag and drop
+          <span className="font-body text-sm text-charcoal">
+            <strong className="text-primary font-semibold">Click to upload</strong> or drag and drop
           </span>
           {accept && (
-            <span className="file-upload__hint">
+            <span className="font-body text-xs text-mist">
               {accept.replace(/\./g, '').toUpperCase().replace(/,/g, ', ')}
               {maxSize && ` (max ${formatFileSize(maxSize)})`}
             </span>
@@ -198,37 +208,51 @@ const FileUpload = forwardRef(function FileUpload(
       </div>
 
       {showPreview && value.length > 0 && (
-        <div className="file-upload__preview">
+        <div className="flex flex-col gap-2 mt-3">
           {value.map((file, index) => (
-            <div key={index} className="file-upload__file">
+            <div key={index} className="flex items-center gap-3 p-3 bg-snow rounded-sm">
               {isImage(file) ? (
                 <img
                   src={URL.createObjectURL(file)}
                   alt={file.name}
-                  className="file-upload__thumbnail"
+                  className="w-12 h-12 object-cover rounded-sm"
                 />
               ) : (
-                <span className="file-upload__file-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <span className="flex items-center justify-center w-12 h-12 bg-cloud rounded-sm text-slate">
+                  <svg
+                    className="w-6 h-6"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
                     <polyline points="14 2 14 8 20 8" />
                   </svg>
                 </span>
               )}
-              <div className="file-upload__file-info">
-                <span className="file-upload__file-name">{file.name}</span>
-                <span className="file-upload__file-size">{formatFileSize(file.size)}</span>
+              <div className="flex-1 min-w-0 flex flex-col gap-0.5">
+                <span className="font-body text-sm font-medium text-charcoal truncate">
+                  {file.name}
+                </span>
+                <span className="font-body text-xs text-mist">{formatFileSize(file.size)}</span>
               </div>
               <button
                 type="button"
-                className="file-upload__remove"
+                className="flex items-center justify-center w-8 h-8 p-0 border-none bg-transparent text-mist rounded-sm cursor-pointer transition-all duration-150 ease-out hover:bg-coral-bg hover:text-coral"
                 onClick={(e) => {
                   e.stopPropagation()
                   handleRemove(index)
                 }}
                 aria-label={`Remove ${file.name}`}
               >
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <svg
+                  className="w-[18px] h-[18px]"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
                   <line x1="18" y1="6" x2="6" y2="18" />
                   <line x1="6" y1="6" x2="18" y2="18" />
                 </svg>
@@ -239,11 +263,11 @@ const FileUpload = forwardRef(function FileUpload(
       )}
 
       {displayError && (
-        <span className="file-upload__error" role="alert">
+        <span className="text-xs text-coral" role="alert">
           {displayError}
         </span>
       )}
-      {helperText && !displayError && <span className="file-upload__helper">{helperText}</span>}
+      {helperText && !displayError && <span className="text-xs text-slate">{helperText}</span>}
     </div>
   )
 })

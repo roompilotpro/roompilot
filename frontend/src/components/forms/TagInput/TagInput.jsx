@@ -1,6 +1,21 @@
 import { forwardRef, useState, useRef, useId } from 'react'
 import { classNames } from '../../../utils/classNames'
-import './TagInput.css'
+
+// Size variant styles
+const containerSizeStyles = {
+  sm: 'min-h-9 py-1 px-2',
+  md: 'min-h-11 py-2 px-3',
+}
+
+const tagSizeStyles = {
+  sm: 'text-xs py-px px-1.5',
+  md: 'text-sm py-0.5 px-2',
+}
+
+const inputSizeStyles = {
+  sm: 'text-sm',
+  md: 'text-sm',
+}
 
 /**
  * TagInput component for adding/removing tags
@@ -91,18 +106,15 @@ const TagInput = forwardRef(function TagInput(
   }
 
   return (
-    <div
-      className={classNames(
-        'taginput-wrapper',
-        fullWidth && 'taginput-wrapper--full-width',
-        className
-      )}
-    >
+    <div className={classNames('flex flex-col relative', fullWidth && 'w-full', className)}>
       {label && (
-        <label htmlFor={inputId} className="taginput__label">
+        <label
+          htmlFor={inputId}
+          className="block font-body text-sm font-semibold text-midnight mb-2"
+        >
           {label}
           {required && (
-            <span className="taginput__required" aria-hidden="true">
+            <span className="text-coral ml-0.5" aria-hidden="true">
               *
             </span>
           )}
@@ -111,29 +123,43 @@ const TagInput = forwardRef(function TagInput(
       <div
         ref={ref}
         className={classNames(
-          'taginput',
-          `taginput--${size}`,
-          isFocused && 'taginput--focused',
-          error && 'taginput--error',
-          disabled && 'taginput--disabled'
+          'flex flex-wrap items-center gap-2 bg-white border rounded-sm cursor-text transition-all duration-150 ease-out',
+          containerSizeStyles[size],
+          isFocused && 'border-primary shadow-focus',
+          !isFocused && !error && 'border-cloud',
+          error && 'border-coral',
+          error && isFocused && 'shadow-focus-error',
+          disabled && 'bg-snow cursor-not-allowed'
         )}
         onClick={handleContainerClick}
       >
-        <div className="taginput__tags">
+        <div className="flex flex-wrap items-center gap-2 flex-1 min-w-0">
           {value.map((tag, index) => (
-            <span key={index} className="taginput__tag">
-              <span className="taginput__tag-text">{tag}</span>
+            <span
+              key={index}
+              className={classNames(
+                'inline-flex items-center gap-1 bg-primary-bg text-primary rounded-sm font-body font-medium',
+                tagSizeStyles[size]
+              )}
+            >
+              <span className="whitespace-nowrap">{tag}</span>
               {!disabled && (
                 <button
                   type="button"
-                  className="taginput__tag-remove"
+                  className="flex items-center justify-center w-4 h-4 p-0 border-none bg-transparent text-inherit opacity-60 cursor-pointer rounded-sm transition-all duration-150 ease-out hover:opacity-100 hover:bg-primary hover:text-white"
                   onClick={(e) => {
                     e.stopPropagation()
                     removeTag(index)
                   }}
                   aria-label={`Remove ${tag}`}
                 >
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <svg
+                    className="w-3 h-3"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
                     <line x1="18" y1="6" x2="6" y2="18" />
                     <line x1="6" y1="6" x2="18" y2="18" />
                   </svg>
@@ -145,7 +171,10 @@ const TagInput = forwardRef(function TagInput(
             ref={inputRef}
             type="text"
             id={inputId}
-            className="taginput__input"
+            className={classNames(
+              'flex-1 min-w-[80px] p-0 border-none bg-transparent font-body text-midnight outline-none placeholder:text-mist disabled:cursor-not-allowed',
+              inputSizeStyles[size]
+            )}
             placeholder={value.length === 0 ? placeholder : ''}
             value={inputValue}
             disabled={disabled || (maxTags && value.length >= maxTags)}
@@ -163,12 +192,15 @@ const TagInput = forwardRef(function TagInput(
       </div>
 
       {showSuggestions && (
-        <ul className="taginput__suggestions" role="listbox">
+        <ul
+          className="absolute top-full left-0 right-0 mt-1 py-1 bg-white border border-cloud rounded-sm shadow-lg z-dropdown list-none max-h-[200px] overflow-y-auto"
+          role="listbox"
+        >
           {filteredSuggestions.map((suggestion, index) => (
             <li
               key={index}
               role="option"
-              className="taginput__suggestion"
+              className="py-2 px-3 font-body text-sm text-charcoal cursor-pointer transition-colors duration-150 ease-out hover:bg-snow"
               onClick={() => handleSuggestionClick(suggestion)}
             >
               {suggestion}
@@ -178,12 +210,12 @@ const TagInput = forwardRef(function TagInput(
       )}
 
       {error && (
-        <span id={`${inputId}-error`} className="taginput__error" role="alert">
+        <span id={`${inputId}-error`} className="block text-xs text-coral mt-1" role="alert">
           {error}
         </span>
       )}
       {helperText && !error && (
-        <span id={`${inputId}-helper`} className="taginput__helper">
+        <span id={`${inputId}-helper`} className="block text-xs text-slate mt-1">
           {helperText}
         </span>
       )}

@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { AuthLayout, ProgressSteps } from '../../../components/auth'
 import { Input, Select, Button, Checkbox, RangeSlider, TagInput } from '../../../components'
 import { ROUTES } from '../../../router/routes'
-import './OnboardingRenterPage.css'
+import { classNames } from '../../../utils'
 
 const STEPS = ['Profile', 'Background Check', 'Preferences']
 
@@ -111,12 +111,12 @@ function OnboardingRenterPage() {
     <AuthLayout variant="onboarding">
       <ProgressSteps steps={STEPS} currentStep={currentStep} />
 
-      <div className="onboarding-renter__content">
+      <div className="max-w-[800px] mx-auto">
         {/* Step 1: Profile */}
         {currentStep === 1 && (
-          <div className="onboarding-renter__card">
-            <h1 className="onboarding-renter__title">Tell us about yourself</h1>
-            <p className="onboarding-renter__subtitle">Help us find the perfect room for you</p>
+          <div className="bg-white rounded-2xl p-10 md:p-6 shadow-md mb-8 animate-fade-in">
+            <h1 className="font-display text-[2rem] md:text-[1.625rem] font-bold text-midnight mb-2">Tell us about yourself</h1>
+            <p className="text-lg text-slate mb-8">Help us find the perfect room for you</p>
 
             <form>
               <Input
@@ -160,7 +160,7 @@ function OnboardingRenterPage() {
                 fullWidth
               />
 
-              <div className="onboarding-renter__btn-group">
+              <div className="flex flex-col md:flex-row gap-4 mt-8 [&_.btn]:flex-1">
                 <Button variant="primary" size="lg" fullWidth onClick={nextStep}>
                   Continue
                 </Button>
@@ -171,31 +171,31 @@ function OnboardingRenterPage() {
 
         {/* Step 2: Background Check */}
         {currentStep === 2 && (
-          <div className="onboarding-renter__card">
-            <h1 className="onboarding-renter__title">Stand out to landlords</h1>
-            <p className="onboarding-renter__subtitle">
+          <div className="bg-white rounded-2xl p-10 md:p-6 shadow-md mb-8 animate-fade-in">
+            <h1 className="font-display text-[2rem] md:text-[1.625rem] font-bold text-midnight mb-2">Stand out to landlords</h1>
+            <p className="text-lg text-slate mb-8">
               Optional but recommended to increase your chances
             </p>
 
-            <div className="onboarding-renter__bg-check">
-              <div className="onboarding-renter__bg-check-header">
-                <div className="onboarding-renter__bg-check-icon">✓</div>
-                <h3>Background Check</h3>
+            <div className="bg-primary-bg border-2 border-primary rounded-xl p-8 mb-8">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-2xl text-white">✓</div>
+                <h3 className="font-display text-2xl font-bold text-midnight">Background Check</h3>
               </div>
-              <p>
+              <p className="text-slate leading-relaxed mb-2">
                 Get verified and stand out from other applicants. Landlords love renters with
                 background checks!
               </p>
-              <ul className="onboarding-renter__bg-benefits">
-                <li>🔒 Secure and confidential</li>
-                <li>⚡ Results in 24-48 hours</li>
-                <li>📈 3x more likely to get accepted</li>
-                <li>♻️ Reusable for multiple applications</li>
+              <ul className="list-none p-0 my-4">
+                <li className="py-2 flex items-center gap-2 text-slate">🔒 Secure and confidential</li>
+                <li className="py-2 flex items-center gap-2 text-slate">⚡ Results in 24-48 hours</li>
+                <li className="py-2 flex items-center gap-2 text-slate">📈 3x more likely to get accepted</li>
+                <li className="py-2 flex items-center gap-2 text-slate">♻️ Reusable for multiple applications</li>
               </ul>
-              <div className="onboarding-renter__price-tag">$30 one-time fee</div>
+              <div className="inline-block bg-accent text-white py-2 px-4 rounded-full font-bold my-4">$30 one-time fee</div>
             </div>
 
-            <div className="onboarding-renter__btn-group">
+            <div className="flex flex-col md:flex-row gap-4 mt-8 [&_.btn]:flex-1">
               <Button variant="outline" size="lg" onClick={prevStep}>
                 Back
               </Button>
@@ -204,8 +204,8 @@ function OnboardingRenterPage() {
               </Button>
             </div>
 
-            <div className="onboarding-renter__skip">
-              <button type="button" onClick={nextStep}>
+            <div className="text-center mt-4">
+              <button type="button" onClick={nextStep} className="bg-transparent border-none text-slate p-4 cursor-pointer font-body text-base hover:text-primary">
                 Skip for now
               </button>
             </div>
@@ -214,21 +214,21 @@ function OnboardingRenterPage() {
 
         {/* Step 3: Preferences */}
         {currentStep === 3 && (
-          <div className="onboarding-renter__card">
-            <h1 className="onboarding-renter__title">Set your preferences</h1>
-            <p className="onboarding-renter__subtitle">
+          <div className="bg-white rounded-2xl p-10 md:p-6 shadow-md mb-8 animate-fade-in">
+            <h1 className="font-display text-[2rem] md:text-[1.625rem] font-bold text-midnight mb-2">Set your preferences</h1>
+            <p className="text-lg text-slate mb-8">
               We'll help you find rooms that match what you're looking for
             </p>
 
             <form>
-              <div className="onboarding-renter__form-group">
-                <label className="onboarding-renter__label">Weekly Budget Range</label>
-                <div className="onboarding-renter__budget">
-                  <div className="onboarding-renter__budget-display">
-                    <span className="onboarding-renter__budget-values">
+              <div className="mb-6">
+                <label className="block font-semibold text-midnight mb-2 text-sm">Weekly Budget Range</label>
+                <div className="mb-8">
+                  <div className="flex justify-between items-center mb-4">
+                    <span className="text-lg font-bold text-primary">
                       $150 - ${formData.budget}
                     </span>
-                    <span className="onboarding-renter__budget-unit">per week</span>
+                    <span className="text-slate text-sm">per week</span>
                   </div>
                   <RangeSlider
                     min={100}
@@ -239,29 +239,30 @@ function OnboardingRenterPage() {
                 </div>
               </div>
 
-              <div className="onboarding-renter__form-group">
-                <label className="onboarding-renter__label">Preferred Neighborhoods</label>
+              <div className="mb-6">
+                <label className="block font-semibold text-midnight mb-2 text-sm">Preferred Neighborhoods</label>
                 <TagInput
                   tags={formData.neighborhoods}
                   onChange={handleNeighborhoodsChange}
                   placeholder="Type neighborhood and press Enter"
                 />
-                <p className="onboarding-renter__helper">
+                <p className="text-sm text-slate mt-2">
                   Add neighborhoods you'd like to live in (e.g., Ponsonby, Mt Eden, Newtown)
                 </p>
               </div>
 
-              <div className="onboarding-renter__form-group">
-                <label className="onboarding-renter__label">Must-Have Amenities</label>
-                <div className="onboarding-renter__amenities">
+              <div className="mb-6">
+                <label className="block font-semibold text-midnight mb-2 text-sm">Must-Have Amenities</label>
+                <div className="grid grid-cols-1 md:grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-3">
                   {AMENITIES.map((amenity) => (
                     <div
                       key={amenity.value}
-                      className={`onboarding-renter__amenity ${
+                      className={classNames(
+                        'flex items-center gap-2 p-3 border-2 rounded-lg cursor-pointer transition-all',
                         formData.amenities.includes(amenity.value)
-                          ? 'onboarding-renter__amenity--checked'
-                          : ''
-                      }`}
+                          ? 'border-primary bg-primary-bg'
+                          : 'border-cloud hover:border-primary hover:bg-primary-bg'
+                      )}
                       onClick={() => handleAmenityToggle(amenity.value)}
                     >
                       <Checkbox
@@ -274,7 +275,7 @@ function OnboardingRenterPage() {
                 </div>
               </div>
 
-              <div className="onboarding-renter__btn-group">
+              <div className="flex flex-col md:flex-row gap-4 mt-8 [&_.btn]:flex-1">
                 <Button variant="outline" size="lg" onClick={prevStep}>
                   Back
                 </Button>
@@ -288,21 +289,21 @@ function OnboardingRenterPage() {
 
         {/* Step 4: Completion */}
         {currentStep === 4 && (
-          <div className="onboarding-renter__card">
-            <div className="onboarding-renter__completion">
-              <div className="onboarding-renter__celebration">🎉</div>
-              <h2 className="onboarding-renter__completion-title">You're all set!</h2>
-              <p className="onboarding-renter__completion-text">Time to find your perfect room</p>
+          <div className="bg-white rounded-2xl p-10 md:p-6 shadow-md mb-8 animate-fade-in">
+            <div className="text-center py-12 px-8">
+              <div className="text-[5rem] mb-6">🎉</div>
+              <h2 className="font-display text-[2.25rem] font-bold text-midnight mb-4">You're all set!</h2>
+              <p className="text-lg text-slate mb-8">Time to find your perfect room</p>
 
-              <div className="onboarding-renter__cta-card">
-                <h3>Start browsing rooms</h3>
-                <p>We've got thousands of verified listings waiting for you</p>
+              <div className="bg-gradient-to-br from-primary to-[#1d4ed8] text-white p-8 rounded-xl my-8">
+                <h3 className="text-2xl font-bold mb-2">Start browsing rooms</h3>
+                <p className="opacity-90 mb-6">We've got thousands of verified listings waiting for you</p>
                 <Button variant="white" size="lg" onClick={startSearching}>
                   Start Searching
                 </Button>
               </div>
 
-              <p className="onboarding-renter__settings-note">
+              <p className="text-base text-slate mt-8">
                 You can update your preferences anytime from your profile settings.
               </p>
             </div>

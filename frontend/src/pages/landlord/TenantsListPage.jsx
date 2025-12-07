@@ -5,7 +5,7 @@ import { useLandlordLayout } from '../../hooks/useLandlordLayout'
 import { AppShell } from '../../components/layout'
 import { Button, Badge, Avatar } from '../../components/primitives'
 import { Select } from '../../components/forms'
-import './TenantsListPage.css'
+import { classNames } from '../../utils'
 
 // Mock data for tenants list
 const mockTenantsData = [
@@ -140,7 +140,7 @@ function TenantsListPage() {
   }
 
   const headerContent = (
-    <Button variant="outline" className="export-btn">
+    <Button variant="outline" className="inline-flex items-center gap-1.5">
       📥 Export List
     </Button>
   )
@@ -150,7 +150,7 @@ function TenantsListPage() {
       sidebar={{ links: navLinks, user, logoBadge }}
       header={{
         title: (
-          <div className="tenants-header-title">
+          <div className="flex items-center gap-3">
             Tenants
             <Badge variant="primary">{totalTenants} Active</Badge>
           </div>
@@ -158,29 +158,33 @@ function TenantsListPage() {
         rightContent: headerContent,
       }}
     >
-      <div className="tenants-content">
+      <div>
         {/* Summary Stats */}
-        <div className="tenants-stats">
-          <div className="stat-card">
-            <div className="stat-label">Total Active Tenants</div>
-            <div className="stat-value">{totalTenants}</div>
+        <div className="grid grid-cols-3 md:grid-cols-1 gap-5 mb-6">
+          <div className="bg-white p-5 rounded-xl shadow-sm">
+            <div className="text-[13px] text-slate mb-2 font-medium">Total Active Tenants</div>
+            <div className="font-display text-[32px] font-bold text-midnight">{totalTenants}</div>
           </div>
-          <div className="stat-card warning">
-            <div className="stat-label">Late Payments</div>
-            <div className="stat-value">{latePayments}</div>
+          <div className="bg-white p-5 rounded-xl shadow-sm">
+            <div className="text-[13px] text-slate mb-2 font-medium">Late Payments</div>
+            <div className="font-display text-[32px] font-bold text-coral">{latePayments}</div>
           </div>
-          <div className="stat-card revenue">
-            <div className="stat-label">Revenue at Risk</div>
-            <div className="stat-value">${revenueAtRisk.toLocaleString()}</div>
+          <div className="bg-white p-5 rounded-xl shadow-sm">
+            <div className="text-[13px] text-slate mb-2 font-medium">Revenue at Risk</div>
+            <div className="font-display text-[32px] font-bold text-warm">
+              ${revenueAtRisk.toLocaleString()}
+            </div>
           </div>
         </div>
 
         {/* Filter Bar */}
-        <div className="tenants-filter-bar">
-          <div className="filter-group">
-            <label className="filter-label">Property</label>
+        <div className="bg-white py-5 px-6 rounded-xl mb-6 flex gap-4 items-center shadow-sm">
+          <div className="flex flex-col gap-1.5">
+            <label className="text-xs font-semibold text-slate uppercase tracking-wide">
+              Property
+            </label>
             <select
-              className="filter-select"
+              className="py-2.5 px-3.5 border border-cloud rounded-lg font-body text-sm text-midnight bg-white min-w-[180px] cursor-pointer focus:outline-none focus:border-primary"
               value={propertyFilter}
               onChange={(e) => setPropertyFilter(e.target.value)}
             >
@@ -190,10 +194,12 @@ function TenantsListPage() {
               <option value="oak">Oak Street House</option>
             </select>
           </div>
-          <div className="filter-group">
-            <label className="filter-label">Payment Status</label>
+          <div className="flex flex-col gap-1.5">
+            <label className="text-xs font-semibold text-slate uppercase tracking-wide">
+              Payment Status
+            </label>
             <select
-              className="filter-select"
+              className="py-2.5 px-3.5 border border-cloud rounded-lg font-body text-sm text-midnight bg-white min-w-[180px] cursor-pointer focus:outline-none focus:border-primary"
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
             >
@@ -204,10 +210,10 @@ function TenantsListPage() {
               <option value="at-risk">At Risk</option>
             </select>
           </div>
-          <div className="sort-group">
-            <span className="sort-label">Sort by:</span>
+          <div className="ml-auto flex items-center gap-2">
+            <span className="text-sm font-medium text-slate">Sort by:</span>
             <select
-              className="filter-select"
+              className="py-2.5 px-3.5 border border-cloud rounded-lg font-body text-sm text-midnight bg-white min-w-[180px] cursor-pointer focus:outline-none focus:border-primary"
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
             >
@@ -221,16 +227,28 @@ function TenantsListPage() {
         </div>
 
         {/* Tenants Table */}
-        <div className="tenants-table-container">
-          <table className="tenants-table">
-            <thead>
+        <div className="bg-white rounded-xl overflow-hidden shadow-sm">
+          <table className="w-full border-collapse">
+            <thead className="bg-snow">
               <tr>
-                <th>Tenant</th>
-                <th>Property & Room</th>
-                <th>Move-in Date</th>
-                <th>Payment Status</th>
-                <th>Balance/Due</th>
-                <th>Actions</th>
+                <th className="text-left py-4 px-5 text-xs font-bold text-slate uppercase tracking-wide border-b border-cloud">
+                  Tenant
+                </th>
+                <th className="text-left py-4 px-5 text-xs font-bold text-slate uppercase tracking-wide border-b border-cloud">
+                  Property & Room
+                </th>
+                <th className="text-left py-4 px-5 text-xs font-bold text-slate uppercase tracking-wide border-b border-cloud">
+                  Move-in Date
+                </th>
+                <th className="text-left py-4 px-5 text-xs font-bold text-slate uppercase tracking-wide border-b border-cloud">
+                  Payment Status
+                </th>
+                <th className="text-left py-4 px-5 text-xs font-bold text-slate uppercase tracking-wide border-b border-cloud">
+                  Balance/Due
+                </th>
+                <th className="text-left py-4 px-5 text-xs font-bold text-slate uppercase tracking-wide border-b border-cloud">
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -238,34 +256,45 @@ function TenantsListPage() {
                 <tr
                   key={tenant.id}
                   onClick={() => handleRowClick(tenant.id)}
-                  className="tenant-row"
+                  className="transition-colors duration-200 cursor-pointer hover:bg-snow"
                 >
-                  <td>
-                    <div className="tenant-cell">
-                      <img src={tenant.avatar} alt={tenant.name} className="tenant-avatar" />
-                      <div className="tenant-info">
-                        <div className="tenant-name">{tenant.name}</div>
-                        <div className="tenant-email">{tenant.email}</div>
+                  <td className="py-5 px-5 border-b border-cloud last:border-b-0">
+                    <div className="flex items-center gap-3">
+                      <img
+                        src={tenant.avatar}
+                        alt={tenant.name}
+                        className="w-12 h-12 rounded-full object-cover"
+                      />
+                      <div className="flex flex-col gap-0.5">
+                        <div className="font-semibold text-midnight">{tenant.name}</div>
+                        <div className="text-sm text-slate">{tenant.email}</div>
                       </div>
                     </div>
                   </td>
-                  <td>
-                    <div className="property-cell">
-                      <div className="property-name">{tenant.property}</div>
-                      <div className="property-room">{tenant.room}</div>
+                  <td className="py-5 px-5 border-b border-cloud last:border-b-0">
+                    <div className="flex flex-col gap-0.5">
+                      <div className="font-semibold text-midnight">{tenant.property}</div>
+                      <div className="text-sm text-slate">{tenant.room}</div>
                     </div>
                   </td>
-                  <td>
-                    <span className="date-text">{tenant.moveInDate}</span>
+                  <td className="py-5 px-5 border-b border-cloud last:border-b-0">
+                    <span className="text-sm text-slate">{tenant.moveInDate}</span>
                   </td>
-                  <td>{getPaymentBadge(tenant)}</td>
-                  <td>
-                    <span className={`balance-text ${tenant.balance > 0 ? 'negative' : ''}`}>
+                  <td className="py-5 px-5 border-b border-cloud last:border-b-0">
+                    {getPaymentBadge(tenant)}
+                  </td>
+                  <td className="py-5 px-5 border-b border-cloud last:border-b-0">
+                    <span
+                      className={classNames(
+                        'font-semibold',
+                        tenant.balance > 0 ? 'text-coral' : 'text-midnight'
+                      )}
+                    >
                       ${tenant.balance}
                     </span>
                   </td>
-                  <td>
-                    <div className="action-buttons">
+                  <td className="py-5 px-5 border-b border-cloud last:border-b-0">
+                    <div className="flex gap-2">
                       <Button
                         variant="outline"
                         size="sm"

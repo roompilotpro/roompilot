@@ -1,7 +1,23 @@
 import { forwardRef } from 'react'
 import { classNames } from '../../../utils/classNames'
 import { Badge } from '../../primitives'
-import './RequestCard.css'
+
+// Category icon styles
+const categoryStyles = {
+  plumbing: 'bg-primary-bg text-primary',
+  electrical: 'bg-warm-bg text-warm',
+  hvac: 'bg-purple-bg text-purple',
+  appliance: 'bg-coral-bg text-coral',
+  general: 'bg-cloud text-slate',
+}
+
+// Status border styles
+const statusStyles = {
+  new: 'border-l-[3px] border-l-primary',
+  'in-progress': 'border-l-[3px] border-l-warm',
+  resolved: 'border-l-[3px] border-l-accent',
+  closed: 'border-l-[3px] border-l-slate opacity-80',
+}
 
 /**
  * RequestCard - Maintenance request card for kanban boards
@@ -105,10 +121,9 @@ const RequestCard = forwardRef(function RequestCard(
     <article
       ref={ref}
       className={classNames(
-        'request-card',
-        `request-card--${status}`,
-        expanded && 'request-card--expanded',
-        draggable && 'request-card--draggable',
+        'relative flex bg-snow border border-cloud rounded-md p-4 cursor-pointer transition-all duration-150 hover:border-primary hover:shadow-[0_4px_12px_rgba(37,99,235,0.1)] sm:p-3',
+        statusStyles[status],
+        draggable && 'cursor-grab active:cursor-grabbing',
         className
       )}
       draggable={draggable}
@@ -119,8 +134,8 @@ const RequestCard = forwardRef(function RequestCard(
     >
       {/* Drag Handle */}
       {draggable && (
-        <div className="request-card__drag-handle" aria-hidden="true">
-          <svg viewBox="0 0 16 16" fill="currentColor">
+        <div className="shrink-0 w-4 mr-3 flex items-start pt-1 text-slate" aria-hidden="true">
+          <svg viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4">
             <circle cx="5" cy="4" r="1.5" />
             <circle cx="11" cy="4" r="1.5" />
             <circle cx="5" cy="8" r="1.5" />
@@ -131,29 +146,34 @@ const RequestCard = forwardRef(function RequestCard(
         </div>
       )}
 
-      <div className="request-card__main">
+      <div className="flex-1 min-w-0">
         {/* Header */}
-        <div className="request-card__header">
-          <div className={classNames('request-card__icon', `request-card__icon--${category}`)}>
+        <div className="flex items-start gap-3 mb-3">
+          <div
+            className={classNames(
+              'shrink-0 w-8 h-8 rounded-sm flex items-center justify-center [&>svg]:w-4 [&>svg]:h-4 sm:w-7 sm:h-7',
+              categoryStyles[category] || categoryStyles.general
+            )}
+          >
             {categoryIcons[category] || categoryIcons.general}
           </div>
-          <div className="request-card__content">
-            <h3 className="request-card__title">{title}</h3>
-            {location && <p className="request-card__location">{location}</p>}
-            {tenant && <p className="request-card__tenant">{tenant}</p>}
+          <div className="flex-1 min-w-0">
+            <h3 className="m-0 mb-1 text-sm font-semibold text-charcoal leading-tight">{title}</h3>
+            {location && <p className="m-0 mb-1 text-xs text-slate">{location}</p>}
+            {tenant && <p className="m-0 text-xs text-slate">{tenant}</p>}
           </div>
         </div>
 
         {/* Expanded Description */}
         {expanded && description && (
-          <div className="request-card__description">
-            <p>{description}</p>
+          <div className="mt-3 pt-3 border-t border-cloud">
+            <p className="m-0 text-sm text-charcoal/80 leading-normal">{description}</p>
           </div>
         )}
 
         {/* Footer */}
-        <div className="request-card__footer">
-          {timestamp && <span className="request-card__timestamp">{timestamp}</span>}
+        <div className="flex justify-between items-center mt-3 pt-3 border-t border-cloud">
+          {timestamp && <span className="text-xs text-slate">{timestamp}</span>}
           <Badge color={priorityColors[priority]} size="sm">
             {priorityLabels[priority]}
           </Badge>
@@ -163,7 +183,7 @@ const RequestCard = forwardRef(function RequestCard(
         {description && onExpandToggle && (
           <button
             type="button"
-            className="request-card__toggle"
+            className="absolute bottom-2 right-2 w-6 h-6 p-0 border-none bg-transparent text-slate cursor-pointer flex items-center justify-center transition-colors duration-150 hover:text-charcoal"
             onClick={(e) => {
               e.stopPropagation()
               onExpandToggle()
@@ -171,7 +191,15 @@ const RequestCard = forwardRef(function RequestCard(
             aria-expanded={expanded}
             aria-label={expanded ? 'Collapse details' : 'Expand details'}
           >
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden="true"
+              className={classNames(
+                'w-4 h-4 transition-transform duration-150',
+                expanded && 'rotate-180'
+              )}
+            >
               <path
                 d="M6 9l6 6 6-6"
                 stroke="currentColor"

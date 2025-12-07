@@ -1,8 +1,6 @@
 import { forwardRef } from 'react'
 import ModalBase from '../ModalBase'
 import { Button, LoadingSpinner } from '../../primitives'
-import classNames from '../../../utils/classNames'
-import './LoadingModal.css'
 
 /**
  * LoadingModal - Loading/processing dialog with spinner
@@ -48,24 +46,28 @@ const LoadingModal = forwardRef(function LoadingModal(
       closeOnEscape={showCancel}
       footer={footer}
       size="sm"
-      className={classNames('loading-modal', className)}
+      className={className}
       {...props}
     >
-      <div className="loading-modal__content">
-        <div className="loading-modal__spinner-container">
+      <div className="text-center py-2">
+        <div className="mb-6 flex justify-center">
           <LoadingSpinner size="lg" />
         </div>
-        <h2 className="loading-modal__title">{title}</h2>
-        {description && <p className="loading-modal__description">{description}</p>}
+        <h2 className="text-xl font-semibold text-charcoal mb-3 m-0 leading-tight">{title}</h2>
+        {description && (
+          <p className="text-base text-slate mb-4 m-0 leading-relaxed">{description}</p>
+        )}
         {hasProgress && (
-          <div className="loading-modal__progress-container">
-            <div className="loading-modal__progress">
+          <div className="flex items-center gap-3 mt-4">
+            <div className="flex-1 h-2 bg-cloud rounded-full overflow-hidden">
               <div
-                className="loading-modal__progress-fill"
+                className="h-full bg-primary transition-[width] duration-300"
                 style={{ width: `${Math.min(100, Math.max(0, progress))}%` }}
               />
             </div>
-            <span className="loading-modal__progress-text">{Math.round(progress)}%</span>
+            <span className="text-sm font-medium text-slate min-w-[3rem] text-right">
+              {Math.round(progress)}%
+            </span>
           </div>
         )}
       </div>

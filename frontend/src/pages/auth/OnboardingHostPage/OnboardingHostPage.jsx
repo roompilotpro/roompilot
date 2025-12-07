@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { AuthLayout, ProgressSteps } from '../../../components/auth'
 import { Input, Select, Button } from '../../../components'
 import { ROUTES } from '../../../router/routes'
-import './OnboardingHostPage.css'
+import { classNames } from '../../../utils'
 
 const STEPS = ['Basic Info', 'Payouts', 'First Property']
 
@@ -84,12 +84,12 @@ function OnboardingHostPage() {
     <AuthLayout variant="onboarding">
       <ProgressSteps steps={STEPS} currentStep={currentStep} />
 
-      <div className="onboarding-host__content">
+      <div className="max-w-[800px] mx-auto">
         {/* Step 1: Basic Info */}
         {currentStep === 1 && (
-          <div className="onboarding-host__card">
-            <h1 className="onboarding-host__title">Let's get you set up</h1>
-            <p className="onboarding-host__subtitle">Tell us a bit about yourself to get started</p>
+          <div className="bg-white rounded-2xl p-10 md:p-6 shadow-md mb-8 animate-fade-in">
+            <h1 className="font-display text-[2rem] md:text-[1.625rem] font-bold text-midnight mb-2">Let's get you set up</h1>
+            <p className="text-lg text-slate mb-8">Tell us a bit about yourself to get started</p>
 
             <form>
               <Input
@@ -124,7 +124,7 @@ function OnboardingHostPage() {
                 fullWidth
               />
 
-              <div className="onboarding-host__btn-group">
+              <div className="flex flex-col md:flex-row gap-4 mt-8 [&_.btn]:flex-1">
                 <Button variant="primary" size="lg" fullWidth onClick={nextStep}>
                   Continue
                 </Button>
@@ -135,26 +135,26 @@ function OnboardingHostPage() {
 
         {/* Step 2: Payouts */}
         {currentStep === 2 && (
-          <div className="onboarding-host__card">
-            <h1 className="onboarding-host__title">Set up your payouts</h1>
-            <p className="onboarding-host__subtitle">Connect Stripe to receive payments securely</p>
+          <div className="bg-white rounded-2xl p-10 md:p-6 shadow-md mb-8 animate-fade-in">
+            <h1 className="font-display text-[2rem] md:text-[1.625rem] font-bold text-midnight mb-2">Set up your payouts</h1>
+            <p className="text-lg text-slate mb-8">Connect Stripe to receive payments securely</p>
 
-            <div className="onboarding-host__stripe-card">
-              <div className="onboarding-host__stripe-header">
-                <span className="onboarding-host__stripe-logo">Stripe</span>
+            <div className="bg-gradient-to-br from-[#635bff] to-[#4b43c8] text-white p-8 rounded-xl mb-8">
+              <div className="flex items-center gap-3 mb-4">
+                <span className="text-2xl font-bold">Stripe</span>
                 <span>Powered by</span>
               </div>
-              <h3>Fast, secure payments</h3>
-              <p>Stripe handles all payment processing, making it easy to get paid on time.</p>
-              <ul className="onboarding-host__stripe-benefits">
-                <li>✓ Automatic weekly payouts</li>
-                <li>✓ Bank-level security</li>
-                <li>✓ Track all transactions in one place</li>
-                <li>✓ Support for multiple payment methods</li>
+              <h3 className="font-display text-2xl font-bold mb-3">Fast, secure payments</h3>
+              <p className="opacity-90 leading-relaxed mb-2">Stripe handles all payment processing, making it easy to get paid on time.</p>
+              <ul className="list-none p-0 mt-4">
+                <li className="py-2 flex items-center gap-2">✓ Automatic weekly payouts</li>
+                <li className="py-2 flex items-center gap-2">✓ Bank-level security</li>
+                <li className="py-2 flex items-center gap-2">✓ Track all transactions in one place</li>
+                <li className="py-2 flex items-center gap-2">✓ Support for multiple payment methods</li>
               </ul>
             </div>
 
-            <div className="onboarding-host__btn-group">
+            <div className="flex flex-col md:flex-row gap-4 mt-8 [&_.btn]:flex-1">
               <Button variant="outline" size="lg" onClick={prevStep}>
                 Back
               </Button>
@@ -163,8 +163,8 @@ function OnboardingHostPage() {
               </Button>
             </div>
 
-            <div className="onboarding-host__skip">
-              <button type="button" onClick={skipStripe}>
+            <div className="text-center mt-4">
+              <button type="button" onClick={skipStripe} className="bg-transparent border-none text-slate p-4 cursor-pointer font-body text-base hover:text-primary">
                 I'll do this later
               </button>
             </div>
@@ -173,32 +173,38 @@ function OnboardingHostPage() {
 
         {/* Step 3: First Property */}
         {currentStep === 3 && (
-          <div className="onboarding-host__card">
-            <h1 className="onboarding-host__title">Add your first property</h1>
-            <p className="onboarding-host__subtitle">You can always add more properties later</p>
+          <div className="bg-white rounded-2xl p-10 md:p-6 shadow-md mb-8 animate-fade-in">
+            <h1 className="font-display text-[2rem] md:text-[1.625rem] font-bold text-midnight mb-2">Add your first property</h1>
+            <p className="text-lg text-slate mb-8">You can always add more properties later</p>
 
-            <div className="onboarding-host__option-cards">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
               <div
-                className={`onboarding-host__option-card ${showPropertyForm ? 'onboarding-host__option-card--selected' : ''}`}
+                className={classNames(
+                  'p-6 border-2 rounded-xl cursor-pointer transition-all text-center',
+                  showPropertyForm ? 'border-primary bg-primary-bg' : 'border-cloud hover:border-primary hover:bg-primary-bg'
+                )}
                 onClick={() => togglePropertyForm(true)}
               >
-                <div className="onboarding-host__option-icon">🏠</div>
-                <div className="onboarding-host__option-title">Add property now</div>
-                <div className="onboarding-host__option-desc">Get started immediately</div>
+                <div className="text-[2.5rem] mb-3">🏠</div>
+                <div className="font-semibold text-midnight mb-1">Add property now</div>
+                <div className="text-sm text-slate">Get started immediately</div>
               </div>
 
               <div
-                className={`onboarding-host__option-card ${!showPropertyForm ? 'onboarding-host__option-card--selected' : ''}`}
+                className={classNames(
+                  'p-6 border-2 rounded-xl cursor-pointer transition-all text-center',
+                  !showPropertyForm ? 'border-primary bg-primary-bg' : 'border-cloud hover:border-primary hover:bg-primary-bg'
+                )}
                 onClick={() => togglePropertyForm(false)}
               >
-                <div className="onboarding-host__option-icon">⏰</div>
-                <div className="onboarding-host__option-title">I'll do this later</div>
-                <div className="onboarding-host__option-desc">Set up from dashboard</div>
+                <div className="text-[2.5rem] mb-3">⏰</div>
+                <div className="font-semibold text-midnight mb-1">I'll do this later</div>
+                <div className="text-sm text-slate">Set up from dashboard</div>
               </div>
             </div>
 
             {showPropertyForm && (
-              <div className="onboarding-host__property-fields">
+              <div className="mt-6 pt-6 border-t-2 border-cloud animate-fade-in">
                 <Input
                   type="text"
                   name="propertyAddress"
@@ -230,7 +236,7 @@ function OnboardingHostPage() {
               </div>
             )}
 
-            <div className="onboarding-host__btn-group">
+            <div className="flex flex-col md:flex-row gap-4 mt-8 [&_.btn]:flex-1">
               <Button variant="outline" size="lg" onClick={prevStep}>
                 Back
               </Button>
@@ -243,21 +249,21 @@ function OnboardingHostPage() {
 
         {/* Step 4: Completion */}
         {currentStep === 4 && (
-          <div className="onboarding-host__card">
-            <div className="onboarding-host__completion">
-              <div className="onboarding-host__celebration">🎉</div>
-              <h2 className="onboarding-host__completion-title">Welcome to RoomPilot!</h2>
-              <p className="onboarding-host__completion-text">
+          <div className="bg-white rounded-2xl p-10 md:p-6 shadow-md mb-8 animate-fade-in">
+            <div className="text-center py-12 px-8">
+              <div className="text-[5rem] mb-6 animate-bounce">🎉</div>
+              <h2 className="font-display text-[2.25rem] font-bold text-midnight mb-4">Welcome to RoomPilot!</h2>
+              <p className="text-lg text-slate mb-8">
                 You're all set up and ready to start listing your properties
               </p>
 
-              <div className="onboarding-host__next-steps">
-                <h3>Next Steps:</h3>
-                <ul>
-                  <li>📝 Complete your property listings</li>
-                  <li>📸 Add photos to attract more renters</li>
-                  <li>💰 Set competitive pricing</li>
-                  <li>📧 Start receiving rental applications</li>
+              <div className="bg-snow rounded-xl p-6 my-8 text-left">
+                <h3 className="font-bold mb-4 text-midnight">Next Steps:</h3>
+                <ul className="list-none p-0 m-0">
+                  <li className="py-3 flex items-center gap-3 text-slate">📝 Complete your property listings</li>
+                  <li className="py-3 flex items-center gap-3 text-slate">📸 Add photos to attract more renters</li>
+                  <li className="py-3 flex items-center gap-3 text-slate">💰 Set competitive pricing</li>
+                  <li className="py-3 flex items-center gap-3 text-slate">📧 Start receiving rental applications</li>
                 </ul>
               </div>
 

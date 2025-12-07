@@ -7,7 +7,7 @@ import { Card } from '../../components/cards'
 import { Button, Badge, IconButton } from '../../components/primitives'
 import { Select } from '../../components/forms'
 import { mockProperties } from '../../data/mockLandlordData'
-import './PropertiesListPage.css'
+import { classNames } from '../../utils'
 
 function PropertiesListPage() {
   const navigate = useNavigate()
@@ -63,13 +63,6 @@ function PropertiesListPage() {
     </Button>
   )
 
-  const getOccupancyClass = (occupied, total) => {
-    const rate = occupied / total
-    if (rate === 1) return 'full'
-    if (rate >= 0.5) return 'partial'
-    return 'low'
-  }
-
   const getStatusBadge = (status) => {
     switch (status) {
       case 'active':
@@ -81,6 +74,20 @@ function PropertiesListPage() {
       default:
         return { variant: 'default', label: status }
     }
+  }
+
+  const getPlaceholderGradient = (id) => {
+    const idx = (parseInt(id, 10) % 3) + 1
+    if (idx === 1) return 'bg-gradient-to-br from-[#dbeafe] to-[#bfdbfe]'
+    if (idx === 2) return 'bg-gradient-to-br from-[#fef3c7] to-[#fde68a]'
+    return 'bg-gradient-to-br from-[#d1fae5] to-[#a7f3d0]'
+  }
+
+  const getOccupancyBarColor = (occupied, total) => {
+    const rate = occupied / total
+    if (rate === 1) return 'bg-accent'
+    if (rate >= 0.5) return 'bg-warm'
+    return 'bg-coral'
   }
 
   return (
@@ -96,12 +103,17 @@ function PropertiesListPage() {
         rightContent: headerContent,
       }}
     >
-      <div className="properties-content">
+      <div className="p-8 md:p-5">
         {/* Controls Bar */}
-        <div className="properties-controls">
-          <div className="view-toggle">
+        <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between mb-6 gap-4">
+          <div className="flex gap-1 bg-white p-1 rounded-xl border border-cloud">
             <button
-              className={`view-toggle-btn ${viewMode === 'grid' ? 'active' : ''}`}
+              className={classNames(
+                'flex items-center justify-center w-9 h-9 rounded-lg border-none bg-transparent cursor-pointer transition-all duration-200',
+                viewMode === 'grid'
+                  ? 'bg-primary-bg text-primary'
+                  : 'text-slate hover:bg-snow hover:text-charcoal'
+              )}
               onClick={() => setViewMode('grid')}
               aria-label="Grid view"
             >
@@ -120,7 +132,12 @@ function PropertiesListPage() {
               </svg>
             </button>
             <button
-              className={`view-toggle-btn ${viewMode === 'list' ? 'active' : ''}`}
+              className={classNames(
+                'flex items-center justify-center w-9 h-9 rounded-lg border-none bg-transparent cursor-pointer transition-all duration-200',
+                viewMode === 'list'
+                  ? 'bg-primary-bg text-primary'
+                  : 'text-slate hover:bg-snow hover:text-charcoal'
+              )}
               onClick={() => setViewMode('list')}
               aria-label="List view"
             >
@@ -142,7 +159,7 @@ function PropertiesListPage() {
             </button>
           </div>
 
-          <div className="properties-filters">
+          <div className="flex flex-col md:flex-row gap-3">
             <Select
               options={statusOptions}
               value={statusFilter}
@@ -160,51 +177,57 @@ function PropertiesListPage() {
 
         {/* Properties Grid/List */}
         {viewMode === 'grid' ? (
-          <div className="properties-grid">
+          <div className="grid grid-cols-1 md:grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-6">
             {filteredProperties.map((property) => {
               const statusInfo = getStatusBadge(property.status)
               return (
                 <Card
                   key={property.id}
-                  className="property-grid-card"
+                  className="cursor-pointer overflow-hidden"
                   hoverable
                   padding="none"
                   onClick={() => navigate(`/landlord/properties/${property.id}`)}
                 >
-                  <div className="property-grid-image">
+                  <div className="relative h-[180px] overflow-hidden">
                     <div
-                      className={`property-placeholder img-${(parseInt(property.id, 10) % 3) + 1}`}
+                      className={classNames(
+                        'w-full h-full flex items-center justify-center text-5xl',
+                        getPlaceholderGradient(property.id)
+                      )}
                     >
                       🏠
                     </div>
-                    <Badge variant={statusInfo.variant} className="property-status-badge">
+                    <Badge variant={statusInfo.variant} className="absolute top-3 right-3">
                       {statusInfo.label}
                     </Badge>
                   </div>
-                  <div className="property-grid-content">
-                    <h3 className="property-grid-name">{property.name}</h3>
-                    <p className="property-grid-address">{property.address}</p>
+                  <div className="p-5">
+                    <h3 className="text-[17px] font-semibold text-charcoal mb-1">{property.name}</h3>
+                    <p className="text-[13px] text-slate mb-4">{property.address}</p>
 
-                    <div className="property-grid-stats">
-                      <div className="property-grid-stat">
-                        <span className="property-grid-stat-label">Occupancy</span>
-                        <div className="occupancy-indicator">
-                          <div className="occupancy-bar">
+                    <div className="flex flex-col gap-3">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[13px] text-slate">Occupancy</span>
+                        <div className="flex items-center gap-2">
+                          <div className="w-[60px] h-1.5 bg-cloud rounded-full overflow-hidden">
                             <div
-                              className={`occupancy-bar-fill ${getOccupancyClass(property.occupiedRooms, property.totalRooms)}`}
+                              className={classNames(
+                                'h-full rounded-full transition-all duration-300',
+                                getOccupancyBarColor(property.occupiedRooms, property.totalRooms)
+                              )}
                               style={{
                                 width: `${(property.occupiedRooms / property.totalRooms) * 100}%`,
                               }}
                             />
                           </div>
-                          <span className="occupancy-text">
+                          <span className="text-[13px] text-slate">
                             {property.occupiedRooms}/{property.totalRooms}
                           </span>
                         </div>
                       </div>
-                      <div className="property-grid-stat">
-                        <span className="property-grid-stat-label">Revenue</span>
-                        <span className="property-grid-stat-value">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[13px] text-slate">Revenue</span>
+                        <span className="text-sm font-semibold text-charcoal">
                           ${property.revenue.toLocaleString()}/mo
                         </span>
                       </div>
@@ -215,52 +238,61 @@ function PropertiesListPage() {
             })}
           </div>
         ) : (
-          <Card padding="none" className="properties-list-card">
-            <div className="properties-list">
-              {filteredProperties.map((property) => {
+          <Card padding="none">
+            <div className="w-full">
+              {filteredProperties.map((property, index) => {
                 const statusInfo = getStatusBadge(property.status)
                 return (
                   <div
                     key={property.id}
-                    className="property-list-row"
+                    className={classNames(
+                      'grid grid-cols-[1fr_auto] md:grid-cols-[2fr_1fr_1fr_auto] lg:grid-cols-[2fr_1fr_1fr_1fr_auto] items-center py-4 px-6 cursor-pointer transition-all duration-200 hover:bg-snow gap-3',
+                      index < filteredProperties.length - 1 && 'border-b border-cloud'
+                    )}
                     onClick={() => navigate(`/landlord/properties/${property.id}`)}
                   >
-                    <div className="property-list-info">
-                      <div className="property-list-image">
+                    <div className="flex items-center gap-4">
+                      <div className="w-14 h-14 rounded-xl overflow-hidden flex-shrink-0">
                         <div
-                          className={`property-placeholder img-${(parseInt(property.id, 10) % 3) + 1}`}
+                          className={classNames(
+                            'w-full h-full flex items-center justify-center text-2xl',
+                            getPlaceholderGradient(property.id)
+                          )}
                         >
                           🏠
                         </div>
                       </div>
-                      <div className="property-list-details">
-                        <div className="property-list-name">{property.name}</div>
-                        <div className="property-list-address">{property.address}</div>
+                      <div className="min-w-0">
+                        <div className="text-[15px] font-semibold text-charcoal mb-0.5 whitespace-nowrap overflow-hidden text-ellipsis">{property.name}</div>
+                        <div className="text-[13px] text-slate">{property.address}</div>
                       </div>
                     </div>
-                    <div className="property-list-occupancy">
-                      <div className="occupancy-bar">
+                    <div className="hidden md:block text-center">
+                      <div className="w-[60px] h-1.5 bg-cloud rounded-full overflow-hidden mx-auto">
                         <div
-                          className={`occupancy-bar-fill ${getOccupancyClass(property.occupiedRooms, property.totalRooms)}`}
+                          className={classNames(
+                            'h-full rounded-full transition-all duration-300',
+                            getOccupancyBarColor(property.occupiedRooms, property.totalRooms)
+                          )}
                           style={{
                             width: `${(property.occupiedRooms / property.totalRooms) * 100}%`,
                           }}
                         />
                       </div>
-                      <div className="occupancy-text">
+                      <div className="text-[13px] text-slate mt-1">
                         {property.occupiedRooms}/{property.totalRooms} rooms
                       </div>
                     </div>
-                    <div className="property-list-revenue">
-                      <div className="revenue-value">${property.revenue.toLocaleString()}</div>
-                      <div className="revenue-period">/month</div>
+                    <div className="hidden lg:block text-center">
+                      <div className="font-display text-base font-bold text-charcoal">${property.revenue.toLocaleString()}</div>
+                      <div className="text-xs text-slate">/month</div>
                     </div>
-                    <div className="property-list-status">
+                    <div className="hidden md:block text-center">
                       <Badge variant={statusInfo.variant} dot>
                         {statusInfo.label}
                       </Badge>
                     </div>
-                    <div className="property-list-actions">
+                    <div className="flex gap-2">
                       <IconButton
                         label="View property"
                         variant="ghost"
@@ -308,10 +340,10 @@ function PropertiesListPage() {
         )}
 
         {filteredProperties.length === 0 && (
-          <div className="properties-empty">
-            <div className="properties-empty-icon">🏠</div>
-            <h3 className="properties-empty-title">No properties found</h3>
-            <p className="properties-empty-text">
+          <div className="flex flex-col items-center justify-center py-16 px-6 text-center">
+            <div className="text-[64px] mb-4">🏠</div>
+            <h3 className="font-display text-2xl font-semibold text-charcoal mb-2">No properties found</h3>
+            <p className="text-[15px] text-slate mb-6">
               Try adjusting your filters or add a new property
             </p>
             <Button variant="primary" onClick={() => navigate(ROUTES.LANDLORD.PROPERTY_NEW)}>

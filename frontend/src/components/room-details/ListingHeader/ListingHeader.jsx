@@ -1,13 +1,12 @@
 import { forwardRef } from 'react'
 import { classNames } from '../../../utils'
-import './ListingHeader.css'
 
 // Badge type configurations
 const BADGE_CONFIG = {
-  verified: { icon: '✓', label: 'Verified Host', className: 'listing-header__badge--verified' },
-  new: { icon: '✨', label: 'New Listing', className: 'listing-header__badge--new' },
-  available: { icon: '✓', label: 'Available Now', className: 'listing-header__badge--available' },
-  featured: { icon: '⭐', label: 'Featured', className: 'listing-header__badge--featured' },
+  verified: { icon: '✓', label: 'Verified Host', colors: 'bg-primary-bg text-primary' },
+  new: { icon: '✨', label: 'New Listing', colors: 'bg-accent-bg text-accent' },
+  available: { icon: '✓', label: 'Available Now', colors: 'bg-accent-bg text-accent' },
+  featured: { icon: '⭐', label: 'Featured', colors: 'bg-warm-bg text-warm' },
 }
 
 /**
@@ -41,17 +40,24 @@ const ListingHeader = forwardRef(function ListingHeader(
   ref
 ) {
   return (
-    <header ref={ref} className={classNames('listing-header', className)} {...props}>
+    <header
+      ref={ref}
+      className={classNames('pb-6 border-b border-cloud mb-8', className)}
+      {...props}
+    >
       {/* Badges */}
       {badges.length > 0 && (
-        <div className="listing-header__badges">
+        <div className="flex gap-2 mb-3">
           {badges.map((badgeType) => {
             const config = BADGE_CONFIG[badgeType]
             if (!config) return null
             return (
               <span
                 key={badgeType}
-                className={classNames('listing-header__badge', config.className)}
+                className={classNames(
+                  'inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-[13px] font-semibold',
+                  config.colors
+                )}
               >
                 {config.icon} {config.label}
               </span>
@@ -61,13 +67,15 @@ const ListingHeader = forwardRef(function ListingHeader(
       )}
 
       {/* Title */}
-      <h1 className="listing-header__title">{title}</h1>
+      <h1 className="font-display text-[32px] md:text-[26px] font-semibold text-midnight leading-tight mb-2">
+        {title}
+      </h1>
 
       {/* Location */}
       {location && (
-        <div className="listing-header__location">
+        <div className="flex items-center gap-2 text-base text-slate mb-4">
           <svg
-            className="listing-header__location-icon"
+            className="shrink-0"
             width="18"
             height="18"
             viewBox="0 0 24 24"
@@ -83,34 +91,38 @@ const ListingHeader = forwardRef(function ListingHeader(
       )}
 
       {/* Meta row */}
-      <div className="listing-header__meta">
+      <div className="flex items-center gap-4 md:gap-3 flex-wrap">
         {meta.roomType && (
-          <div className="listing-header__meta-item">
-            <span className="listing-header__meta-icon">🛏️</span>
+          <div className="flex items-center gap-1.5 text-[15px] md:text-sm text-charcoal">
+            <span className="text-lg">🛏️</span>
             {meta.roomType}
           </div>
         )}
 
         {meta.bathType && (
-          <div className="listing-header__meta-item">
-            <span className="listing-header__meta-icon">🚿</span>
+          <div className="flex items-center gap-1.5 text-[15px] md:text-sm text-charcoal">
+            <span className="text-lg">🚿</span>
             {meta.bathType}
           </div>
         )}
 
         {meta.size && (
-          <div className="listing-header__meta-item">
-            <span className="listing-header__meta-icon">📐</span>
+          <div className="flex items-center gap-1.5 text-[15px] md:text-sm text-charcoal">
+            <span className="text-lg">📐</span>
             {meta.size}
           </div>
         )}
 
         {rating !== undefined && (
-          <div className="listing-header__meta-item listing-header__rating">
-            <span className="listing-header__rating-star">★</span>
+          <div className="flex items-center gap-1 text-[15px] md:text-sm text-charcoal font-semibold">
+            <span className="text-warm">★</span>
             {rating.toFixed(2)}
             {reviewCount !== undefined && (
-              <button type="button" className="listing-header__reviews" onClick={onReviewsClick}>
+              <button
+                type="button"
+                className="text-slate font-normal underline cursor-pointer bg-transparent border-none font-body text-[inherit] p-0 hover:text-charcoal"
+                onClick={onReviewsClick}
+              >
                 ({reviewCount} reviews)
               </button>
             )}

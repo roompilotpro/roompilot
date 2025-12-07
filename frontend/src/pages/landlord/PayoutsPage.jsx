@@ -1,7 +1,13 @@
 import { useState } from 'react'
 import { useLandlordLayout } from '../../hooks/useLandlordLayout'
 import { AppShell } from '../../components/layout'
-import './PayoutsPage.css'
+import { classNames } from '../../utils'
+
+const statusStyles = {
+  paid: 'bg-accent-bg text-accent',
+  pending: 'bg-warm-bg text-warm',
+  failed: 'bg-coral-bg text-coral',
+}
 
 function PayoutsPage() {
   const { navLinks, user, logoBadge } = useLandlordLayout()
@@ -94,11 +100,11 @@ function PayoutsPage() {
   }
 
   const headerContent = (
-    <div style={{ display: 'flex', gap: '12px' }}>
-      <button className="btn btn-outline">
+    <div className="flex gap-3">
+      <button className="py-3 px-5 rounded-lg font-body text-sm font-semibold cursor-pointer transition-all duration-200 border border-cloud text-slate bg-transparent hover:border-primary hover:text-primary inline-flex items-center justify-center gap-2">
         <span>📥</span> Export Transactions
       </button>
-      <button className="btn btn-outline">
+      <button className="py-3 px-5 rounded-lg font-body text-sm font-semibold cursor-pointer transition-all duration-200 border border-cloud text-slate bg-transparent hover:border-primary hover:text-primary inline-flex items-center justify-center gap-2">
         <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
           <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0z" />
         </svg>
@@ -115,84 +121,114 @@ function PayoutsPage() {
         rightContent: headerContent,
       }}
     >
-      <div className="payouts-page">
+      <div className="max-w-[1400px]">
         {/* Summary Cards */}
-        <div className="summary-cards">
-          <div className="summary-card featured">
-            <div className="summary-label">Available for Payout</div>
-            <div className="summary-value">$8,450</div>
-            <button className="btn btn-success">Get Paid Now</button>
+        <div className="grid grid-cols-4 lg:grid-cols-2 md:grid-cols-1 gap-5 mb-8">
+          <div
+            className="p-6 rounded-xl shadow-sm text-white"
+            style={{ background: 'linear-gradient(135deg, var(--color-accent) 0%, #059669 100%)' }}
+          >
+            <div className="text-[13px] text-white/90 mb-2 font-medium">Available for Payout</div>
+            <div className="font-display text-4xl font-bold text-white mb-3">$8,450</div>
+            <button className="w-full py-3 px-5 rounded-lg font-body text-[15px] font-semibold cursor-pointer transition-colors duration-200 bg-white text-accent hover:bg-white/90">
+              Get Paid Now
+            </button>
           </div>
-          <div className="summary-card">
-            <div className="summary-label">Next Scheduled Payout</div>
-            <div className="summary-value">Dec 8</div>
-            <div className="summary-detail">In 7 days</div>
+          <div className="bg-white p-6 rounded-xl shadow-sm">
+            <div className="text-[13px] text-slate mb-2 font-medium">Next Scheduled Payout</div>
+            <div className="font-display text-4xl font-bold text-midnight mb-3">Dec 8</div>
+            <div className="text-[13px] text-slate">In 7 days</div>
           </div>
-          <div className="summary-card">
-            <div className="summary-label">Earned This Month</div>
-            <div className="summary-value">$18,700</div>
-            <div className="summary-detail">+12% from last month</div>
+          <div className="bg-white p-6 rounded-xl shadow-sm">
+            <div className="text-[13px] text-slate mb-2 font-medium">Earned This Month</div>
+            <div className="font-display text-4xl font-bold text-midnight mb-3">$18,700</div>
+            <div className="text-[13px] text-slate">+12% from last month</div>
           </div>
-          <div className="summary-card">
-            <div className="summary-label">All-Time Earnings</div>
-            <div className="summary-value">$156K</div>
-            <div className="summary-detail">Since March 2024</div>
+          <div className="bg-white p-6 rounded-xl shadow-sm">
+            <div className="text-[13px] text-slate mb-2 font-medium">All-Time Earnings</div>
+            <div className="font-display text-4xl font-bold text-midnight mb-3">$156K</div>
+            <div className="text-[13px] text-slate">Since March 2024</div>
           </div>
         </div>
 
         {/* Earnings Chart */}
-        <div className="card">
-          <h2 className="card-title">Earnings Overview</h2>
-          <div className="chart-placeholder">
-            <div className="chart-placeholder-text">
+        <div className="bg-white rounded-xl p-7 shadow-sm mb-6">
+          <h2 className="font-display text-[22px] font-bold mb-6">Earnings Overview</h2>
+          <div className="h-[300px] bg-snow rounded-lg flex items-center justify-center border-2 border-dashed border-cloud">
+            <div className="text-slate text-sm">
               📊 Monthly earnings chart will be displayed here
             </div>
           </div>
         </div>
 
         {/* Upcoming Payouts */}
-        <div className="card">
-          <h2 className="card-title">Upcoming Payouts</h2>
-          <div className="upcoming-payout">
-            <div className="upcoming-payout-info">
-              <h4>Next Automatic Payout</h4>
-              <p>December 8, 2025 • 3 properties included</p>
+        <div className="bg-white rounded-xl p-7 shadow-sm mb-6">
+          <h2 className="font-display text-[22px] font-bold mb-6">Upcoming Payouts</h2>
+          <div className="flex justify-between items-center p-4 bg-accent-bg rounded-lg border-l-4 border-l-accent">
+            <div>
+              <h4 className="font-semibold mb-1 text-midnight">Next Automatic Payout</h4>
+              <p className="text-sm text-slate">December 8, 2025 • 3 properties included</p>
             </div>
-            <div className="upcoming-payout-amount">$8,450</div>
+            <div className="font-display text-2xl font-bold text-accent">$8,450</div>
           </div>
         </div>
 
         {/* Payout History */}
-        <div className="card">
-          <h2 className="card-title">Payout History</h2>
-          <table className="payout-table">
-            <thead>
+        <div className="bg-white rounded-xl p-7 shadow-sm mb-6">
+          <h2 className="font-display text-[22px] font-bold mb-6">Payout History</h2>
+          <table className="w-full border-collapse">
+            <thead className="bg-snow">
               <tr>
-                <th>Date</th>
-                <th>Amount</th>
-                <th>Status</th>
-                <th>Properties</th>
-                <th>Details</th>
+                <th className="text-left py-3.5 px-4 text-xs font-bold text-slate uppercase tracking-wide border-b border-cloud">
+                  Date
+                </th>
+                <th className="text-left py-3.5 px-4 text-xs font-bold text-slate uppercase tracking-wide border-b border-cloud">
+                  Amount
+                </th>
+                <th className="text-left py-3.5 px-4 text-xs font-bold text-slate uppercase tracking-wide border-b border-cloud">
+                  Status
+                </th>
+                <th className="text-left py-3.5 px-4 text-xs font-bold text-slate uppercase tracking-wide border-b border-cloud">
+                  Properties
+                </th>
+                <th className="text-left py-3.5 px-4 text-xs font-bold text-slate uppercase tracking-wide border-b border-cloud">
+                  Details
+                </th>
               </tr>
             </thead>
             <tbody>
               {transactions.map((transaction) => (
-                <tr key={transaction.id} onClick={() => openTransactionDetail(transaction)}>
-                  <td>{transaction.date}</td>
-                  <td>
-                    <span className="amount-text">${transaction.amount.toFixed(2)}</span>
+                <tr
+                  key={transaction.id}
+                  onClick={() => openTransactionDetail(transaction)}
+                  className="transition-colors duration-200 cursor-pointer hover:bg-snow"
+                >
+                  <td className="py-[18px] px-4 border-b border-cloud text-sm last:border-b-0">
+                    {transaction.date}
                   </td>
-                  <td>
-                    <span className={`badge badge-${transaction.status}`}>
+                  <td className="py-[18px] px-4 border-b border-cloud text-sm last:border-b-0">
+                    <span className="font-semibold text-midnight">
+                      ${transaction.amount.toFixed(2)}
+                    </span>
+                  </td>
+                  <td className="py-[18px] px-4 border-b border-cloud text-sm last:border-b-0">
+                    <span
+                      className={classNames(
+                        'inline-flex items-center justify-center py-1.5 px-3 rounded-xl text-xs font-semibold capitalize',
+                        statusStyles[transaction.status]
+                      )}
+                    >
                       {transaction.status}
                     </span>
                   </td>
-                  <td>
-                    <span className="property-count">🏠 {transaction.properties} properties</span>
+                  <td className="py-[18px] px-4 border-b border-cloud text-sm last:border-b-0">
+                    <span className="inline-flex items-center gap-1 py-1 px-2.5 bg-snow rounded-md text-[13px] font-medium">
+                      🏠 {transaction.properties} properties
+                    </span>
                   </td>
-                  <td>
+                  <td className="py-[18px] px-4 border-b border-cloud text-sm last:border-b-0">
                     <button
-                      className="link-button"
+                      className="bg-transparent border-none text-primary font-medium cursor-pointer p-0 text-sm font-body hover:underline"
                       onClick={(e) => {
                         e.stopPropagation()
                         openTransactionDetail(transaction)
@@ -209,56 +245,66 @@ function PayoutsPage() {
 
         {/* Transaction Detail Modal */}
         {showDetailModal && selectedTransaction && (
-          <div className="modal active" onClick={closeModal}>
-            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-              <h2 className="modal-title">Payout Breakdown</h2>
-              <p className="modal-subtitle">
+          <div
+            className="fixed inset-0 bg-black/50 flex items-center justify-center z-[1000]"
+            onClick={closeModal}
+          >
+            <div
+              className="bg-white rounded-2xl p-8 max-w-[600px] w-[90%] max-h-[80vh] overflow-y-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <h2 className="font-display text-2xl font-bold mb-2">Payout Breakdown</h2>
+              <p className="text-slate mb-6">
                 Payout ID: {selectedTransaction.id} • Paid on {selectedTransaction.date}
               </p>
 
               {selectedTransaction.breakdown && (
                 <>
-                  <div className="modal-section">
-                    <h3 className="modal-section-title">Payments Included</h3>
-                    <div className="payment-list">
+                  <div className="mb-6">
+                    <h3 className="font-semibold mb-3 text-midnight">Payments Included</h3>
+                    <div className="flex flex-col gap-2">
                       {selectedTransaction.breakdown.properties.map((prop, index) => (
-                        <div key={index} className="payment-item">
-                          <div className="payment-item-info">
+                        <div key={index} className="flex justify-between p-3 bg-snow rounded-md">
+                          <div>
                             <strong>{prop.name}</strong>
-                            <p>
+                            <p className="text-[13px] text-slate">
                               {prop.payments} payments • {prop.rooms}
                             </p>
                           </div>
-                          <div className="payment-item-amount">${prop.amount.toFixed(2)}</div>
+                          <div className="font-semibold text-midnight">
+                            ${prop.amount.toFixed(2)}
+                          </div>
                         </div>
                       ))}
                     </div>
                   </div>
 
-                  <div className="modal-section">
-                    <h3 className="modal-section-title">Fee Breakdown</h3>
-                    <div className="fee-breakdown">
-                      <div className="fee-item">
-                        <span className="fee-label">Gross Amount</span>
-                        <span className="fee-amount">
+                  <div className="mb-6">
+                    <h3 className="font-semibold mb-3 text-midnight">Fee Breakdown</h3>
+                    <div className="flex flex-col gap-2">
+                      <div className="flex justify-between py-2.5 border-b border-cloud">
+                        <span className="text-slate text-sm">Gross Amount</span>
+                        <span className="font-medium text-midnight">
                           ${selectedTransaction.breakdown.gross.toFixed(2)}
                         </span>
                       </div>
-                      <div className="fee-item">
-                        <span className="fee-label">RoomPilot Service Fee (10%)</span>
-                        <span className="fee-amount">
+                      <div className="flex justify-between py-2.5 border-b border-cloud">
+                        <span className="text-slate text-sm">RoomPilot Service Fee (10%)</span>
+                        <span className="font-medium text-midnight">
                           -${selectedTransaction.breakdown.serviceFee.toFixed(2)}
                         </span>
                       </div>
-                      <div className="fee-item">
-                        <span className="fee-label">Stripe Processing Fee (2.9% + $0.30)</span>
-                        <span className="fee-amount">
+                      <div className="flex justify-between py-2.5 border-b border-cloud">
+                        <span className="text-slate text-sm">
+                          Stripe Processing Fee (2.9% + $0.30)
+                        </span>
+                        <span className="font-medium text-midnight">
                           -${selectedTransaction.breakdown.processingFee.toFixed(2)}
                         </span>
                       </div>
-                      <div className="fee-item total">
-                        <span className="fee-label">Net Payout</span>
-                        <span className="fee-amount">
+                      <div className="flex justify-between pt-4 border-t-2 border-cloud text-base">
+                        <span className="font-semibold text-midnight">Net Payout</span>
+                        <span className="font-display text-xl font-bold text-accent">
                           ${selectedTransaction.breakdown.net.toFixed(2)}
                         </span>
                       </div>
@@ -267,8 +313,11 @@ function PayoutsPage() {
                 </>
               )}
 
-              <div className="modal-close-btn">
-                <button className="btn btn-primary" onClick={closeModal} style={{ width: '100%' }}>
+              <div className="mt-6">
+                <button
+                  className="w-full py-3 px-5 rounded-lg font-body text-sm font-semibold cursor-pointer transition-colors duration-200 bg-primary text-white hover:bg-primary-dark"
+                  onClick={closeModal}
+                >
                   Close
                 </button>
               </div>

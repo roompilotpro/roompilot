@@ -2,7 +2,6 @@ import { forwardRef, useState, useCallback } from 'react'
 import { classNames } from '../../../utils/classNames'
 import Sidebar from '../Sidebar'
 import Header from '../Header'
-import './AppShell.css'
 
 /**
  * AppShell - Main application layout with sidebar and header
@@ -53,22 +52,22 @@ const AppShell = forwardRef(function AppShell(
   }, [isControlled, onSidebarToggle])
 
   return (
-    <div ref={ref} className={classNames('app-shell', className)} {...props}>
+    <div ref={ref} className={classNames('flex min-h-screen bg-snow', className)} {...props}>
       {/* Sidebar */}
       {sidebar && <Sidebar {...sidebar} collapsed={collapsed} onClose={handleClose} />}
 
       {/* Main content area */}
-      <main className={classNames('app-shell__main', sidebar && 'app-shell__main--with-sidebar')}>
+      <main className={classNames('flex-1 flex flex-col min-h-screen', sidebar && 'lg:ml-[260px]')}>
         {/* Header with hamburger toggle */}
         {header && (
           <Header
             {...header}
             leftContent={
-              <div className="app-shell__header-left">
+              <div className="flex items-center gap-4">
                 {sidebar && (
                   <button
                     type="button"
-                    className="app-shell__menu-btn"
+                    className="hidden max-lg:flex items-center justify-center w-10 h-10 p-0 bg-transparent border-none rounded-md text-slate cursor-pointer transition-all duration-150 ease-out hover:bg-cloud hover:text-charcoal focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                     onClick={handleToggle}
                     aria-label={collapsed ? 'Open menu' : 'Close menu'}
                     aria-expanded={!collapsed}
@@ -91,8 +90,14 @@ const AppShell = forwardRef(function AppShell(
                 )}
                 {header.leftContent || (
                   <>
-                    {header.title && <h1 className="header__title">{header.title}</h1>}
-                    {header.subtitle && <span className="header__subtitle">{header.subtitle}</span>}
+                    {header.title && (
+                      <h1 className="font-display text-xl font-semibold text-midnight m-0">
+                        {header.title}
+                      </h1>
+                    )}
+                    {header.subtitle && (
+                      <span className="text-sm text-mist">{header.subtitle}</span>
+                    )}
                   </>
                 )}
               </div>
@@ -101,7 +106,7 @@ const AppShell = forwardRef(function AppShell(
         )}
 
         {/* Page content */}
-        <div className="app-shell__content">{children}</div>
+        <div className="flex-1 md:p-0 p-4">{children}</div>
       </main>
     </div>
   )

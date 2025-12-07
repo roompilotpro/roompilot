@@ -2,7 +2,16 @@ import { forwardRef, useState, useEffect, useRef } from 'react'
 import ModalBase from '../ModalBase'
 import { Button } from '../../primitives'
 import classNames from '../../../utils/classNames'
-import './ErrorModal.css'
+
+// Shake animation keyframes
+const shakeStyles = `
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    75% { transform: translateX(4px); }
+  }
+  .error-modal-shake { animation: shake 0.5s ease; }
+`
 
 /**
  * ErrorModal - Error dialog with shake animation
@@ -74,40 +83,45 @@ const ErrorModal = forwardRef(function ErrorModal(
   )
 
   return (
-    <ModalBase
-      ref={ref}
-      isOpen={isOpen}
-      onClose={onClose}
-      showHeader={false}
-      footer={footer}
-      size="sm"
-      className={classNames('error-modal', shake && 'error-modal--shake', className)}
-      {...props}
-    >
-      <div className="error-modal__content">
-        <div className="error-modal__icon">
-          {icon || (
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" />
-              <path
-                d="M12 8v4m0 4h.01"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+    <>
+      <style>{shakeStyles}</style>
+      <ModalBase
+        ref={ref}
+        isOpen={isOpen}
+        onClose={onClose}
+        showHeader={false}
+        footer={footer}
+        size="sm"
+        className={classNames(shake && 'error-modal-shake', className)}
+        {...props}
+      >
+        <div className="text-center py-2">
+          <div className="w-20 h-20 sm:w-16 sm:h-16 rounded-full bg-coral-bg text-coral mx-auto mb-6 flex items-center justify-center [&>svg]:w-10 [&>svg]:h-10 sm:[&>svg]:w-8 sm:[&>svg]:h-8">
+            {icon || (
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" />
+                <path
+                  d="M12 8v4m0 4h.01"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            )}
+          </div>
+          <h2 className="text-xl font-semibold text-charcoal mb-3 m-0 leading-tight">{title}</h2>
+          {description && (
+            <p className="text-base text-slate mb-4 m-0 leading-relaxed">{description}</p>
+          )}
+          {errorCode && (
+            <div className="inline-block font-mono text-sm bg-snow py-2 px-4 rounded-md text-charcoal">
+              <span>Error code: {errorCode}</span>
+            </div>
           )}
         </div>
-        <h2 className="error-modal__title">{title}</h2>
-        {description && <p className="error-modal__description">{description}</p>}
-        {errorCode && (
-          <div className="error-modal__code">
-            <span>Error code: {errorCode}</span>
-          </div>
-        )}
-      </div>
-    </ModalBase>
+      </ModalBase>
+    </>
   )
 })
 

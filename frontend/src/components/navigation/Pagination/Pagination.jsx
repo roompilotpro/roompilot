@@ -1,6 +1,15 @@
 import { forwardRef, useMemo } from 'react'
 import classNames from '../../../utils/classNames'
-import './Pagination.css'
+
+// Size variants
+const sizeStyles = {
+  sm: { btn: 'min-w-7 h-7 text-xs', ellipsis: 'w-7 h-7 text-xs' },
+  md: { btn: 'min-w-9 h-9 text-sm sm:min-w-8 sm:h-8', ellipsis: 'w-9 h-9 text-sm' },
+  lg: {
+    btn: 'min-w-11 h-11 text-base sm:min-w-8 sm:h-8 sm:text-sm',
+    ellipsis: 'w-11 h-11 text-base',
+  },
+}
 
 /**
  * Pagination - Page navigation component
@@ -80,10 +89,19 @@ const Pagination = forwardRef(function Pagination(
     return null
   }
 
+  const styles = sizeStyles[size]
+  const btnBase = classNames(
+    'inline-flex items-center justify-center bg-white border border-cloud rounded-md font-medium text-charcoal cursor-pointer transition-all duration-150',
+    'hover:not-disabled:not-active:bg-snow hover:not-disabled:not-active:border-slate',
+    'focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2',
+    'disabled:opacity-50 disabled:cursor-not-allowed',
+    styles.btn
+  )
+
   return (
     <nav
       ref={ref}
-      className={classNames('pagination', `pagination--${size}`, className)}
+      className={classNames('flex items-center gap-1 sm:gap-0.5', className)}
       aria-label="Pagination"
       {...props}
     >
@@ -91,7 +109,7 @@ const Pagination = forwardRef(function Pagination(
       {showFirstLast && (
         <button
           type="button"
-          className="pagination__btn pagination__btn--first"
+          className={classNames(btnBase, 'font-bold sm:hidden')}
           onClick={() => handlePageChange(1)}
           disabled={currentPage === 1}
           aria-label="Go to first page"
@@ -104,7 +122,7 @@ const Pagination = forwardRef(function Pagination(
       {showPrevNext && (
         <button
           type="button"
-          className="pagination__btn pagination__btn--prev"
+          className={classNames(btnBase, 'font-bold')}
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}
           aria-label="Go to previous page"
@@ -114,11 +132,18 @@ const Pagination = forwardRef(function Pagination(
       )}
 
       {/* Page numbers */}
-      <div className="pagination__pages">
+      <div className="flex items-center gap-1 sm:gap-0.5">
         {pages.map((page) => {
           if (typeof page === 'string') {
             return (
-              <span key={page} className="pagination__ellipsis" aria-hidden="true">
+              <span
+                key={page}
+                className={classNames(
+                  'inline-flex items-center justify-center text-slate select-none',
+                  styles.ellipsis
+                )}
+                aria-hidden="true"
+              >
                 …
               </span>
             )
@@ -129,9 +154,8 @@ const Pagination = forwardRef(function Pagination(
               key={page}
               type="button"
               className={classNames(
-                'pagination__btn',
-                'pagination__btn--page',
-                page === currentPage && 'pagination__btn--active'
+                btnBase,
+                page === currentPage && 'bg-primary border-primary text-white hover:bg-primary/90'
               )}
               onClick={() => handlePageChange(page)}
               aria-label={`Go to page ${page}`}
@@ -147,7 +171,7 @@ const Pagination = forwardRef(function Pagination(
       {showPrevNext && (
         <button
           type="button"
-          className="pagination__btn pagination__btn--next"
+          className={classNames(btnBase, 'font-bold')}
           onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
           aria-label="Go to next page"
@@ -160,7 +184,7 @@ const Pagination = forwardRef(function Pagination(
       {showFirstLast && (
         <button
           type="button"
-          className="pagination__btn pagination__btn--last"
+          className={classNames(btnBase, 'font-bold sm:hidden')}
           onClick={() => handlePageChange(totalPages)}
           disabled={currentPage === totalPages}
           aria-label="Go to last page"

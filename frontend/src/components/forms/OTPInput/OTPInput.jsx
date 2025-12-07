@@ -1,6 +1,12 @@
 import { forwardRef, useState, useRef, useEffect, useId } from 'react'
 import { classNames } from '../../../utils/classNames'
-import './OTPInput.css'
+
+// Size variant styles for individual inputs
+const inputSizeStyles = {
+  sm: 'w-9 h-11 text-lg',
+  md: 'w-11 h-[52px] text-xl',
+  lg: 'w-[52px] h-[60px] text-2xl',
+}
 
 /**
  * OTPInput component for verification codes
@@ -127,16 +133,11 @@ const OTPInput = forwardRef(function OTPInput(
   }
 
   return (
-    <div ref={ref} className={classNames('otp-wrapper', className)}>
-      {label && <span className="otp__label">{label}</span>}
-      <div
-        className={classNames(
-          'otp',
-          `otp--${size}`,
-          error && 'otp--error',
-          disabled && 'otp--disabled'
-        )}
-      >
+    <div ref={ref} className={classNames('flex flex-col items-center gap-3', className)}>
+      {label && (
+        <span className="font-body text-sm font-semibold text-midnight text-center">{label}</span>
+      )}
+      <div className={classNames('flex gap-2', disabled && 'opacity-60')}>
         {Array.from({ length }).map((_, index) => (
           <input
             key={index}
@@ -146,7 +147,15 @@ const OTPInput = forwardRef(function OTPInput(
             pattern="\d*"
             maxLength={1}
             id={`${inputId}-${index}`}
-            className={classNames('otp__input', otp[index] && 'otp__input--filled')}
+            className={classNames(
+              'text-center font-body font-semibold text-midnight bg-white border-2 rounded-sm transition-all duration-150 ease-out outline-none',
+              inputSizeStyles[size],
+              otp[index] ? 'border-primary bg-primary-bg' : 'border-cloud',
+              !otp[index] && 'focus:border-primary focus:shadow-focus',
+              error && 'border-coral',
+              error && 'focus:shadow-focus-error',
+              disabled && 'bg-snow cursor-not-allowed'
+            )}
             value={otp[index] || ''}
             disabled={disabled}
             onChange={(e) => handleChange(index, e)}
@@ -160,11 +169,11 @@ const OTPInput = forwardRef(function OTPInput(
         ))}
       </div>
       {error && (
-        <span className="otp__error" role="alert">
+        <span className="text-sm text-coral text-center" role="alert">
           {error}
         </span>
       )}
-      {helperText && !error && <span className="otp__helper">{helperText}</span>}
+      {helperText && !error && <span className="text-sm text-slate text-center">{helperText}</span>}
     </div>
   )
 })

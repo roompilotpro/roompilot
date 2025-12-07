@@ -4,7 +4,6 @@ import { classNames } from '../../../utils/classNames'
 import { Button } from '../../primitives'
 import SearchBar from '../SearchBar'
 import { ROUTES } from '../../../router/routes'
-import './SearchNavigation.css'
 
 /**
  * SearchNavigation - Fixed navigation bar for the search page
@@ -15,11 +14,22 @@ const SearchNavigation = forwardRef(function SearchNavigation(
   ref
 ) {
   return (
-    <nav ref={ref} className={classNames('search-nav', className)} {...props}>
-      <div className="search-nav__left">
-        <Link to={ROUTES.HOME} className="search-nav__logo">
-          <div className="search-nav__logo-icon">R</div>
-          <span className="search-nav__logo-text">RoomPilot</span>
+    <nav
+      ref={ref}
+      className={classNames(
+        'fixed top-0 left-0 right-0 z-50 h-[72px] px-6 md:px-4 flex items-center justify-between bg-white border-b border-cloud',
+        className
+      )}
+      {...props}
+    >
+      <div className="flex items-center gap-8 md:gap-4 md:flex-1">
+        <Link to={ROUTES.HOME} className="flex items-center gap-2.5 no-underline">
+          <div className="w-9 h-9 bg-gradient-to-br from-primary to-primary-dark rounded-[10px] flex items-center justify-center text-white font-bold text-lg shadow-[0_2px_8px_rgba(37,99,235,0.3)]">
+            R
+          </div>
+          <span className="font-display text-[22px] font-semibold text-midnight tracking-[-0.02em] md:hidden">
+            RoomPilot
+          </span>
         </Link>
 
         <SearchBar
@@ -28,12 +38,15 @@ const SearchNavigation = forwardRef(function SearchNavigation(
           onLocationChange={onLocationChange}
           onDateChange={onDateChange}
           onSearch={onSearch}
-          className="search-nav__search-bar"
+          className="md:flex-1"
         />
       </div>
 
-      <div className="search-nav__right">
-        <Link to={ROUTES.SIGNUP} className="search-nav__link">
+      <div className="flex items-center gap-2 md:gap-1">
+        <Link
+          to={ROUTES.SIGNUP}
+          className="py-2.5 px-4 text-sm font-medium text-slate no-underline rounded-md transition-all duration-200 hover:bg-snow hover:text-charcoal lg:hidden"
+        >
           List Your Property
         </Link>
         <Button as={Link} to={ROUTES.LOGIN} variant="ghost" size="sm">

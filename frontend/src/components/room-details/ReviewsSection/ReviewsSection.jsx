@@ -1,11 +1,10 @@
 import { forwardRef } from 'react'
 import { classNames } from '../../../utils'
-import './ReviewsSection.css'
 
 /**
  * ReviewItem - Individual review card
  */
-function ReviewItem({ review }) {
+function ReviewItem({ review, isLast }) {
   const { author, avatar, date, rating, text } = review
   const initial = author?.charAt(0).toUpperCase() || '?'
 
@@ -13,22 +12,22 @@ function ReviewItem({ review }) {
   const stars = '★'.repeat(Math.floor(rating)) + '☆'.repeat(5 - Math.floor(rating))
 
   return (
-    <div className="review-item">
-      <div className="review-item__header">
-        <div className="review-item__avatar">
+    <div className={classNames('pb-6', !isLast && 'border-b border-cloud')}>
+      <div className="flex items-center gap-3 mb-3">
+        <div className="w-11 h-11 rounded-full bg-cloud flex items-center justify-center font-semibold text-slate shrink-0 overflow-hidden">
           {avatar ? (
-            <img src={avatar} alt={author} className="review-item__avatar-image" />
+            <img src={avatar} alt={author} className="w-full h-full object-cover" />
           ) : (
             initial
           )}
         </div>
-        <div className="review-item__author">
-          <div className="review-item__author-name">{author}</div>
-          <div className="review-item__date">{date}</div>
+        <div className="flex-1 min-w-0">
+          <div className="text-[15px] font-semibold text-charcoal">{author}</div>
+          <div className="text-[13px] text-slate">{date}</div>
         </div>
-        <div className="review-item__rating">{stars}</div>
+        <div className="text-warm text-sm tracking-wide">{stars}</div>
       </div>
-      <p className="review-item__text">{text}</p>
+      <p className="text-[15px] leading-relaxed text-slate">{text}</p>
     </div>
   )
 }
@@ -68,36 +67,44 @@ const ReviewsSection = forwardRef(function ReviewsSection(
   const starsDisplay = '★'.repeat(fullStars) + '☆'.repeat(5 - fullStars)
 
   return (
-    <section ref={ref} className={classNames('reviews-section', className)} {...props}>
-      <div className="reviews-section__header">
-        <h2 className="reviews-section__title">{title}</h2>
+    <section
+      ref={ref}
+      className={classNames('py-8 border-b border-cloud last:border-b-0', className)}
+      {...props}
+    >
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="font-display text-[22px] font-semibold text-midnight">{title}</h2>
       </div>
 
       {/* Summary */}
       {score !== undefined && (
-        <div className="reviews-section__summary">
-          <span className="reviews-section__score">{score.toFixed(2)}</span>
-          <span className="reviews-section__stars">{starsDisplay}</span>
+        <div className="flex items-center gap-2 mb-6">
+          <span className="font-display text-[28px] font-bold text-midnight">
+            {score.toFixed(2)}
+          </span>
+          <span className="text-warm text-lg tracking-widest">{starsDisplay}</span>
           {totalCount !== undefined && (
-            <span className="reviews-section__count">· {totalCount} reviews</span>
+            <span className="text-[15px] text-slate">· {totalCount} reviews</span>
           )}
         </div>
       )}
 
       {/* Categories */}
       {categories.length > 0 && (
-        <div className="reviews-section__categories">
+        <div className="grid grid-cols-2 md:grid-cols-1 gap-4 mb-8">
           {categories.map((category, index) => (
-            <div key={index} className="reviews-section__category">
-              <span className="reviews-section__category-label">{category.label}</span>
-              <div className="reviews-section__category-bar">
-                <div className="reviews-section__category-track">
+            <div key={index} className="flex items-center justify-between">
+              <span className="text-sm text-slate">{category.label}</span>
+              <div className="flex items-center gap-2">
+                <div className="w-[100px] md:w-20 h-1 bg-cloud rounded overflow-hidden">
                   <div
-                    className="reviews-section__category-fill"
+                    className="h-full bg-charcoal rounded transition-[width] duration-300"
                     style={{ width: `${(category.value / 5) * 100}%` }}
                   />
                 </div>
-                <span className="reviews-section__category-value">{category.value.toFixed(1)}</span>
+                <span className="text-[13px] font-semibold text-charcoal min-w-6">
+                  {category.value.toFixed(1)}
+                </span>
               </div>
             </div>
           ))}
@@ -106,16 +113,24 @@ const ReviewsSection = forwardRef(function ReviewsSection(
 
       {/* Reviews list */}
       {displayedReviews.length > 0 && (
-        <div className="reviews-section__list">
+        <div className="grid gap-6">
           {displayedReviews.map((review, index) => (
-            <ReviewItem key={index} review={review} />
+            <ReviewItem
+              key={index}
+              review={review}
+              isLast={index === displayedReviews.length - 1}
+            />
           ))}
         </div>
       )}
 
       {/* Show all button */}
       {showAllButton && (
-        <button type="button" className="reviews-section__show-all" onClick={onShowAll}>
+        <button
+          type="button"
+          className="mt-6 inline-flex items-center justify-center gap-2 py-3 px-6 font-body text-[15px] font-semibold no-underline rounded-md cursor-pointer transition-all duration-200 bg-transparent text-charcoal border-2 border-cloud hover:border-charcoal hover:bg-snow"
+          onClick={onShowAll}
+        >
           Show all {totalCount} reviews
         </button>
       )}

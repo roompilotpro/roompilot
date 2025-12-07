@@ -1,5 +1,4 @@
 import { classNames } from '../../../utils/classNames'
-import './PasswordRequirements.css'
 
 /**
  * PasswordRequirements component - Checklist with met/unmet states
@@ -27,18 +26,25 @@ function PasswordRequirements({ requirements, showMatch = false, className }) {
   }
 
   return (
-    <div className={classNames('password-requirements', className)}>
-      <div className="password-requirements__title">Password must contain:</div>
-      <ul className="password-requirements__list">
+    <div className={classNames('bg-snow rounded-lg p-4 mt-4', className)}>
+      <div className="text-sm font-semibold text-midnight mb-3">Password must contain:</div>
+      <ul className="list-none p-0 m-0">
         {items.map((item) => (
           <li
             key={item.key}
             className={classNames(
-              'password-requirements__item',
-              item.met && 'password-requirements__item--met'
+              'flex items-center gap-2 text-sm text-slate mb-2 last:mb-0',
+              item.met && 'text-accent'
             )}
           >
-            <span className="password-requirements__icon">✓</span>
+            <span
+              className={classNames(
+                'w-4 h-4 rounded-full bg-cloud flex items-center justify-center text-[0.625rem] text-transparent shrink-0',
+                item.met && 'bg-accent text-white'
+              )}
+            >
+              ✓
+            </span>
             <span>{item.label}</span>
           </li>
         ))}

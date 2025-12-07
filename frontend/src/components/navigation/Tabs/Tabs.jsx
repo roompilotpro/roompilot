@@ -1,17 +1,44 @@
 import { forwardRef, useId } from 'react'
 import classNames from '../../../utils/classNames'
-import './Tabs.css'
+
+// Variant styles
+const variantStyles = {
+  underline: {
+    container: 'border-b-2 border-cloud gap-1',
+    tab: 'py-3 px-4 text-slate border-b-[3px] border-transparent -mb-0.5 hover:not-disabled:text-charcoal/80',
+    active: 'text-primary border-b-primary',
+  },
+  pills: {
+    container: 'bg-cloud p-1 rounded-md gap-1',
+    tab: 'py-2 px-4 text-slate rounded-sm hover:not-disabled:not-active:text-charcoal/80',
+    active: 'bg-white text-charcoal shadow-sm',
+  },
+  default: {
+    container: 'gap-1',
+    tab: 'py-2 px-4 text-slate rounded-md hover:not-disabled:not-active:bg-cloud hover:not-disabled:not-active:text-charcoal/80',
+    active: 'bg-primary-bg text-primary/80',
+  },
+}
+
+// Size styles
+const sizeStyles = {
+  sm: {
+    tab: 'text-xs',
+    padUnder: 'py-2 px-3',
+    padOther: 'py-1.5 px-3',
+    badge: 'min-w-4 h-4 text-[10px]',
+  },
+  md: { tab: 'text-sm', padUnder: '', padOther: '', badge: 'min-w-[18px] h-[18px] text-[11px]' },
+  lg: {
+    tab: 'text-base',
+    padUnder: 'py-4 px-6',
+    padOther: 'py-3 px-5',
+    badge: 'min-w-5 h-5 text-xs',
+  },
+}
 
 /**
  * Tabs - Horizontal tab navigation component
- *
- * @param {Array} tabs - Array of tab objects { id, label, icon?, badge?, disabled? }
- * @param {string} activeTab - ID of the currently active tab
- * @param {Function} onChange - Callback when tab changes, receives tab id
- * @param {string} [variant='underline'] - Visual style: 'underline' | 'pills' | 'default'
- * @param {string} [size='md'] - Tab size: 'sm' | 'md' | 'lg'
- * @param {boolean} [fullWidth=false] - Stretch tabs to fill container
- * @param {string} [className] - Additional CSS classes
  */
 const Tabs = forwardRef(function Tabs(
   {
@@ -27,6 +54,8 @@ const Tabs = forwardRef(function Tabs(
   ref
 ) {
   const baseId = useId()
+  const vStyles = variantStyles[variant]
+  const sStyles = sizeStyles[size]
 
   const handleTabClick = (tabId, disabled) => {
     if (!disabled) {
@@ -55,7 +84,6 @@ const Tabs = forwardRef(function Tabs(
     const newTab = enabledTabs[newIndex]
     onChange?.(newTab.id)
 
-    // Focus the new tab
     const tabElement = document.getElementById(`${baseId}-tab-${newTab.id}`)
     tabElement?.focus()
   }
@@ -64,10 +92,9 @@ const Tabs = forwardRef(function Tabs(
     <div
       ref={ref}
       className={classNames(
-        'tabs',
-        `tabs--${variant}`,
-        `tabs--${size}`,
-        fullWidth && 'tabs--full-width',
+        'flex gap-2',
+        vStyles.container,
+        fullWidth && 'w-full [&>button]:flex-1 [&>button]:justify-center',
         className
       )}
       role="tablist"
@@ -89,21 +116,35 @@ const Tabs = forwardRef(function Tabs(
             aria-disabled={isDisabled}
             tabIndex={isActive ? 0 : -1}
             className={classNames(
-              'tabs__tab',
-              isActive && 'tabs__tab--active',
-              isDisabled && 'tabs__tab--disabled'
+              'inline-flex items-center gap-2 bg-transparent border-none font-semibold cursor-pointer transition-all duration-150 whitespace-nowrap focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2',
+              sStyles.tab,
+              variant === 'underline' && sStyles.padUnder,
+              variant !== 'underline' && sStyles.padOther,
+              vStyles.tab,
+              isActive && vStyles.active,
+              isDisabled && 'opacity-50 cursor-not-allowed'
             )}
             onClick={() => handleTabClick(tab.id, isDisabled)}
             onKeyDown={(e) => handleKeyDown(e, index)}
             disabled={isDisabled}
           >
             {tab.icon && (
-              <span className="tabs__tab-icon" aria-hidden="true">
+              <span className="text-[1em] leading-none" aria-hidden="true">
                 {tab.icon}
               </span>
             )}
-            <span className="tabs__tab-label">{tab.label}</span>
-            {tab.badge !== undefined && <span className="tabs__tab-badge">{tab.badge}</span>}
+            <span className="leading-tight">{tab.label}</span>
+            {tab.badge !== undefined && (
+              <span
+                className={classNames(
+                  'inline-flex items-center justify-center px-1.5 font-semibold leading-none rounded-full',
+                  sStyles.badge,
+                  isActive ? 'bg-primary-bg text-primary/80' : 'bg-cloud text-charcoal/80'
+                )}
+              >
+                {tab.badge}
+              </span>
+            )}
           </button>
         )
       })}

@@ -1,7 +1,6 @@
 import { forwardRef } from 'react'
 import { classNames } from '../../../utils/classNames'
 import { Button, Skeleton } from '../../primitives'
-import './WalletCard.css'
 
 /**
  * WalletCard - Wallet balance display card with gradient background
@@ -24,18 +23,33 @@ const WalletCard = forwardRef(function WalletCard(
       : balance
 
   return (
-    <div ref={ref} className={classNames('wallet-card', className)} {...props}>
-      <span className="wallet-card__label">{label}</span>
+    <div
+      ref={ref}
+      className={classNames(
+        'bg-gradient-to-br from-charcoal to-midnight rounded-lg p-6 text-white',
+        className
+      )}
+      {...props}
+    >
+      <span className="block text-sm opacity-80 mb-2">{label}</span>
 
       {loading ? (
-        <Skeleton variant="text" width="60%" height={48} className="wallet-card__skeleton" />
+        <Skeleton variant="text" width="60%" height={48} className="mb-5" />
       ) : (
-        <span className="wallet-card__balance">${formattedBalance}</span>
+        <span className="block font-display text-5xl font-bold leading-tight mb-5 sm:text-4xl">
+          ${formattedBalance}
+        </span>
       )}
 
-      <div className="wallet-card__actions">
+      <div className="flex gap-3 sm:flex-col">
         {onAddFunds && (
-          <Button variant="white" size="md" onClick={onAddFunds} disabled={loading}>
+          <Button
+            variant="white"
+            size="md"
+            onClick={onAddFunds}
+            disabled={loading}
+            className="sm:w-full"
+          >
             Add Funds
           </Button>
         )}
@@ -45,7 +59,7 @@ const WalletCard = forwardRef(function WalletCard(
             size="md"
             onClick={onWithdraw}
             disabled={loading}
-            className="wallet-card__withdraw-btn"
+            className="border-white/30 text-white hover:border-white/50 hover:bg-white/10 sm:w-full"
           >
             Withdraw
           </Button>

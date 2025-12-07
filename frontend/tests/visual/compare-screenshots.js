@@ -18,6 +18,7 @@ if (!fs.existsSync(DIFF_DIR)) {
 }
 
 const PAGE_NAMES = [
+  'LandlordDashboardPage',
   'TenantsListPage',
   'TenantDetailPage',
   'ApplicationsListPage',

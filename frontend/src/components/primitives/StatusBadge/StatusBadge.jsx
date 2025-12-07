@@ -1,5 +1,17 @@
 import { classNames } from '../../../utils/classNames'
-import './StatusBadge.css'
+
+// Base styles
+const baseStyles = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold'
+
+// Status variants (background and text color)
+const statusStyles = {
+  active: 'bg-accent-bg text-accent-dark',
+  inactive: 'bg-cloud text-mist',
+  pending: 'bg-warm-bg text-warm',
+  success: 'bg-accent-bg text-accent-dark',
+  warning: 'bg-warm-bg text-warm',
+  error: 'bg-coral-bg text-coral',
+}
 
 /**
  * StatusBadge component for inline status display with dot indicator
@@ -11,9 +23,9 @@ import './StatusBadge.css'
  */
 function StatusBadge({ status = 'active', className, children, ...props }) {
   return (
-    <span className={classNames('status-badge', `status-badge--${status}`, className)} {...props}>
-      <span className="status-badge__dot" aria-hidden="true" />
-      <span className="status-badge__text">{children}</span>
+    <span className={classNames(baseStyles, statusStyles[status], className)} {...props}>
+      <span className="w-1.5 h-1.5 rounded-full shrink-0 bg-current" aria-hidden="true" />
+      <span>{children}</span>
     </span>
   )
 }

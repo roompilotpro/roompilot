@@ -4,7 +4,7 @@ import { OAuthButtons, PasswordStrength } from '../../../components/auth'
 import { Input, Checkbox, Button } from '../../../components'
 import { usePasswordValidation } from '../../../hooks'
 import { ROUTES } from '../../../router/routes'
-import './SignupFormPage.css'
+import { classNames } from '../../../utils'
 
 function SignupFormPage() {
   const navigate = useNavigate()
@@ -64,22 +64,25 @@ function SignupFormPage() {
   }
 
   return (
-    <div className="signup-form-page">
-      <div className="signup-form-page__container">
-        <Link to={ROUTES.SIGNUP} className="signup-form-page__logo">
+    <div className="font-body bg-gradient-to-br from-snow to-cloud min-h-screen flex flex-col text-midnight p-8 sm:p-4">
+      <div className="max-w-[480px] mx-auto w-full">
+        <Link to={ROUTES.SIGNUP} className="font-display text-[2rem] font-bold text-primary no-underline text-center block mb-8">
           RoomPilot
         </Link>
 
         <div
-          className={`signup-form-page__role-badge ${isHost ? 'signup-form-page__role-badge--host' : ''}`}
+          className={classNames(
+            'flex items-center justify-center gap-2 py-2 px-4 rounded-full text-sm font-semibold mx-auto mb-8',
+            isHost ? 'bg-accent-bg text-accent' : 'bg-primary-bg text-primary'
+          )}
         >
           <span>{isHost ? '🔑' : '🏠'}</span>
           <span>Signing up as a {isHost ? 'Host' : 'Renter'}</span>
         </div>
 
-        <div className="signup-form-page__card">
-          <h1 className="signup-form-page__title">Create your account</h1>
-          <p className="signup-form-page__subtitle">
+        <div className="bg-white rounded-2xl py-10 px-8 sm:py-8 sm:px-6 shadow-md">
+          <h1 className="font-display text-[1.875rem] sm:text-2xl font-bold text-midnight mb-2 text-center">Create your account</h1>
+          <p className="text-center text-slate mb-8 text-base">
             {isHost
               ? 'Start listing your rooms and connecting with renters'
               : 'Start your journey to finding the perfect room'}
@@ -91,8 +94,10 @@ function SignupFormPage() {
             onAppleClick={handleAppleSignup}
           />
 
-          <div className="signup-form-page__divider">
-            <span>or</span>
+          <div className="flex items-center text-center my-6 text-slate text-sm">
+            <span className="flex-1 border-b border-cloud" />
+            <span className="px-4">or</span>
+            <span className="flex-1 border-b border-cloud" />
           </div>
 
           <form onSubmit={handleSubmit}>
@@ -117,7 +122,7 @@ function SignupFormPage() {
               fullWidth
             />
 
-            <div className="signup-form-page__password-group">
+            <div className="mb-6">
               <Input
                 type="password"
                 name="password"
@@ -145,7 +150,7 @@ function SignupFormPage() {
               fullWidth
             />
 
-            <div className="signup-form-page__terms">
+            <div className="mb-4 [&_a]:text-primary [&_a]:no-underline [&_a:hover]:underline">
               <Checkbox
                 name="termsAccepted"
                 checked={formData.termsAccepted}
@@ -172,8 +177,8 @@ function SignupFormPage() {
             </Button>
           </form>
 
-          <p className="signup-form-page__login-link">
-            Already have an account? <Link to={ROUTES.LOGIN}>Log in</Link>
+          <p className="text-center mt-6 text-sm text-slate">
+            Already have an account? <Link to={ROUTES.LOGIN} className="text-primary no-underline font-semibold hover:underline">Log in</Link>
           </p>
         </div>
       </div>

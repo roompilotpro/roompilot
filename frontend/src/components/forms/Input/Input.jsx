@@ -1,6 +1,26 @@
 import { forwardRef, useState, useId } from 'react'
 import { classNames } from '../../../utils/classNames'
-import './Input.css'
+
+// Size variant styles for the container
+const containerSizeStyles = {
+  sm: 'h-9',
+  md: 'h-11',
+  lg: 'h-[52px]',
+}
+
+// Size variant styles for the input
+const inputSizeStyles = {
+  sm: 'text-sm px-3',
+  md: 'text-sm px-3.5',
+  lg: 'text-base px-4',
+}
+
+// Size variant styles for prefix/suffix
+const affixSizeStyles = {
+  sm: 'text-sm px-2',
+  md: 'text-sm px-3',
+  lg: 'text-base px-3',
+}
 
 /**
  * Input component with label, error state, and multiple types
@@ -52,14 +72,15 @@ const Input = forwardRef(function Input(
   }
 
   return (
-    <div
-      className={classNames('input-wrapper', fullWidth && 'input-wrapper--full-width', className)}
-    >
+    <div className={classNames('flex flex-col', fullWidth && 'w-full', className)}>
       {label && (
-        <label htmlFor={inputId} className="input__label">
+        <label
+          htmlFor={inputId}
+          className="block font-body text-sm font-semibold text-midnight mb-2"
+        >
           {label}
           {required && (
-            <span className="input__required" aria-hidden="true">
+            <span className="text-coral ml-0.5" aria-hidden="true">
               *
             </span>
           )}
@@ -67,20 +88,35 @@ const Input = forwardRef(function Input(
       )}
       <div
         className={classNames(
-          'input-container',
-          `input-container--${size}`,
-          error && 'input-container--error',
-          disabled && 'input-container--disabled',
-          prefix && 'input-container--has-prefix',
-          (suffix || isPassword) && 'input-container--has-suffix'
+          'group flex items-center bg-white border rounded-sm transition-all duration-150 ease-out',
+          containerSizeStyles[size],
+          error
+            ? 'border-coral focus-within:shadow-focus-error'
+            : 'border-cloud focus-within:border-primary focus-within:shadow-focus',
+          disabled && 'bg-snow cursor-not-allowed'
         )}
       >
-        {prefix && <span className="input__prefix">{prefix}</span>}
+        {prefix && (
+          <span
+            className={classNames(
+              'shrink-0 flex items-center text-slate font-semibold',
+              affixSizeStyles[size]
+            )}
+          >
+            {prefix}
+          </span>
+        )}
         <input
           ref={ref}
           type={inputType}
           id={inputId}
-          className="input"
+          className={classNames(
+            'flex-1 min-w-0 h-full border-none bg-transparent font-body text-midnight outline-none placeholder:text-mist disabled:text-mist disabled:cursor-not-allowed',
+            '[&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none [&[type=number]]:[-moz-appearance:textfield] [&[type=search]::-webkit-search-cancel-button]:appearance-none',
+            inputSizeStyles[size],
+            prefix && '!pl-0',
+            (suffix || isPassword) && '!pr-0'
+          )}
           placeholder={placeholder}
           disabled={disabled}
           required={required}
@@ -94,33 +130,54 @@ const Input = forwardRef(function Input(
         {isPassword && (
           <button
             type="button"
-            className="input__toggle-password"
+            className="flex items-center justify-center w-8 h-8 mr-1 p-0 border-none bg-transparent text-mist cursor-pointer rounded-sm transition-all duration-150 ease-out hover:text-slate hover:bg-snow"
             onClick={togglePasswordVisibility}
             aria-label={showPassword ? 'Hide password' : 'Show password'}
             tabIndex={-1}
           >
             {showPassword ? (
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg
+                className="w-[18px] h-[18px]"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
                 <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
                 <line x1="1" y1="1" x2="23" y2="23" />
               </svg>
             ) : (
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg
+                className="w-[18px] h-[18px]"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
                 <circle cx="12" cy="12" r="3" />
               </svg>
             )}
           </button>
         )}
-        {suffix && !isPassword && <span className="input__suffix">{suffix}</span>}
+        {suffix && !isPassword && (
+          <span
+            className={classNames(
+              'shrink-0 flex items-center text-slate font-semibold',
+              affixSizeStyles[size]
+            )}
+          >
+            {suffix}
+          </span>
+        )}
       </div>
       {error && (
-        <span id={`${inputId}-error`} className="input__error" role="alert">
+        <span id={`${inputId}-error`} className="block text-xs text-coral mt-1" role="alert">
           {error}
         </span>
       )}
       {helperText && !error && (
-        <span id={`${inputId}-helper`} className="input__helper">
+        <span id={`${inputId}-helper`} className="block text-xs text-slate mt-1">
           {helperText}
         </span>
       )}

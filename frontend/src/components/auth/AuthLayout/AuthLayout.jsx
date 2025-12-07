@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
 import { classNames } from '../../../utils/classNames'
 import { ROUTES } from '../../../router/routes'
-import './AuthLayout.css'
 
 /**
  * AuthLayout component - Layout wrapper for authentication pages
@@ -24,27 +23,44 @@ function AuthLayout({
   showLogo = true,
   className,
 }) {
+  const logoClass = 'font-display text-[1.75rem] font-bold text-primary no-underline'
+
   if (variant === 'onboarding') {
     return (
-      <div className={classNames('auth-layout', 'auth-layout--onboarding', className)}>
-        <header className="auth-layout__header">
-          <div className="auth-layout__header-content">
-            <Link to={ROUTES.HOME} className="auth-layout__logo">
+      <div
+        className={classNames(
+          'font-body bg-gradient-to-br from-snow to-cloud min-h-screen text-midnight flex flex-col',
+          className
+        )}
+      >
+        <header className="bg-white py-6 px-8 sm:py-4 sm:px-4 shadow-[0_1px_3px_rgba(15,20,25,0.1)]">
+          <div className="max-w-[800px] mx-auto flex justify-between items-center">
+            <Link to={ROUTES.HOME} className={logoClass}>
               RoomPilot
             </Link>
           </div>
         </header>
-        <main className="auth-layout__onboarding-content">{children}</main>
+        <main className="flex-1 max-w-[800px] mx-auto px-8 pb-12 sm:px-4 sm:pb-8 w-full">
+          {children}
+        </main>
       </div>
     )
   }
 
   if (variant === 'centered') {
     return (
-      <div className={classNames('auth-layout', 'auth-layout--centered', className)}>
-        <div className="auth-layout__centered-container">
+      <div
+        className={classNames(
+          'font-body bg-gradient-to-br from-snow to-cloud min-h-screen text-midnight flex flex-col items-center justify-center p-8 sm:p-4',
+          className
+        )}
+      >
+        <div className="max-w-[480px] w-full">
           {showLogo && (
-            <Link to={ROUTES.HOME} className="auth-layout__logo auth-layout__logo--centered">
+            <Link
+              to={ROUTES.HOME}
+              className={classNames(logoClass, 'block text-center text-[2rem] mb-8')}
+            >
               RoomPilot
             </Link>
           )}
@@ -56,18 +72,23 @@ function AuthLayout({
 
   // Split layout (default)
   return (
-    <div className={classNames('auth-layout', 'auth-layout--split', className)}>
-      <div className="auth-layout__container">
-        <div className="auth-layout__panel">
-          <div className="auth-layout__panel-content">
-            <span className="auth-layout__panel-icon">{panelIcon}</span>
-            <h2 className="auth-layout__panel-title">{panelTitle}</h2>
-            <p className="auth-layout__panel-description">{panelDescription}</p>
+    <div
+      className={classNames(
+        'font-body bg-gradient-to-br from-snow to-cloud min-h-screen text-midnight flex items-center justify-center p-8 sm:p-4',
+        className
+      )}
+    >
+      <div className="grid grid-cols-2 md:grid-cols-1 max-w-[1100px] w-full bg-white rounded-[20px] overflow-hidden shadow-[0_20px_25px_-5px_rgba(15,20,25,0.1),0_10px_10px_-5px_rgba(15,20,25,0.04)]">
+        <div className="bg-gradient-to-br from-primary to-primary-dark p-12 md:hidden flex flex-col justify-center items-center text-center text-white">
+          <div className="max-w-[400px]">
+            <span className="text-[4rem] mb-8 block">{panelIcon}</span>
+            <h2 className="font-display text-[2rem] font-bold mb-4 leading-tight">{panelTitle}</h2>
+            <p className="text-lg opacity-90 leading-relaxed m-0">{panelDescription}</p>
           </div>
         </div>
-        <div className="auth-layout__form-section">
+        <div className="p-12 md:p-10 sm:p-6 flex flex-col justify-center">
           {showLogo && (
-            <Link to={ROUTES.HOME} className="auth-layout__logo auth-layout__logo--form">
+            <Link to={ROUTES.HOME} className={classNames(logoClass, 'block text-center mb-8')}>
               RoomPilot
             </Link>
           )}

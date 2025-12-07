@@ -1,5 +1,18 @@
 import { classNames } from '../../../utils/classNames'
-import './LoadingSpinner.css'
+
+// Size variants
+const sizeStyles = {
+  sm: 'w-4 h-4',
+  md: 'w-6 h-6',
+  lg: 'w-10 h-10',
+}
+
+// Color variants
+const colorStyles = {
+  primary: 'text-primary',
+  white: 'text-white',
+  current: 'text-current',
+}
 
 /**
  * LoadingSpinner component for loading states
@@ -14,10 +27,20 @@ function LoadingSpinner({ size = 'md', color = 'primary', className, ...props })
     <div
       role="status"
       aria-label="Loading"
-      className={classNames('spinner', `spinner--${size}`, `spinner--${color}`, className)}
+      className={classNames(
+        'inline-flex items-center justify-center animate-spin',
+        sizeStyles[size],
+        colorStyles[color],
+        className
+      )}
       {...props}
     >
-      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className="w-full h-full"
+      >
         <circle
           cx="12"
           cy="12"

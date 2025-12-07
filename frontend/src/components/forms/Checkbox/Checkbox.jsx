@@ -1,6 +1,17 @@
 import { forwardRef, useId } from 'react'
 import { classNames } from '../../../utils/classNames'
-import './Checkbox.css'
+
+// Size styles for the checkbox box
+const boxSizeStyles = {
+  sm: 'w-4 h-4',
+  md: 'w-5 h-5',
+}
+
+// Size styles for the checkmark SVG
+const svgSizeStyles = {
+  sm: 'w-2.5 h-2.5',
+  md: 'w-3 h-3',
+}
 
 /**
  * Checkbox component with indeterminate state support
@@ -51,16 +62,20 @@ const Checkbox = forwardRef(function Checkbox(
   return (
     <div
       className={classNames(
-        'checkbox-wrapper',
-        card && 'checkbox-wrapper--card',
-        card && checked && 'checkbox-wrapper--card-checked',
-        card && disabled && 'checkbox-wrapper--card-disabled',
+        'flex flex-col',
+        card &&
+          'p-4 bg-white border-2 border-cloud rounded-md cursor-pointer transition-all duration-150 ease-out hover:border-primary hover:bg-primary-bg',
+        card && checked && 'border-primary bg-primary-bg',
+        card && disabled && 'bg-snow cursor-not-allowed hover:border-cloud hover:bg-snow',
         className
       )}
     >
       <label
         htmlFor={checkboxId}
-        className={classNames('checkbox', `checkbox--${size}`, disabled && 'checkbox--disabled')}
+        className={classNames(
+          'inline-flex items-start gap-3 cursor-pointer select-none',
+          disabled && 'cursor-not-allowed'
+        )}
       >
         <input
           ref={handleRef}
@@ -69,40 +84,80 @@ const Checkbox = forwardRef(function Checkbox(
           checked={checked}
           disabled={disabled}
           onChange={onChange}
-          className="checkbox__input"
+          className="absolute opacity-0 w-0 h-0 peer"
           aria-invalid={error ? 'true' : undefined}
           aria-describedby={error ? `${checkboxId}-error` : undefined}
           {...props}
         />
         <span
           className={classNames(
-            'checkbox__box',
-            checked && 'checkbox__box--checked',
-            indeterminate && 'checkbox__box--indeterminate',
-            error && 'checkbox__box--error'
+            'shrink-0 flex items-center justify-center bg-white border-2 rounded transition-all duration-150 ease-out',
+            boxSizeStyles[size],
+            checked || indeterminate
+              ? 'bg-primary border-primary text-white'
+              : 'border-cloud hover:border-primary',
+            error && !checked && !indeterminate && 'border-coral',
+            disabled && !checked && !indeterminate && 'bg-snow border-cloud',
+            disabled && (checked || indeterminate) && 'bg-mist border-mist',
+            'peer-focus-visible:border-primary peer-focus-visible:shadow-focus',
+            error && 'peer-focus-visible:shadow-focus-error'
           )}
           aria-hidden="true"
         >
           {checked && !indeterminate && (
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+            <svg
+              className={svgSizeStyles[size]}
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="3"
+            >
               <polyline points="20 6 9 17 4 12" />
             </svg>
           )}
           {indeterminate && (
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+            <svg
+              className={svgSizeStyles[size]}
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="3"
+            >
               <line x1="5" y1="12" x2="19" y2="12" />
             </svg>
           )}
         </span>
         {(label || description) && (
-          <span className="checkbox__content">
-            {label && <span className="checkbox__label">{label}</span>}
-            {description && <span className="checkbox__description">{description}</span>}
+          <span className="flex flex-col gap-0.5 pt-px">
+            {label && (
+              <span
+                className={classNames(
+                  'font-body text-sm font-medium leading-snug',
+                  disabled ? 'text-mist' : 'text-charcoal'
+                )}
+              >
+                {label}
+              </span>
+            )}
+            {description && (
+              <span
+                className={classNames(
+                  'font-body text-sm leading-snug',
+                  disabled ? 'text-mist' : 'text-slate'
+                )}
+              >
+                {description}
+              </span>
+            )}
           </span>
         )}
       </label>
       {error && (
-        <span id={`${checkboxId}-error`} className="checkbox__error" role="alert">
+        <span
+          id={`${checkboxId}-error`}
+          className={classNames('block text-xs text-coral mt-1', size === 'sm' ? 'ml-7' : 'ml-8')}
+          role="alert"
+        >
           {error}
         </span>
       )}

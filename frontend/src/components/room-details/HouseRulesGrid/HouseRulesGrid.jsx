@@ -1,6 +1,5 @@
 import { forwardRef } from 'react'
 import { classNames } from '../../../utils'
-import './HouseRulesGrid.css'
 
 /**
  * HouseRulesGrid - Grid display of house rules with allowed/not-allowed states
@@ -15,21 +14,23 @@ const HouseRulesGrid = forwardRef(function HouseRulesGrid(
   ref
 ) {
   return (
-    <section ref={ref} className={classNames('house-rules-grid', className)} {...props}>
-      <h2 className="house-rules-grid__title">{title}</h2>
+    <section ref={ref} className={classNames('py-8 border-b border-cloud', className)} {...props}>
+      <h2 className="font-display text-[22px] font-semibold text-midnight mb-5">{title}</h2>
 
-      <div className="house-rules-grid__list">
+      <div className="grid grid-cols-2 md:grid-cols-1 gap-3">
         {rules.map((rule, index) => (
           <div
             key={index}
-            className={classNames(
-              'house-rules-grid__item',
-              rule.allowed
-                ? 'house-rules-grid__item--allowed'
-                : 'house-rules-grid__item--not-allowed'
-            )}
+            className="flex items-center gap-2.5 py-3 px-4 bg-snow rounded-md text-sm text-charcoal"
           >
-            <span className="house-rules-grid__icon">{rule.allowed ? '✓' : '✗'}</span>
+            <span
+              className={classNames(
+                'text-lg shrink-0',
+                rule.allowed ? 'text-accent' : 'text-coral'
+              )}
+            >
+              {rule.allowed ? '✓' : '✗'}
+            </span>
             {rule.label}
           </div>
         ))}

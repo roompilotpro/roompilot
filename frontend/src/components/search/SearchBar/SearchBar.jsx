@@ -1,6 +1,5 @@
 import { forwardRef, useState } from 'react'
 import { classNames } from '../../../utils/classNames'
-import './SearchBar.css'
 
 /**
  * SearchBar - Pill-shaped search input with location + date + search button
@@ -39,30 +38,38 @@ const SearchBar = forwardRef(function SearchBar(
   return (
     <form
       ref={ref}
-      className={classNames('search-bar', className)}
+      className={classNames(
+        'flex items-center bg-snow border border-cloud rounded-full py-1.5 pl-5 pr-1.5 gap-2 transition-all duration-200 min-w-[400px] md:min-w-0 md:w-full',
+        'focus-within:bg-white focus-within:border-primary focus-within:shadow-[0_0_0_3px_var(--color-primary-bg)]',
+        className
+      )}
       onSubmit={handleSubmit}
       {...props}
     >
       <input
         type="text"
-        className="search-bar__input search-bar__input--location"
+        className="flex-[1.5] border-none bg-transparent font-body text-base text-charcoal outline-none min-w-0 placeholder:text-slate"
         placeholder="City, neighborhood..."
         value={locationValue}
         onChange={handleLocationChange}
         onKeyDown={handleKeyDown}
         aria-label="Location"
       />
-      <span className="search-bar__divider" aria-hidden="true" />
+      <span className="w-px h-6 bg-cloud shrink-0 md:hidden" aria-hidden="true" />
       <input
         type="text"
-        className="search-bar__input search-bar__input--date"
+        className="flex-1 max-w-[120px] border-none bg-transparent font-body text-base text-charcoal outline-none min-w-0 placeholder:text-slate md:hidden"
         placeholder="Move-in date"
         value={dateValue}
         onChange={handleDateChange}
         onKeyDown={handleKeyDown}
         aria-label="Move-in date"
       />
-      <button type="submit" className="search-bar__btn" aria-label="Search">
+      <button
+        type="submit"
+        className="w-10 h-10 rounded-full bg-primary border-none text-white flex items-center justify-center cursor-pointer transition-all duration-200 shrink-0 hover:bg-primary-dark hover:scale-105 active:scale-[0.98]"
+        aria-label="Search"
+      >
         <svg
           width="18"
           height="18"

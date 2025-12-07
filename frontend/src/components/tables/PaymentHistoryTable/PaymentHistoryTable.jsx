@@ -1,7 +1,6 @@
 import { forwardRef } from 'react'
 import classNames from '../../../utils/classNames'
 import { Badge } from '../../primitives'
-import './PaymentHistoryTable.css'
 
 /**
  * PaymentHistoryTable - Table for displaying payment history
@@ -53,12 +52,12 @@ const PaymentHistoryTable = forwardRef(function PaymentHistoryTable(
 
   if (payments.length === 0) {
     return (
-      <div ref={ref} className={classNames('payment-history', className)} {...props}>
-        <div className="payment-history__empty">
+      <div ref={ref} className={classNames('w-full overflow-x-auto', className)} {...props}>
+        <div className="py-12 px-6 text-center bg-white rounded-lg border border-cloud">
           {emptyState || (
-            <div className="payment-history__empty-default">
-              <span className="payment-history__empty-icon">💳</span>
-              <p className="payment-history__empty-text">No payment history</p>
+            <div className="flex flex-col items-center gap-3">
+              <span className="text-4xl opacity-50">💳</span>
+              <p className="text-sm text-slate m-0">No payment history</p>
             </div>
           )}
         </div>
@@ -67,41 +66,53 @@ const PaymentHistoryTable = forwardRef(function PaymentHistoryTable(
   }
 
   return (
-    <div ref={ref} className={classNames('payment-history', className)} {...props}>
-      <table className="payment-history__table" role="grid">
-        <thead className="payment-history__header">
+    <div ref={ref} className={classNames('w-full overflow-x-auto', className)} {...props}>
+      <table className="w-full border-collapse text-sm" role="grid">
+        <thead className="bg-snow">
           <tr>
-            <th className="payment-history__header-cell">Date</th>
-            <th className="payment-history__header-cell">Description</th>
-            <th className="payment-history__header-cell payment-history__header-cell--right">
+            <th className="py-3 px-4 text-left text-xs font-bold uppercase tracking-wider text-slate whitespace-nowrap border-b-2 border-cloud">
+              Date
+            </th>
+            <th className="py-3 px-4 text-left text-xs font-bold uppercase tracking-wider text-slate whitespace-nowrap border-b-2 border-cloud">
+              Description
+            </th>
+            <th className="py-3 px-4 text-right text-xs font-bold uppercase tracking-wider text-slate whitespace-nowrap border-b-2 border-cloud">
               Amount
             </th>
-            <th className="payment-history__header-cell">Status</th>
-            <th className="payment-history__header-cell payment-history__header-cell--right">
+            <th className="py-3 px-4 text-left text-xs font-bold uppercase tracking-wider text-slate whitespace-nowrap border-b-2 border-cloud">
+              Status
+            </th>
+            <th className="py-3 px-4 text-right text-xs font-bold uppercase tracking-wider text-slate whitespace-nowrap border-b-2 border-cloud">
               Receipt
             </th>
           </tr>
         </thead>
-        <tbody className="payment-history__body">
+        <tbody className="bg-white">
           {payments.map((payment) => (
-            <tr key={payment.id} className="payment-history__row" role="row">
-              <td className="payment-history__cell">
-                <span className="payment-history__date">{formatDate(payment.date)}</span>
+            <tr
+              key={payment.id}
+              className="border-b border-cloud last:border-b-0 transition-colors hover:bg-snow"
+              role="row"
+            >
+              <td className="p-4 align-middle">
+                <span className="text-sm text-slate">{formatDate(payment.date)}</span>
               </td>
-              <td className="payment-history__cell">
-                <span className="payment-history__description">{payment.description}</span>
+              <td className="p-4 align-middle">
+                <span className="text-sm text-charcoal">{payment.description}</span>
               </td>
-              <td className="payment-history__cell payment-history__cell--right">
-                <span className="payment-history__amount">{formatCurrency(payment.amount)}</span>
+              <td className="p-4 align-middle text-right">
+                <span className="font-semibold text-charcoal">
+                  {formatCurrency(payment.amount)}
+                </span>
               </td>
-              <td className="payment-history__cell">
+              <td className="p-4 align-middle">
                 <Badge variant={getStatusVariant(payment.status)}>{payment.status}</Badge>
               </td>
-              <td className="payment-history__cell payment-history__cell--right">
+              <td className="p-4 align-middle text-right">
                 {payment.receiptUrl || onViewReceipt ? (
                   <button
                     type="button"
-                    className="payment-history__link"
+                    className="bg-transparent border-0 p-0 text-sm font-medium text-primary cursor-pointer transition-colors hover:text-primary/80 hover:underline"
                     onClick={() => onViewReceipt?.(payment)}
                     aria-label={`View receipt for payment on ${formatDate(payment.date)}`}
                   >
@@ -110,14 +121,14 @@ const PaymentHistoryTable = forwardRef(function PaymentHistoryTable(
                 ) : onViewBreakdown ? (
                   <button
                     type="button"
-                    className="payment-history__link"
+                    className="bg-transparent border-0 p-0 text-sm font-medium text-primary cursor-pointer transition-colors hover:text-primary/80 hover:underline"
                     onClick={() => onViewBreakdown?.(payment)}
                     aria-label={`View breakdown for payment on ${formatDate(payment.date)}`}
                   >
                     View Breakdown →
                   </button>
                 ) : (
-                  <span className="payment-history__no-receipt">-</span>
+                  <span className="text-mist">-</span>
                 )}
               </td>
             </tr>

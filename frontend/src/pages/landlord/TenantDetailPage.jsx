@@ -4,7 +4,6 @@ import { ROUTES } from '../../router/routes'
 import { useLandlordLayout } from '../../hooks/useLandlordLayout'
 import { AppShell } from '../../components/layout'
 import { Button, Badge } from '../../components/primitives'
-import './TenantDetailPage.css'
 
 // Mock tenant detail data
 const mockTenantDetail = {
@@ -47,29 +46,38 @@ function TenantDetailPage() {
 
   return (
     <AppShell sidebar={{ links: navLinks, user, logoBadge }}>
-      <div className="tenant-detail-content">
-        <Link to={ROUTES.LANDLORD.TENANTS} className="back-link">
+      <div>
+        <Link
+          to={ROUTES.LANDLORD.TENANTS}
+          className="inline-flex items-center gap-1.5 text-primary no-underline font-medium mb-6 transition-all duration-200 hover:gap-2.5"
+        >
           ← Back to Tenants
         </Link>
 
-        <div className="tenant-detail-grid">
+        <div className="grid grid-cols-[1fr_340px] lg:grid-cols-1 gap-6">
           {/* Main Column */}
-          <div className="tenant-main-column">
+          <div className="flex flex-col gap-6">
             {/* Tenant Header */}
-            <div className="card tenant-header-card">
-              <div className="tenant-header">
+            <div className="bg-white rounded-xl p-6 shadow-sm">
+              <div className="flex gap-5 items-start">
                 <img
                   src={mockTenantDetail.avatar}
                   alt={mockTenantDetail.name}
-                  className="tenant-avatar-large"
+                  className="w-20 h-20 rounded-full object-cover"
                 />
-                <div className="tenant-header-info">
-                  <h1 className="tenant-name">{mockTenantDetail.name}</h1>
-                  <div className="contact-info">
-                    <span className="contact-item">📞 {mockTenantDetail.phone}</span>
-                    <span className="contact-item">✉️ {mockTenantDetail.email}</span>
+                <div className="flex-1">
+                  <h1 className="font-display text-[28px] font-bold mb-2 text-midnight">
+                    {mockTenantDetail.name}
+                  </h1>
+                  <div className="flex gap-6 mb-3">
+                    <span className="flex items-center gap-1.5 text-slate text-sm">
+                      📞 {mockTenantDetail.phone}
+                    </span>
+                    <span className="flex items-center gap-1.5 text-slate text-sm">
+                      ✉️ {mockTenantDetail.email}
+                    </span>
                   </div>
-                  <div className="current-room">
+                  <div className="inline-flex items-center gap-1.5 py-2 px-3.5 bg-primary-bg text-primary rounded-lg font-semibold text-sm">
                     🏠 {mockTenantDetail.property} - {mockTenantDetail.room}
                   </div>
                 </div>
@@ -77,121 +85,178 @@ function TenantDetailPage() {
             </div>
 
             {/* Tenancy Details */}
-            <div className="card">
-              <h2 className="card-title">Tenancy Details</h2>
-              <div className="info-grid">
-                <div className="info-item">
-                  <span className="info-label">Move-in Date</span>
-                  <span className="info-value">{mockTenantDetail.moveInDate}</span>
+            <div className="bg-white rounded-xl p-6 shadow-sm">
+              <h2 className="font-display text-xl font-bold mb-5 text-midnight">Tenancy Details</h2>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="flex flex-col gap-1">
+                  <span className="text-xs font-semibold text-slate uppercase tracking-wide">
+                    Move-in Date
+                  </span>
+                  <span className="font-medium text-midnight">{mockTenantDetail.moveInDate}</span>
                 </div>
-                <div className="info-item">
-                  <span className="info-label">Lease Term</span>
-                  <span className="info-value">{mockTenantDetail.leaseTerm}</span>
+                <div className="flex flex-col gap-1">
+                  <span className="text-xs font-semibold text-slate uppercase tracking-wide">
+                    Lease Term
+                  </span>
+                  <span className="font-medium text-midnight">{mockTenantDetail.leaseTerm}</span>
                 </div>
-                <div className="info-item">
-                  <span className="info-label">Rent Amount</span>
-                  <span className="info-value">${mockTenantDetail.rentAmount}/week</span>
+                <div className="flex flex-col gap-1">
+                  <span className="text-xs font-semibold text-slate uppercase tracking-wide">
+                    Rent Amount
+                  </span>
+                  <span className="font-medium text-midnight">
+                    ${mockTenantDetail.rentAmount}/week
+                  </span>
                 </div>
-                <div className="info-item">
-                  <span className="info-label">Lease End Date</span>
-                  <span className="info-value">{mockTenantDetail.leaseEndDate}</span>
+                <div className="flex flex-col gap-1">
+                  <span className="text-xs font-semibold text-slate uppercase tracking-wide">
+                    Lease End Date
+                  </span>
+                  <span className="font-medium text-midnight">{mockTenantDetail.leaseEndDate}</span>
                 </div>
-                <div className="info-item">
-                  <span className="info-label">Security Deposit</span>
-                  <span className="info-value">${mockTenantDetail.securityDeposit} (Held)</span>
+                <div className="flex flex-col gap-1">
+                  <span className="text-xs font-semibold text-slate uppercase tracking-wide">
+                    Security Deposit
+                  </span>
+                  <span className="font-medium text-midnight">
+                    ${mockTenantDetail.securityDeposit} (Held)
+                  </span>
                 </div>
-                <div className="info-item">
-                  <span className="info-label">Payment Frequency</span>
-                  <span className="info-value">{mockTenantDetail.paymentFrequency}</span>
+                <div className="flex flex-col gap-1">
+                  <span className="text-xs font-semibold text-slate uppercase tracking-wide">
+                    Payment Frequency
+                  </span>
+                  <span className="font-medium text-midnight">
+                    {mockTenantDetail.paymentFrequency}
+                  </span>
                 </div>
               </div>
             </div>
 
             {/* Payment Status */}
-            <div className="card payment-status-card">
-              <div className="payment-amount">${mockTenantDetail.currentBalance}</div>
-              <div className="payment-detail">
+            <div
+              className="rounded-xl p-6 shadow-sm text-white"
+              style={{
+                background: 'linear-gradient(135deg, var(--color-accent) 0%, #059669 100%)',
+              }}
+            >
+              <div className="font-display text-[40px] font-bold mb-4">
+                ${mockTenantDetail.currentBalance}
+              </div>
+              <div className="text-sm opacity-95 mb-5">
                 Current balance • Next payment due: {mockTenantDetail.nextPaymentDue}
               </div>
-              <div className="payment-streak">
-                <span className="payment-streak-icon">🔥</span>
-                <span className="payment-streak-text">
+              <div className="flex items-center gap-2 py-3 px-4 bg-white/20 rounded-lg backdrop-blur-sm">
+                <span className="text-xl">🔥</span>
+                <span className="font-semibold">
                   {mockTenantDetail.onTimeStreak} consecutive on-time payments
                 </span>
               </div>
             </div>
 
             {/* Payment History */}
-            <div className="card">
-              <h2 className="card-title">Payment History</h2>
-              <div className="table-container">
-                <table className="payment-table">
-                  <thead>
+            <div className="bg-white rounded-xl p-6 shadow-sm">
+              <h2 className="font-display text-xl font-bold mb-5 text-midnight">Payment History</h2>
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse">
+                  <thead className="bg-snow">
                     <tr>
-                      <th>Date</th>
-                      <th>Amount</th>
-                      <th>Status</th>
-                      <th>Method</th>
-                      <th>Receipt</th>
+                      <th className="text-left py-3 px-4 text-[11px] font-bold text-slate uppercase tracking-wide border-b border-cloud">
+                        Date
+                      </th>
+                      <th className="text-left py-3 px-4 text-[11px] font-bold text-slate uppercase tracking-wide border-b border-cloud">
+                        Amount
+                      </th>
+                      <th className="text-left py-3 px-4 text-[11px] font-bold text-slate uppercase tracking-wide border-b border-cloud">
+                        Status
+                      </th>
+                      <th className="text-left py-3 px-4 text-[11px] font-bold text-slate uppercase tracking-wide border-b border-cloud">
+                        Method
+                      </th>
+                      <th className="text-left py-3 px-4 text-[11px] font-bold text-slate uppercase tracking-wide border-b border-cloud">
+                        Receipt
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
                     {mockTenantDetail.paymentHistory.map((payment) => (
                       <tr key={payment.id}>
-                        <td>{payment.date}</td>
-                        <td>${payment.amount.toFixed(2)}</td>
-                        <td>
+                        <td className="py-4 px-4 border-b border-cloud text-sm last:border-b-0">
+                          {payment.date}
+                        </td>
+                        <td className="py-4 px-4 border-b border-cloud text-sm last:border-b-0">
+                          ${payment.amount.toFixed(2)}
+                        </td>
+                        <td className="py-4 px-4 border-b border-cloud text-sm last:border-b-0">
                           <Badge variant="success">Paid</Badge>
                         </td>
-                        <td>{payment.method}</td>
-                        <td>
-                          <button className="link-button">📥 Download</button>
+                        <td className="py-4 px-4 border-b border-cloud text-sm last:border-b-0">
+                          {payment.method}
+                        </td>
+                        <td className="py-4 px-4 border-b border-cloud text-sm last:border-b-0">
+                          <button className="bg-transparent border-none text-primary font-medium cursor-pointer p-0 text-sm font-body hover:underline">
+                            📥 Download
+                          </button>
                         </td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
-              <div className="pagination">
-                <button className="pagination-btn">Previous</button>
-                <button className="pagination-btn active">1</button>
-                <button className="pagination-btn">2</button>
-                <button className="pagination-btn">3</button>
-                <button className="pagination-btn">4</button>
-                <button className="pagination-btn">5</button>
-                <button className="pagination-btn">Next</button>
+              <div className="flex justify-center gap-2 mt-4">
+                <button className="py-2 px-3 border border-cloud bg-white rounded-md cursor-pointer font-body text-sm text-slate transition-all duration-200 hover:border-primary hover:text-primary">
+                  Previous
+                </button>
+                <button className="py-2 px-3 border border-primary bg-primary rounded-md cursor-pointer font-body text-sm text-white">
+                  1
+                </button>
+                <button className="py-2 px-3 border border-cloud bg-white rounded-md cursor-pointer font-body text-sm text-slate transition-all duration-200 hover:border-primary hover:text-primary">
+                  2
+                </button>
+                <button className="py-2 px-3 border border-cloud bg-white rounded-md cursor-pointer font-body text-sm text-slate transition-all duration-200 hover:border-primary hover:text-primary">
+                  3
+                </button>
+                <button className="py-2 px-3 border border-cloud bg-white rounded-md cursor-pointer font-body text-sm text-slate transition-all duration-200 hover:border-primary hover:text-primary">
+                  4
+                </button>
+                <button className="py-2 px-3 border border-cloud bg-white rounded-md cursor-pointer font-body text-sm text-slate transition-all duration-200 hover:border-primary hover:text-primary">
+                  5
+                </button>
+                <button className="py-2 px-3 border border-cloud bg-white rounded-md cursor-pointer font-body text-sm text-slate transition-all duration-200 hover:border-primary hover:text-primary">
+                  Next
+                </button>
               </div>
             </div>
 
             {/* Internal Notes */}
-            <div className="card">
-              <h2 className="card-title">Internal Notes</h2>
-              <p className="notes-description">
+            <div className="bg-white rounded-xl p-6 shadow-sm">
+              <h2 className="font-display text-xl font-bold mb-5 text-midnight">Internal Notes</h2>
+              <p className="text-slate text-sm mb-3">
                 Private notes only visible to you. Not shared with tenant.
               </p>
               <textarea
-                className="notes-area"
+                className="w-full min-h-[120px] p-3 border border-cloud rounded-lg font-body text-sm resize-y focus:outline-none focus:border-primary"
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 placeholder="Add notes about this tenant..."
               />
-              <div className="notes-actions">
+              <div className="mt-3">
                 <Button variant="primary">Save Notes</Button>
               </div>
             </div>
           </div>
 
           {/* Actions Panel */}
-          <aside className="actions-panel">
-            <div className="card">
-              <h3 className="card-title">Actions</h3>
+          <aside className="sticky top-8 flex flex-col gap-4 self-start lg:static">
+            <div className="bg-white rounded-xl p-6 shadow-sm">
+              <h3 className="font-display text-xl font-bold mb-5 text-midnight">Actions</h3>
               <Button variant="primary" fullWidth>
                 💬 Send Message
               </Button>
               <Button variant="outline" fullWidth>
                 📥 Download Payment History
               </Button>
-              <div className="divider" />
+              <div className="h-px bg-cloud my-2" />
               <Button variant="danger" fullWidth onClick={() => setShowEndTenancyModal(true)}>
                 End Tenancy
               </Button>
@@ -201,30 +266,44 @@ function TenantDetailPage() {
 
         {/* End Tenancy Modal */}
         {showEndTenancyModal && (
-          <div className="modal" onClick={() => setShowEndTenancyModal(false)}>
-            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-              <h2 className="modal-title">End Tenancy</h2>
-              <div className="modal-body">
-                <p>
+          <div
+            className="fixed inset-0 bg-black/50 flex items-center justify-center z-[1000]"
+            onClick={() => setShowEndTenancyModal(false)}
+          >
+            <div
+              className="bg-white rounded-2xl p-8 max-w-[500px] w-[90%]"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <h2 className="font-display text-2xl font-bold mb-4">End Tenancy</h2>
+              <div className="mb-6">
+                <p className="text-slate leading-relaxed mb-4">
                   Are you sure you want to end {mockTenantDetail.name}'s tenancy at{' '}
                   {mockTenantDetail.property} - {mockTenantDetail.room}?
                 </p>
 
-                <div className="form-group">
-                  <label className="form-label">End Date</label>
-                  <input type="date" className="form-input" />
+                <div className="mb-4">
+                  <label className="block font-semibold text-midnight mb-2 text-sm">End Date</label>
+                  <input
+                    type="date"
+                    className="w-full py-2.5 px-3.5 border border-cloud rounded-lg font-body text-sm text-midnight focus:outline-none focus:border-primary"
+                  />
                 </div>
 
-                <div className="form-group">
-                  <label className="form-label">Reason (Optional)</label>
-                  <textarea className="form-textarea" placeholder="Reason for ending tenancy..." />
+                <div className="mb-4">
+                  <label className="block font-semibold text-midnight mb-2 text-sm">
+                    Reason (Optional)
+                  </label>
+                  <textarea
+                    className="w-full py-2.5 px-3.5 border border-cloud rounded-lg font-body text-sm text-midnight min-h-[80px] resize-y focus:outline-none focus:border-primary"
+                    placeholder="Reason for ending tenancy..."
+                  />
                 </div>
 
-                <p className="modal-warning">
+                <p className="text-[13px] text-coral mt-4">
                   ⚠️ This action cannot be undone. The tenant will be notified via email.
                 </p>
               </div>
-              <div className="modal-actions">
+              <div className="flex gap-3 justify-end">
                 <Button variant="outline" onClick={() => setShowEndTenancyModal(false)}>
                   Cancel
                 </Button>

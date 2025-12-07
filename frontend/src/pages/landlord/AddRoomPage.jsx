@@ -21,7 +21,7 @@ import {
   roomAmenities,
   mockProperties,
 } from '../../data/mockLandlordData'
-import './AddRoomPage.css'
+import { classNames } from '../../utils'
 
 function AddRoomPage() {
   const navigate = useNavigate()
@@ -102,17 +102,17 @@ function AddRoomPage() {
         subtitle: `Add a room to ${property.name}`,
       }}
     >
-      <div className="add-room-content">
+      <div className="p-8 max-w-[900px] mx-auto md:p-5">
         {/* Breadcrumb */}
-        <Breadcrumb items={breadcrumbItems} className="add-room-breadcrumb" />
+        <Breadcrumb items={breadcrumbItems} className="mb-6" />
 
         {/* Form Card */}
-        <Card className="add-room-card">
+        <Card className="p-8 md:p-6">
           {/* Basic Information */}
-          <section className="form-section">
-            <h2 className="form-section-title">Basic Information</h2>
+          <section className="mb-8 pb-8 border-b border-cloud">
+            <h2 className="text-lg font-bold text-midnight mb-5 pb-3 border-b-2 border-cloud">Basic Information</h2>
 
-            <div className="form-grid">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <Input
                 label="Room Name/Number"
                 placeholder="e.g., Room 1A or Master Bedroom"
@@ -123,19 +123,29 @@ function AddRoomPage() {
                 fullWidth
               />
 
-              <div className="form-group">
-                <label className="form-label">Room Type</label>
-                <div className="toggle-options">
+              <div className="flex flex-col gap-2">
+                <label className="font-semibold text-midnight text-sm">Room Type</label>
+                <div className="flex flex-col md:flex-row gap-3">
                   <button
                     type="button"
-                    className={`toggle-option ${formData.roomType === 'private' ? 'active' : ''}`}
+                    className={classNames(
+                      'flex-1 p-3 border-2 rounded-lg text-center cursor-pointer transition-all font-body text-sm font-semibold',
+                      formData.roomType === 'private'
+                        ? 'border-primary bg-primary text-white'
+                        : 'border-cloud bg-white text-slate hover:border-primary hover:bg-primary-bg hover:text-primary'
+                    )}
                     onClick={() => updateFormData('roomType', 'private')}
                   >
                     Private Room
                   </button>
                   <button
                     type="button"
-                    className={`toggle-option ${formData.roomType === 'shared' ? 'active' : ''}`}
+                    className={classNames(
+                      'flex-1 p-3 border-2 rounded-lg text-center cursor-pointer transition-all font-body text-sm font-semibold',
+                      formData.roomType === 'shared'
+                        ? 'border-primary bg-primary text-white'
+                        : 'border-cloud bg-white text-slate hover:border-primary hover:bg-primary-bg hover:text-primary'
+                    )}
                     onClick={() => updateFormData('roomType', 'shared')}
                   >
                     Shared Room
@@ -143,19 +153,29 @@ function AddRoomPage() {
                 </div>
               </div>
 
-              <div className="form-group">
-                <label className="form-label">Bathroom Type</label>
-                <div className="toggle-options">
+              <div className="flex flex-col gap-2">
+                <label className="font-semibold text-midnight text-sm">Bathroom Type</label>
+                <div className="flex flex-col md:flex-row gap-3">
                   <button
                     type="button"
-                    className={`toggle-option ${formData.bathroomType === 'private' ? 'active' : ''}`}
+                    className={classNames(
+                      'flex-1 p-3 border-2 rounded-lg text-center cursor-pointer transition-all font-body text-sm font-semibold',
+                      formData.bathroomType === 'private'
+                        ? 'border-primary bg-primary text-white'
+                        : 'border-cloud bg-white text-slate hover:border-primary hover:bg-primary-bg hover:text-primary'
+                    )}
                     onClick={() => updateFormData('bathroomType', 'private')}
                   >
                     Private
                   </button>
                   <button
                     type="button"
-                    className={`toggle-option ${formData.bathroomType === 'shared' ? 'active' : ''}`}
+                    className={classNames(
+                      'flex-1 p-3 border-2 rounded-lg text-center cursor-pointer transition-all font-body text-sm font-semibold',
+                      formData.bathroomType === 'shared'
+                        ? 'border-primary bg-primary text-white'
+                        : 'border-cloud bg-white text-slate hover:border-primary hover:bg-primary-bg hover:text-primary'
+                    )}
                     onClick={() => updateFormData('bathroomType', 'shared')}
                   >
                     Shared
@@ -180,19 +200,29 @@ function AddRoomPage() {
                 fullWidth
               />
 
-              <div className="form-group">
-                <label className="form-label">Furnished Status</label>
-                <div className="toggle-options">
+              <div className="flex flex-col gap-2">
+                <label className="font-semibold text-midnight text-sm">Furnished Status</label>
+                <div className="flex flex-col md:flex-row gap-3">
                   <button
                     type="button"
-                    className={`toggle-option ${formData.furnished ? 'active' : ''}`}
+                    className={classNames(
+                      'flex-1 p-3 border-2 rounded-lg text-center cursor-pointer transition-all font-body text-sm font-semibold',
+                      formData.furnished
+                        ? 'border-primary bg-primary text-white'
+                        : 'border-cloud bg-white text-slate hover:border-primary hover:bg-primary-bg hover:text-primary'
+                    )}
                     onClick={() => updateFormData('furnished', true)}
                   >
                     Furnished
                   </button>
                   <button
                     type="button"
-                    className={`toggle-option ${!formData.furnished ? 'active' : ''}`}
+                    className={classNames(
+                      'flex-1 p-3 border-2 rounded-lg text-center cursor-pointer transition-all font-body text-sm font-semibold',
+                      !formData.furnished
+                        ? 'border-primary bg-primary text-white'
+                        : 'border-cloud bg-white text-slate hover:border-primary hover:bg-primary-bg hover:text-primary'
+                    )}
                     onClick={() => updateFormData('furnished', false)}
                   >
                     Unfurnished
@@ -203,10 +233,10 @@ function AddRoomPage() {
           </section>
 
           {/* Pricing & Availability */}
-          <section className="form-section">
-            <h2 className="form-section-title">Pricing & Availability</h2>
+          <section className="mb-8 pb-8 border-b border-cloud">
+            <h2 className="text-lg font-bold text-midnight mb-5 pb-3 border-b-2 border-cloud">Pricing & Availability</h2>
 
-            <div className="form-grid">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <Input
                 label="Weekly Rent"
                 placeholder="0.00"
@@ -257,8 +287,8 @@ function AddRoomPage() {
           </section>
 
           {/* Room Photos */}
-          <section className="form-section">
-            <h2 className="form-section-title">Room Photos</h2>
+          <section className="mb-8 pb-8 border-b border-cloud">
+            <h2 className="text-lg font-bold text-midnight mb-5 pb-3 border-b-2 border-cloud">Room Photos</h2>
 
             <FileUpload
               accept="image/*"
@@ -269,14 +299,14 @@ function AddRoomPage() {
           </section>
 
           {/* Room Amenities */}
-          <section className="form-section">
-            <h2 className="form-section-title">Room-Specific Amenities</h2>
-            <p className="form-section-description">
+          <section className="mb-8 pb-8 border-b border-cloud">
+            <h2 className="text-lg font-bold text-midnight mb-5 pb-3 border-b-2 border-cloud">Room-Specific Amenities</h2>
+            <p className="text-sm text-slate -mt-3 mb-4">
               Select amenities that are specific to this room (property amenities are already
               included)
             </p>
 
-            <div className="amenities-grid">
+            <div className="grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-3">
               {roomAmenities.map((amenity) => (
                 <Checkbox
                   key={amenity.id}
@@ -291,9 +321,9 @@ function AddRoomPage() {
           </section>
 
           {/* Room Rules */}
-          <section className="form-section">
-            <h2 className="form-section-title">Room-Specific Rules</h2>
-            <p className="form-section-description">
+          <section className="mb-6">
+            <h2 className="text-lg font-bold text-midnight mb-5 pb-3 border-b-2 border-cloud">Room-Specific Rules</h2>
+            <p className="text-sm text-slate -mt-3 mb-4">
               Any additional rules or restrictions specific to this room (optional)
             </p>
 
@@ -308,11 +338,11 @@ function AddRoomPage() {
           </section>
 
           {/* Actions */}
-          <div className="add-room-actions">
+          <div className="flex flex-col md:flex-row items-center justify-between pt-6 border-t border-cloud gap-4">
             <Button variant="ghost" onClick={handleCancel}>
               Cancel
             </Button>
-            <div className="add-room-actions-right">
+            <div className="flex gap-3 w-full md:w-auto justify-center">
               <Button variant="outline" onClick={handleSaveDraft}>
                 Save as Draft
               </Button>

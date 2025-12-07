@@ -12,7 +12,7 @@ import {
   ReviewsSection,
   SimilarListings,
 } from '../../components/room-details'
-import './RoomDetailsPage.css'
+import { classNames } from '../../utils'
 
 // Mock data for the room
 const MOCK_ROOM = {
@@ -198,11 +198,11 @@ function RoomDetailsPage() {
   }
 
   return (
-    <div className="room-details-page">
+    <div className="min-h-screen bg-white">
       {/* Navigation */}
-      <nav className="room-details-page__nav">
-        <div className="room-details-page__nav-left">
-          <button type="button" className="room-details-page__back" onClick={handleBack}>
+      <nav className="fixed top-0 left-0 right-0 z-[1000] h-[var(--nav-height)] px-10 flex items-center justify-between bg-white border-b border-cloud md:px-5">
+        <div className="flex items-center gap-6">
+          <button type="button" className="flex items-center gap-2 py-2 px-3 bg-transparent border-none font-body text-sm font-medium text-slate cursor-pointer rounded-md transition-all hover:bg-snow hover:text-charcoal" onClick={handleBack}>
             <svg
               width="20"
               height="20"
@@ -216,14 +216,14 @@ function RoomDetailsPage() {
             Back to search
           </button>
 
-          <Link to={ROUTES.HOME} className="room-details-page__logo">
-            <div className="room-details-page__logo-icon">R</div>
-            <span className="room-details-page__logo-text">RoomPilot</span>
+          <Link to={ROUTES.HOME} className="flex items-center gap-2.5 no-underline">
+            <div className="w-9 h-9 bg-gradient-to-br from-primary to-[#1d4ed8] rounded-[10px] flex items-center justify-center text-white font-bold text-lg shadow-[0_2px_8px_rgba(37,99,235,0.3)]">R</div>
+            <span className="font-display text-[22px] font-semibold text-midnight tracking-tight">RoomPilot</span>
           </Link>
         </div>
 
-        <div className="room-details-page__nav-right">
-          <button type="button" className="room-details-page__action" onClick={handleShare}>
+        <div className="flex items-center gap-3">
+          <button type="button" className="flex items-center gap-1.5 py-2.5 px-4 bg-transparent border-none font-body text-sm font-medium text-slate cursor-pointer rounded-md transition-all hover:bg-snow" onClick={handleShare}>
             <svg
               width="18"
               height="18"
@@ -240,7 +240,10 @@ function RoomDetailsPage() {
           </button>
           <button
             type="button"
-            className={`room-details-page__action ${isSaved ? 'room-details-page__action--saved' : ''}`}
+            className={classNames(
+              'flex items-center gap-1.5 py-2.5 px-4 bg-transparent border-none font-body text-sm font-medium text-slate cursor-pointer rounded-md transition-all hover:bg-snow',
+              isSaved && '[&_svg]:fill-coral [&_svg]:text-coral'
+            )}
             onClick={handleSave}
           >
             <svg
@@ -262,9 +265,9 @@ function RoomDetailsPage() {
       <PhotoGallery onShowAll={handleShowAllPhotos} totalCount={24} />
 
       {/* Main Content */}
-      <div className="room-details-page__content">
+      <div className="max-w-[1200px] mx-auto px-10 pb-20 grid grid-cols-[1fr_380px] gap-20 lg:grid-cols-1 lg:gap-10 md:px-5 md:pb-15">
         {/* Left Column - Details */}
-        <div className="room-details-page__details">
+        <div className="min-w-0">
           <ListingHeader
             badges={room.badges}
             title={room.title}
@@ -278,28 +281,28 @@ function RoomDetailsPage() {
           <HostStrip host={room.host} />
 
           {/* Description */}
-          <section className="room-details-page__section">
-            <h2 className="room-details-page__section-title">About this room</h2>
-            <div className="room-details-page__description">
+          <section className="py-8 border-b border-cloud">
+            <h2 className="font-display text-[22px] font-semibold text-midnight mb-5">About this room</h2>
+            <div className="text-base leading-relaxed text-slate [&_p]:mb-4 [&_p:last-child]:mb-0">
               {room.description.map((paragraph, index) => (
                 <p key={index}>{paragraph}</p>
               ))}
             </div>
-            <button type="button" className="room-details-page__read-more">
+            <button type="button" className="inline-flex items-center gap-1 mt-2 text-[15px] font-semibold text-charcoal bg-transparent border-none cursor-pointer underline p-0">
               Show more →
             </button>
           </section>
 
           {/* Room Details */}
-          <section className="room-details-page__section">
-            <h2 className="room-details-page__section-title">Room details</h2>
-            <div className="room-details-page__room-grid">
+          <section className="py-8 border-b border-cloud">
+            <h2 className="font-display text-[22px] font-semibold text-midnight mb-5">Room details</h2>
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-1">
               {room.roomDetails.map((detail, index) => (
-                <div key={index} className="room-details-page__room-item">
-                  <div className="room-details-page__room-icon">{detail.icon}</div>
-                  <div className="room-details-page__room-text">
-                    <div className="room-details-page__room-label">{detail.label}</div>
-                    <div className="room-details-page__room-value">{detail.value}</div>
+                <div key={index} className="flex items-center gap-3 p-4 bg-snow rounded-md">
+                  <div className="w-11 h-11 bg-white rounded-[10px] flex items-center justify-center text-[22px] shrink-0">{detail.icon}</div>
+                  <div className="min-w-0">
+                    <div className="text-[13px] text-slate mb-0.5">{detail.label}</div>
+                    <div className="text-[15px] font-semibold text-charcoal">{detail.value}</div>
                   </div>
                 </div>
               ))}
@@ -327,7 +330,7 @@ function RoomDetailsPage() {
         </div>
 
         {/* Right Column - Booking Card */}
-        <div className="room-details-page__booking">
+        <div className="lg:order-first">
           <BookingCard
             pricing={room.pricing}
             availability={room.availability}

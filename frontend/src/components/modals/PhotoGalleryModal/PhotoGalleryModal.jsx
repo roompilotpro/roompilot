@@ -2,7 +2,12 @@ import { forwardRef, useState, useEffect, useCallback, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { IconButton } from '../../primitives'
 import classNames from '../../../utils/classNames'
-import './PhotoGalleryModal.css'
+
+// Fade-in animation for gallery
+const galleryStyles = `
+  @keyframes fadeInGallery { from { opacity: 0; } to { opacity: 1; } }
+  .gallery-animate { animation: fadeInGallery 0.2s ease; }
+`
 
 /**
  * PhotoGalleryModal - Full-screen image gallery with navigation
@@ -95,120 +100,131 @@ const PhotoGalleryModal = forwardRef(function PhotoGalleryModal(
   const currentImage = images[currentIndex]
 
   const content = (
-    <div
-      ref={ref}
-      className={classNames('photo-gallery-modal', className)}
-      role="dialog"
-      aria-modal="true"
-      aria-label="Photo gallery"
-      {...props}
-    >
-      {/* Header */}
-      <div className="photo-gallery-modal__header">
-        <span className="photo-gallery-modal__counter">
-          {currentIndex + 1} / {images.length}
-        </span>
-        <div className="photo-gallery-modal__actions">
-          {actions?.map((action, index) => (
+    <>
+      <style>{galleryStyles}</style>
+      <div
+        ref={ref}
+        className={classNames(
+          'gallery-animate fixed inset-0 z-[9999] bg-midnight/95 flex flex-col',
+          className
+        )}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Photo gallery"
+        {...props}
+      >
+        {/* Header */}
+        <div className="flex justify-between items-center px-6 py-4 text-white sm:px-4 sm:py-3">
+          <span className="text-sm font-medium">
+            {currentIndex + 1} / {images.length}
+          </span>
+          <div className="flex gap-2">
+            {actions?.map((action, index) => (
+              <IconButton
+                key={index}
+                variant="ghost"
+                onClick={action.onClick}
+                label={action.label}
+                className="text-white hover:bg-white/10"
+              >
+                {action.icon}
+              </IconButton>
+            ))}
             <IconButton
-              key={index}
               variant="ghost"
-              onClick={action.onClick}
-              label={action.label}
-              className="photo-gallery-modal__action"
+              onClick={onClose}
+              label="Close gallery"
+              className="text-white hover:bg-white/10"
             >
-              {action.icon}
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path
+                  d="M18 6L6 18M6 6l12 12"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
             </IconButton>
-          ))}
-          <IconButton
-            variant="ghost"
-            onClick={onClose}
-            label="Close gallery"
-            className="photo-gallery-modal__close"
-          >
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path
-                d="M18 6L6 18M6 6l12 12"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </IconButton>
+          </div>
         </div>
-      </div>
 
-      {/* Main image */}
-      <div className="photo-gallery-modal__main">
-        {images.length > 1 && (
-          <button
-            className="photo-gallery-modal__nav photo-gallery-modal__nav--prev"
-            onClick={goToPrevious}
-            aria-label="Previous image"
-          >
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path
-                d="M15 19l-7-7 7-7"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
-        )}
-
-        <img
-          className="photo-gallery-modal__image"
-          src={currentImage.src}
-          alt={currentImage.caption || `Image ${currentIndex + 1}`}
-        />
-
-        {images.length > 1 && (
-          <button
-            className="photo-gallery-modal__nav photo-gallery-modal__nav--next"
-            onClick={goToNext}
-            aria-label="Next image"
-          >
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path
-                d="M9 5l7 7-7 7"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
-        )}
-      </div>
-
-      {/* Caption */}
-      {currentImage.caption && (
-        <div className="photo-gallery-modal__caption">{currentImage.caption}</div>
-      )}
-
-      {/* Thumbnails */}
-      {showThumbnails && images.length > 1 && (
-        <div className="photo-gallery-modal__thumbnails">
-          {images.map((image, index) => (
+        {/* Main image */}
+        <div className="flex-1 flex items-center justify-center relative px-16 min-h-0 sm:px-4">
+          {images.length > 1 && (
             <button
-              key={image.id || index}
-              className={classNames(
-                'photo-gallery-modal__thumb',
-                index === currentIndex && 'photo-gallery-modal__thumb--active'
-              )}
-              onClick={() => goToIndex(index)}
-              aria-label={`View image ${index + 1}`}
-              aria-current={index === currentIndex ? 'true' : undefined}
+              className="absolute left-6 top-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-white/10 border-none text-white cursor-pointer flex items-center justify-center transition-all duration-200 hover:bg-white/20 sm:w-10 sm:h-10 sm:left-2 [&>svg]:w-6 [&>svg]:h-6 sm:[&>svg]:w-5 sm:[&>svg]:h-5"
+              onClick={goToPrevious}
+              aria-label="Previous image"
             >
-              <img src={image.thumbnail || image.src} alt="" aria-hidden="true" />
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path
+                  d="M15 19l-7-7 7-7"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
             </button>
-          ))}
+          )}
+
+          <img
+            className="max-w-full max-h-full object-contain select-none"
+            src={currentImage.src}
+            alt={currentImage.caption || `Image ${currentIndex + 1}`}
+          />
+
+          {images.length > 1 && (
+            <button
+              className="absolute right-6 top-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-white/10 border-none text-white cursor-pointer flex items-center justify-center transition-all duration-200 hover:bg-white/20 sm:w-10 sm:h-10 sm:right-2 [&>svg]:w-6 [&>svg]:h-6 sm:[&>svg]:w-5 sm:[&>svg]:h-5"
+              onClick={goToNext}
+              aria-label="Next image"
+            >
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path
+                  d="M9 5l7 7-7 7"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
+          )}
         </div>
-      )}
-    </div>
+
+        {/* Caption */}
+        {currentImage.caption && (
+          <div className="text-center py-3 px-6 text-white text-sm">{currentImage.caption}</div>
+        )}
+
+        {/* Thumbnails */}
+        {showThumbnails && images.length > 1 && (
+          <div className="flex gap-2 py-4 px-6 overflow-x-auto justify-center sm:py-3 sm:px-4 sm:justify-start">
+            {images.map((image, index) => (
+              <button
+                key={image.id || index}
+                className={classNames(
+                  'shrink-0 w-16 h-16 rounded-md overflow-hidden border-2 border-transparent cursor-pointer p-0 bg-transparent opacity-60 transition-all duration-200 hover:opacity-80 sm:w-12 sm:h-12',
+                  index === currentIndex && 'opacity-100 border-white'
+                )}
+                onClick={() => goToIndex(index)}
+                aria-label={`View image ${index + 1}`}
+                aria-current={index === currentIndex ? 'true' : undefined}
+              >
+                <img
+                  src={image.thumbnail || image.src}
+                  alt=""
+                  aria-hidden="true"
+                  className="w-full h-full object-cover"
+                />
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    </>
   )
 
   return createPortal(content, document.body)

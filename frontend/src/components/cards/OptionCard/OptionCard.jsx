@@ -1,6 +1,5 @@
 import { forwardRef, useId } from 'react'
 import { classNames } from '../../../utils/classNames'
-import './OptionCard.css'
 
 /**
  * OptionCard - Selectable card with checkbox/radio behavior
@@ -34,9 +33,12 @@ const OptionCard = forwardRef(function OptionCard(
     <label
       ref={ref}
       className={classNames(
-        'option-card',
-        selected && 'option-card--selected',
-        disabled && 'option-card--disabled',
+        'flex items-start gap-3 p-4 bg-white border-2 border-cloud rounded-md cursor-pointer transition-all duration-150',
+        'hover:not-disabled:border-slate hover:not-disabled:bg-snow',
+        'focus-within:outline-2 focus-within:outline-primary focus-within:outline-offset-2',
+        selected &&
+          'border-primary bg-primary-bg hover:not-disabled:border-primary/80 hover:not-disabled:bg-primary-bg/80',
+        disabled && 'opacity-50 cursor-not-allowed',
         className
       )}
       {...props}
@@ -48,16 +50,20 @@ const OptionCard = forwardRef(function OptionCard(
         checked={selected}
         disabled={disabled}
         onChange={handleChange}
-        className="option-card__input"
+        className="absolute opacity-0 w-0 h-0"
         aria-describedby={descId}
       />
       <span
-        className={classNames('option-card__indicator', `option-card__indicator--${type}`)}
+        className={classNames(
+          'flex items-center justify-center w-5 h-5 shrink-0 border-2 border-slate bg-white transition-all duration-150',
+          type === 'checkbox' ? 'rounded' : 'rounded-full',
+          selected && 'border-primary bg-primary text-white'
+        )}
         aria-hidden="true"
       >
         {selected &&
           (type === 'checkbox' ? (
-            <svg viewBox="0 0 12 10" fill="none" className="option-card__check">
+            <svg viewBox="0 0 12 10" fill="none" className="w-3 h-2.5">
               <path
                 d="M1 5L4.5 8.5L11 1"
                 stroke="currentColor"
@@ -67,15 +73,24 @@ const OptionCard = forwardRef(function OptionCard(
               />
             </svg>
           ) : (
-            <span className="option-card__dot" />
+            <span className="w-2 h-2 rounded-full bg-white" />
           ))}
       </span>
-      <div className="option-card__content">
-        {icon && <div className="option-card__icon">{icon}</div>}
-        <div className="option-card__text">
-          <span className="option-card__title">{title}</span>
+      <div className="flex items-start gap-3 flex-1 min-w-0">
+        {icon && (
+          <div
+            className={classNames(
+              'flex items-center justify-center w-10 h-10 shrink-0 bg-cloud rounded-md text-xl',
+              selected && 'bg-primary-bg'
+            )}
+          >
+            {icon}
+          </div>
+        )}
+        <div className="flex flex-col gap-0.5">
+          <span className="text-sm font-semibold text-charcoal">{title}</span>
           {description && (
-            <span id={descId} className="option-card__description">
+            <span id={descId} className="text-sm text-slate">
               {description}
             </span>
           )}

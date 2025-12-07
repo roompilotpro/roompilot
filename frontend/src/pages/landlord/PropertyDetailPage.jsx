@@ -11,7 +11,6 @@ import {
   mockApplications,
   mockMaintenanceRequests,
 } from '../../data/mockLandlordData'
-import './PropertyDetailPage.css'
 
 function PropertyDetailPage() {
   const { id } = useParams()
@@ -40,7 +39,7 @@ function PropertyDetailPage() {
   ]
 
   const headerContent = (
-    <div className="property-header-actions">
+    <div className="flex items-center gap-3">
       <Button
         variant="outline"
         leftIcon={
@@ -117,69 +116,69 @@ function PropertyDetailPage() {
         rightContent: headerContent,
       }}
     >
-      <div className="property-detail-content">
+      <div className="p-8 md:p-5">
         {/* Breadcrumb */}
-        <Breadcrumb items={breadcrumbItems} className="property-breadcrumb" />
+        <Breadcrumb items={breadcrumbItems} className="mb-6" />
 
         {/* Property Header */}
-        <div className="property-hero">
-          <div className="property-hero-image">
-            <div className="property-placeholder-large">🏠</div>
+        <div className="grid grid-cols-1 lg:grid-cols-[400px_1fr] gap-8 mb-8">
+          <div className="h-[280px] rounded-2xl overflow-hidden">
+            <div className="w-full h-full flex items-center justify-center text-[80px] bg-gradient-to-br from-[#dbeafe] to-[#bfdbfe]">🏠</div>
           </div>
-          <div className="property-hero-info">
-            <div className="property-hero-stats">
-              <div className="property-hero-stat">
-                <span className="property-hero-stat-value">{property.totalRooms}</span>
-                <span className="property-hero-stat-label">Total Rooms</span>
+          <div className="flex flex-col justify-end">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="bg-white p-6 rounded-2xl border border-cloud text-center">
+                <span className="block font-display text-[28px] font-bold text-midnight mb-1">{property.totalRooms}</span>
+                <span className="text-[13px] text-slate">Total Rooms</span>
               </div>
-              <div className="property-hero-stat">
-                <span className="property-hero-stat-value">{property.occupiedRooms}</span>
-                <span className="property-hero-stat-label">Occupied</span>
+              <div className="bg-white p-6 rounded-2xl border border-cloud text-center">
+                <span className="block font-display text-[28px] font-bold text-midnight mb-1">{property.occupiedRooms}</span>
+                <span className="text-[13px] text-slate">Occupied</span>
               </div>
-              <div className="property-hero-stat">
-                <span className="property-hero-stat-value">
+              <div className="bg-white p-6 rounded-2xl border border-cloud text-center">
+                <span className="block font-display text-[28px] font-bold text-midnight mb-1">
                   ${property.revenue.toLocaleString()}
                 </span>
-                <span className="property-hero-stat-label">Monthly Revenue</span>
+                <span className="text-[13px] text-slate">Monthly Revenue</span>
               </div>
-              <div className="property-hero-stat">
-                <span className="property-hero-stat-value">{property.rating}</span>
-                <span className="property-hero-stat-label">Rating</span>
+              <div className="bg-white p-6 rounded-2xl border border-cloud text-center">
+                <span className="block font-display text-[28px] font-bold text-midnight mb-1">{property.rating}</span>
+                <span className="text-[13px] text-slate">Rating</span>
               </div>
             </div>
           </div>
         </div>
 
         {/* Tabs */}
-        <Tabs tabs={tabs} activeTab={activeTab} onChange={setActiveTab} className="property-tabs" />
+        <Tabs tabs={tabs} activeTab={activeTab} onChange={setActiveTab} className="mb-6" />
 
         {/* Tab Content */}
-        <div className="property-tab-content">
+        <div className="min-h-[400px]">
           {/* Overview Tab */}
           {activeTab === 'overview' && (
-            <div className="property-overview">
-              <div className="property-overview-grid">
-                <Card title="About This Property" className="property-about-card">
-                  <p className="property-description">{property.description}</p>
+            <div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Card title="About This Property" className="md:col-span-2">
+                  <p className="text-[15px] leading-relaxed text-charcoal">{property.description}</p>
                 </Card>
 
-                <Card title="Amenities" className="property-amenities-card">
-                  <div className="amenities-grid">
+                <Card title="Amenities">
+                  <div className="grid grid-cols-[repeat(auto-fill,minmax(140px,1fr))] gap-3">
                     {property.amenities?.map((amenity, index) => (
-                      <div key={index} className="amenity-item">
-                        <span className="amenity-icon">{amenity.icon}</span>
-                        <span className="amenity-label">{amenity.label}</span>
+                      <div key={index} className="flex items-center gap-2.5 p-3 bg-snow rounded-xl">
+                        <span className="text-xl">{amenity.icon}</span>
+                        <span className="text-sm text-charcoal">{amenity.label}</span>
                       </div>
                     ))}
                   </div>
                 </Card>
 
-                <Card title="House Rules" className="property-rules-card">
-                  <ul className="rules-list">
+                <Card title="House Rules">
+                  <ul className="list-none m-0 p-0 flex flex-col gap-3">
                     {property.rules?.map((rule, index) => (
-                      <li key={index} className="rule-item">
-                        <span className="rule-icon">{rule.icon}</span>
-                        <span className="rule-text">{rule.text}</span>
+                      <li key={index} className="flex items-center gap-3 p-3 bg-snow rounded-xl">
+                        <span className="text-xl">{rule.icon}</span>
+                        <span className="text-sm text-charcoal">{rule.text}</span>
                       </li>
                     ))}
                   </ul>
@@ -190,16 +189,16 @@ function PropertyDetailPage() {
 
           {/* Rooms Tab */}
           {activeTab === 'rooms' && (
-            <div className="property-rooms">
-              <div className="rooms-grid">
+            <div>
+              <div className="grid grid-cols-1 md:grid-cols-[repeat(auto-fill,minmax(340px,1fr))] gap-6">
                 {property.rooms?.map((room) => {
                   const statusInfo = getRoomStatusBadge(room.status)
                   return (
-                    <Card key={room.id} className="room-card" hoverable>
-                      <div className="room-card-header">
-                        <div className="room-card-info">
-                          <h3 className="room-card-name">{room.name}</h3>
-                          <p className="room-card-type">
+                    <Card key={room.id} className="flex flex-col gap-4" hoverable>
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <h3 className="text-[17px] font-semibold text-charcoal mb-1">{room.name}</h3>
+                          <p className="text-[13px] text-slate">
                             {room.type} &middot; {room.bathroom}
                           </p>
                         </div>
@@ -208,23 +207,23 @@ function PropertyDetailPage() {
                         </Badge>
                       </div>
 
-                      <div className="room-card-details">
-                        <div className="room-card-detail">
-                          <span className="room-card-detail-label">Size</span>
-                          <span className="room-card-detail-value">{room.size} sq ft</span>
+                      <div className="flex gap-6">
+                        <div className="flex flex-col gap-1">
+                          <span className="text-xs text-slate">Size</span>
+                          <span className="text-[15px] font-semibold text-charcoal">{room.size} sq ft</span>
                         </div>
-                        <div className="room-card-detail">
-                          <span className="room-card-detail-label">Price</span>
-                          <span className="room-card-detail-value">${room.price}/mo</span>
+                        <div className="flex flex-col gap-1">
+                          <span className="text-xs text-slate">Price</span>
+                          <span className="text-[15px] font-semibold text-charcoal">${room.price}/mo</span>
                         </div>
                       </div>
 
                       {room.tenant ? (
-                        <div className="room-card-tenant">
+                        <div className="flex items-center gap-3 p-3 bg-snow rounded-xl">
                           <Avatar name={room.tenant.name} size="sm" />
-                          <div className="room-card-tenant-info">
-                            <span className="room-card-tenant-name">{room.tenant.name}</span>
-                            <span className="room-card-tenant-since">
+                          <div className="flex-1 min-w-0">
+                            <span className="block text-sm font-semibold text-charcoal">{room.tenant.name}</span>
+                            <span className="text-xs text-slate">
                               Since {room.tenant.moveInDate}
                             </span>
                           </div>
@@ -236,8 +235,8 @@ function PropertyDetailPage() {
                           </Badge>
                         </div>
                       ) : (
-                        <div className="room-card-vacant">
-                          <span className="room-card-vacant-text">
+                        <div className="flex items-center justify-between p-3 bg-warm-bg rounded-xl">
+                          <span className="text-sm text-warm font-medium">
                             Available {room.availableDate || 'Now'}
                           </span>
                           <Button size="sm" variant="primary">
@@ -254,17 +253,17 @@ function PropertyDetailPage() {
 
           {/* Tenants Tab */}
           {activeTab === 'tenants' && (
-            <div className="property-tenants">
-              <div className="tenants-grid">
+            <div>
+              <div className="grid grid-cols-1 md:grid-cols-[repeat(auto-fill,minmax(340px,1fr))] gap-6">
                 {property.rooms
                   ?.filter((room) => room.tenant)
                   .map((room) => (
-                    <Card key={room.id} className="tenant-card" hoverable>
-                      <div className="tenant-card-header">
+                    <Card key={room.id} className="flex flex-col gap-4" hoverable>
+                      <div className="flex items-center gap-4">
                         <Avatar name={room.tenant.name} size="lg" />
-                        <div className="tenant-card-info">
-                          <h3 className="tenant-card-name">{room.tenant.name}</h3>
-                          <p className="tenant-card-room">{room.name}</p>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-[17px] font-semibold text-charcoal mb-1">{room.tenant.name}</h3>
+                          <p className="text-[13px] text-slate">{room.name}</p>
                         </div>
                         <IconButton label="More options" variant="ghost">
                           <svg
@@ -282,17 +281,17 @@ function PropertyDetailPage() {
                         </IconButton>
                       </div>
 
-                      <div className="tenant-card-details">
-                        <div className="tenant-card-detail">
-                          <span className="tenant-card-detail-label">Move-in Date</span>
-                          <span className="tenant-card-detail-value">{room.tenant.moveInDate}</span>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-snow rounded-xl">
+                        <div className="flex flex-col gap-1">
+                          <span className="text-xs text-slate">Move-in Date</span>
+                          <span className="text-sm font-semibold text-charcoal">{room.tenant.moveInDate}</span>
                         </div>
-                        <div className="tenant-card-detail">
-                          <span className="tenant-card-detail-label">Monthly Rent</span>
-                          <span className="tenant-card-detail-value">${room.price}</span>
+                        <div className="flex flex-col gap-1">
+                          <span className="text-xs text-slate">Monthly Rent</span>
+                          <span className="text-sm font-semibold text-charcoal">${room.price}</span>
                         </div>
-                        <div className="tenant-card-detail">
-                          <span className="tenant-card-detail-label">Payment Status</span>
+                        <div className="flex flex-col gap-1">
+                          <span className="text-xs text-slate">Payment Status</span>
                           <Badge
                             variant={getPaymentStatusBadge(room.tenant.paymentStatus).variant}
                             size="sm"
@@ -302,7 +301,7 @@ function PropertyDetailPage() {
                         </div>
                       </div>
 
-                      <div className="tenant-card-actions">
+                      <div className="flex gap-3">
                         <Button size="sm" variant="outline">
                           Message
                         </Button>
@@ -318,22 +317,22 @@ function PropertyDetailPage() {
 
           {/* Applications Tab */}
           {activeTab === 'applications' && (
-            <div className="property-applications">
-              <div className="applications-list">
+            <div>
+              <div className="flex flex-col gap-4">
                 {mockApplications.map((application) => (
-                  <Card key={application.id} className="application-card" hoverable>
-                    <div className="application-card-header">
+                  <Card key={application.id} className="flex flex-col gap-4" hoverable>
+                    <div className="flex items-center gap-4">
                       <Avatar name={application.applicant.name} size="lg" />
-                      <div className="application-card-info">
-                        <h3 className="application-card-name">{application.applicant.name}</h3>
-                        <p className="application-card-room">Applied for {application.room}</p>
-                        <p className="application-card-date">{application.appliedDate}</p>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-[17px] font-semibold text-charcoal mb-1">{application.applicant.name}</h3>
+                        <p className="text-sm text-slate mb-0.5">Applied for {application.room}</p>
+                        <p className="text-[13px] text-slate">{application.appliedDate}</p>
                       </div>
                       <Badge variant="warning">Pending Review</Badge>
                     </div>
 
-                    <div className="application-card-contact">
-                      <div className="application-card-contact-item">
+                    <div className="flex flex-col md:flex-row gap-3 md:gap-6 p-3 bg-snow rounded-xl">
+                      <div className="flex items-center gap-2 text-sm text-slate">
                         <svg
                           width="16"
                           height="16"
@@ -341,13 +340,14 @@ function PropertyDetailPage() {
                           fill="none"
                           stroke="currentColor"
                           strokeWidth="2"
+                          className="text-slate"
                         >
                           <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
                           <polyline points="22,6 12,13 2,6" />
                         </svg>
                         <span>{application.applicant.email}</span>
                       </div>
-                      <div className="application-card-contact-item">
+                      <div className="flex items-center gap-2 text-sm text-slate">
                         <svg
                           width="16"
                           height="16"
@@ -355,6 +355,7 @@ function PropertyDetailPage() {
                           fill="none"
                           stroke="currentColor"
                           strokeWidth="2"
+                          className="text-slate"
                         >
                           <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" />
                         </svg>
@@ -362,7 +363,7 @@ function PropertyDetailPage() {
                       </div>
                     </div>
 
-                    <div className="application-card-actions">
+                    <div className="flex gap-3 justify-end">
                       <Button variant="danger" size="sm">
                         Decline
                       </Button>
@@ -378,8 +379,8 @@ function PropertyDetailPage() {
 
           {/* Maintenance Tab */}
           {activeTab === 'maintenance' && (
-            <div className="property-maintenance">
-              <div className="maintenance-list">
+            <div>
+              <div className="flex flex-col gap-4">
                 {mockMaintenanceRequests.map((request) => (
                   <RequestCard
                     key={request.id}

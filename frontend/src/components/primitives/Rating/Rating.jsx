@@ -1,5 +1,18 @@
 import { classNames } from '../../../utils/classNames'
-import './Rating.css'
+
+// Size styles
+const sizeStyles = {
+  sm: 'text-sm',
+  md: 'text-base',
+  lg: 'text-lg',
+}
+
+// Star sizes by component size
+const starSizeStyles = {
+  sm: 'w-3.5 h-3.5',
+  md: 'w-4 h-4',
+  lg: 'w-5 h-5',
+}
 
 /**
  * Rating component for displaying star ratings
@@ -15,14 +28,23 @@ function Rating({ value, showValue = true, size = 'md', className, ...props }) {
 
   return (
     <div
-      className={classNames('rating', `rating--${size}`, className)}
+      className={classNames(
+        'inline-flex items-center gap-1 font-semibold text-text-primary',
+        sizeStyles[size],
+        className
+      )}
       aria-label={`Rating: ${displayValue} out of 5 stars`}
       {...props}
     >
-      <svg className="rating__star" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <svg
+        className={classNames('text-amber-400 shrink-0', starSizeStyles[size])}
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        aria-hidden="true"
+      >
         <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
       </svg>
-      {showValue && <span className="rating__value">{displayValue}</span>}
+      {showValue && <span className="text-text-primary">{displayValue}</span>}
     </div>
   )
 }

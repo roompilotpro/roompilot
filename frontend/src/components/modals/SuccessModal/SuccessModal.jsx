@@ -1,8 +1,24 @@
 import { forwardRef, useEffect, useState, useRef } from 'react'
 import ModalBase from '../ModalBase'
 import { Button } from '../../primitives'
-import classNames from '../../../utils/classNames'
-import './SuccessModal.css'
+
+// Checkmark animation styles
+const successStyles = `
+  @keyframes scaleIn { from { transform: scale(0); } to { transform: scale(1); } }
+  @keyframes circleDraw { from { stroke-dashoffset: 151; } to { stroke-dashoffset: 0; } }
+  @keyframes checkDraw { from { stroke-dashoffset: 50; } to { stroke-dashoffset: 0; } }
+  .success-icon-animate { animation: scaleIn 0.5s ease; }
+  .success-circle-animate {
+    stroke-dasharray: 151;
+    stroke-dashoffset: 151;
+    animation: circleDraw 0.6s ease 0.2s forwards;
+  }
+  .success-check-animate {
+    stroke-dasharray: 50;
+    stroke-dashoffset: 50;
+    animation: checkDraw 0.4s ease 0.6s forwards;
+  }
+`
 
 /**
  * SuccessModal - Success dialog with animated checkmark
@@ -83,34 +99,51 @@ const SuccessModal = forwardRef(function SuccessModal(
     ) : null
 
   return (
-    <ModalBase
-      ref={ref}
-      isOpen={isOpen}
-      onClose={onClose}
-      showHeader={false}
-      footer={footer}
-      size="sm"
-      className={classNames('success-modal', className)}
-      {...props}
-    >
-      <div className="success-modal__content">
-        <div className="success-modal__icon">
-          {icon || (
-            <svg className="success-modal__checkmark" viewBox="0 0 52 52" aria-hidden="true">
-              <circle className="success-modal__circle" cx="26" cy="26" r="24" fill="none" />
-              <path className="success-modal__check" d="M14 27l8 8 16-16" fill="none" />
-            </svg>
+    <>
+      <style>{successStyles}</style>
+      <ModalBase
+        ref={ref}
+        isOpen={isOpen}
+        onClose={onClose}
+        showHeader={false}
+        footer={footer}
+        size="sm"
+        className={className}
+        {...props}
+      >
+        <div className="text-center py-2">
+          <div className="success-icon-animate w-20 h-20 sm:w-16 sm:h-16 rounded-full bg-accent-bg mx-auto mb-6 flex items-center justify-center">
+            {icon || (
+              <svg className="w-12 h-12 sm:w-10 sm:h-10" viewBox="0 0 52 52" aria-hidden="true">
+                <circle
+                  className="success-circle-animate stroke-accent/30"
+                  cx="26"
+                  cy="26"
+                  r="24"
+                  fill="none"
+                  strokeWidth="2"
+                />
+                <path
+                  className="success-check-animate stroke-accent"
+                  d="M14 27l8 8 16-16"
+                  fill="none"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            )}
+          </div>
+          <h2 className="text-xl font-semibold text-charcoal mb-3 m-0 leading-tight">{title}</h2>
+          {description && <p className="text-base text-slate m-0 leading-relaxed">{description}</p>}
+          {autoCloseSeconds && countdown > 0 && (
+            <p className="text-sm text-slate mt-4 m-0">
+              Closing in {countdown} second{countdown !== 1 ? 's' : ''}...
+            </p>
           )}
         </div>
-        <h2 className="success-modal__title">{title}</h2>
-        {description && <p className="success-modal__description">{description}</p>}
-        {autoCloseSeconds && countdown > 0 && (
-          <p className="success-modal__countdown">
-            Closing in {countdown} second{countdown !== 1 ? 's' : ''}...
-          </p>
-        )}
-      </div>
-    </ModalBase>
+      </ModalBase>
+    </>
   )
 })
 

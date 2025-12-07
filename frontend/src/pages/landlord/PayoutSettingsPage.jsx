@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useLandlordLayout } from '../../hooks/useLandlordLayout'
 import { AppShell } from '../../components/layout'
 import { Button } from '../../components/primitives'
-import './PayoutSettingsPage.css'
+import { classNames } from '../../utils'
 
 function PayoutSettingsPage() {
   const { navLinks, user, logoBadge } = useLandlordLayout()
@@ -21,12 +21,12 @@ function PayoutSettingsPage() {
         subtitle: 'Manage how you receive payments',
       }}
     >
-      <div className="payout-settings-page">
+      <div className="max-w-[1000px]">
         {/* Stripe Connect Status */}
-        <div className="payout-settings-card">
-          <div className="payout-card-header">
-            <h2 className="payout-card-title">Stripe Connect</h2>
-            <span className="payout-status-badge payout-status-badge--connected">
+        <div className="bg-white rounded-xl p-8 mb-6">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="font-display text-2xl font-bold text-midnight">Stripe Connect</h2>
+            <span className="inline-flex items-center gap-2 py-2 px-4 rounded-lg font-semibold text-sm bg-accent-bg text-accent">
               <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   strokeLinecap="round"
@@ -39,22 +39,25 @@ function PayoutSettingsPage() {
             </span>
           </div>
 
-          <div className="payout-info-grid">
-            <div className="payout-info-item">
-              <div className="payout-info-label">Account Status</div>
-              <div className="payout-info-value">Verified</div>
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-4 mb-6">
+            <div className="p-4 bg-snow rounded-lg">
+              <div className="text-[13px] text-slate mb-1">Account Status</div>
+              <div className="font-semibold text-midnight">Verified</div>
             </div>
-            <div className="payout-info-item">
-              <div className="payout-info-label">Account Email</div>
-              <div className="payout-info-value">john.doe@example.com</div>
+            <div className="p-4 bg-snow rounded-lg">
+              <div className="text-[13px] text-slate mb-1">Account Email</div>
+              <div className="font-semibold text-midnight">john.doe@example.com</div>
             </div>
-            <div className="payout-info-item">
-              <div className="payout-info-label">Connected Since</div>
-              <div className="payout-info-value">January 15, 2023</div>
+            <div className="p-4 bg-snow rounded-lg">
+              <div className="text-[13px] text-slate mb-1">Connected Since</div>
+              <div className="font-semibold text-midnight">January 15, 2023</div>
             </div>
           </div>
 
-          <a href="#" className="payout-link-button">
+          <a
+            href="#"
+            className="inline-flex items-center gap-2 text-primary no-underline font-semibold transition-all duration-200 hover:text-primary-dark"
+          >
             <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 strokeLinecap="round"
@@ -68,16 +71,16 @@ function PayoutSettingsPage() {
         </div>
 
         {/* Bank Accounts */}
-        <div className="payout-settings-card">
-          <div className="payout-card-header">
-            <h2 className="payout-card-title">Bank Accounts</h2>
+        <div className="bg-white rounded-xl p-8 mb-6">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="font-display text-2xl font-bold text-midnight">Bank Accounts</h2>
             <Button variant="primary">Add New Account</Button>
           </div>
 
-          <div className="payout-bank-account-list">
-            <div className="payout-bank-account-item payout-bank-account-item--default">
-              <div className="payout-account-info">
-                <div className="payout-bank-icon">
+          <div className="flex flex-col gap-3 mb-6">
+            <div className="flex justify-between items-center p-5 border-2 rounded-lg transition-all duration-200 border-accent bg-accent-bg">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center text-primary">
                   <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
                       strokeLinecap="round"
@@ -87,19 +90,21 @@ function PayoutSettingsPage() {
                     />
                   </svg>
                 </div>
-                <div className="payout-account-details">
-                  <h4>Chase Bank</h4>
-                  <p>Account ending in 4242</p>
+                <div>
+                  <h4 className="font-semibold text-midnight mb-1">Chase Bank</h4>
+                  <p className="text-sm text-slate">Account ending in 4242</p>
                 </div>
               </div>
-              <div className="payout-account-actions">
-                <span className="payout-default-badge">Default</span>
+              <div className="flex gap-3 items-center">
+                <span className="bg-accent text-white py-1.5 px-3 rounded-md text-xs font-semibold">
+                  Default
+                </span>
               </div>
             </div>
 
-            <div className="payout-bank-account-item">
-              <div className="payout-account-info">
-                <div className="payout-bank-icon">
+            <div className="flex justify-between items-center p-5 bg-snow border-2 border-cloud rounded-lg transition-all duration-200">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center text-primary">
                   <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
                       strokeLinecap="round"
@@ -109,35 +114,43 @@ function PayoutSettingsPage() {
                     />
                   </svg>
                 </div>
-                <div className="payout-account-details">
-                  <h4>Bank of America</h4>
-                  <p>Account ending in 8888</p>
+                <div>
+                  <h4 className="font-semibold text-midnight mb-1">Bank of America</h4>
+                  <p className="text-sm text-slate">Account ending in 8888</p>
                 </div>
               </div>
-              <div className="payout-account-actions">
-                <button className="payout-btn-text">Set as Default</button>
+              <div className="flex gap-3 items-center">
+                <button className="bg-transparent text-primary py-2 px-4 border-none rounded-lg font-semibold text-sm cursor-pointer transition-all duration-200 font-body hover:bg-primary-bg">
+                  Set as Default
+                </button>
               </div>
             </div>
           </div>
         </div>
 
         {/* Payout Schedule */}
-        <div className="payout-settings-card">
-          <div className="payout-card-header">
-            <h2 className="payout-card-title">Payout Schedule</h2>
+        <div className="bg-white rounded-xl p-8 mb-6">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="font-display text-2xl font-bold text-midnight">Payout Schedule</h2>
           </div>
 
-          <div className="payout-form-group">
-            <label className="payout-form-label">Payout Frequency</label>
-            <div className="payout-toggle-group">
+          <div className="mb-5">
+            <label className="block font-semibold text-midnight mb-2">Payout Frequency</label>
+            <div className="flex bg-snow rounded-lg p-1 mb-4">
               <button
-                className={`payout-toggle-option ${frequency === 'daily' ? 'payout-toggle-option--active' : ''}`}
+                className={classNames(
+                  'flex-1 py-3 px-6 border-none bg-transparent font-body font-semibold cursor-pointer rounded-md transition-all duration-200',
+                  frequency === 'daily' ? 'bg-white text-primary shadow-md' : 'text-slate'
+                )}
                 onClick={() => setFrequency('daily')}
               >
                 Daily
               </button>
               <button
-                className={`payout-toggle-option ${frequency === 'weekly' ? 'payout-toggle-option--active' : ''}`}
+                className={classNames(
+                  'flex-1 py-3 px-6 border-none bg-transparent font-body font-semibold cursor-pointer rounded-md transition-all duration-200',
+                  frequency === 'weekly' ? 'bg-white text-primary shadow-md' : 'text-slate'
+                )}
                 onClick={() => setFrequency('weekly')}
               >
                 Weekly
@@ -145,39 +158,41 @@ function PayoutSettingsPage() {
             </div>
           </div>
 
-          <div className="payout-form-group">
-            <label className="payout-form-label">Minimum Payout Threshold</label>
+          <div className="mb-5">
+            <label className="block font-semibold text-midnight mb-2">
+              Minimum Payout Threshold
+            </label>
             <input
               type="number"
-              className="payout-form-input"
+              className="w-full py-3 px-4 border border-cloud rounded-lg font-body text-sm focus:outline-none focus:border-primary"
               defaultValue="100"
               placeholder="Enter amount"
             />
-            <div className="payout-form-hint">
+            <div className="text-[13px] text-slate mt-1.5">
               Payouts will only be initiated when your balance reaches this amount
             </div>
           </div>
 
-          <div className="payout-info-box">
-            <p>
+          <div className="p-4 bg-primary-bg rounded-lg border-l-4 border-primary mt-4">
+            <p className="text-slate leading-relaxed">
               <strong>Next Expected Payout:</strong> Tomorrow, December 2, 2025
             </p>
-            <p style={{ marginTop: '8px' }}>
+            <p className="text-slate leading-relaxed mt-2">
               <strong>Estimated Amount:</strong> $2,450.00
             </p>
           </div>
 
-          <div style={{ marginTop: '24px' }}>
+          <div className="mt-6">
             <Button variant="primary">Save Changes</Button>
           </div>
         </div>
 
         {/* Tax Documents */}
-        <div className="payout-settings-card">
-          <div className="payout-card-header">
-            <h2 className="payout-card-title">Tax Documents</h2>
+        <div className="bg-white rounded-xl p-8 mb-6">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="font-display text-2xl font-bold text-midnight">Tax Documents</h2>
             <select
-              className="payout-year-selector"
+              className="py-2 px-4 border border-cloud rounded-md font-body"
               value={yearFilter}
               onChange={(e) => setYearFilter(e.target.value)}
             >
@@ -187,10 +202,10 @@ function PayoutSettingsPage() {
             </select>
           </div>
 
-          <div className="payout-document-list">
-            <div className="payout-document-item">
-              <div className="payout-document-info">
-                <div className="payout-document-icon">
+          <div className="flex flex-col gap-3">
+            <div className="flex justify-between items-center p-4 bg-snow rounded-lg">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-primary-bg rounded-lg flex items-center justify-center text-primary">
                   <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
                       strokeLinecap="round"
@@ -200,9 +215,9 @@ function PayoutSettingsPage() {
                     />
                   </svg>
                 </div>
-                <div className="payout-document-details">
-                  <h4>1099-K Form (2024)</h4>
-                  <p>Available after January 31, 2025</p>
+                <div>
+                  <h4 className="font-semibold text-midnight mb-1">1099-K Form (2024)</h4>
+                  <p className="text-[13px] text-slate">Available after January 31, 2025</p>
                 </div>
               </div>
               <Button variant="secondary" disabled>
@@ -210,9 +225,9 @@ function PayoutSettingsPage() {
               </Button>
             </div>
 
-            <div className="payout-document-item">
-              <div className="payout-document-info">
-                <div className="payout-document-icon">
+            <div className="flex justify-between items-center p-4 bg-snow rounded-lg">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-primary-bg rounded-lg flex items-center justify-center text-primary">
                   <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
                       strokeLinecap="round"
@@ -222,17 +237,17 @@ function PayoutSettingsPage() {
                     />
                   </svg>
                 </div>
-                <div className="payout-document-details">
-                  <h4>Annual Tax Summary (2024)</h4>
-                  <p>PDF - Last updated Dec 1, 2025</p>
+                <div>
+                  <h4 className="font-semibold text-midnight mb-1">Annual Tax Summary (2024)</h4>
+                  <p className="text-[13px] text-slate">PDF - Last updated Dec 1, 2025</p>
                 </div>
               </div>
               <Button variant="primary">Download</Button>
             </div>
 
-            <div className="payout-document-item">
-              <div className="payout-document-info">
-                <div className="payout-document-icon">
+            <div className="flex justify-between items-center p-4 bg-snow rounded-lg">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-primary-bg rounded-lg flex items-center justify-center text-primary">
                   <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
                       strokeLinecap="round"
@@ -242,9 +257,11 @@ function PayoutSettingsPage() {
                     />
                   </svg>
                 </div>
-                <div className="payout-document-details">
-                  <h4>Monthly Payout Report (November 2024)</h4>
-                  <p>CSV - Transaction details</p>
+                <div>
+                  <h4 className="font-semibold text-midnight mb-1">
+                    Monthly Payout Report (November 2024)
+                  </h4>
+                  <p className="text-[13px] text-slate">CSV - Transaction details</p>
                 </div>
               </div>
               <Button variant="primary">Download</Button>

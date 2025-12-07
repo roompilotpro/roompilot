@@ -1,0 +1,16 @@
+{
+  "timestamp": "2025-12-06T21:48:21.423Z",
+  "page": "LandingPage",
+  "design": {
+    "width": 1440,
+    "height": 5862
+  },
+  "react": {
+    "width": 1440,
+    "height": 5855
+  },
+  "totalPixels": 8441280,
+  "diffPixels": 49292,
+  "diffPercentage": 0.58,
+  "passed": true
+}

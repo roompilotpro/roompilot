@@ -2,7 +2,13 @@ import { forwardRef } from 'react'
 import ModalBase from '../ModalBase'
 import { Button } from '../../primitives'
 import classNames from '../../../utils/classNames'
-import './ConfirmationModal.css'
+
+// Icon variant styles
+const iconVariantStyles = {
+  danger: 'bg-coral-bg text-coral',
+  warning: 'bg-warm-bg text-warm',
+  info: 'bg-primary-bg text-primary',
+}
 
 /**
  * ConfirmationModal - Confirm/cancel dialog with icon and variant styling
@@ -107,17 +113,20 @@ const ConfirmationModal = forwardRef(function ConfirmationModal(
       showHeader={false}
       footer={footer}
       size="sm"
-      className={classNames('confirmation-modal', className)}
+      className={className}
       {...props}
     >
-      <div className="confirmation-modal__content">
+      <div className="text-center py-2">
         <div
-          className={classNames('confirmation-modal__icon', `confirmation-modal__icon--${variant}`)}
+          className={classNames(
+            'w-16 h-16 sm:w-14 sm:h-14 rounded-full mx-auto mb-5 flex items-center justify-center [&>svg]:w-8 [&>svg]:h-8 sm:[&>svg]:w-7 sm:[&>svg]:h-7',
+            iconVariantStyles[variant]
+          )}
         >
           {icon || defaultIcons[variant]}
         </div>
-        <h2 className="confirmation-modal__title">{title}</h2>
-        {description && <p className="confirmation-modal__description">{description}</p>}
+        <h2 className="text-xl font-semibold text-charcoal mb-3 m-0 leading-tight">{title}</h2>
+        {description && <p className="text-base text-slate m-0 leading-relaxed">{description}</p>}
       </div>
     </ModalBase>
   )

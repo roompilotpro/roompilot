@@ -1,0 +1,290 @@
+/**
+ * RoomPilot - Tailwind CSS v4 Configuration
+ * ==========================================
+ *
+ * This file configures Tailwind CSS v4 with our design system tokens.
+ * All tokens from the previous tokens.css are migrated here using @theme.
+ *
+ * The @theme directive makes these available as:
+ * - CSS variables (e.g., var(--color-primary))
+ * - Tailwind utilities (e.g., bg-primary, text-primary, rounded-lg)
+ */
+
+@import 'tailwindcss';
+
+@theme {
+  /* ============================================
+     COLORS - Neutrals
+     ============================================ */
+  --color-midnight: #0f1419;
+  --color-charcoal: #1a2332;
+  --color-slate: #3d4f5f;
+  --color-mist: #8899a6;
+  --color-cloud: #e8ecef;
+  --color-snow: #f7f9fa;
+  --color-white: #ffffff;
+
+  /* ============================================
+     COLORS - Primary (Blue)
+     ============================================ */
+  --color-primary: #2563eb;
+  --color-primary-light: #3b82f6;
+  --color-primary-dark: #1d4ed8;
+  --color-primary-bg: #eff6ff;
+
+  /* ============================================
+     COLORS - Accent (Green/Emerald)
+     ============================================ */
+  --color-accent: #10b981;
+  --color-accent-light: #34d399;
+  --color-accent-dark: #059669;
+  --color-accent-bg: #ecfdf5;
+
+  /* ============================================
+     COLORS - Warm (Amber/Warning)
+     ============================================ */
+  --color-warm: #f59e0b;
+  --color-warm-light: #fbbf24;
+  --color-warm-dark: #d97706;
+  --color-warm-bg: #fffbeb;
+
+  /* ============================================
+     COLORS - Coral (Red/Error/Danger)
+     ============================================ */
+  --color-coral: #f43f5e;
+  --color-coral-light: #fb7185;
+  --color-coral-dark: #e11d48;
+  --color-coral-bg: #fff1f2;
+
+  /* ============================================
+     COLORS - Purple
+     ============================================ */
+  --color-purple: #8b5cf6;
+  --color-purple-light: #a78bfa;
+  --color-purple-dark: #7c3aed;
+  --color-purple-bg: #f5f3ff;
+
+  /* ============================================
+     COLORS - Semantic Aliases
+     ============================================ */
+  --color-success: #10b981;
+  --color-success-bg: #ecfdf5;
+  --color-warning: #f59e0b;
+  --color-warning-bg: #fffbeb;
+  --color-error: #f43f5e;
+  --color-error-bg: #fff1f2;
+  --color-info: #2563eb;
+  --color-info-bg: #eff6ff;
+
+  /* ============================================
+     COLORS - Text (semantic)
+     ============================================ */
+  --color-text-primary: #1a2332;
+  --color-text-secondary: #3d4f5f;
+  --color-text-muted: #8899a6;
+  --color-text-inverse: #ffffff;
+
+  /* ============================================
+     COLORS - Backgrounds (semantic)
+     ============================================ */
+  --color-bg-primary: #ffffff;
+  --color-bg-secondary: #f7f9fa;
+  --color-bg-tertiary: #e8ecef;
+
+  /* ============================================
+     COLORS - Borders (semantic)
+     ============================================ */
+  --color-border: #e8ecef;
+  --color-border-light: rgba(232, 236, 239, 0.5);
+  --color-border-dark: #8899a6;
+
+  /* ============================================
+     TYPOGRAPHY - Font Families
+     ============================================ */
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'SF Mono', 'Fira Code', 'Fira Mono', Menlo, Consolas, monospace;
+
+  /* ============================================
+     BORDER RADIUS
+     ============================================ */
+  --radius-none: 0;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-2xl: 32px;
+  --radius-full: 9999px;
+
+  /* ============================================
+     BOX SHADOWS
+     ============================================ */
+  --shadow-xs: 0 1px 2px rgba(15, 20, 25, 0.03);
+  --shadow-sm: 0 1px 2px rgba(15, 20, 25, 0.05);
+  --shadow-md: 0 4px 12px rgba(15, 20, 25, 0.08);
+  --shadow-lg: 0 12px 40px rgba(15, 20, 25, 0.12);
+  --shadow-xl: 0 24px 60px rgba(15, 20, 25, 0.16);
+  --shadow-2xl: 0 32px 64px rgba(15, 20, 25, 0.24);
+  --shadow-inner: inset 0 2px 4px rgba(15, 20, 25, 0.06);
+  --shadow-none: 0 0 0 transparent;
+  --shadow-focus: 0 0 0 3px rgba(37, 99, 235, 0.3);
+  --shadow-focus-error: 0 0 0 3px rgba(244, 63, 94, 0.3);
+  --shadow-focus-success: 0 0 0 3px rgba(16, 185, 129, 0.3);
+
+  /* ============================================
+     TRANSITIONS / ANIMATIONS
+     ============================================ */
+  --animate-duration-fast: 150ms;
+  --animate-duration-normal: 250ms;
+  --animate-duration-slow: 350ms;
+  --animate-duration-slower: 500ms;
+
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* ============================================
+   ROOT CSS VARIABLES (non-utility tokens)
+   These are NOT meant to generate utility classes,
+   just available as CSS variables for custom use.
+   ============================================ */
+:root {
+  /* Component-specific spacing */
+  --sidebar-width: 260px;
+  --header-height: 72px;
+  --nav-height: 68px; /* 16px padding-top + 36px logo + 16px padding-bottom */
+
+  /* Z-index scale */
+  --z-dropdown: 10;
+  --z-sticky: 20;
+  --z-fixed: 30;
+  --z-modal-backdrop: 40;
+  --z-modal: 50;
+  --z-popover: 60;
+  --z-tooltip: 70;
+  --z-toast: 80;
+  --z-max: 9999;
+
+  /* Container widths */
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1280px;
+  --container-2xl: 1400px;
+
+  /* Form element heights */
+  --input-height-sm: 32px;
+  --input-height-md: 40px;
+  --input-height-lg: 48px;
+
+  /* Button heights */
+  --button-height-sm: 32px;
+  --button-height-md: 40px;
+  --button-height-lg: 48px;
+  --button-height-xl: 56px;
+
+  /* Icon sizes */
+  --icon-sm: 16px;
+  --icon-md: 20px;
+  --icon-lg: 24px;
+  --icon-xl: 32px;
+
+  /* Avatar sizes */
+  --avatar-xs: 24px;
+  --avatar-sm: 36px;
+  --avatar-md: 40px;
+  --avatar-lg: 48px;
+  --avatar-xl: 64px;
+  --avatar-2xl: 120px;
+
+  /* Typography tokens (for reference, Tailwind has built-in text utilities) */
+  --text-xs: 0.75rem;
+  --text-sm: 0.8125rem;
+  --text-base: 0.9375rem;
+  --text-md: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+  --text-6xl: 3.75rem;
+
+  /* Font weights */
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+
+  /* Line heights */
+  --leading-none: 1;
+  --leading-tight: 1.25;
+  --leading-snug: 1.375;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+  --leading-loose: 2;
+
+  /* Letter spacing */
+  --tracking-tighter: -0.05em;
+  --tracking-tight: -0.025em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.025em;
+  --tracking-wider: 0.05em;
+  --tracking-widest: 0.1em;
+
+  /* Spacing (Tailwind has built-in spacing scale, these are for custom use) */
+  --space-0: 0;
+  --space-0-5: 0.125rem;
+  --space-1: 0.25rem;
+  --space-1-5: 0.375rem;
+  --space-2: 0.5rem;
+  --space-2-5: 0.625rem;
+  --space-3: 0.75rem;
+  --space-3-5: 0.875rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-7: 1.75rem;
+  --space-8: 2rem;
+  --space-9: 2.25rem;
+  --space-10: 2.5rem;
+  --space-11: 2.75rem;
+  --space-12: 3rem;
+  --space-14: 3.5rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  --space-28: 7rem;
+  --space-32: 8rem;
+  --space-36: 9rem;
+  --space-40: 10rem;
+  --space-44: 11rem;
+  --space-48: 12rem;
+  --space-52: 13rem;
+  --space-56: 14rem;
+  --space-60: 15rem;
+  --space-64: 16rem;
+  --space-72: 18rem;
+  --space-80: 20rem;
+  --space-96: 24rem;
+
+  /* Duration tokens (for backward compatibility with existing CSS) */
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 350ms;
+  --duration-slower: 500ms;
+}
+
+/* ============================================
+   REDUCED MOTION SUPPORT
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0ms;
+    --duration-normal: 0ms;
+    --duration-slow: 0ms;
+    --duration-slower: 0ms;
+  }
+}

@@ -1,7 +1,6 @@
 import { forwardRef, useState, useRef, useId } from 'react'
 import { classNames } from '../../../utils/classNames'
 import { useClickOutside } from '../../../hooks/useClickOutside'
-import './DatePicker.css'
 
 const DAYS = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
 const MONTHS = [
@@ -18,6 +17,13 @@ const MONTHS = [
   'November',
   'December',
 ]
+
+// Size variant styles for the trigger
+const sizeStyles = {
+  sm: 'h-9 px-3 text-sm',
+  md: 'h-11 px-3.5 text-sm',
+  lg: 'h-[52px] px-4 text-base',
+}
 
 /**
  * DatePicker component with calendar dropdown
@@ -177,17 +183,16 @@ const DatePicker = forwardRef(function DatePicker(
   return (
     <div
       ref={containerRef}
-      className={classNames(
-        'datepicker-wrapper',
-        fullWidth && 'datepicker-wrapper--full-width',
-        className
-      )}
+      className={classNames('flex flex-col relative', fullWidth && 'w-full', className)}
     >
       {label && (
-        <label htmlFor={pickerId} className="datepicker__label">
+        <label
+          htmlFor={pickerId}
+          className="block font-body text-sm font-semibold text-midnight mb-2"
+        >
           {label}
           {required && (
-            <span className="datepicker__required" aria-hidden="true">
+            <span className="text-coral ml-0.5" aria-hidden="true">
               *
             </span>
           )}
@@ -205,23 +210,31 @@ const DatePicker = forwardRef(function DatePicker(
         }
         tabIndex={disabled ? -1 : 0}
         className={classNames(
-          'datepicker',
-          `datepicker--${size}`,
-          isOpen && 'datepicker--open',
-          error && 'datepicker--error',
-          disabled && 'datepicker--disabled'
+          'flex items-center justify-between gap-2 bg-white border rounded-sm cursor-pointer transition-all duration-150 ease-out outline-none',
+          sizeStyles[size],
+          isOpen && 'border-primary shadow-focus',
+          error
+            ? 'border-coral focus:shadow-focus-error'
+            : !isOpen && 'border-cloud focus:border-primary focus:shadow-focus',
+          disabled && 'bg-snow cursor-not-allowed text-mist'
         )}
         onClick={handleToggle}
         onKeyDown={handleKeyDown}
         {...props}
       >
         <span
-          className={classNames('datepicker__value', !selectedDate && 'datepicker__placeholder')}
+          className={classNames('flex-1 font-body', selectedDate ? 'text-midnight' : 'text-mist')}
         >
           {selectedDate ? formatDate(selectedDate) : placeholder}
         </span>
-        <span className="datepicker__icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <span className="shrink-0 flex items-center text-slate" aria-hidden="true">
+          <svg
+            className="w-[18px] h-[18px]"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
             <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
             <line x1="16" y1="2" x2="16" y2="6" />
             <line x1="8" y1="2" x2="8" y2="6" />
@@ -231,50 +244,70 @@ const DatePicker = forwardRef(function DatePicker(
       </div>
 
       {isOpen && (
-        <div className="datepicker__dropdown" role="dialog" aria-label="Choose date">
-          <div className="datepicker__header">
+        <div
+          className="absolute top-full left-0 mt-1 bg-white border border-cloud rounded-md shadow-lg z-dropdown p-4 min-w-[280px]"
+          role="dialog"
+          aria-label="Choose date"
+        >
+          <div className="flex items-center justify-between mb-4">
             <button
               type="button"
-              className="datepicker__nav-btn"
+              className="flex items-center justify-center w-8 h-8 p-0 border-none bg-transparent text-slate rounded-sm cursor-pointer transition-all duration-150 ease-out hover:bg-snow hover:text-charcoal"
               onClick={handlePrevMonth}
               aria-label="Previous month"
             >
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg
+                className="w-[18px] h-[18px]"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
                 <polyline points="15 18 9 12 15 6" />
               </svg>
             </button>
-            <span className="datepicker__month-year">
+            <span className="font-body text-sm font-semibold text-midnight">
               {MONTHS[viewDate.getMonth()]} {viewDate.getFullYear()}
             </span>
             <button
               type="button"
-              className="datepicker__nav-btn"
+              className="flex items-center justify-center w-8 h-8 p-0 border-none bg-transparent text-slate rounded-sm cursor-pointer transition-all duration-150 ease-out hover:bg-snow hover:text-charcoal"
               onClick={handleNextMonth}
               aria-label="Next month"
             >
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg
+                className="w-[18px] h-[18px]"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
                 <polyline points="9 18 15 12 9 6" />
               </svg>
             </button>
           </div>
-          <div className="datepicker__weekdays">
+          <div className="grid grid-cols-7 gap-0.5 mb-2">
             {DAYS.map((day) => (
-              <span key={day} className="datepicker__weekday">
+              <span
+                key={day}
+                className="text-center font-body text-xs font-semibold text-mist py-1"
+              >
                 {day}
               </span>
             ))}
           </div>
-          <div className="datepicker__days">
+          <div className="grid grid-cols-7 gap-0.5">
             {days.map(({ date, isCurrentMonth }, index) => (
               <button
                 key={index}
                 type="button"
                 className={classNames(
-                  'datepicker__day',
-                  !isCurrentMonth && 'datepicker__day--outside',
-                  isToday(date) && 'datepicker__day--today',
-                  isSameDay(date, selectedDate) && 'datepicker__day--selected',
-                  isDateDisabled(date) && 'datepicker__day--disabled'
+                  'flex items-center justify-center w-9 h-9 p-0 border-none bg-transparent font-body text-sm rounded-full cursor-pointer transition-colors duration-150 ease-out',
+                  isCurrentMonth ? 'text-charcoal' : 'text-mist',
+                  isToday(date) && 'font-semibold text-primary',
+                  isSameDay(date, selectedDate) && 'bg-primary text-white font-semibold',
+                  isDateDisabled(date) && 'text-cloud cursor-not-allowed',
+                  !isSameDay(date, selectedDate) && !isDateDisabled(date) && 'hover:bg-snow'
                 )}
                 onClick={() => handleDateSelect(date)}
                 disabled={isDateDisabled(date)}
@@ -289,12 +322,12 @@ const DatePicker = forwardRef(function DatePicker(
       )}
 
       {error && (
-        <span id={`${pickerId}-error`} className="datepicker__error" role="alert">
+        <span id={`${pickerId}-error`} className="block text-xs text-coral mt-1" role="alert">
           {error}
         </span>
       )}
       {helperText && !error && (
-        <span id={`${pickerId}-helper`} className="datepicker__helper">
+        <span id={`${pickerId}-helper`} className="block text-xs text-slate mt-1">
           {helperText}
         </span>
       )}

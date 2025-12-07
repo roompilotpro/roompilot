@@ -1,5 +1,4 @@
 import { AppRouter } from './router'
-import './App.css'
 
 /**
  * Main App component

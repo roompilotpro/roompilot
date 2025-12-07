@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom'
 import { AuthLayout, OAuthButtons } from '../../../components/auth'
 import { Input, Checkbox, Button } from '../../../components'
 import { ROUTES } from '../../../router/routes'
-import './LoginPage.css'
 
 function LoginPage() {
   const navigate = useNavigate()
@@ -57,13 +56,15 @@ function LoginPage() {
       panelTitle="Welcome back to RoomPilot"
       panelDescription="Your next perfect room is waiting. Sign in to continue your search or manage your listings."
     >
-      <h1 className="login-page__title">Log in</h1>
-      <p className="login-page__subtitle">Enter your credentials to access your account</p>
+      <h1 className="font-display text-[2rem] sm:text-[1.625rem] font-bold text-midnight mb-2">Log in</h1>
+      <p className="text-slate mb-8 text-base">Enter your credentials to access your account</p>
 
       <OAuthButtons onGoogleClick={handleGoogleLogin} onAppleClick={handleAppleLogin} />
 
-      <div className="login-page__divider">
-        <span>or</span>
+      <div className="flex items-center text-center my-6 text-slate text-sm">
+        <span className="flex-1 border-b border-cloud" />
+        <span className="px-4">or</span>
+        <span className="flex-1 border-b border-cloud" />
       </div>
 
       <form onSubmit={handleSubmit}>
@@ -89,14 +90,14 @@ function LoginPage() {
           fullWidth
         />
 
-        <div className="login-page__form-row">
+        <div className="flex justify-between items-center mb-6">
           <Checkbox
             name="rememberMe"
             label="Remember me"
             checked={formData.rememberMe}
             onChange={handleChange}
           />
-          <Link to={ROUTES.FORGOT_PASSWORD} className="login-page__forgot-link">
+          <Link to={ROUTES.FORGOT_PASSWORD} className="text-primary no-underline text-sm font-semibold hover:underline">
             Forgot password?
           </Link>
         </div>
@@ -106,8 +107,8 @@ function LoginPage() {
         </Button>
       </form>
 
-      <p className="login-page__signup-link">
-        Don't have an account? <Link to={ROUTES.SIGNUP}>Sign up</Link>
+      <p className="text-center text-sm text-slate mt-6">
+        Don't have an account? <Link to={ROUTES.SIGNUP} className="text-primary no-underline font-semibold hover:underline">Sign up</Link>
       </p>
     </AuthLayout>
   )

@@ -1,6 +1,5 @@
 import { forwardRef, useId } from 'react'
 import { classNames } from '../../../utils/classNames'
-import './FormGroup.css'
 
 /**
  * FormGroup component - wrapper for label + input + helper text
@@ -38,32 +37,37 @@ const FormGroup = forwardRef(function FormGroup(
     <div
       ref={ref}
       className={classNames(
-        'form-group',
-        fullWidth && 'form-group--full-width',
-        disabled && 'form-group--disabled',
-        error && 'form-group--error',
+        'flex flex-col gap-2',
+        fullWidth && 'w-full',
+        disabled && 'opacity-60',
         className
       )}
       {...props}
     >
       {label && (
-        <label htmlFor={groupId} className="form-group__label">
+        <label
+          htmlFor={groupId}
+          className={classNames(
+            'block font-body text-sm font-semibold',
+            disabled ? 'text-mist' : 'text-midnight'
+          )}
+        >
           {label}
           {required && (
-            <span className="form-group__required" aria-hidden="true">
+            <span className="text-coral ml-0.5" aria-hidden="true">
               *
             </span>
           )}
         </label>
       )}
-      <div className="form-group__content">{children}</div>
+      <div className="flex flex-col">{children}</div>
       {error && (
-        <span id={`${groupId}-error`} className="form-group__error" role="alert">
+        <span id={`${groupId}-error`} className="block text-xs text-coral" role="alert">
           {error}
         </span>
       )}
       {helperText && !error && (
-        <span id={`${groupId}-helper`} className="form-group__helper">
+        <span id={`${groupId}-helper`} className="block text-xs text-slate">
           {helperText}
         </span>
       )}

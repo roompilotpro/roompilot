@@ -2,7 +2,6 @@ import { forwardRef } from 'react'
 import classNames from '../../../utils/classNames'
 import { Avatar } from '../../primitives'
 import { Input } from '../../forms'
-import './ConversationList.css'
 
 /**
  * ConversationList - Message thread sidebar list
@@ -60,9 +59,9 @@ const ConversationList = forwardRef(function ConversationList(
     : conversations
 
   return (
-    <div ref={ref} className={classNames('conversation-list', className)} {...props}>
+    <div ref={ref} className={classNames('flex flex-col h-full bg-white', className)} {...props}>
       {showSearch && (
-        <div className="conversation-list__search">
+        <div className="p-4 border-b border-cloud">
           <Input
             type="search"
             placeholder="Search messages..."
@@ -73,13 +72,13 @@ const ConversationList = forwardRef(function ConversationList(
         </div>
       )}
 
-      <div className="conversation-list__items" role="listbox" aria-label="Conversations">
+      <div className="flex-1 overflow-y-auto" role="listbox" aria-label="Conversations">
         {filteredConversations.length === 0 ? (
-          <div className="conversation-list__empty">
+          <div className="py-12 px-6 text-center">
             {emptyState || (
-              <div className="conversation-list__empty-default">
-                <span className="conversation-list__empty-icon">💬</span>
-                <p className="conversation-list__empty-text">No conversations</p>
+              <div className="flex flex-col items-center gap-3">
+                <span className="text-4xl opacity-50">💬</span>
+                <p className="text-sm text-slate m-0">No conversations</p>
               </div>
             )}
           </div>
@@ -93,9 +92,10 @@ const ConversationList = forwardRef(function ConversationList(
                 key={conversation.id}
                 type="button"
                 className={classNames(
-                  'conversation-list__item',
-                  isActive && 'conversation-list__item--active',
-                  isUnread && !isActive && 'conversation-list__item--unread'
+                  'flex gap-3 w-full py-4 px-5 border-0 border-b border-cloud bg-white cursor-pointer text-left transition-colors',
+                  'hover:bg-snow',
+                  isActive && 'bg-primary-bg border-l-3 border-l-primary hover:bg-primary-bg/80',
+                  isUnread && !isActive && 'bg-warm-bg hover:bg-warm-bg/80'
                 )}
                 onClick={() => onSelect?.(conversation)}
                 role="option"
@@ -105,23 +105,29 @@ const ConversationList = forwardRef(function ConversationList(
                   src={conversation.avatar}
                   name={conversation.name}
                   size="md"
-                  className="conversation-list__avatar"
+                  className="shrink-0"
                 />
-                <div className="conversation-list__content">
-                  <div className="conversation-list__header">
-                    <span className="conversation-list__name">{conversation.name}</span>
-                    <span className="conversation-list__time">
+                <div className="flex-1 min-w-0 flex flex-col gap-1">
+                  <div className="flex justify-between items-center gap-2">
+                    <span className="font-semibold text-charcoal overflow-hidden text-ellipsis whitespace-nowrap">
+                      {conversation.name}
+                    </span>
+                    <span className="shrink-0 text-xs text-slate">
                       {formatTimestamp(conversation.timestamp)}
                     </span>
                   </div>
-                  <div className="conversation-list__footer">
-                    <span className="conversation-list__preview">{conversation.lastMessage}</span>
+                  <div className="flex justify-between items-center gap-2">
+                    <span className="text-sm text-slate overflow-hidden text-ellipsis whitespace-nowrap">
+                      {conversation.lastMessage}
+                    </span>
                     {isUnread && (
-                      <span className="conversation-list__badge">{conversation.unreadCount}</span>
+                      <span className="shrink-0 inline-flex items-center justify-center min-w-5 h-5 px-2 bg-primary text-white text-xs font-semibold rounded-full">
+                        {conversation.unreadCount}
+                      </span>
                     )}
                   </div>
                   {conversation.property && (
-                    <span className="conversation-list__property">{conversation.property}</span>
+                    <span className="text-xs text-slate">{conversation.property}</span>
                   )}
                 </div>
               </button>

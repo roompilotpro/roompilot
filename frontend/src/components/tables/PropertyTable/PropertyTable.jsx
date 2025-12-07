@@ -2,7 +2,6 @@ import { forwardRef } from 'react'
 import classNames from '../../../utils/classNames'
 import { Avatar, Badge } from '../../primitives'
 import { Button } from '../../primitives'
-import './PropertyTable.css'
 
 /**
  * PropertyTable - Table for displaying tenant/property data
@@ -89,12 +88,12 @@ const PropertyTable = forwardRef(function PropertyTable(
 
   if (tenants.length === 0) {
     return (
-      <div ref={ref} className={classNames('property-table', className)} {...props}>
-        <div className="property-table__empty">
+      <div ref={ref} className={classNames('w-full overflow-x-auto', className)} {...props}>
+        <div className="py-12 px-6 text-center bg-white rounded-lg border border-cloud">
           {emptyState || (
-            <div className="property-table__empty-default">
-              <span className="property-table__empty-icon">👥</span>
-              <p className="property-table__empty-text">No tenants found</p>
+            <div className="flex flex-col items-center gap-3">
+              <span className="text-4xl opacity-50">👥</span>
+              <p className="text-sm text-slate m-0">No tenants found</p>
             </div>
           )}
         </div>
@@ -103,71 +102,79 @@ const PropertyTable = forwardRef(function PropertyTable(
   }
 
   return (
-    <div ref={ref} className={classNames('property-table', className)} {...props}>
-      <table className="property-table__table" role="grid">
-        <thead className="property-table__header">
+    <div ref={ref} className={classNames('w-full overflow-x-auto', className)} {...props}>
+      <table className="w-full border-collapse text-sm" role="grid">
+        <thead className="bg-snow">
           <tr>
-            <th className="property-table__header-cell">Tenant</th>
-            <th className="property-table__header-cell">Property & Room</th>
-            <th className="property-table__header-cell">Move-in Date</th>
-            <th className="property-table__header-cell">Payment Status</th>
-            <th className="property-table__header-cell property-table__header-cell--right">
+            <th className="py-3 px-4 text-left text-xs font-bold uppercase tracking-wider text-slate whitespace-nowrap border-b border-cloud">
+              Tenant
+            </th>
+            <th className="py-3 px-4 text-left text-xs font-bold uppercase tracking-wider text-slate whitespace-nowrap border-b border-cloud">
+              Property & Room
+            </th>
+            <th className="py-3 px-4 text-left text-xs font-bold uppercase tracking-wider text-slate whitespace-nowrap border-b border-cloud">
+              Move-in Date
+            </th>
+            <th className="py-3 px-4 text-left text-xs font-bold uppercase tracking-wider text-slate whitespace-nowrap border-b border-cloud">
+              Payment Status
+            </th>
+            <th className="py-3 px-4 text-right text-xs font-bold uppercase tracking-wider text-slate whitespace-nowrap border-b border-cloud">
               Balance/Due
             </th>
             {showActions && (
-              <th className="property-table__header-cell property-table__header-cell--right">
+              <th className="py-3 px-4 text-right text-xs font-bold uppercase tracking-wider text-slate whitespace-nowrap border-b border-cloud">
                 Actions
               </th>
             )}
           </tr>
         </thead>
-        <tbody className="property-table__body">
+        <tbody className="bg-white">
           {tenants.map((tenant) => (
             <tr
               key={tenant.id}
               className={classNames(
-                'property-table__row',
-                onRowClick && 'property-table__row--clickable'
+                'border-b border-cloud last:border-b-0 transition-colors hover:bg-snow',
+                onRowClick && 'cursor-pointer'
               )}
               onClick={onRowClick ? (e) => handleRowClick(tenant, e) : undefined}
               role="row"
             >
-              <td className="property-table__cell">
-                <div className="property-table__tenant-cell">
+              <td className="p-4 align-middle">
+                <div className="flex items-center gap-3">
                   <Avatar src={tenant.avatar} name={tenant.name} size="md" />
-                  <div className="property-table__tenant-info">
-                    <span className="property-table__name">{tenant.name}</span>
-                    <span className="property-table__email">{tenant.email}</span>
+                  <div className="flex flex-col gap-1">
+                    <span className="font-semibold text-charcoal">{tenant.name}</span>
+                    <span className="text-sm text-slate">{tenant.email}</span>
                   </div>
                 </div>
               </td>
-              <td className="property-table__cell">
-                <div className="property-table__property-cell">
-                  <span className="property-table__property">{tenant.property}</span>
-                  <span className="property-table__room">{tenant.room}</span>
+              <td className="p-4 align-middle">
+                <div className="flex flex-col gap-1">
+                  <span className="text-sm text-charcoal">{tenant.property}</span>
+                  <span className="text-xs text-slate">{tenant.room}</span>
                 </div>
               </td>
-              <td className="property-table__cell">
-                <span className="property-table__date">{formatDate(tenant.moveInDate)}</span>
+              <td className="p-4 align-middle">
+                <span className="text-sm text-slate">{formatDate(tenant.moveInDate)}</span>
               </td>
-              <td className="property-table__cell">
+              <td className="p-4 align-middle">
                 <Badge variant={getStatusVariant(tenant.paymentStatus)}>
                   {getStatusLabel(tenant.paymentStatus)}
                 </Badge>
               </td>
-              <td className="property-table__cell property-table__cell--right">
-                <div className="property-table__balance-cell">
-                  <span className="property-table__balance">{formatCurrency(tenant.balance)}</span>
+              <td className="p-4 align-middle text-right">
+                <div className="flex flex-col items-end gap-1">
+                  <span className="font-semibold text-charcoal">
+                    {formatCurrency(tenant.balance)}
+                  </span>
                   {tenant.dueDate && (
-                    <span className="property-table__due-date">
-                      Due {formatDate(tenant.dueDate)}
-                    </span>
+                    <span className="text-xs text-slate">Due {formatDate(tenant.dueDate)}</span>
                   )}
                 </div>
               </td>
               {showActions && (
-                <td className="property-table__cell property-table__cell--right">
-                  <div className="property-table__actions">
+                <td className="p-4 align-middle text-right">
+                  <div className="flex gap-2 justify-end md:flex-row flex-col md:gap-2 gap-1">
                     {onMessage && (
                       <Button
                         variant="ghost"

@@ -1,7 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { RoleCard, SocialProof } from '../../../components/auth'
 import { ROUTES } from '../../../router/routes'
-import './SignupPage.css'
 
 function SignupPage() {
   const navigate = useNavigate()
@@ -11,22 +10,22 @@ function SignupPage() {
   }
 
   return (
-    <div className="signup-page">
-      <header className="signup-page__header">
-        <Link to={ROUTES.HOME} className="signup-page__logo">
+    <div className="font-body bg-gradient-to-br from-snow to-cloud min-h-screen flex flex-col text-midnight">
+      <header className="py-8 px-4 text-center">
+        <Link to={ROUTES.HOME} className="font-display text-[2rem] font-bold text-primary no-underline">
           RoomPilot
         </Link>
       </header>
 
-      <main className="signup-page__main">
-        <div className="signup-page__hero">
-          <h1 className="signup-page__title">Welcome to RoomPilot</h1>
-          <p className="signup-page__subtitle">
+      <main className="flex-1 flex flex-col items-center justify-center py-8 px-4 max-w-[1100px] mx-auto w-full">
+        <div className="text-center mb-12">
+          <h1 className="font-display text-[2.5rem] md:text-[2rem] font-bold text-midnight mb-4 leading-tight">Welcome to RoomPilot</h1>
+          <p className="text-lg text-slate max-w-[600px] mx-auto">
             Join thousands finding their perfect room or connecting with great renters
           </p>
         </div>
 
-        <div className="signup-page__role-cards">
+        <div className="grid grid-cols-1 md:grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-8 w-full mb-8">
           <RoleCard
             icon="🏠"
             title="I'm looking for a room"
@@ -46,8 +45,8 @@ function SignupPage() {
           />
         </div>
 
-        <p className="signup-page__signin-link">
-          Already have an account? <Link to={ROUTES.LOGIN}>Sign in</Link>
+        <p className="text-center text-base text-slate">
+          Already have an account? <Link to={ROUTES.LOGIN} className="text-primary no-underline font-semibold hover:underline">Sign in</Link>
         </p>
 
         <SocialProof />

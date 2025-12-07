@@ -9,7 +9,6 @@ import {
   FOOTER_LEGAL_LINKS,
   ROUTES,
 } from '../../../router/routes'
-import './PublicLayout.css'
 
 /**
  * PublicLayout - Layout wrapper for public/marketing pages
@@ -36,10 +35,10 @@ function PublicLayout() {
   )
 
   return (
-    <div className="public-layout">
+    <div className="flex flex-col min-h-screen">
       <PublicNavigation links={navLinks} actions={navActions} variant="default" />
 
-      <main className="public-layout__main">
+      <main className="flex-1 pt-[var(--nav-height)]">
         <Outlet />
       </main>
 

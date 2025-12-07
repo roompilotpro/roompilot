@@ -1,6 +1,13 @@
 import { forwardRef, useMemo } from 'react'
 import classNames from '../../../utils/classNames'
-import './NotificationList.css'
+
+// Icon type styles
+const iconTypeStyles = {
+  payment: 'bg-accent-bg text-accent',
+  message: 'bg-primary-bg text-primary',
+  application: 'bg-warm-bg text-warm',
+  system: 'bg-snow text-slate',
+}
 
 /**
  * NotificationList - Grouped notification list with read states
@@ -28,18 +35,8 @@ const NotificationList = forwardRef(function NotificationList(
   },
   ref
 ) {
-  const getIconClass = (type) => {
-    switch (type?.toLowerCase()) {
-      case 'payment':
-        return 'notification-list__icon--payment'
-      case 'message':
-        return 'notification-list__icon--message'
-      case 'application':
-        return 'notification-list__icon--application'
-      case 'system':
-      default:
-        return 'notification-list__icon--system'
-    }
+  const getIconStyles = (type) => {
+    return iconTypeStyles[type?.toLowerCase()] || iconTypeStyles.system
   }
 
   const getDefaultIcon = (type) => {
@@ -119,15 +116,20 @@ const NotificationList = forwardRef(function NotificationList(
   const isEmpty = filteredNotifications.length === 0
 
   return (
-    <div ref={ref} className={classNames('notification-list', className)} {...props}>
+    <div
+      ref={ref}
+      className={classNames('flex flex-col bg-white rounded-lg overflow-hidden', className)}
+      {...props}
+    >
       {showFilter && (
-        <div className="notification-list__toolbar">
-          <div className="notification-list__filters" role="tablist">
+        <div className="flex items-center justify-between py-3 px-4 border-b border-cloud">
+          <div className="flex gap-2" role="tablist">
             <button
               type="button"
               className={classNames(
-                'notification-list__filter',
-                filter === 'all' && 'notification-list__filter--active'
+                'py-2 px-3 bg-transparent border-0 text-sm font-medium text-slate cursor-pointer rounded-md transition-all',
+                'hover:bg-snow hover:text-charcoal',
+                filter === 'all' && 'bg-cloud text-charcoal'
               )}
               onClick={() => onFilterChange?.('all')}
               role="tab"
@@ -138,8 +140,9 @@ const NotificationList = forwardRef(function NotificationList(
             <button
               type="button"
               className={classNames(
-                'notification-list__filter',
-                filter === 'unread' && 'notification-list__filter--active'
+                'py-2 px-3 bg-transparent border-0 text-sm font-medium text-slate cursor-pointer rounded-md transition-all',
+                'hover:bg-snow hover:text-charcoal',
+                filter === 'unread' && 'bg-cloud text-charcoal'
               )}
               onClick={() => onFilterChange?.('unread')}
               role="tab"
@@ -149,20 +152,24 @@ const NotificationList = forwardRef(function NotificationList(
             </button>
           </div>
           {unreadCount > 0 && onMarkAllRead && (
-            <button type="button" className="notification-list__mark-all" onClick={onMarkAllRead}>
+            <button
+              type="button"
+              className="py-2 px-3 bg-transparent border-0 text-sm font-medium text-primary cursor-pointer transition-colors hover:text-primary/80"
+              onClick={onMarkAllRead}
+            >
               Mark all as read
             </button>
           )}
         </div>
       )}
 
-      <div className="notification-list__content" role="list" aria-label="Notifications">
+      <div className="flex-1 overflow-y-auto" role="list" aria-label="Notifications">
         {isEmpty ? (
-          <div className="notification-list__empty">
+          <div className="py-12 px-6 text-center">
             {emptyState || (
-              <div className="notification-list__empty-default">
-                <span className="notification-list__empty-icon">🔔</span>
-                <p className="notification-list__empty-text">
+              <div className="flex flex-col items-center gap-3">
+                <span className="text-4xl opacity-50">🔔</span>
+                <p className="text-sm text-slate m-0">
                   {filter === 'unread' ? 'No unread notifications' : 'No notifications'}
                 </p>
               </div>
@@ -173,38 +180,47 @@ const NotificationList = forwardRef(function NotificationList(
             if (items.length === 0) return null
 
             return (
-              <div key={group} className="notification-list__group">
-                <div className="notification-list__group-header">{group}</div>
+              <div key={group}>
+                <div className="py-3 px-6 bg-snow text-xs font-semibold uppercase tracking-wider text-slate">
+                  {group}
+                </div>
                 {items.map((notification) => (
                   <button
                     key={notification.id}
                     type="button"
                     className={classNames(
-                      'notification-list__item',
-                      !notification.read && 'notification-list__item--unread'
+                      'flex gap-4 w-full py-5 px-6 bg-white border-0 border-b border-cloud cursor-pointer text-left transition-colors',
+                      'hover:bg-snow',
+                      !notification.read &&
+                        'bg-primary-bg border-l-4 border-l-primary hover:bg-primary-bg/80'
                     )}
                     onClick={() => handleNotificationClick(notification)}
                     role="listitem"
                   >
                     <div
                       className={classNames(
-                        'notification-list__icon',
-                        getIconClass(notification.type)
+                        'shrink-0 w-12 h-12 flex items-center justify-center text-xl rounded-full',
+                        getIconStyles(notification.type)
                       )}
                     >
                       {notification.icon || getDefaultIcon(notification.type)}
                     </div>
-                    <div className="notification-list__body">
-                      <div className="notification-list__header">
-                        <span className="notification-list__title">{notification.title}</span>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="font-semibold text-charcoal">{notification.title}</span>
                         {!notification.read && (
-                          <span className="notification-list__dot" aria-label="Unread" />
+                          <span
+                            className="w-2.5 h-2.5 bg-primary rounded-full"
+                            aria-label="Unread"
+                          />
                         )}
                       </div>
                       {notification.description && (
-                        <p className="notification-list__description">{notification.description}</p>
+                        <p className="text-sm text-slate leading-relaxed m-0 mb-2">
+                          {notification.description}
+                        </p>
                       )}
-                      <span className="notification-list__time">
+                      <span className="text-xs text-slate">
                         {formatTimestamp(notification.timestamp)}
                       </span>
                     </div>

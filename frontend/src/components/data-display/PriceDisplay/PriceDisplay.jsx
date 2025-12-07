@@ -1,6 +1,13 @@
 import { forwardRef } from 'react'
 import classNames from '../../../utils/classNames'
-import './PriceDisplay.css'
+
+// Size configurations
+const sizeConfig = {
+  sm: { amount: 'text-sm', period: 'text-xs' },
+  md: { amount: 'text-lg', period: 'text-sm' },
+  lg: { amount: 'text-2xl', period: 'text-base' },
+  xl: { amount: 'text-3xl', period: 'text-lg' },
+}
 
 /**
  * PriceDisplay - Formatted currency display with period
@@ -45,23 +52,28 @@ const PriceDisplay = forwardRef(function PriceDisplay(
     total: '',
   }
 
+  const sizes = sizeConfig[size]
+
   return (
-    <div
-      ref={ref}
-      className={classNames(
-        'price-display',
-        `price-display--${size}`,
-        originalAmount && 'price-display--has-discount',
-        className
-      )}
-      {...props}
-    >
+    <div ref={ref} className={classNames('inline-flex items-baseline gap-1', className)} {...props}>
       {originalAmount && (
-        <span className="price-display__original">{formatPrice(originalAmount)}</span>
+        <span className={classNames('font-normal text-slate line-through', sizes.period)}>
+          {formatPrice(originalAmount)}
+        </span>
       )}
-      <span className="price-display__amount">{formatPrice(amount)}</span>
+      <span
+        className={classNames(
+          'font-bold',
+          sizes.amount,
+          originalAmount ? 'text-coral' : 'text-charcoal'
+        )}
+      >
+        {formatPrice(amount)}
+      </span>
       {period && period !== 'total' && (
-        <span className="price-display__period">{periodLabels[period] || period}</span>
+        <span className={classNames('font-normal text-slate', sizes.period)}>
+          {periodLabels[period] || period}
+        </span>
       )}
     </div>
   )

@@ -1,6 +1,5 @@
 import { forwardRef } from 'react'
 import { classNames } from '../../../utils'
-import './AmenitiesGrid.css'
 
 /**
  * AmenitiesGrid - Grid display of amenities with available/unavailable states
@@ -30,26 +29,32 @@ const AmenitiesGrid = forwardRef(function AmenitiesGrid(
   const showAllButton = total > displayCount
 
   return (
-    <section ref={ref} className={classNames('amenities-grid', className)} {...props}>
-      <h2 className="amenities-grid__title">{title}</h2>
+    <section ref={ref} className={classNames('py-8 border-b border-cloud', className)} {...props}>
+      <h2 className="font-display text-[22px] font-semibold text-midnight mb-5">{title}</h2>
 
-      <div className="amenities-grid__list">
+      <div className="grid grid-cols-2 md:grid-cols-1 gap-4">
         {displayedAmenities.map((amenity, index) => (
           <div
             key={index}
             className={classNames(
-              'amenities-grid__item',
-              amenity.available === false && 'amenities-grid__item--unavailable'
+              'flex items-center gap-3 text-[15px] text-charcoal',
+              amenity.available === false && 'text-slate line-through'
             )}
           >
-            <span className="amenities-grid__icon">{amenity.icon}</span>
+            <span className="w-8 h-8 flex items-center justify-center text-xl shrink-0">
+              {amenity.icon}
+            </span>
             {amenity.label}
           </div>
         ))}
       </div>
 
       {showAllButton && (
-        <button type="button" className="amenities-grid__show-all" onClick={onShowAll}>
+        <button
+          type="button"
+          className="mt-6 inline-flex items-center justify-center gap-2 py-3 px-6 font-body text-[15px] font-semibold no-underline rounded-md cursor-pointer transition-all duration-200 bg-transparent text-charcoal border-2 border-cloud hover:border-charcoal hover:bg-snow"
+          onClick={onShowAll}
+        >
           Show all {total} amenities
         </button>
       )}

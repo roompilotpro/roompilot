@@ -1,5 +1,12 @@
 import { classNames } from '../../../utils/classNames'
-import './PasswordStrength.css'
+
+// Strength level color mapping
+const strengthColors = {
+  weak: 'bg-coral',
+  fair: 'bg-coral',
+  good: 'bg-warm',
+  strong: 'bg-accent',
+}
 
 /**
  * PasswordStrength component - Visual 4-bar strength indicator
@@ -14,20 +21,19 @@ function PasswordStrength({ strength = 0, strengthLevel = 'none', strengthLabel,
   const bars = [1, 2, 3, 4]
 
   return (
-    <div className={classNames('password-strength', className)}>
-      <div className="password-strength__bars">
+    <div className={classNames('mt-2', className)}>
+      <div className="flex gap-1 h-1">
         {bars.map((bar) => (
           <div
             key={bar}
             className={classNames(
-              'password-strength__bar',
-              bar <= strength && `password-strength__bar--active`,
-              bar <= strength && `password-strength__bar--${strengthLevel}`
+              'flex-1 bg-cloud rounded-sm transition-all duration-300',
+              bar <= strength && strengthColors[strengthLevel]
             )}
           />
         ))}
       </div>
-      {strengthLabel && <p className="password-strength__text">{strengthLabel}</p>}
+      {strengthLabel && <p className="text-xs mt-1 text-slate mb-0">{strengthLabel}</p>}
     </div>
   )
 }

@@ -3,7 +3,6 @@ import { classNames } from '../../../utils/classNames'
 import { RoomListingCard } from '../../cards'
 import { Pagination } from '../../navigation'
 import { Select } from '../../forms'
-import './ListingsPanel.css'
 
 const SORT_OPTIONS = [
   { value: 'recommended', label: 'Recommended' },
@@ -34,15 +33,23 @@ const ListingsPanel = forwardRef(function ListingsPanel(
   ref
 ) {
   return (
-    <div ref={ref} className={classNames('listings-panel', className)} {...props}>
-      <header className="listings-panel__header">
-        <div className="listings-panel__count">
-          <strong>{totalCount} rooms</strong> available{location && ` in ${location}`}
+    <div
+      ref={ref}
+      className={classNames(
+        'flex-1 max-w-[840px] lg:max-w-none overflow-y-auto bg-white',
+        className
+      )}
+      {...props}
+    >
+      <header className="py-5 px-6 border-b border-cloud sticky top-0 bg-white z-10">
+        <div className="text-sm text-slate">
+          <strong className="text-charcoal font-semibold">{totalCount} rooms</strong> available
+          {location && ` in ${location}`}
         </div>
-        <div className="listings-panel__sort">
-          <span className="listings-panel__sort-label">Sort by:</span>
+        <div className="flex items-center gap-2 mt-2">
+          <span className="text-xs text-slate">Sort by:</span>
           <select
-            className="listings-panel__sort-select"
+            className="font-body text-xs font-medium text-charcoal bg-transparent border-none cursor-pointer py-1"
             value={sortBy}
             onChange={(e) => onSortChange?.(e.target.value)}
           >
@@ -57,7 +64,7 @@ const ListingsPanel = forwardRef(function ListingsPanel(
 
       {listings.length > 0 ? (
         <>
-          <div className="listings-panel__grid">
+          <div className="grid grid-cols-2 xl:grid-cols-1 lg:grid-cols-2 md:grid-cols-1 gap-6 md:gap-4 p-6 md:p-4">
             {listings.map((listing) => (
               <RoomListingCard
                 key={listing.id}
@@ -74,23 +81,23 @@ const ListingsPanel = forwardRef(function ListingsPanel(
                 onClick={() => onListingClick?.(listing)}
                 onFavoriteClick={() => onListingFavorite?.(listing)}
                 className={classNames(
-                  hoveredListingId === listing.id && 'listings-panel__card--hovered'
+                  hoveredListingId === listing.id && '-translate-y-1 shadow-lg'
                 )}
               />
             ))}
           </div>
 
           {totalPages > 1 && (
-            <div className="listings-panel__pagination">
+            <div className="p-6 flex justify-center border-t border-cloud">
               <Pagination currentPage={page} totalPages={totalPages} onPageChange={onPageChange} />
             </div>
           )}
         </>
       ) : (
-        <div className="listings-panel__empty">
-          <div className="listings-panel__empty-icon">🔍</div>
-          <h3 className="listings-panel__empty-title">No rooms found</h3>
-          <p className="listings-panel__empty-text">
+        <div className="py-20 px-10 text-center">
+          <div className="text-[64px] mb-6 opacity-40">🔍</div>
+          <h3 className="font-display text-2xl font-semibold text-charcoal mb-2">No rooms found</h3>
+          <p className="text-base text-slate max-w-[400px] mx-auto">
             Try adjusting your search or filters to find what you're looking for.
           </p>
         </div>

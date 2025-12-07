@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useLandlordLayout } from '../../hooks/useLandlordLayout'
 import { AppShell } from '../../components/layout'
 import { Button } from '../../components/primitives'
-import './MessagesPage.css'
+import { classNames } from '../../utils'
 
 function MessagesPage() {
   const navigate = useNavigate()
@@ -167,20 +167,20 @@ function MessagesPage() {
         rightContent: headerContent,
       }}
     >
-      <div className="messages-page">
-        <div className="messages-container">
+      <div className="h-full flex flex-col">
+        <div className="flex flex-1 overflow-hidden bg-snow rounded-xl">
           {/* Conversation List */}
-          <div className="conversation-list">
-            <div className="conversation-filters">
+          <div className="w-[400px] bg-white border-r border-cloud flex flex-col md:absolute md:w-full md:z-10 md:hidden">
+            <div className="p-5 border-b border-cloud">
               <input
                 type="text"
-                className="search-box"
+                className="w-full py-2.5 px-4 border border-cloud rounded-lg font-body text-sm mb-3"
                 placeholder="Search conversations..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
               <select
-                className="property-filter-select"
+                className="w-full py-2.5 px-4 border border-cloud rounded-lg font-body text-sm bg-white cursor-pointer"
                 value={selectedProperty}
                 onChange={(e) => setSelectedProperty(e.target.value)}
               >
@@ -191,55 +191,78 @@ function MessagesPage() {
               </select>
             </div>
 
-            <div className="conversation-items">
+            <div className="flex-1 overflow-y-auto">
               {conversations.map((conv) => (
                 <div
                   key={conv.id}
-                  className={`conversation-item ${conv.id === activeConversation ? 'active' : ''} ${
-                    conv.isUnread ? 'unread' : ''
-                  }`}
+                  className={classNames(
+                    'py-4 px-5 border-b border-cloud cursor-pointer transition-colors duration-200 flex gap-3 items-start',
+                    conv.id === activeConversation &&
+                      'bg-primary-bg border-l-[3px] border-l-primary',
+                    conv.isUnread && 'bg-warm-bg',
+                    conv.id !== activeConversation && !conv.isUnread && 'hover:bg-snow'
+                  )}
                   onClick={() => setActiveConversation(conv.id)}
                 >
-                  <div className="conversation-avatar">{conv.avatar}</div>
-                  <div className="conversation-info">
-                    <div className="conversation-header">
-                      <span className="conversation-name">{conv.name}</span>
-                      <span className="conversation-time">{conv.time}</span>
-                    </div>
-                    <div className="conversation-preview">{conv.preview}</div>
-                    <div className="conversation-property">{conv.property}</div>
+                  <div className="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center font-semibold shrink-0 text-base">
+                    {conv.avatar}
                   </div>
-                  {conv.unread > 0 && <span className="unread-badge">{conv.unread}</span>}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex justify-between items-center mb-1">
+                      <span className="font-semibold text-midnight text-sm">{conv.name}</span>
+                      <span className="text-xs text-slate">{conv.time}</span>
+                    </div>
+                    <div className="text-sm text-slate whitespace-nowrap overflow-hidden text-ellipsis mb-1">
+                      {conv.preview}
+                    </div>
+                    <div className="text-xs text-slate">{conv.property}</div>
+                  </div>
+                  {conv.unread > 0 && (
+                    <span className="bg-primary text-white text-[11px] py-0.5 px-2 rounded-xl font-semibold min-w-[20px] text-center">
+                      {conv.unread}
+                    </span>
+                  )}
                 </div>
               ))}
             </div>
           </div>
 
           {/* Chat View */}
-          <div className="chat-view">
-            <div className="chat-header">
-              <div className="chat-tenant-name">{activeConv?.name}</div>
-              <div className="chat-property-context">{activeConv?.property}</div>
+          <div className="flex-1 flex flex-col bg-snow">
+            <div className="bg-white py-5 px-6 border-b border-cloud">
+              <div className="font-bold text-lg text-midnight mb-1">{activeConv?.name}</div>
+              <div className="text-sm text-slate">{activeConv?.property}</div>
             </div>
 
-            <div className="chat-messages">
-              <div className="date-divider">Today</div>
+            <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-4">
+              <div className="text-center text-slate text-xs my-4">Today</div>
 
               {messages.map((message) => (
-                <div key={message.id} className={`message-bubble ${message.type}`}>
-                  <div className="message-text">{message.text}</div>
-                  {message.hasImage && message.imageUrl && (
-                    <img src={message.imageUrl} alt="Attachment" className="message-image" />
+                <div
+                  key={message.id}
+                  className={classNames(
+                    'max-w-[70%] py-3 px-4 rounded-2xl relative',
+                    message.type === 'received' && 'bg-white self-start rounded-bl',
+                    message.type === 'sent' && 'bg-primary text-white self-end rounded-br'
                   )}
-                  <div className="message-timestamp">{message.timestamp}</div>
+                >
+                  <div className="mb-1 leading-relaxed">{message.text}</div>
+                  {message.hasImage && message.imageUrl && (
+                    <img
+                      src={message.imageUrl}
+                      alt="Attachment"
+                      className="max-w-full rounded-lg mt-2 block"
+                    />
+                  )}
+                  <div className="text-[11px] opacity-70">{message.timestamp}</div>
                 </div>
               ))}
             </div>
 
-            <div className="chat-input-container">
-              <div className="template-selector">
+            <div className="bg-white py-5 px-6 border-t border-cloud">
+              <div className="mb-3">
                 <select
-                  className="template-dropdown"
+                  className="py-2 px-3 border border-cloud rounded-md font-body text-[13px] bg-snow cursor-pointer"
                   value={selectedTemplate}
                   onChange={handleTemplateSelect}
                 >
@@ -250,16 +273,19 @@ function MessagesPage() {
                   <option>Will get back to you soon</option>
                 </select>
               </div>
-              <div className="chat-input-wrapper">
+              <div className="flex gap-3 items-end">
                 <textarea
-                  className="chat-input"
+                  className="flex-1 py-3 px-4 border border-cloud rounded-3xl font-body text-sm resize-none min-h-[48px] max-h-[120px]"
                   placeholder="Type a message..."
                   rows="1"
                   value={messageInput}
                   onChange={(e) => setMessageInput(e.target.value)}
                   onKeyPress={handleKeyPress}
                 ></textarea>
-                <button className="send-btn" onClick={handleSendMessage}>
+                <button
+                  className="bg-primary text-white border-none py-3 px-6 rounded-3xl font-semibold cursor-pointer transition-colors duration-200 font-body text-sm hover:bg-primary-dark"
+                  onClick={handleSendMessage}
+                >
                   Send
                 </button>
               </div>

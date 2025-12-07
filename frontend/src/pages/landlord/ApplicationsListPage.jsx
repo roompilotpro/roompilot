@@ -4,7 +4,6 @@ import { ROUTES } from '../../router/routes'
 import { useLandlordLayout } from '../../hooks/useLandlordLayout'
 import { AppShell } from '../../components/layout'
 import { Button, Badge } from '../../components/primitives'
-import './ApplicationsListPage.css'
 
 // Mock applications data
 const mockApplicationsData = [
@@ -140,20 +139,20 @@ function ApplicationsListPage() {
       sidebar={{ links: navLinks, user, logoBadge }}
       header={{
         title: (
-          <div className="applications-header-title">
+          <div className="flex items-center gap-3">
             Applications
             <Badge variant="primary">{pendingCount} Pending</Badge>
           </div>
         ),
       }}
     >
-      <div className="applications-content">
+      <div>
         {/* Filter Bar */}
-        <div className="applications-filter-bar">
-          <div className="filter-group">
-            <label className="filter-label">Property</label>
+        <div className="bg-white py-5 px-6 rounded-xl mb-6 flex gap-4 items-center shadow-sm">
+          <div className="flex flex-col gap-1.5">
+            <label className="text-xs font-bold text-slate uppercase tracking-wide">Property</label>
             <select
-              className="filter-select"
+              className="py-2.5 px-3.5 border border-cloud rounded-lg font-body text-sm text-midnight bg-white min-w-[180px] cursor-pointer focus:outline-none focus:border-primary"
               value={propertyFilter}
               onChange={(e) => setPropertyFilter(e.target.value)}
             >
@@ -163,10 +162,10 @@ function ApplicationsListPage() {
               <option value="oak">Oak Street House</option>
             </select>
           </div>
-          <div className="filter-group">
-            <label className="filter-label">Status</label>
+          <div className="flex flex-col gap-1.5">
+            <label className="text-xs font-bold text-slate uppercase tracking-wide">Status</label>
             <select
-              className="filter-select"
+              className="py-2.5 px-3.5 border border-cloud rounded-lg font-body text-sm text-midnight bg-white min-w-[180px] cursor-pointer focus:outline-none focus:border-primary"
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
             >
@@ -176,10 +175,10 @@ function ApplicationsListPage() {
               <option value="declined">Declined</option>
             </select>
           </div>
-          <div className="sort-group">
-            <span className="sort-label">Sort by:</span>
+          <div className="ml-auto flex items-center gap-2">
+            <span className="text-sm font-medium text-slate">Sort by:</span>
             <select
-              className="filter-select"
+              className="py-2.5 px-3.5 border border-cloud rounded-lg font-body text-sm text-midnight bg-white min-w-[180px] cursor-pointer focus:outline-none focus:border-primary"
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
             >
@@ -192,16 +191,17 @@ function ApplicationsListPage() {
 
         {/* Bulk Actions */}
         {selectedApplications.size > 0 && (
-          <div className="bulk-actions">
+          <div className="bg-primary-bg py-4 px-6 rounded-xl mb-4 flex items-center gap-4">
             <input
               type="checkbox"
               checked={selectedApplications.size === mockApplicationsData.length}
               onChange={handleSelectAll}
+              className="w-[18px] h-[18px] cursor-pointer"
             />
-            <span className="bulk-actions-text">
+            <span className="font-medium text-primary-dark">
               {selectedApplications.size} applications selected
             </span>
-            <div className="bulk-actions-buttons">
+            <div className="flex gap-2 ml-auto">
               <Button variant="success" size="sm">
                 Approve Selected
               </Button>
@@ -213,64 +213,102 @@ function ApplicationsListPage() {
         )}
 
         {/* Applications Table */}
-        <div className="applications-table-container">
-          <table className="applications-table">
-            <thead>
+        <div className="bg-white rounded-xl overflow-hidden shadow-sm">
+          <table className="w-full border-collapse">
+            <thead className="bg-snow">
               <tr>
-                <th style={{ width: '40px' }}></th>
-                <th>Applicant</th>
-                <th>Property & Room</th>
-                <th>Applied</th>
-                <th>Move-in Date</th>
-                <th>Background Check</th>
-                <th>Status</th>
-                <th>Actions</th>
+                <th
+                  className="text-left py-4 px-5 text-xs font-bold text-slate uppercase tracking-wide border-b border-cloud"
+                  style={{ width: '40px' }}
+                ></th>
+                <th className="text-left py-4 px-5 text-xs font-bold text-slate uppercase tracking-wide border-b border-cloud">
+                  Applicant
+                </th>
+                <th className="text-left py-4 px-5 text-xs font-bold text-slate uppercase tracking-wide border-b border-cloud">
+                  Property & Room
+                </th>
+                <th className="text-left py-4 px-5 text-xs font-bold text-slate uppercase tracking-wide border-b border-cloud">
+                  Applied
+                </th>
+                <th className="text-left py-4 px-5 text-xs font-bold text-slate uppercase tracking-wide border-b border-cloud">
+                  Move-in Date
+                </th>
+                <th className="text-left py-4 px-5 text-xs font-bold text-slate uppercase tracking-wide border-b border-cloud">
+                  Background Check
+                </th>
+                <th className="text-left py-4 px-5 text-xs font-bold text-slate uppercase tracking-wide border-b border-cloud">
+                  Status
+                </th>
+                <th className="text-left py-4 px-5 text-xs font-bold text-slate uppercase tracking-wide border-b border-cloud">
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody>
               {mockApplicationsData.map((application) => (
-                <tr key={application.id} className="application-row">
-                  <td>
+                <tr key={application.id} className="transition-colors duration-200 hover:bg-snow">
+                  <td className="py-5 px-5 border-b border-cloud last:border-b-0">
                     <input
                       type="checkbox"
                       checked={selectedApplications.has(application.id)}
                       onChange={() => handleSelectOne(application.id)}
                       onClick={(e) => e.stopPropagation()}
+                      className="w-[18px] h-[18px] cursor-pointer"
                     />
                   </td>
-                  <td onClick={() => handleRowClick(application.id)}>
-                    <div className="applicant-cell">
+                  <td
+                    className="py-5 px-5 border-b border-cloud cursor-pointer"
+                    onClick={() => handleRowClick(application.id)}
+                  >
+                    <div className="flex items-center gap-3">
                       <img
                         src={application.applicant.avatar}
                         alt={application.applicant.name}
-                        className="applicant-avatar"
+                        className="w-12 h-12 rounded-full object-cover"
                       />
-                      <div className="applicant-info">
-                        <div className="applicant-name">{application.applicant.name}</div>
-                        <div className="applicant-email">{application.applicant.email}</div>
+                      <div className="flex flex-col gap-0.5">
+                        <div className="font-semibold text-midnight">
+                          {application.applicant.name}
+                        </div>
+                        <div className="text-sm text-slate">{application.applicant.email}</div>
                       </div>
                     </div>
                   </td>
-                  <td onClick={() => handleRowClick(application.id)}>
-                    <div className="property-cell">
-                      <div className="property-name">{application.property}</div>
-                      <div className="property-room">{application.room}</div>
+                  <td
+                    className="py-5 px-5 border-b border-cloud cursor-pointer"
+                    onClick={() => handleRowClick(application.id)}
+                  >
+                    <div className="flex flex-col gap-0.5">
+                      <div className="font-semibold text-midnight">{application.property}</div>
+                      <div className="text-sm text-slate">{application.room}</div>
                     </div>
                   </td>
-                  <td onClick={() => handleRowClick(application.id)}>
-                    <span className="date-text">{application.appliedDate}</span>
+                  <td
+                    className="py-5 px-5 border-b border-cloud cursor-pointer"
+                    onClick={() => handleRowClick(application.id)}
+                  >
+                    <span className="text-sm text-slate">{application.appliedDate}</span>
                   </td>
-                  <td onClick={() => handleRowClick(application.id)}>
-                    <span className="date-text">{application.moveInDate}</span>
+                  <td
+                    className="py-5 px-5 border-b border-cloud cursor-pointer"
+                    onClick={() => handleRowClick(application.id)}
+                  >
+                    <span className="text-sm text-slate">{application.moveInDate}</span>
                   </td>
-                  <td onClick={() => handleRowClick(application.id)}>
+                  <td
+                    className="py-5 px-5 border-b border-cloud cursor-pointer"
+                    onClick={() => handleRowClick(application.id)}
+                  >
                     {getBackgroundCheckBadge(application.backgroundCheck)}
                   </td>
-                  <td onClick={() => handleRowClick(application.id)}>
+                  <td
+                    className="py-5 px-5 border-b border-cloud cursor-pointer"
+                    onClick={() => handleRowClick(application.id)}
+                  >
                     {getStatusBadge(application.status)}
                   </td>
-                  <td>
-                    <div className="action-buttons">
+                  <td className="py-5 px-5 border-b border-cloud">
+                    <div className="flex gap-2">
                       <Button
                         variant="outline"
                         size="sm"

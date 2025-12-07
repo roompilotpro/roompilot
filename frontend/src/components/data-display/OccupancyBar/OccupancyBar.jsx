@@ -1,6 +1,19 @@
 import { forwardRef } from 'react'
 import classNames from '../../../utils/classNames'
-import './OccupancyBar.css'
+
+// Size configurations
+const sizeConfig = {
+  sm: { track: 'h-1', label: 'text-xs' },
+  md: { track: 'h-1.5', label: 'text-sm' },
+  lg: { track: 'h-2', label: 'text-base' },
+}
+
+// Status colors
+const statusColors = {
+  high: 'bg-accent',
+  medium: 'bg-warm',
+  low: 'bg-coral',
+}
 
 /**
  * OccupancyBar - Visual indicator for occupancy/capacity percentage
@@ -33,14 +46,12 @@ const OccupancyBar = forwardRef(function OccupancyBar(
     return 'low'
   }
 
+  const sizes = sizeConfig[size]
+
   return (
-    <div
-      ref={ref}
-      className={classNames('occupancy-bar', `occupancy-bar--${size}`, className)}
-      {...props}
-    >
+    <div ref={ref} className={classNames('flex items-center gap-2', className)} {...props}>
       <div
-        className="occupancy-bar__track"
+        className={classNames('flex-1 bg-cloud rounded-full overflow-hidden', sizes.track)}
         role="progressbar"
         aria-valuenow={percentage}
         aria-valuemin={0}
@@ -48,12 +59,17 @@ const OccupancyBar = forwardRef(function OccupancyBar(
         aria-label={`Occupancy: ${current} of ${total}`}
       >
         <div
-          className={classNames('occupancy-bar__fill', `occupancy-bar__fill--${getStatus()}`)}
+          className={classNames(
+            'h-full rounded-full transition-[width] duration-200',
+            statusColors[getStatus()]
+          )}
           style={{ width: `${clampedPercentage}%` }}
         />
       </div>
       {showLabel && (
-        <span className="occupancy-bar__label">
+        <span
+          className={classNames('shrink-0 font-medium text-slate whitespace-nowrap', sizes.label)}
+        >
           {showPercentage ? `${percentage}%` : `${current}/${total}`}
         </span>
       )}

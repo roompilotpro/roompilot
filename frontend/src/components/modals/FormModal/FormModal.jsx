@@ -2,7 +2,15 @@ import { forwardRef } from 'react'
 import ModalBase from '../ModalBase'
 import { Button } from '../../primitives'
 import classNames from '../../../utils/classNames'
-import './FormModal.css'
+
+// Animation for form content transitions
+const formStyles = `
+  @keyframes fadeInContent {
+    from { opacity: 0; transform: translateX(10px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  .form-content-animate { animation: fadeInContent 0.3s ease; }
+`
 
 /**
  * FormModal - Multi-step form modal with step indicator
@@ -73,42 +81,45 @@ const FormModal = forwardRef(function FormModal(
   )
 
   return (
-    <ModalBase
-      ref={ref}
-      isOpen={isOpen}
-      onClose={onClose}
-      title={title}
-      subtitle={subtitle}
-      footer={footer}
-      size={size}
-      className={classNames('form-modal', className)}
-      {...props}
-    >
-      {hasSteps && (
-        <div
-          className="form-modal__steps"
-          role="progressbar"
-          aria-valuenow={currentStep + 1}
-          aria-valuemin={1}
-          aria-valuemax={steps.length}
-        >
-          {steps.map((step, index) => (
-            <div
-              key={step.id || index}
-              className={classNames(
-                'form-modal__step',
-                index < currentStep && 'form-modal__step--completed',
-                index === currentStep && 'form-modal__step--active'
-              )}
-              aria-label={step.label}
-            />
-          ))}
-        </div>
-      )}
-      <form className="form-modal__content" onSubmit={handleSubmit}>
-        {children}
-      </form>
-    </ModalBase>
+    <>
+      <style>{formStyles}</style>
+      <ModalBase
+        ref={ref}
+        isOpen={isOpen}
+        onClose={onClose}
+        title={title}
+        subtitle={subtitle}
+        footer={footer}
+        size={size}
+        className={className}
+        {...props}
+      >
+        {hasSteps && (
+          <div
+            className="flex gap-2 pb-5 mb-1 sm:pb-4"
+            role="progressbar"
+            aria-valuenow={currentStep + 1}
+            aria-valuemin={1}
+            aria-valuemax={steps.length}
+          >
+            {steps.map((step, index) => (
+              <div
+                key={step.id || index}
+                className={classNames(
+                  'flex-1 h-1 rounded-full bg-cloud transition-colors duration-200',
+                  index < currentStep && 'bg-accent',
+                  index === currentStep && 'bg-primary'
+                )}
+                aria-label={step.label}
+              />
+            ))}
+          </div>
+        )}
+        <form className="form-content-animate space-y-4" onSubmit={handleSubmit}>
+          {children}
+        </form>
+      </ModalBase>
+    </>
   )
 })
 

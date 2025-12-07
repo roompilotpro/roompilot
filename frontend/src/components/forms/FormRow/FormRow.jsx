@@ -1,6 +1,12 @@
 import { forwardRef } from 'react'
 import { classNames } from '../../../utils/classNames'
-import './FormRow.css'
+
+// Gap variant styles
+const gapStyles = {
+  sm: 'gap-3',
+  md: 'gap-4',
+  lg: 'gap-6',
+}
 
 /**
  * FormRow component - side-by-side form inputs
@@ -18,16 +24,25 @@ const FormRow = forwardRef(function FormRow(
 ) {
   const gridColumns = typeof columns === 'number' ? `repeat(${columns}, 1fr)` : columns
 
+  // For responsive, stack on mobile (< 640px) and use columns on larger screens
+  const gridStyle = responsive
+    ? { gridTemplateColumns: '1fr' }
+    : { gridTemplateColumns: gridColumns }
+
   return (
     <div
       ref={ref}
       className={classNames(
-        'form-row',
-        `form-row--gap-${gap}`,
-        responsive && 'form-row--responsive',
+        'grid',
+        gapStyles[gap],
+        // Use sm: breakpoint for the columns when responsive
+        responsive && 'sm:[grid-template-columns:var(--form-row-cols)]',
         className
       )}
-      style={{ '--form-row-columns': gridColumns }}
+      style={{
+        ...gridStyle,
+        '--form-row-cols': gridColumns,
+      }}
       {...props}
     >
       {children}

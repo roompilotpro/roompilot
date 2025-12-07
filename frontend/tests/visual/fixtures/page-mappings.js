@@ -4,6 +4,11 @@
  */
 export const PAGE_MAPPINGS = [
   {
+    name: 'LandlordDashboardPage',
+    htmlDesign: 'landlord-dashboard.html',
+    reactRoute: '/landlord/dashboard',
+  },
+  {
     name: 'TenantsListPage',
     htmlDesign: 'landlord-tenants.html',
     reactRoute: '/landlord/tenants',

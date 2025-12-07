@@ -1,5 +1,26 @@
 import { classNames } from '../../../utils/classNames'
-import './TrendIndicator.css'
+
+// Base styles
+const baseStyles = 'inline-flex items-center gap-1 font-semibold rounded-md px-2 py-1'
+
+// Size variants
+const sizeStyles = {
+  sm: 'text-xs',
+  md: 'text-xs',
+}
+
+// Arrow sizes
+const arrowSizeStyles = {
+  sm: 'w-3 h-3',
+  md: 'w-3.5 h-3.5',
+}
+
+// Trend direction styles
+const trendStyles = {
+  positive: 'text-accent-dark bg-accent-bg',
+  negative: 'text-coral-dark bg-coral-bg',
+  neutral: 'text-text-muted bg-bg-tertiary',
+}
 
 /**
  * TrendIndicator component for showing up/down trends
@@ -17,13 +38,13 @@ function TrendIndicator({ value, trend, size = 'md', className, ...props }) {
 
   return (
     <span
-      className={classNames('trend', `trend--${trendDirection}`, `trend--${size}`, className)}
+      className={classNames(baseStyles, sizeStyles[size], trendStyles[trendDirection], className)}
       aria-label={`${trendDirection === 'positive' ? 'Up' : trendDirection === 'negative' ? 'Down' : 'No change'} ${displayValue}%`}
       {...props}
     >
       {trendDirection !== 'neutral' && (
         <svg
-          className="trend__arrow"
+          className={classNames('shrink-0', arrowSizeStyles[size])}
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -35,7 +56,7 @@ function TrendIndicator({ value, trend, size = 'md', className, ...props }) {
           {trendDirection === 'positive' ? <path d="M18 15l-6-6-6 6" /> : <path d="M6 9l6 6 6-6" />}
         </svg>
       )}
-      <span className="trend__value">{displayValue}%</span>
+      <span>{displayValue}%</span>
     </span>
   )
 }

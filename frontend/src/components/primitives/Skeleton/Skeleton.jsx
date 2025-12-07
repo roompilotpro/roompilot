@@ -1,5 +1,11 @@
 import { classNames } from '../../../utils/classNames'
-import './Skeleton.css'
+
+// Variant styles
+const variantStyles = {
+  text: 'w-full h-[1em] rounded-sm',
+  circle: 'rounded-full',
+  rect: 'w-full rounded-md',
+}
 
 /**
  * Skeleton component for loading placeholders
@@ -21,9 +27,9 @@ function Skeleton({ variant = 'text', width, height, animate = true, className, 
     <div
       aria-hidden="true"
       className={classNames(
-        'skeleton',
-        `skeleton--${variant}`,
-        animate && 'skeleton--animate',
+        'bg-cloud',
+        variantStyles[variant],
+        animate && 'animate-pulse',
         className
       )}
       style={style}

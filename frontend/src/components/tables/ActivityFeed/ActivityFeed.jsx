@@ -1,6 +1,15 @@
 import { forwardRef } from 'react'
 import classNames from '../../../utils/classNames'
-import './ActivityFeed.css'
+
+// Icon type background/color styles
+const iconTypeStyles = {
+  payment: 'bg-accent-bg text-accent',
+  message: 'bg-primary-bg text-primary',
+  application: 'bg-warm-bg text-warm',
+  maintenance: 'bg-snow text-slate',
+  lease: 'bg-primary-bg text-primary',
+  default: 'bg-snow text-slate',
+}
 
 /**
  * ActivityFeed - Activity log with actor/action/target pattern
@@ -16,21 +25,8 @@ const ActivityFeed = forwardRef(function ActivityFeed(
   { activities = [], maxItems, showViewAll = false, onViewAll, emptyState, className, ...props },
   ref
 ) {
-  const getIconClass = (type) => {
-    switch (type?.toLowerCase()) {
-      case 'payment':
-        return 'activity-feed__icon--payment'
-      case 'message':
-        return 'activity-feed__icon--message'
-      case 'application':
-        return 'activity-feed__icon--application'
-      case 'maintenance':
-        return 'activity-feed__icon--maintenance'
-      case 'lease':
-        return 'activity-feed__icon--lease'
-      default:
-        return 'activity-feed__icon--default'
-    }
+  const getIconStyles = (type) => {
+    return iconTypeStyles[type?.toLowerCase()] || iconTypeStyles.default
   }
 
   const getDefaultIcon = (type) => {
@@ -74,12 +70,12 @@ const ActivityFeed = forwardRef(function ActivityFeed(
 
   if (activities.length === 0) {
     return (
-      <div ref={ref} className={classNames('activity-feed', className)} {...props}>
-        <div className="activity-feed__empty">
+      <div ref={ref} className={classNames('flex flex-col', className)} {...props}>
+        <div className="py-12 px-6 text-center">
           {emptyState || (
-            <div className="activity-feed__empty-default">
-              <span className="activity-feed__empty-icon">📋</span>
-              <p className="activity-feed__empty-text">No activity</p>
+            <div className="flex flex-col items-center gap-3">
+              <span className="text-4xl opacity-50">📋</span>
+              <p className="text-sm text-slate m-0">No activity</p>
             </div>
           )}
         </div>
@@ -90,34 +86,49 @@ const ActivityFeed = forwardRef(function ActivityFeed(
   return (
     <div
       ref={ref}
-      className={classNames('activity-feed', className)}
+      className={classNames('flex flex-col', className)}
       role="list"
       aria-label="Activity feed"
       {...props}
     >
       {displayActivities.map((activity, index) => (
-        <div key={activity.id ?? index} className="activity-feed__item" role="listitem">
-          <div className={classNames('activity-feed__icon', getIconClass(activity.type))}>
+        <div
+          key={activity.id ?? index}
+          className="flex gap-3 p-4 border-b border-cloud last:border-b-0"
+          role="listitem"
+        >
+          <div
+            className={classNames(
+              'shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-base',
+              getIconStyles(activity.type)
+            )}
+          >
             {activity.icon || getDefaultIcon(activity.type)}
           </div>
-          <div className="activity-feed__content">
-            <p className="activity-feed__text">
-              <span className="activity-feed__actor">{activity.actor}</span>{' '}
-              <span className="activity-feed__action">{activity.action}</span>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm leading-relaxed text-slate m-0">
+              <span className="font-semibold text-charcoal">{activity.actor}</span>{' '}
+              <span>{activity.action}</span>
               {activity.target && (
                 <>
                   {' '}
-                  <span className="activity-feed__target">{activity.target}</span>
+                  <span className="font-medium text-primary">{activity.target}</span>
                 </>
               )}
             </p>
-            <span className="activity-feed__time">{formatTimestamp(activity.timestamp)}</span>
+            <span className="block text-xs text-slate mt-1">
+              {formatTimestamp(activity.timestamp)}
+            </span>
           </div>
         </div>
       ))}
 
       {showViewAll && maxItems && activities.length > maxItems && (
-        <button type="button" className="activity-feed__view-all" onClick={onViewAll}>
+        <button
+          type="button"
+          className="w-full p-4 bg-transparent border-0 border-t border-cloud text-primary text-sm font-medium text-center cursor-pointer transition-colors hover:bg-snow focus:outline-none focus:bg-primary-bg"
+          onClick={onViewAll}
+        >
           View all activity
         </button>
       )}

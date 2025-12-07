@@ -1,7 +1,6 @@
 import { forwardRef } from 'react'
 import { classNames } from '../../../utils/classNames'
 import { Badge, Button } from '../../primitives'
-import './PaymentCard.css'
 
 const typeLabels = {
   visa: 'Visa',
@@ -42,24 +41,30 @@ const PaymentCard = forwardRef(function PaymentCard(
   return (
     <div
       ref={ref}
-      className={classNames('payment-card', disabled && 'payment-card--disabled', className)}
+      className={classNames(
+        'flex items-center gap-4 p-4 bg-white border border-cloud rounded-lg sm:flex-wrap',
+        disabled && 'opacity-50 pointer-events-none',
+        className
+      )}
       {...props}
     >
-      <div className="payment-card__icon">{typeIcons[type] || typeIcons.visa}</div>
+      <div className="flex items-center justify-center w-12 h-8 bg-cloud rounded-sm text-lg">
+        {typeIcons[type] || typeIcons.visa}
+      </div>
 
-      <div className="payment-card__info">
-        <span className="payment-card__type">{typeLabels[type] || type}</span>
-        <span className="payment-card__number">{numberDisplay}</span>
-        {expiryDate && <span className="payment-card__expiry">Expires {expiryDate}</span>}
+      <div className="flex-1 flex flex-col gap-0.5 min-w-0 sm:basis-[calc(100%-64px)]">
+        <span className="text-sm font-semibold text-charcoal">{typeLabels[type] || type}</span>
+        <span className="text-sm text-slate font-mono">{numberDisplay}</span>
+        {expiryDate && <span className="text-xs text-slate">Expires {expiryDate}</span>}
       </div>
 
       {isDefault && (
-        <Badge color="primary" size="sm" className="payment-card__default">
+        <Badge color="primary" size="sm" className="shrink-0">
           Default
         </Badge>
       )}
 
-      <div className="payment-card__actions">
+      <div className="flex gap-2 shrink-0">
         {onEdit && (
           <Button variant="ghost" size="sm" onClick={onEdit} disabled={disabled}>
             Edit

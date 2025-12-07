@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useLandlordLayout } from '../../hooks/useLandlordLayout'
 import { AppShell } from '../../components/layout'
 import { Button } from '../../components/primitives'
-import './SettingsPage.css'
+import { classNames } from '../../utils'
 
 function SettingsPage() {
   const { navLinks, user, logoBadge } = useLandlordLayout()
@@ -42,35 +42,37 @@ function SettingsPage() {
         subtitle: 'Manage your account preferences',
       }}
     >
-      <div className="settings-page">
+      <div className="max-w-[1000px]">
         {/* Account Info */}
-        <div className="settings-card">
-          <h2 className="settings-card-title">Account Information</h2>
+        <div className="bg-white rounded-xl p-8 mb-6">
+          <h2 className="font-display text-2xl font-bold text-midnight mb-6">
+            Account Information
+          </h2>
 
-          <div className="settings-item">
-            <div className="settings-item-info">
-              <h4>Email Address</h4>
-              <p>john.doe@example.com</p>
+          <div className="flex justify-between items-center py-5 border-b border-cloud last:border-b-0">
+            <div>
+              <h4 className="font-semibold text-midnight mb-1">Email Address</h4>
+              <p className="text-sm text-slate">john.doe@example.com</p>
             </div>
             <Button variant="secondary" onClick={() => setShowEmailModal(true)}>
               Change Email
             </Button>
           </div>
 
-          <div className="settings-item">
-            <div className="settings-item-info">
-              <h4>Password</h4>
-              <p>Last changed 3 months ago</p>
+          <div className="flex justify-between items-center py-5 border-b border-cloud last:border-b-0">
+            <div>
+              <h4 className="font-semibold text-midnight mb-1">Password</h4>
+              <p className="text-sm text-slate">Last changed 3 months ago</p>
             </div>
             <Button variant="secondary" onClick={() => setShowPasswordModal(true)}>
               Change Password
             </Button>
           </div>
 
-          <div className="settings-item">
-            <div className="settings-item-info">
-              <h4>Phone Number</h4>
-              <p>+1 (555) 123-4567</p>
+          <div className="flex justify-between items-center py-5 border-b-0">
+            <div>
+              <h4 className="font-semibold text-midnight mb-1">Phone Number</h4>
+              <p className="text-sm text-slate">+1 (555) 123-4567</p>
             </div>
             <Button variant="secondary" onClick={() => setShowPhoneModal(true)}>
               Update
@@ -79,12 +81,14 @@ function SettingsPage() {
         </div>
 
         {/* Notification Preferences */}
-        <div className="settings-card">
-          <h2 className="settings-card-title">Notification Preferences</h2>
+        <div className="bg-white rounded-xl p-8 mb-6">
+          <h2 className="font-display text-2xl font-bold text-midnight mb-6">
+            Notification Preferences
+          </h2>
 
-          <div className="settings-notification-grid">
-            <div className="settings-notification-category">
-              <div className="settings-category-title">
+          <div className="grid gap-5">
+            <div className="p-5 bg-snow rounded-lg">
+              <div className="font-bold text-midnight mb-4 flex items-center gap-2">
                 <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     strokeLinecap="round"
@@ -95,24 +99,39 @@ function SettingsPage() {
                 </svg>
                 Applications
               </div>
-              <div className="settings-notification-options">
-                <div className="settings-notification-option">
-                  <span className="settings-notification-label">New applications</span>
-                  <div className="settings-toggle-group">
+              <div className="grid gap-3">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-slate">New applications</span>
+                  <div className="flex gap-2">
                     <span
-                      className={`settings-toggle-pill ${notificationSettings.applications.email ? 'settings-toggle-pill--active' : ''}`}
+                      className={classNames(
+                        'py-1.5 px-3 border rounded-md text-xs cursor-pointer transition-all duration-200',
+                        notificationSettings.applications.email
+                          ? 'bg-primary text-white border-primary'
+                          : 'bg-white text-slate border-cloud'
+                      )}
                       onClick={() => toggleNotification('applications', 'email')}
                     >
                       Email
                     </span>
                     <span
-                      className={`settings-toggle-pill ${notificationSettings.applications.sms ? 'settings-toggle-pill--active' : ''}`}
+                      className={classNames(
+                        'py-1.5 px-3 border rounded-md text-xs cursor-pointer transition-all duration-200',
+                        notificationSettings.applications.sms
+                          ? 'bg-primary text-white border-primary'
+                          : 'bg-white text-slate border-cloud'
+                      )}
                       onClick={() => toggleNotification('applications', 'sms')}
                     >
                       SMS
                     </span>
                     <span
-                      className={`settings-toggle-pill ${notificationSettings.applications.push ? 'settings-toggle-pill--active' : ''}`}
+                      className={classNames(
+                        'py-1.5 px-3 border rounded-md text-xs cursor-pointer transition-all duration-200',
+                        notificationSettings.applications.push
+                          ? 'bg-primary text-white border-primary'
+                          : 'bg-white text-slate border-cloud'
+                      )}
                       onClick={() => toggleNotification('applications', 'push')}
                     >
                       Push
@@ -122,8 +141,8 @@ function SettingsPage() {
               </div>
             </div>
 
-            <div className="settings-notification-category">
-              <div className="settings-category-title">
+            <div className="p-5 bg-snow rounded-lg">
+              <div className="font-bold text-midnight mb-4 flex items-center gap-2">
                 <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     strokeLinecap="round"
@@ -134,47 +153,77 @@ function SettingsPage() {
                 </svg>
                 Payments
               </div>
-              <div className="settings-notification-options">
-                <div className="settings-notification-option">
-                  <span className="settings-notification-label">Payments received</span>
-                  <div className="settings-toggle-group">
+              <div className="grid gap-3">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-slate">Payments received</span>
+                  <div className="flex gap-2">
                     <span
-                      className={`settings-toggle-pill ${notificationSettings.paymentsReceived.email ? 'settings-toggle-pill--active' : ''}`}
+                      className={classNames(
+                        'py-1.5 px-3 border rounded-md text-xs cursor-pointer transition-all duration-200',
+                        notificationSettings.paymentsReceived.email
+                          ? 'bg-primary text-white border-primary'
+                          : 'bg-white text-slate border-cloud'
+                      )}
                       onClick={() => toggleNotification('paymentsReceived', 'email')}
                     >
                       Email
                     </span>
                     <span
-                      className={`settings-toggle-pill ${notificationSettings.paymentsReceived.sms ? 'settings-toggle-pill--active' : ''}`}
+                      className={classNames(
+                        'py-1.5 px-3 border rounded-md text-xs cursor-pointer transition-all duration-200',
+                        notificationSettings.paymentsReceived.sms
+                          ? 'bg-primary text-white border-primary'
+                          : 'bg-white text-slate border-cloud'
+                      )}
                       onClick={() => toggleNotification('paymentsReceived', 'sms')}
                     >
                       SMS
                     </span>
                     <span
-                      className={`settings-toggle-pill ${notificationSettings.paymentsReceived.push ? 'settings-toggle-pill--active' : ''}`}
+                      className={classNames(
+                        'py-1.5 px-3 border rounded-md text-xs cursor-pointer transition-all duration-200',
+                        notificationSettings.paymentsReceived.push
+                          ? 'bg-primary text-white border-primary'
+                          : 'bg-white text-slate border-cloud'
+                      )}
                       onClick={() => toggleNotification('paymentsReceived', 'push')}
                     >
                       Push
                     </span>
                   </div>
                 </div>
-                <div className="settings-notification-option">
-                  <span className="settings-notification-label">Late payment alerts</span>
-                  <div className="settings-toggle-group">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-slate">Late payment alerts</span>
+                  <div className="flex gap-2">
                     <span
-                      className={`settings-toggle-pill ${notificationSettings.latePayments.email ? 'settings-toggle-pill--active' : ''}`}
+                      className={classNames(
+                        'py-1.5 px-3 border rounded-md text-xs cursor-pointer transition-all duration-200',
+                        notificationSettings.latePayments.email
+                          ? 'bg-primary text-white border-primary'
+                          : 'bg-white text-slate border-cloud'
+                      )}
                       onClick={() => toggleNotification('latePayments', 'email')}
                     >
                       Email
                     </span>
                     <span
-                      className={`settings-toggle-pill ${notificationSettings.latePayments.sms ? 'settings-toggle-pill--active' : ''}`}
+                      className={classNames(
+                        'py-1.5 px-3 border rounded-md text-xs cursor-pointer transition-all duration-200',
+                        notificationSettings.latePayments.sms
+                          ? 'bg-primary text-white border-primary'
+                          : 'bg-white text-slate border-cloud'
+                      )}
                       onClick={() => toggleNotification('latePayments', 'sms')}
                     >
                       SMS
                     </span>
                     <span
-                      className={`settings-toggle-pill ${notificationSettings.latePayments.push ? 'settings-toggle-pill--active' : ''}`}
+                      className={classNames(
+                        'py-1.5 px-3 border rounded-md text-xs cursor-pointer transition-all duration-200',
+                        notificationSettings.latePayments.push
+                          ? 'bg-primary text-white border-primary'
+                          : 'bg-white text-slate border-cloud'
+                      )}
                       onClick={() => toggleNotification('latePayments', 'push')}
                     >
                       Push
@@ -184,8 +233,8 @@ function SettingsPage() {
               </div>
             </div>
 
-            <div className="settings-notification-category">
-              <div className="settings-category-title">
+            <div className="p-5 bg-snow rounded-lg">
+              <div className="font-bold text-midnight mb-4 flex items-center gap-2">
                 <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     strokeLinecap="round"
@@ -196,24 +245,39 @@ function SettingsPage() {
                 </svg>
                 Messages
               </div>
-              <div className="settings-notification-options">
-                <div className="settings-notification-option">
-                  <span className="settings-notification-label">New messages</span>
-                  <div className="settings-toggle-group">
+              <div className="grid gap-3">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-slate">New messages</span>
+                  <div className="flex gap-2">
                     <span
-                      className={`settings-toggle-pill ${notificationSettings.messages.email ? 'settings-toggle-pill--active' : ''}`}
+                      className={classNames(
+                        'py-1.5 px-3 border rounded-md text-xs cursor-pointer transition-all duration-200',
+                        notificationSettings.messages.email
+                          ? 'bg-primary text-white border-primary'
+                          : 'bg-white text-slate border-cloud'
+                      )}
                       onClick={() => toggleNotification('messages', 'email')}
                     >
                       Email
                     </span>
                     <span
-                      className={`settings-toggle-pill ${notificationSettings.messages.sms ? 'settings-toggle-pill--active' : ''}`}
+                      className={classNames(
+                        'py-1.5 px-3 border rounded-md text-xs cursor-pointer transition-all duration-200',
+                        notificationSettings.messages.sms
+                          ? 'bg-primary text-white border-primary'
+                          : 'bg-white text-slate border-cloud'
+                      )}
                       onClick={() => toggleNotification('messages', 'sms')}
                     >
                       SMS
                     </span>
                     <span
-                      className={`settings-toggle-pill ${notificationSettings.messages.push ? 'settings-toggle-pill--active' : ''}`}
+                      className={classNames(
+                        'py-1.5 px-3 border rounded-md text-xs cursor-pointer transition-all duration-200',
+                        notificationSettings.messages.push
+                          ? 'bg-primary text-white border-primary'
+                          : 'bg-white text-slate border-cloud'
+                      )}
                       onClick={() => toggleNotification('messages', 'push')}
                     >
                       Push
@@ -223,8 +287,8 @@ function SettingsPage() {
               </div>
             </div>
 
-            <div className="settings-notification-category">
-              <div className="settings-category-title">
+            <div className="p-5 bg-snow rounded-lg">
+              <div className="font-bold text-midnight mb-4 flex items-center gap-2">
                 <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     strokeLinecap="round"
@@ -241,24 +305,39 @@ function SettingsPage() {
                 </svg>
                 Maintenance Requests
               </div>
-              <div className="settings-notification-options">
-                <div className="settings-notification-option">
-                  <span className="settings-notification-label">New requests</span>
-                  <div className="settings-toggle-group">
+              <div className="grid gap-3">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-slate">New requests</span>
+                  <div className="flex gap-2">
                     <span
-                      className={`settings-toggle-pill ${notificationSettings.maintenance.email ? 'settings-toggle-pill--active' : ''}`}
+                      className={classNames(
+                        'py-1.5 px-3 border rounded-md text-xs cursor-pointer transition-all duration-200',
+                        notificationSettings.maintenance.email
+                          ? 'bg-primary text-white border-primary'
+                          : 'bg-white text-slate border-cloud'
+                      )}
                       onClick={() => toggleNotification('maintenance', 'email')}
                     >
                       Email
                     </span>
                     <span
-                      className={`settings-toggle-pill ${notificationSettings.maintenance.sms ? 'settings-toggle-pill--active' : ''}`}
+                      className={classNames(
+                        'py-1.5 px-3 border rounded-md text-xs cursor-pointer transition-all duration-200',
+                        notificationSettings.maintenance.sms
+                          ? 'bg-primary text-white border-primary'
+                          : 'bg-white text-slate border-cloud'
+                      )}
                       onClick={() => toggleNotification('maintenance', 'sms')}
                     >
                       SMS
                     </span>
                     <span
-                      className={`settings-toggle-pill ${notificationSettings.maintenance.push ? 'settings-toggle-pill--active' : ''}`}
+                      className={classNames(
+                        'py-1.5 px-3 border rounded-md text-xs cursor-pointer transition-all duration-200',
+                        notificationSettings.maintenance.push
+                          ? 'bg-primary text-white border-primary'
+                          : 'bg-white text-slate border-cloud'
+                      )}
                       onClick={() => toggleNotification('maintenance', 'push')}
                     >
                       Push
@@ -271,35 +350,43 @@ function SettingsPage() {
         </div>
 
         {/* Security */}
-        <div className="settings-card">
-          <h2 className="settings-card-title">Security</h2>
+        <div className="bg-white rounded-xl p-8 mb-6">
+          <h2 className="font-display text-2xl font-bold text-midnight mb-6">Security</h2>
 
-          <div className="settings-item">
-            <div className="settings-item-info">
-              <h4>Two-Factor Authentication</h4>
-              <p>Add an extra layer of security to your account</p>
+          <div className="flex justify-between items-center py-5 border-b border-cloud">
+            <div>
+              <h4 className="font-semibold text-midnight mb-1">Two-Factor Authentication</h4>
+              <p className="text-sm text-slate">Add an extra layer of security to your account</p>
             </div>
-            <div className="settings-item-action">
+            <div className="flex items-center gap-4">
               <div
-                className={`settings-toggle-switch ${show2FA ? 'settings-toggle-switch--active' : ''}`}
+                className={classNames(
+                  'relative w-[52px] h-7 rounded-full cursor-pointer transition-colors duration-300',
+                  show2FA ? 'bg-accent' : 'bg-cloud'
+                )}
                 onClick={() => setShow2FA(!show2FA)}
               >
-                <div className="settings-toggle-slider" />
+                <div
+                  className={classNames(
+                    'absolute top-0.5 left-0.5 w-6 h-6 bg-white rounded-full transition-transform duration-300',
+                    show2FA && 'translate-x-6'
+                  )}
+                />
               </div>
             </div>
           </div>
 
-          <div className="settings-item">
-            <div className="settings-item-info">
-              <h4>Active Sessions</h4>
-              <p>Manage devices where you're logged in</p>
+          <div className="flex justify-between items-center py-5 border-b border-cloud">
+            <div>
+              <h4 className="font-semibold text-midnight mb-1">Active Sessions</h4>
+              <p className="text-sm text-slate">Manage devices where you're logged in</p>
             </div>
           </div>
 
-          <div className="settings-session-list">
-            <div className="settings-session-item">
-              <div className="settings-session-info">
-                <div className="settings-session-icon">
+          <div className="flex flex-col gap-3 mt-4">
+            <div className="flex justify-between items-center p-4 bg-snow rounded-lg">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-primary-bg rounded-lg flex items-center justify-center text-primary">
                   <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
                       strokeLinecap="round"
@@ -309,17 +396,19 @@ function SettingsPage() {
                     />
                   </svg>
                 </div>
-                <div className="settings-session-details">
-                  <h4>Windows - Chrome</h4>
-                  <p>Seattle, WA - Last active now</p>
+                <div>
+                  <h4 className="font-semibold text-midnight mb-1">Windows - Chrome</h4>
+                  <p className="text-[13px] text-slate">Seattle, WA - Last active now</p>
                 </div>
               </div>
-              <span className="settings-current-badge">Current Session</span>
+              <span className="bg-accent-bg text-accent py-1 px-2.5 rounded text-xs font-semibold mr-3">
+                Current Session
+              </span>
             </div>
 
-            <div className="settings-session-item">
-              <div className="settings-session-info">
-                <div className="settings-session-icon">
+            <div className="flex justify-between items-center p-4 bg-snow rounded-lg">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-primary-bg rounded-lg flex items-center justify-center text-primary">
                   <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
                       strokeLinecap="round"
@@ -329,9 +418,9 @@ function SettingsPage() {
                     />
                   </svg>
                 </div>
-                <div className="settings-session-details">
-                  <h4>iPhone 12 - Safari</h4>
-                  <p>Seattle, WA - Last active 2 hours ago</p>
+                <div>
+                  <h4 className="font-semibold text-midnight mb-1">iPhone 12 - Safari</h4>
+                  <p className="text-[13px] text-slate">Seattle, WA - Last active 2 hours ago</p>
                 </div>
               </div>
               <Button variant="secondary">Log Out</Button>
@@ -340,46 +429,44 @@ function SettingsPage() {
         </div>
 
         {/* Plan & Billing */}
-        <div className="settings-card">
-          <h2 className="settings-card-title">Plan & Billing</h2>
+        <div className="bg-white rounded-xl p-8 mb-6">
+          <h2 className="font-display text-2xl font-bold text-midnight mb-6">Plan & Billing</h2>
 
-          <div className="settings-plan-card">
-            <div className="settings-plan-header">
-              <span className="settings-plan-name">Professional Plan</span>
-              <div className="settings-plan-price">
-                $49<span>/month</span>
+          <div className="p-6 bg-snow border-2 border-primary rounded-xl mb-4">
+            <div className="flex justify-between items-center mb-4">
+              <span className="font-bold text-xl text-midnight">Professional Plan</span>
+              <div className="text-[28px] font-bold text-primary">
+                $49<span className="text-base text-slate">/month</span>
               </div>
             </div>
-            <p style={{ color: 'var(--color-mist)', marginBottom: '16px' }}>
-              For landlords with multiple properties
-            </p>
-            <div style={{ display: 'flex', gap: '12px' }}>
+            <p className="text-slate mb-4">For landlords with multiple properties</p>
+            <div className="flex gap-3">
               <Button variant="primary">Upgrade Plan</Button>
               <Button variant="secondary">Manage Subscription</Button>
             </div>
           </div>
 
-          <div className="settings-usage-stats">
-            <div className="settings-usage-stat">
-              <div className="settings-usage-value">3 / 10</div>
-              <div className="settings-usage-label">Properties</div>
+          <div className="grid grid-cols-3 gap-4 mt-4">
+            <div className="text-center">
+              <div className="text-2xl font-bold text-primary">3 / 10</div>
+              <div className="text-[13px] text-slate mt-1">Properties</div>
             </div>
-            <div className="settings-usage-stat">
-              <div className="settings-usage-value">18 / 50</div>
-              <div className="settings-usage-label">Total Rooms</div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-primary">18 / 50</div>
+              <div className="text-[13px] text-slate mt-1">Total Rooms</div>
             </div>
-            <div className="settings-usage-stat">
-              <div className="settings-usage-value">156 / ∞</div>
-              <div className="settings-usage-label">Messages/Month</div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-primary">156 / ∞</div>
+              <div className="text-[13px] text-slate mt-1">Messages/Month</div>
             </div>
           </div>
         </div>
 
         {/* Danger Zone */}
-        <div className="settings-card">
-          <div className="settings-danger-zone">
-            <h3>Close Account</h3>
-            <p>
+        <div className="bg-white rounded-xl p-8 mb-6">
+          <div className="bg-coral-bg border-2 border-coral rounded-xl p-6">
+            <h3 className="text-coral mb-2">Close Account</h3>
+            <p className="text-slate mb-4">
               Permanently delete your RoomPilot account and all associated data. This action cannot
               be undone.
             </p>
@@ -392,18 +479,28 @@ function SettingsPage() {
 
       {/* Modals */}
       {showEmailModal && (
-        <div className="settings-modal" onClick={() => setShowEmailModal(false)}>
-          <div className="settings-modal-content" onClick={(e) => e.stopPropagation()}>
-            <h2 className="settings-modal-title">Change Email</h2>
-            <div className="settings-modal-body">
-              <input type="email" className="settings-form-input" placeholder="New email address" />
+        <div
+          className="fixed inset-0 bg-black/50 flex items-center justify-center z-[1000]"
+          onClick={() => setShowEmailModal(false)}
+        >
+          <div
+            className="bg-white rounded-xl p-8 max-w-[500px] w-[90%]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 className="font-display text-2xl font-bold text-midnight mb-4">Change Email</h2>
+            <div className="text-slate mb-6">
+              <input
+                type="email"
+                className="w-full py-3 px-4 border border-cloud rounded-lg font-body text-sm mb-3 focus:outline-none focus:border-primary"
+                placeholder="New email address"
+              />
               <input
                 type="password"
-                className="settings-form-input"
+                className="w-full py-3 px-4 border border-cloud rounded-lg font-body text-sm mb-3 focus:outline-none focus:border-primary"
                 placeholder="Confirm password"
               />
             </div>
-            <div className="settings-modal-actions">
+            <div className="flex gap-3 justify-end">
               <Button variant="secondary" onClick={() => setShowEmailModal(false)}>
                 Cancel
               </Button>
@@ -414,23 +511,33 @@ function SettingsPage() {
       )}
 
       {showPasswordModal && (
-        <div className="settings-modal" onClick={() => setShowPasswordModal(false)}>
-          <div className="settings-modal-content" onClick={(e) => e.stopPropagation()}>
-            <h2 className="settings-modal-title">Change Password</h2>
-            <div className="settings-modal-body">
+        <div
+          className="fixed inset-0 bg-black/50 flex items-center justify-center z-[1000]"
+          onClick={() => setShowPasswordModal(false)}
+        >
+          <div
+            className="bg-white rounded-xl p-8 max-w-[500px] w-[90%]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 className="font-display text-2xl font-bold text-midnight mb-4">Change Password</h2>
+            <div className="text-slate mb-6">
               <input
                 type="password"
-                className="settings-form-input"
+                className="w-full py-3 px-4 border border-cloud rounded-lg font-body text-sm mb-3 focus:outline-none focus:border-primary"
                 placeholder="Current password"
               />
-              <input type="password" className="settings-form-input" placeholder="New password" />
               <input
                 type="password"
-                className="settings-form-input"
+                className="w-full py-3 px-4 border border-cloud rounded-lg font-body text-sm mb-3 focus:outline-none focus:border-primary"
+                placeholder="New password"
+              />
+              <input
+                type="password"
+                className="w-full py-3 px-4 border border-cloud rounded-lg font-body text-sm mb-3 focus:outline-none focus:border-primary"
                 placeholder="Confirm new password"
               />
             </div>
-            <div className="settings-modal-actions">
+            <div className="flex gap-3 justify-end">
               <Button variant="secondary" onClick={() => setShowPasswordModal(false)}>
                 Cancel
               </Button>
@@ -441,16 +548,28 @@ function SettingsPage() {
       )}
 
       {showPhoneModal && (
-        <div className="settings-modal" onClick={() => setShowPhoneModal(false)}>
-          <div className="settings-modal-content" onClick={(e) => e.stopPropagation()}>
-            <h2 className="settings-modal-title">Update Phone Number</h2>
-            <div className="settings-modal-body">
-              <input type="tel" className="settings-form-input" placeholder="New phone number" />
-              <p style={{ fontSize: '13px', color: 'var(--color-mist)' }}>
+        <div
+          className="fixed inset-0 bg-black/50 flex items-center justify-center z-[1000]"
+          onClick={() => setShowPhoneModal(false)}
+        >
+          <div
+            className="bg-white rounded-xl p-8 max-w-[500px] w-[90%]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 className="font-display text-2xl font-bold text-midnight mb-4">
+              Update Phone Number
+            </h2>
+            <div className="text-slate mb-6">
+              <input
+                type="tel"
+                className="w-full py-3 px-4 border border-cloud rounded-lg font-body text-sm mb-3 focus:outline-none focus:border-primary"
+                placeholder="New phone number"
+              />
+              <p className="text-[13px] text-slate">
                 We'll send a verification code to this number
               </p>
             </div>
-            <div className="settings-modal-actions">
+            <div className="flex gap-3 justify-end">
               <Button variant="secondary" onClick={() => setShowPhoneModal(false)}>
                 Cancel
               </Button>
@@ -461,23 +580,29 @@ function SettingsPage() {
       )}
 
       {showCloseAccountModal && (
-        <div className="settings-modal" onClick={() => setShowCloseAccountModal(false)}>
-          <div className="settings-modal-content" onClick={(e) => e.stopPropagation()}>
-            <h2 className="settings-modal-title">Close Account</h2>
-            <div className="settings-modal-body">
-              <p style={{ marginBottom: '16px', color: 'var(--color-coral)', fontWeight: 600 }}>
+        <div
+          className="fixed inset-0 bg-black/50 flex items-center justify-center z-[1000]"
+          onClick={() => setShowCloseAccountModal(false)}
+        >
+          <div
+            className="bg-white rounded-xl p-8 max-w-[500px] w-[90%]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 className="font-display text-2xl font-bold text-midnight mb-4">Close Account</h2>
+            <div className="text-slate mb-6">
+              <p className="mb-4 text-coral font-semibold">
                 Warning: This action is permanent and cannot be undone.
               </p>
-              <p style={{ marginBottom: '16px' }}>
+              <p className="mb-4">
                 All your properties, listings, messages, and data will be permanently deleted.
               </p>
               <input
                 type="password"
-                className="settings-form-input"
+                className="w-full py-3 px-4 border border-cloud rounded-lg font-body text-sm mb-3 focus:outline-none focus:border-primary"
                 placeholder="Enter your password to confirm"
               />
             </div>
-            <div className="settings-modal-actions">
+            <div className="flex gap-3 justify-end">
               <Button variant="secondary" onClick={() => setShowCloseAccountModal(false)}>
                 Cancel
               </Button>

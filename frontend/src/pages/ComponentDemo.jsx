@@ -1,7 +1,5 @@
 import { useState } from 'react'
-import '../styles/tokens.css'
-import '../styles/base.css'
-import './ComponentDemo.css'
+import { classNames } from '../utils/classNames'
 
 // Primitives
 import {
@@ -63,18 +61,33 @@ import {
 
 function Section({ title, children }) {
   return (
-    <section className="demo-section">
-      <h2 className="demo-section__title">{title}</h2>
-      <div className="demo-section__content">{children}</div>
+    <section className="bg-white rounded-lg p-6 mb-6 shadow-sm">
+      <h2 className="text-xl font-semibold text-charcoal mb-4 pb-3 border-b border-cloud">{title}</h2>
+      <div className="flex flex-col gap-4">{children}</div>
     </section>
   )
 }
 
 function Demo({ label, children, fullWidth = false }) {
   return (
-    <div className={`demo-item${fullWidth ? ' demo-item--full-width' : ''}`}>
-      <span className="demo-item__label">{label}</span>
-      <div className="demo-item__content">{children}</div>
+    <div className={classNames(
+      'flex items-start gap-4 p-3 bg-snow rounded-md',
+      fullWidth && 'flex-col'
+    )}>
+      <span className={classNames(
+        'shrink-0 text-sm font-medium text-slate pt-2',
+        fullWidth ? 'w-full pb-2' : 'w-[140px]'
+      )}>{label}</span>
+      <div className={classNames(
+        'flex flex-wrap items-center gap-3 flex-1',
+        fullWidth && 'w-full block',
+        '[&_.input-wrapper]:w-[280px] [&_.select-wrapper]:w-[280px] [&_.textarea-wrapper]:w-[280px]',
+        '[&_.date-picker]:w-[280px] [&_.file-upload-wrapper]:w-[280px] [&_.tag-input]:w-[280px]',
+        '[&_.range-slider]:w-[280px] [&_.form-row]:w-full [&_.form-row]:max-w-[600px]',
+        '[&_.radio-group]:w-full [&_.radio-group]:max-w-[400px]',
+        'md:[&_.input-wrapper]:w-full md:[&_.select-wrapper]:w-full md:[&_.textarea-wrapper]:w-full',
+        'md:[&_.date-picker]:w-full md:[&_.file-upload-wrapper]:w-full md:[&_.tag-input]:w-full md:[&_.range-slider]:w-full'
+      )}>{children}</div>
     </div>
   )
 }
@@ -169,10 +182,10 @@ export default function ComponentDemo() {
   ]
 
   return (
-    <div className="component-demo">
-      <header className="demo-header">
-        <h1>RoomPilot Component Library</h1>
-        <p>Visual demo of all implemented components</p>
+    <div className="p-8 max-w-[1400px] mx-auto bg-snow min-h-screen md:p-4">
+      <header className="text-center mb-8 p-6 bg-white rounded-lg shadow-sm">
+        <h1 className="text-3xl font-bold text-charcoal mb-2">RoomPilot Component Library</h1>
+        <p className="text-slate text-base">Visual demo of all implemented components</p>
       </header>
 
       {/* PRIMITIVES */}
@@ -309,7 +322,7 @@ export default function ComponentDemo() {
 
       <Section title="Skeleton">
         <Demo label="Variants">
-          <div style={{ width: 200 }}>
+          <div className="w-[200px]">
             <Skeleton variant="text" />
             <Skeleton variant="text" width="60%" />
           </div>
@@ -329,7 +342,7 @@ export default function ComponentDemo() {
 
       <Section title="Progress Bar">
         <Demo label="Values">
-          <div style={{ width: 200 }}>
+          <div className="w-[200px]">
             <ProgressBar value={25} />
             <ProgressBar value={50} />
             <ProgressBar value={75} />
@@ -337,7 +350,7 @@ export default function ComponentDemo() {
           </div>
         </Demo>
         <Demo label="Colors">
-          <div style={{ width: 200 }}>
+          <div className="w-[200px]">
             <ProgressBar value={60} color="primary" />
             <ProgressBar value={60} color="success" />
             <ProgressBar value={60} color="warning" />
@@ -345,7 +358,7 @@ export default function ComponentDemo() {
           </div>
         </Demo>
         <Demo label="With Label">
-          <div style={{ width: 200 }}>
+          <div className="w-[200px]">
             <ProgressBar value={75} showLabel />
           </div>
         </Demo>
@@ -618,7 +631,7 @@ export default function ComponentDemo() {
       <Section title="Form Layout">
         <Demo label="FormGroup">
           <FormGroup label="Full Name" required helperText="Enter your legal name">
-            <input type="text" className="demo-native-input" placeholder="John Doe" />
+            <input type="text" className="w-full p-3 border border-cloud rounded-md text-base focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-bg" placeholder="John Doe" />
           </FormGroup>
         </Demo>
         <Demo label="FormRow (2 columns)">
@@ -639,7 +652,7 @@ export default function ComponentDemo() {
       {/* CARDS */}
       <Section title="Card (Base)">
         <Demo label="Default">
-          <Card title="Card Title" style={{ width: 300 }}>
+          <Card title="Card Title" className="w-[300px]">
             <p>This is the card content.</p>
           </Card>
         </Demo>
@@ -647,13 +660,13 @@ export default function ComponentDemo() {
           <Card
             title="Card with Footer"
             footer={<Button size="sm">Action</Button>}
-            style={{ width: 300 }}
+            className="w-[300px]"
           >
             <p>Card content with a footer action.</p>
           </Card>
         </Demo>
         <Demo label="Elevated">
-          <Card variant="elevated" hoverable style={{ width: 300 }}>
+          <Card variant="elevated" hoverable className="w-[300px]">
             <p>Elevated hoverable card.</p>
           </Card>
         </Demo>
@@ -816,7 +829,7 @@ export default function ComponentDemo() {
 
       <Section title="PropertyCard">
         <Demo label="Properties">
-          <div style={{ background: 'var(--color-white)', borderRadius: 8, overflow: 'hidden' }}>
+          <div className="bg-white rounded-lg overflow-hidden">
             <PropertyCard
               name="Sunset Apartments"
               address="123 Main St, San Francisco, CA"
@@ -875,7 +888,7 @@ export default function ComponentDemo() {
 
       <Section title="RequestCard">
         <Demo label="Maintenance">
-          <div style={{ maxWidth: 350 }}>
+          <div className="max-w-[350px]">
             <RequestCard
               id="req-001"
               title="Leaking faucet in kitchen"
@@ -891,7 +904,7 @@ export default function ComponentDemo() {
               onClick={() => {}}
             />
           </div>
-          <div style={{ maxWidth: 350 }}>
+          <div className="max-w-[350px]">
             <RequestCard
               id="req-002"
               title="AC not cooling"
@@ -909,7 +922,7 @@ export default function ComponentDemo() {
       {/* LAYOUT */}
       <Section title="Sidebar">
         <Demo label="With Toggle" fullWidth>
-          <div style={{ marginBottom: 'var(--spacing-3)' }}>
+          <div className="mb-3">
             <Button
               variant="outline"
               size="sm"
@@ -918,7 +931,7 @@ export default function ComponentDemo() {
               {sidebarCollapsed ? 'Expand Sidebar' : 'Collapse Sidebar'}
             </Button>
           </div>
-          <div className="demo-layout-container demo-layout-container--sidebar">
+          <div className="relative w-full border border-cloud rounded-md overflow-hidden bg-snow h-[400px] flex [&_.sidebar]:relative [&_.sidebar]:shrink-0 [&_.sidebar__overlay]:hidden">
             <Sidebar
               logo="R"
               logoText="RoomPilot"
@@ -927,8 +940,8 @@ export default function ComponentDemo() {
               user={sampleUser}
               collapsed={sidebarCollapsed}
             />
-            <div style={{ flex: 1, padding: 'var(--spacing-4)', background: 'var(--color-white)' }}>
-              <p className="demo-placeholder">Main content area</p>
+            <div className="flex-1 p-4 bg-white">
+              <p className="p-4 bg-cloud rounded-sm text-slate text-sm text-center">Main content area</p>
             </div>
           </div>
         </Demo>
@@ -936,7 +949,7 @@ export default function ComponentDemo() {
 
       <Section title="Header">
         <Demo label="With Title & Actions" fullWidth>
-          <div className="demo-layout-container demo-layout-container--header">
+          <div className="relative w-full border border-cloud rounded-md overflow-hidden bg-snow [&_.header]:relative">
             <Header
               title="Dashboard"
               subtitle="Welcome back, John"
@@ -958,17 +971,15 @@ export default function ComponentDemo() {
           </div>
         </Demo>
         <Demo label="Custom Left Content" fullWidth>
-          <div className="demo-layout-container demo-layout-container--header">
+          <div className="relative w-full border border-cloud rounded-md overflow-hidden bg-snow [&_.header]:relative">
             <Header
               sticky={false}
               leftContent={
-                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-3)' }}>
+                <div className="flex items-center gap-3">
                   <Avatar src="https://i.pravatar.cc/150?img=3" name="Sarah" size="md" />
                   <div>
-                    <div style={{ fontWeight: 600 }}>Sarah Johnson</div>
-                    <div
-                      style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-gray-500)' }}
-                    >
+                    <div className="font-semibold">Sarah Johnson</div>
+                    <div className="text-sm text-slate">
                       Property Manager
                     </div>
                   </div>
@@ -986,7 +997,7 @@ export default function ComponentDemo() {
 
       <Section title="Footer">
         <Demo label="Full Footer" fullWidth>
-          <div className="demo-layout-container demo-layout-container--footer">
+          <div className="relative w-full border border-cloud rounded-md overflow-hidden bg-snow">
             <Footer
               logo="R"
               logoText="RoomPilot"
@@ -1000,7 +1011,7 @@ export default function ComponentDemo() {
 
       <Section title="PublicNavigation">
         <Demo label="Default Variant" fullWidth>
-          <div className="demo-layout-container demo-layout-container--nav">
+          <div className="relative w-full border border-cloud rounded-md overflow-hidden bg-snow [&_.public-nav]:relative">
             <PublicNavigation
               logo="R"
               logoText="RoomPilot"
@@ -1015,10 +1026,7 @@ export default function ComponentDemo() {
           </div>
         </Demo>
         <Demo label="Transparent Variant" fullWidth>
-          <div
-            className="demo-layout-container demo-layout-container--nav"
-            style={{ background: 'var(--color-primary-600)' }}
-          >
+          <div className="relative w-full border border-cloud rounded-md overflow-hidden bg-primary [&_.public-nav]:relative">
             <PublicNavigation
               logo="R"
               logoText="RoomPilot"
@@ -1026,7 +1034,7 @@ export default function ComponentDemo() {
               links={samplePublicNavLinks}
               actions={
                 <>
-                  <Button variant="ghost" style={{ color: 'white' }}>
+                  <Button variant="ghost" className="text-white">
                     Sign In
                   </Button>
                   <Button variant="white">Get Started</Button>
@@ -1039,7 +1047,7 @@ export default function ComponentDemo() {
 
       <Section title="AppShell">
         <Demo label="Complete Layout" fullWidth>
-          <div style={{ marginBottom: 'var(--spacing-3)' }}>
+          <div className="mb-3">
             <Button
               variant="outline"
               size="sm"
@@ -1048,7 +1056,7 @@ export default function ComponentDemo() {
               {appShellSidebarCollapsed ? 'Show Sidebar' : 'Hide Sidebar'}
             </Button>
           </div>
-          <div className="demo-layout-container demo-layout-container--appshell">
+          <div className="relative w-full border border-cloud rounded-md overflow-hidden bg-snow h-[500px] [&_.app-shell]:h-full [&_.sidebar]:absolute">
             <AppShell
               sidebar={{
                 logo: 'R',
@@ -1063,14 +1071,8 @@ export default function ComponentDemo() {
               sidebarCollapsed={appShellSidebarCollapsed}
               onSidebarToggle={setAppShellSidebarCollapsed}
             >
-              <div style={{ padding: 'var(--spacing-4)' }}>
-                <div
-                  style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(3, 1fr)',
-                    gap: 'var(--spacing-4)',
-                  }}
-                >
+              <div className="p-4">
+                <div className="grid grid-cols-3 gap-4">
                   <StatCard icon="🏢" color="blue" value="24" label="Total Properties" />
                   <StatCard icon="👥" color="green" value="89%" label="Occupancy" />
                   <StatCard icon="💰" color="amber" value="$12,450" label="Revenue" />
@@ -1083,16 +1085,16 @@ export default function ComponentDemo() {
 
       <Section title="TwoColumnLayout">
         <Demo label="Default" fullWidth>
-          <div className="demo-layout-container demo-layout-container--twocolumn">
+          <div className="relative w-full border border-cloud rounded-md overflow-hidden bg-snow h-[350px] [&_.two-column-layout]:h-full">
             <TwoColumnLayout
               leftWidth="300px"
               left={
-                <div className="demo-placeholder--panel">
+                <div className="h-full flex items-center justify-center bg-white border border-dashed border-cloud">
                   <span>Left Panel (300px)</span>
                 </div>
               }
               right={
-                <div className="demo-placeholder--panel">
+                <div className="h-full flex items-center justify-center bg-white border border-dashed border-cloud">
                   <span>Right Panel (flexible)</span>
                 </div>
               }
@@ -1100,37 +1102,22 @@ export default function ComponentDemo() {
           </div>
         </Demo>
         <Demo label="Messages Variant" fullWidth>
-          <div className="demo-layout-container demo-layout-container--twocolumn">
+          <div className="relative w-full border border-cloud rounded-md overflow-hidden bg-snow h-[350px] [&_.two-column-layout]:h-full">
             <TwoColumnLayout
               variant="messages"
               leftWidth="280px"
               stickyLeft
               left={
-                <div
-                  style={{
-                    padding: 'var(--spacing-3)',
-                    background: 'var(--color-white)',
-                    height: '100%',
-                  }}
-                >
+                <div className="p-3 bg-white h-full">
                   <Input placeholder="Search messages..." size="sm" />
-                  <div style={{ marginTop: 'var(--spacing-3)' }}>
+                  <div className="mt-3">
                     {['Alice Smith', 'Bob Johnson', 'Carol White'].map((name) => (
                       <div
                         key={name}
-                        style={{
-                          padding: 'var(--spacing-3)',
-                          borderBottom: '1px solid var(--color-gray-100)',
-                          cursor: 'pointer',
-                        }}
+                        className="p-3 border-b border-cloud cursor-pointer"
                       >
-                        <div style={{ fontWeight: 500 }}>{name}</div>
-                        <div
-                          style={{
-                            fontSize: 'var(--font-size-sm)',
-                            color: 'var(--color-gray-500)',
-                          }}
-                        >
+                        <div className="font-medium">{name}</div>
+                        <div className="text-sm text-slate">
                           Last message preview...
                         </div>
                       </div>
@@ -1139,20 +1126,8 @@ export default function ComponentDemo() {
                 </div>
               }
               right={
-                <div
-                  style={{
-                    padding: 'var(--spacing-4)',
-                    background: 'var(--color-gray-50)',
-                    height: '100%',
-                  }}
-                >
-                  <div
-                    style={{
-                      textAlign: 'center',
-                      color: 'var(--color-gray-400)',
-                      marginTop: 'var(--spacing-8)',
-                    }}
-                  >
+                <div className="p-4 bg-snow h-full">
+                  <div className="text-center text-mist mt-8">
                     Select a conversation
                   </div>
                 </div>
@@ -1161,24 +1136,16 @@ export default function ComponentDemo() {
           </div>
         </Demo>
         <Demo label="Search Variant" fullWidth>
-          <div className="demo-layout-container demo-layout-container--twocolumn">
+          <div className="relative w-full border border-cloud rounded-md overflow-hidden bg-snow h-[350px] [&_.two-column-layout]:h-full">
             <TwoColumnLayout
               variant="search"
               leftWidth="320px"
               left={
-                <div
-                  style={{
-                    padding: 'var(--spacing-4)',
-                    background: 'var(--color-white)',
-                    height: '100%',
-                  }}
-                >
-                  <h3 style={{ marginBottom: 'var(--spacing-3)', fontSize: 'var(--font-size-lg)' }}>
+                <div className="p-4 bg-white h-full">
+                  <h3 className="mb-3 text-lg">
                     Filters
                   </h3>
-                  <div
-                    style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-3)' }}
-                  >
+                  <div className="flex flex-col gap-3">
                     <Select label="Location" options={selectOptions} size="sm" />
                     <RangeSlider
                       label="Price Range"
@@ -1192,19 +1159,13 @@ export default function ComponentDemo() {
                 </div>
               }
               right={
-                <div
-                  style={{
-                    padding: 'var(--spacing-4)',
-                    background: 'var(--color-gray-50)',
-                    height: '100%',
-                  }}
-                >
-                  <div style={{ marginBottom: 'var(--spacing-3)', color: 'var(--color-gray-600)' }}>
+                <div className="p-4 bg-snow h-full">
+                  <div className="mb-3 text-slate">
                     12 results found
                   </div>
-                  <div style={{ display: 'grid', gap: 'var(--spacing-3)' }}>
-                    <Card style={{ padding: 'var(--spacing-3)' }}>Room listing result 1</Card>
-                    <Card style={{ padding: 'var(--spacing-3)' }}>Room listing result 2</Card>
+                  <div className="grid gap-3">
+                    <Card className="p-3">Room listing result 1</Card>
+                    <Card className="p-3">Room listing result 2</Card>
                   </div>
                 </div>
               }
