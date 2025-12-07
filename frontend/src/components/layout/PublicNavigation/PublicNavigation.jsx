@@ -39,7 +39,7 @@ const PublicNavigation = forwardRef(function PublicNavigation(
     <nav
       ref={ref}
       className={classNames(
-        'fixed top-0 left-0 right-0 z-[1000] py-4 px-10 md:px-4 flex items-center justify-between transition-all duration-200',
+        'fixed top-0 left-0 right-0 z-[1000] py-4 px-10 flex items-center justify-between transition-all duration-200',
         isTransparent
           ? 'bg-transparent border-b border-transparent'
           : 'bg-white/[0.92] backdrop-blur-[20px] border-b border-black/[0.04]',

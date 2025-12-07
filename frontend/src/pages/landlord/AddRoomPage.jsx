@@ -110,7 +110,9 @@ function AddRoomPage() {
         <Card className="p-8 md:p-6">
           {/* Basic Information */}
           <section className="mb-8 pb-8 border-b border-cloud">
-            <h2 className="text-lg font-bold text-midnight mb-5 pb-3 border-b-2 border-cloud">Basic Information</h2>
+            <h2 className="text-lg font-bold text-midnight mb-5 pb-3 border-b-2 border-cloud">
+              Basic Information
+            </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <Input
@@ -234,7 +236,9 @@ function AddRoomPage() {
 
           {/* Pricing & Availability */}
           <section className="mb-8 pb-8 border-b border-cloud">
-            <h2 className="text-lg font-bold text-midnight mb-5 pb-3 border-b-2 border-cloud">Pricing & Availability</h2>
+            <h2 className="text-lg font-bold text-midnight mb-5 pb-3 border-b-2 border-cloud">
+              Pricing & Availability
+            </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <Input
@@ -288,7 +292,9 @@ function AddRoomPage() {
 
           {/* Room Photos */}
           <section className="mb-8 pb-8 border-b border-cloud">
-            <h2 className="text-lg font-bold text-midnight mb-5 pb-3 border-b-2 border-cloud">Room Photos</h2>
+            <h2 className="text-lg font-bold text-midnight mb-5 pb-3 border-b-2 border-cloud">
+              Room Photos
+            </h2>
 
             <FileUpload
               accept="image/*"
@@ -300,7 +306,9 @@ function AddRoomPage() {
 
           {/* Room Amenities */}
           <section className="mb-8 pb-8 border-b border-cloud">
-            <h2 className="text-lg font-bold text-midnight mb-5 pb-3 border-b-2 border-cloud">Room-Specific Amenities</h2>
+            <h2 className="text-lg font-bold text-midnight mb-5 pb-3 border-b-2 border-cloud">
+              Room-Specific Amenities
+            </h2>
             <p className="text-sm text-slate -mt-3 mb-4">
               Select amenities that are specific to this room (property amenities are already
               included)
@@ -322,7 +330,9 @@ function AddRoomPage() {
 
           {/* Room Rules */}
           <section className="mb-6">
-            <h2 className="text-lg font-bold text-midnight mb-5 pb-3 border-b-2 border-cloud">Room-Specific Rules</h2>
+            <h2 className="text-lg font-bold text-midnight mb-5 pb-3 border-b-2 border-cloud">
+              Room-Specific Rules
+            </h2>
             <p className="text-sm text-slate -mt-3 mb-4">
               Any additional rules or restrictions specific to this room (optional)
             </p>

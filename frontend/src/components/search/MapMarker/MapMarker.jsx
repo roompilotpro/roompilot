@@ -1,14 +1,6 @@
 import { forwardRef } from 'react'
 import { classNames } from '../../../utils/classNames'
 
-// Animation styles
-const markerStyles = `
-  @keyframes mapPreviewFade {
-    from { opacity: 0; transform: translateX(-50%) translateY(8px); }
-    to { opacity: 1; transform: translateX(-50%) translateY(0); }
-  }
-`
-
 /**
  * MapMarker - Price bubble marker for the map
  */
@@ -17,10 +9,8 @@ const MapMarker = forwardRef(function MapMarker(
   ref
 ) {
   return (
-    <>
-      <style>{markerStyles}</style>
-      <div
-        ref={ref}
+    <div
+      ref={ref}
         className={classNames(
           'absolute -translate-x-1/2 -translate-y-full cursor-pointer z-10 transition-all duration-200 group hover:z-20',
           className
@@ -72,8 +62,7 @@ const MapMarker = forwardRef(function MapMarker(
         <div
           className={classNames('w-0.5 h-2 bg-white mx-auto shadow-sm', isActive && 'bg-charcoal')}
         />
-      </div>
-    </>
+    </div>
   )
 })
 

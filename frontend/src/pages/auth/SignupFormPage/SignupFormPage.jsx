@@ -66,7 +66,10 @@ function SignupFormPage() {
   return (
     <div className="font-body bg-gradient-to-br from-snow to-cloud min-h-screen flex flex-col text-midnight p-8 sm:p-4">
       <div className="max-w-[480px] mx-auto w-full">
-        <Link to={ROUTES.SIGNUP} className="font-display text-[2rem] font-bold text-primary no-underline text-center block mb-8">
+        <Link
+          to={ROUTES.SIGNUP}
+          className="font-display text-[2rem] font-bold text-primary no-underline text-center block mb-8"
+        >
           RoomPilot
         </Link>
 
@@ -81,7 +84,9 @@ function SignupFormPage() {
         </div>
 
         <div className="bg-white rounded-2xl py-10 px-8 sm:py-8 sm:px-6 shadow-md">
-          <h1 className="font-display text-[1.875rem] sm:text-2xl font-bold text-midnight mb-2 text-center">Create your account</h1>
+          <h1 className="font-display text-[1.875rem] sm:text-2xl font-bold text-midnight mb-2 text-center">
+            Create your account
+          </h1>
           <p className="text-center text-slate mb-8 text-base">
             {isHost
               ? 'Start listing your rooms and connecting with renters'
@@ -178,7 +183,13 @@ function SignupFormPage() {
           </form>
 
           <p className="text-center mt-6 text-sm text-slate">
-            Already have an account? <Link to={ROUTES.LOGIN} className="text-primary no-underline font-semibold hover:underline">Log in</Link>
+            Already have an account?{' '}
+            <Link
+              to={ROUTES.LOGIN}
+              className="text-primary no-underline font-semibold hover:underline"
+            >
+              Log in
+            </Link>
           </p>
         </div>
       </div>

@@ -62,7 +62,9 @@ import {
 function Section({ title, children }) {
   return (
     <section className="bg-white rounded-lg p-6 mb-6 shadow-sm">
-      <h2 className="text-xl font-semibold text-charcoal mb-4 pb-3 border-b border-cloud">{title}</h2>
+      <h2 className="text-xl font-semibold text-charcoal mb-4 pb-3 border-b border-cloud">
+        {title}
+      </h2>
       <div className="flex flex-col gap-4">{children}</div>
     </section>
   )
@@ -70,24 +72,34 @@ function Section({ title, children }) {
 
 function Demo({ label, children, fullWidth = false }) {
   return (
-    <div className={classNames(
-      'flex items-start gap-4 p-3 bg-snow rounded-md',
-      fullWidth && 'flex-col'
-    )}>
-      <span className={classNames(
-        'shrink-0 text-sm font-medium text-slate pt-2',
-        fullWidth ? 'w-full pb-2' : 'w-[140px]'
-      )}>{label}</span>
-      <div className={classNames(
-        'flex flex-wrap items-center gap-3 flex-1',
-        fullWidth && 'w-full block',
-        '[&_.input-wrapper]:w-[280px] [&_.select-wrapper]:w-[280px] [&_.textarea-wrapper]:w-[280px]',
-        '[&_.date-picker]:w-[280px] [&_.file-upload-wrapper]:w-[280px] [&_.tag-input]:w-[280px]',
-        '[&_.range-slider]:w-[280px] [&_.form-row]:w-full [&_.form-row]:max-w-[600px]',
-        '[&_.radio-group]:w-full [&_.radio-group]:max-w-[400px]',
-        'md:[&_.input-wrapper]:w-full md:[&_.select-wrapper]:w-full md:[&_.textarea-wrapper]:w-full',
-        'md:[&_.date-picker]:w-full md:[&_.file-upload-wrapper]:w-full md:[&_.tag-input]:w-full md:[&_.range-slider]:w-full'
-      )}>{children}</div>
+    <div
+      className={classNames(
+        'flex items-start gap-4 p-3 bg-snow rounded-md',
+        fullWidth && 'flex-col'
+      )}
+    >
+      <span
+        className={classNames(
+          'shrink-0 text-sm font-medium text-slate pt-2',
+          fullWidth ? 'w-full pb-2' : 'w-[140px]'
+        )}
+      >
+        {label}
+      </span>
+      <div
+        className={classNames(
+          'flex flex-wrap items-center gap-3 flex-1',
+          fullWidth && 'w-full block',
+          '[&_.input-wrapper]:w-[280px] [&_.select-wrapper]:w-[280px] [&_.textarea-wrapper]:w-[280px]',
+          '[&_.date-picker]:w-[280px] [&_.file-upload-wrapper]:w-[280px] [&_.tag-input]:w-[280px]',
+          '[&_.range-slider]:w-[280px] [&_.form-row]:w-full [&_.form-row]:max-w-[600px]',
+          '[&_.radio-group]:w-full [&_.radio-group]:max-w-[400px]',
+          'md:[&_.input-wrapper]:w-full md:[&_.select-wrapper]:w-full md:[&_.textarea-wrapper]:w-full',
+          'md:[&_.date-picker]:w-full md:[&_.file-upload-wrapper]:w-full md:[&_.tag-input]:w-full md:[&_.range-slider]:w-full'
+        )}
+      >
+        {children}
+      </div>
     </div>
   )
 }
@@ -631,7 +643,11 @@ export default function ComponentDemo() {
       <Section title="Form Layout">
         <Demo label="FormGroup">
           <FormGroup label="Full Name" required helperText="Enter your legal name">
-            <input type="text" className="w-full p-3 border border-cloud rounded-md text-base focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-bg" placeholder="John Doe" />
+            <input
+              type="text"
+              className="w-full p-3 border border-cloud rounded-md text-base focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-bg"
+              placeholder="John Doe"
+            />
           </FormGroup>
         </Demo>
         <Demo label="FormRow (2 columns)">
@@ -941,7 +957,9 @@ export default function ComponentDemo() {
               collapsed={sidebarCollapsed}
             />
             <div className="flex-1 p-4 bg-white">
-              <p className="p-4 bg-cloud rounded-sm text-slate text-sm text-center">Main content area</p>
+              <p className="p-4 bg-cloud rounded-sm text-slate text-sm text-center">
+                Main content area
+              </p>
             </div>
           </div>
         </Demo>
@@ -979,9 +997,7 @@ export default function ComponentDemo() {
                   <Avatar src="https://i.pravatar.cc/150?img=3" name="Sarah" size="md" />
                   <div>
                     <div className="font-semibold">Sarah Johnson</div>
-                    <div className="text-sm text-slate">
-                      Property Manager
-                    </div>
+                    <div className="text-sm text-slate">Property Manager</div>
                   </div>
                 </div>
               }
@@ -1112,14 +1128,9 @@ export default function ComponentDemo() {
                   <Input placeholder="Search messages..." size="sm" />
                   <div className="mt-3">
                     {['Alice Smith', 'Bob Johnson', 'Carol White'].map((name) => (
-                      <div
-                        key={name}
-                        className="p-3 border-b border-cloud cursor-pointer"
-                      >
+                      <div key={name} className="p-3 border-b border-cloud cursor-pointer">
                         <div className="font-medium">{name}</div>
-                        <div className="text-sm text-slate">
-                          Last message preview...
-                        </div>
+                        <div className="text-sm text-slate">Last message preview...</div>
                       </div>
                     ))}
                   </div>
@@ -1127,9 +1138,7 @@ export default function ComponentDemo() {
               }
               right={
                 <div className="p-4 bg-snow h-full">
-                  <div className="text-center text-mist mt-8">
-                    Select a conversation
-                  </div>
+                  <div className="text-center text-mist mt-8">Select a conversation</div>
                 </div>
               }
             />
@@ -1142,9 +1151,7 @@ export default function ComponentDemo() {
               leftWidth="320px"
               left={
                 <div className="p-4 bg-white h-full">
-                  <h3 className="mb-3 text-lg">
-                    Filters
-                  </h3>
+                  <h3 className="mb-3 text-lg">Filters</h3>
                   <div className="flex flex-col gap-3">
                     <Select label="Location" options={selectOptions} size="sm" />
                     <RangeSlider
@@ -1160,9 +1167,7 @@ export default function ComponentDemo() {
               }
               right={
                 <div className="p-4 bg-snow h-full">
-                  <div className="mb-3 text-slate">
-                    12 results found
-                  </div>
+                  <div className="mb-3 text-slate">12 results found</div>
                   <div className="grid gap-3">
                     <Card className="p-3">Room listing result 1</Card>
                     <Card className="p-3">Room listing result 2</Card>

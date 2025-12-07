@@ -108,7 +108,9 @@ function FAQPage() {
   return (
     <div className="bg-white">
       <section className="bg-gradient-to-br from-primary-bg to-white py-20 px-10 text-center md:px-5 md:py-15">
-        <h1 className="font-display text-[clamp(2rem,4vw,3rem)] text-midnight mb-4">Frequently Asked Questions</h1>
+        <h1 className="font-display text-[clamp(2rem,4vw,3rem)] text-midnight mb-4">
+          Frequently Asked Questions
+        </h1>
         <p className="text-lg text-slate mb-8">Find answers to common questions about RoomPilot</p>
         <div className="max-w-[600px] mx-auto relative">
           <input
@@ -150,17 +152,29 @@ function FAQPage() {
 
           {Object.entries(filteredData).map(([key, category]) => (
             <div key={key} className="mb-12">
-              <h2 className="font-display text-[2rem] text-midnight mb-6 pb-3 border-b-2 border-cloud">{category.title}</h2>
+              <h2 className="font-display text-[2rem] text-midnight mb-6 pb-3 border-b-2 border-cloud">
+                {category.title}
+              </h2>
               {category.questions.map((item, idx) => {
                 const itemKey = `${key}-${idx}`
                 return (
-                  <div key={itemKey} className="bg-white border border-cloud rounded-sm mb-4 overflow-hidden">
+                  <div
+                    key={itemKey}
+                    className="bg-white border border-cloud rounded-sm mb-4 overflow-hidden"
+                  >
                     <button
                       className="w-full p-5 bg-transparent border-none text-left font-body text-lg font-semibold text-midnight cursor-pointer flex justify-between items-center hover:bg-snow"
                       onClick={() => toggleItem(itemKey)}
                     >
                       {item.q}
-                      <span className={classNames('transition-transform duration-300 shrink-0 ml-4', openItems[itemKey] && 'rotate-180')}>&#9660;</span>
+                      <span
+                        className={classNames(
+                          'transition-transform duration-300 shrink-0 ml-4',
+                          openItems[itemKey] && 'rotate-180'
+                        )}
+                      >
+                        &#9660;
+                      </span>
                     </button>
                     <div
                       className="overflow-hidden transition-[max-height] duration-300"

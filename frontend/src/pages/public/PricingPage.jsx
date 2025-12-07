@@ -35,8 +35,12 @@ function PricingPage() {
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-primary-bg to-white py-20 px-10 text-center md:py-15 md:px-5">
         <div className="max-w-[800px] mx-auto">
-          <h1 className="font-display text-[clamp(2rem,4vw,3rem)] text-midnight mb-4 leading-tight">Simple, Transparent Pricing</h1>
-          <p className="text-xl text-slate">No hidden fees. No surprises. Choose the plan that works best for your business.</p>
+          <h1 className="font-display text-[clamp(2rem,4vw,3rem)] text-midnight mb-4 leading-tight">
+            Simple, Transparent Pricing
+          </h1>
+          <p className="text-xl text-slate">
+            No hidden fees. No surprises. Choose the plan that works best for your business.
+          </p>
         </div>
       </section>
 
@@ -48,7 +52,9 @@ function PricingPage() {
               <Badge variant="primary" className="absolute -top-3 left-1/2 -translate-x-1/2">
                 Most Popular
               </Badge>
-              <h3 className="font-display text-[1.75rem] text-midnight mb-2">Transaction Fee Plan</h3>
+              <h3 className="font-display text-[1.75rem] text-midnight mb-2">
+                Transaction Fee Plan
+              </h3>
               <p className="text-slate mb-6 min-h-[3rem]">
                 Perfect for hosts who want zero monthly overhead
               </p>
@@ -58,7 +64,8 @@ function PricingPage() {
               </div>
               <ul className="list-none mb-8">
                 <li className="py-3 border-b border-cloud flex items-start gap-3">
-                  <span className="text-accent font-bold">&#10003;</span> No monthly subscription fee
+                  <span className="text-accent font-bold">&#10003;</span> No monthly subscription
+                  fee
                 </li>
                 <li className="py-3 border-b border-cloud flex items-start gap-3">
                   <span className="text-accent font-bold">&#10003;</span> Unlimited rooms
@@ -91,7 +98,9 @@ function PricingPage() {
 
             <div className="bg-white border-2 border-cloud rounded-lg p-10 relative">
               <h3 className="font-display text-[1.75rem] text-midnight mb-2">Flat Rate Plan</h3>
-              <p className="text-slate mb-6 min-h-[3rem]">Great for high-volume hosts with many rooms</p>
+              <p className="text-slate mb-6 min-h-[3rem]">
+                Great for high-volume hosts with many rooms
+              </p>
               <div className="flex items-baseline gap-2 mb-6">
                 <span className="font-display text-5xl font-bold text-midnight">$15</span>
                 <span className="text-slate text-lg">per room/month</span>
@@ -136,8 +145,12 @@ function PricingPage() {
       <section className="py-20 px-10 bg-snow md:py-15 md:px-5">
         <div className="max-w-[1200px] mx-auto">
           <div className="text-center mb-15">
-            <h2 className="font-display text-[clamp(1.75rem,3vw,2.5rem)] text-midnight mb-4">Everything You Need, Included</h2>
-            <p className="text-lg text-slate max-w-[600px] mx-auto">Both plans include all features. No upgrades, add-ons, or premium tiers.</p>
+            <h2 className="font-display text-[clamp(1.75rem,3vw,2.5rem)] text-midnight mb-4">
+              Everything You Need, Included
+            </h2>
+            <p className="text-lg text-slate max-w-[600px] mx-auto">
+              Both plans include all features. No upgrades, add-ons, or premium tiers.
+            </p>
           </div>
           <div className="max-w-[800px] mx-auto grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-8">
             <div>
@@ -175,14 +188,20 @@ function PricingPage() {
       <section className="py-20 px-10 md:py-15 md:px-5">
         <div className="max-w-[1200px] mx-auto">
           <div className="text-center mb-15">
-            <h2 className="font-display text-[clamp(1.75rem,3vw,2.5rem)] text-midnight mb-4">Calculate Your Savings</h2>
-            <p className="text-lg text-slate max-w-[600px] mx-auto">See how much you'll save compared to competitors</p>
+            <h2 className="font-display text-[clamp(1.75rem,3vw,2.5rem)] text-midnight mb-4">
+              Calculate Your Savings
+            </h2>
+            <p className="text-lg text-slate max-w-[600px] mx-auto">
+              See how much you'll save compared to competitors
+            </p>
           </div>
           <div className="bg-white rounded-lg p-12 border border-cloud max-w-[700px] mx-auto md:p-8">
             <h3 className="font-display text-[2rem] text-center mb-8">Savings Calculator</h3>
             <div className="grid gap-6 mb-8">
               <div className="flex flex-col gap-2">
-                <label htmlFor="numRooms" className="font-semibold text-midnight">Number of Rooms</label>
+                <label htmlFor="numRooms" className="font-semibold text-midnight">
+                  Number of Rooms
+                </label>
                 <input
                   type="number"
                   id="numRooms"
@@ -194,7 +213,9 @@ function PricingPage() {
                 />
               </div>
               <div className="flex flex-col gap-2">
-                <label htmlFor="avgRent" className="font-semibold text-midnight">Average Monthly Rent per Room</label>
+                <label htmlFor="avgRent" className="font-semibold text-midnight">
+                  Average Monthly Rent per Room
+                </label>
                 <input
                   type="number"
                   id="avgRent"
@@ -236,8 +257,12 @@ function PricingPage() {
       <section className="py-20 px-10 bg-snow md:py-15 md:px-5">
         <div className="max-w-[1200px] mx-auto">
           <div className="text-center mb-15">
-            <h2 className="font-display text-[clamp(1.75rem,3vw,2.5rem)] text-midnight mb-4">How We Compare</h2>
-            <p className="text-lg text-slate max-w-[600px] mx-auto">Side-by-side comparison with industry competitors</p>
+            <h2 className="font-display text-[clamp(1.75rem,3vw,2.5rem)] text-midnight mb-4">
+              How We Compare
+            </h2>
+            <p className="text-lg text-slate max-w-[600px] mx-auto">
+              Side-by-side comparison with industry competitors
+            </p>
           </div>
           <div className="bg-white rounded-lg overflow-hidden border border-cloud overflow-x-auto">
             <table className="w-full border-collapse min-w-[600px]">
@@ -260,31 +285,41 @@ function PricingPage() {
                 </tr>
                 <tr className="even:bg-snow">
                   <td className="p-5 border-b border-cloud">Weekly Rent Collection</td>
-                  <td className="p-5 border-b border-cloud bg-[rgba(37,99,235,0.05)] text-accent font-semibold">&#10003; Included</td>
+                  <td className="p-5 border-b border-cloud bg-[rgba(37,99,235,0.05)] text-accent font-semibold">
+                    &#10003; Included
+                  </td>
                   <td className="p-5 border-b border-cloud">&#10003; Included</td>
                   <td className="p-5 border-b border-cloud text-coral">&#10007; Monthly only</td>
                 </tr>
                 <tr className="even:bg-snow">
                   <td className="p-5 border-b border-cloud">Payout Speed</td>
-                  <td className="p-5 border-b border-cloud bg-[rgba(37,99,235,0.05)] text-accent font-semibold">Daily or weekly</td>
+                  <td className="p-5 border-b border-cloud bg-[rgba(37,99,235,0.05)] text-accent font-semibold">
+                    Daily or weekly
+                  </td>
                   <td className="p-5 border-b border-cloud">Weekly</td>
                   <td className="p-5 border-b border-cloud">Monthly</td>
                 </tr>
                 <tr className="even:bg-snow">
                   <td className="p-5 border-b border-cloud">Setup Fee</td>
-                  <td className="p-5 border-b border-cloud bg-[rgba(37,99,235,0.05)] text-accent font-semibold">$0</td>
+                  <td className="p-5 border-b border-cloud bg-[rgba(37,99,235,0.05)] text-accent font-semibold">
+                    $0
+                  </td>
                   <td className="p-5 border-b border-cloud">$0</td>
                   <td className="p-5 border-b border-cloud text-coral">$500+</td>
                 </tr>
                 <tr className="even:bg-snow">
                   <td className="p-5 border-b border-cloud">Host Controls Approval</td>
-                  <td className="p-5 border-b border-cloud bg-[rgba(37,99,235,0.05)] text-accent font-semibold">&#10003; Yes</td>
+                  <td className="p-5 border-b border-cloud bg-[rgba(37,99,235,0.05)] text-accent font-semibold">
+                    &#10003; Yes
+                  </td>
                   <td className="p-5 border-b border-cloud">&#10003; Yes</td>
                   <td className="p-5 border-b border-cloud text-coral">&#10007; No</td>
                 </tr>
                 <tr className="even:bg-snow">
                   <td className="p-5">Custom House Rules</td>
-                  <td className="p-5 bg-[rgba(37,99,235,0.05)] text-accent font-semibold">&#10003; Yes</td>
+                  <td className="p-5 bg-[rgba(37,99,235,0.05)] text-accent font-semibold">
+                    &#10003; Yes
+                  </td>
                   <td className="p-5">Limited</td>
                   <td className="p-5 text-coral">&#10007; No</td>
                 </tr>
@@ -298,7 +333,9 @@ function PricingPage() {
       <section className="bg-gradient-to-br from-primary to-[#1d4ed8] text-white text-center py-20 px-10 md:py-15 md:px-5">
         <div className="max-w-[1200px] mx-auto">
           <h2 className="font-display text-[2.5rem] mb-4">Ready to Get Started?</h2>
-          <p className="text-xl mb-8 opacity-90">Join RoomPilot today and start saving on property management fees.</p>
+          <p className="text-xl mb-8 opacity-90">
+            Join RoomPilot today and start saving on property management fees.
+          </p>
           <Link to={ROUTES.SIGNUP} className="no-underline">
             <Button variant="white" size="lg">
               Start Free Trial

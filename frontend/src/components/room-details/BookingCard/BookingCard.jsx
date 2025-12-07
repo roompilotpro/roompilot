@@ -1,14 +1,6 @@
 import { forwardRef, useState } from 'react'
 import { classNames } from '../../../utils'
 
-// Styles for pulse animation
-const bookingStyles = `
-  @keyframes booking-pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.6; transform: scale(1.2); }
-  }
-`
-
 // Default move-in date options
 const MOVE_IN_OPTIONS = [
   { value: 'asap', label: 'As soon as possible' },
@@ -69,9 +61,7 @@ const BookingCard = forwardRef(function BookingCard(
   }
 
   return (
-    <>
-      <style>{bookingStyles}</style>
-      <aside ref={ref} className={classNames('relative', className)} {...props}>
+    <aside ref={ref} className={classNames('relative', className)} {...props}>
         <div className="sticky top-[calc(var(--nav-height)+24px)] lg:relative lg:top-0 bg-white border border-cloud rounded-xl p-7 shadow-lg">
           {/* Price */}
           <div className="flex items-baseline gap-2 mb-1">
@@ -226,8 +216,7 @@ const BookingCard = forwardRef(function BookingCard(
             Report this listing
           </button>
         </div>
-      </aside>
-    </>
+    </aside>
   )
 })
 

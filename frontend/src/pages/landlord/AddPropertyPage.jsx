@@ -94,7 +94,9 @@ function AddPropertyPage() {
       case 1:
         return (
           <div className="mb-8">
-            <h2 className="font-display text-2xl font-semibold text-midnight mb-2">Basic Property Details</h2>
+            <h2 className="font-display text-2xl font-semibold text-midnight mb-2">
+              Basic Property Details
+            </h2>
             <p className="text-[15px] text-slate mb-6">Tell us about your property</p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -169,7 +171,9 @@ function AddPropertyPage() {
       case 2:
         return (
           <div className="mb-8">
-            <h2 className="font-display text-2xl font-semibold text-midnight mb-2">Property Photos</h2>
+            <h2 className="font-display text-2xl font-semibold text-midnight mb-2">
+              Property Photos
+            </h2>
             <p className="text-[15px] text-slate mb-6">Add photos to showcase your property</p>
 
             <FileUpload
@@ -183,9 +187,14 @@ function AddPropertyPage() {
             {formData.photos.length > 0 && (
               <div className="grid grid-cols-[repeat(auto-fill,minmax(140px,1fr))] gap-3 mt-6">
                 {Array.from(formData.photos).map((photo, index) => (
-                  <div key={index} className="flex flex-col items-center gap-2 p-4 bg-snow rounded-xl">
+                  <div
+                    key={index}
+                    className="flex flex-col items-center gap-2 p-4 bg-snow rounded-xl"
+                  >
                     <span className="text-[32px]">📷</span>
-                    <span className="text-xs text-slate text-center break-all max-w-full overflow-hidden text-ellipsis whitespace-nowrap">{photo.name}</span>
+                    <span className="text-xs text-slate text-center break-all max-w-full overflow-hidden text-ellipsis whitespace-nowrap">
+                      {photo.name}
+                    </span>
                   </div>
                 ))}
               </div>
@@ -196,11 +205,15 @@ function AddPropertyPage() {
       case 3:
         return (
           <div className="mb-8">
-            <h2 className="font-display text-2xl font-semibold text-midnight mb-2">Amenities & House Rules</h2>
+            <h2 className="font-display text-2xl font-semibold text-midnight mb-2">
+              Amenities & House Rules
+            </h2>
             <p className="text-[15px] text-slate mb-6">Select what your property offers</p>
 
             <div className="mb-8">
-              <h3 className="text-lg font-semibold text-charcoal mb-4 pb-3 border-b-2 border-cloud">Amenities</h3>
+              <h3 className="text-lg font-semibold text-charcoal mb-4 pb-3 border-b-2 border-cloud">
+                Amenities
+              </h3>
               <div className="grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-3">
                 {propertyAmenities.map((amenity) => (
                   <Checkbox
@@ -216,13 +229,17 @@ function AddPropertyPage() {
             </div>
 
             <div>
-              <h3 className="text-lg font-semibold text-charcoal mb-4 pb-3 border-b-2 border-cloud">House Rules</h3>
+              <h3 className="text-lg font-semibold text-charcoal mb-4 pb-3 border-b-2 border-cloud">
+                House Rules
+              </h3>
               <div className="flex flex-col gap-4 mb-6">
                 <div className="flex items-center justify-between p-4 bg-snow rounded-xl">
                   <div className="flex items-center gap-4">
                     <span className="text-2xl">🚭</span>
                     <div>
-                      <span className="block text-[15px] font-semibold text-charcoal mb-0.5">Smoking Allowed</span>
+                      <span className="block text-[15px] font-semibold text-charcoal mb-0.5">
+                        Smoking Allowed
+                      </span>
                       <span className="block text-[13px] text-slate">
                         Permit smoking in designated areas
                       </span>
@@ -235,8 +252,12 @@ function AddPropertyPage() {
                   <div className="flex items-center gap-4">
                     <span className="text-2xl">🐕</span>
                     <div>
-                      <span className="block text-[15px] font-semibold text-charcoal mb-0.5">Pets Allowed</span>
-                      <span className="block text-[13px] text-slate">Allow tenants to have pets</span>
+                      <span className="block text-[15px] font-semibold text-charcoal mb-0.5">
+                        Pets Allowed
+                      </span>
+                      <span className="block text-[13px] text-slate">
+                        Allow tenants to have pets
+                      </span>
                     </div>
                   </div>
                   <Toggle checked={formData.rules.pets} onChange={() => toggleRule('pets')} />
@@ -246,7 +267,9 @@ function AddPropertyPage() {
                   <div className="flex items-center gap-4">
                     <span className="text-2xl">👥</span>
                     <div>
-                      <span className="block text-[15px] font-semibold text-charcoal mb-0.5">Guests Allowed</span>
+                      <span className="block text-[15px] font-semibold text-charcoal mb-0.5">
+                        Guests Allowed
+                      </span>
                       <span className="block text-[13px] text-slate">Allow overnight guests</span>
                     </div>
                   </div>
@@ -257,7 +280,9 @@ function AddPropertyPage() {
                   <div className="flex items-center gap-4">
                     <span className="text-2xl">🔇</span>
                     <div>
-                      <span className="block text-[15px] font-semibold text-charcoal mb-0.5">Quiet Hours</span>
+                      <span className="block text-[15px] font-semibold text-charcoal mb-0.5">
+                        Quiet Hours
+                      </span>
                       <span className="block text-[13px] text-slate">
                         Enforce quiet hours for shared spaces
                       </span>
@@ -310,15 +335,23 @@ function AddPropertyPage() {
       case 5:
         return (
           <div className="mb-8">
-            <h2 className="font-display text-2xl font-semibold text-midnight mb-2">Review & Publish</h2>
-            <p className="text-[15px] text-slate mb-6">Review your property details before publishing</p>
+            <h2 className="font-display text-2xl font-semibold text-midnight mb-2">
+              Review & Publish
+            </h2>
+            <p className="text-[15px] text-slate mb-6">
+              Review your property details before publishing
+            </p>
 
             <div className="flex flex-col gap-6">
               <div className="p-5 bg-snow rounded-xl">
-                <h3 className="text-base font-semibold text-charcoal mb-4 pb-3 border-b border-cloud">Basic Details</h3>
+                <h3 className="text-base font-semibold text-charcoal mb-4 pb-3 border-b border-cloud">
+                  Basic Details
+                </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="flex flex-col gap-1">
-                    <span className="text-xs text-slate uppercase tracking-wide">Property Name</span>
+                    <span className="text-xs text-slate uppercase tracking-wide">
+                      Property Name
+                    </span>
                     <span className="text-sm text-charcoal">{formData.name || 'Not set'}</span>
                   </div>
                   <div className="flex flex-col gap-1">
@@ -338,25 +371,36 @@ function AddPropertyPage() {
                   </div>
                   <div className="flex flex-col gap-1 md:col-span-2">
                     <span className="text-xs text-slate uppercase tracking-wide">Description</span>
-                    <span className="text-sm text-charcoal">{formData.description || 'Not set'}</span>
+                    <span className="text-sm text-charcoal">
+                      {formData.description || 'Not set'}
+                    </span>
                   </div>
                 </div>
               </div>
 
               <div className="p-5 bg-snow rounded-xl">
-                <h3 className="text-base font-semibold text-charcoal mb-4 pb-3 border-b border-cloud">Photos</h3>
-                <span className="text-sm text-charcoal">{formData.photos.length} photos uploaded</span>
+                <h3 className="text-base font-semibold text-charcoal mb-4 pb-3 border-b border-cloud">
+                  Photos
+                </h3>
+                <span className="text-sm text-charcoal">
+                  {formData.photos.length} photos uploaded
+                </span>
               </div>
 
               <div className="p-5 bg-snow rounded-xl">
-                <h3 className="text-base font-semibold text-charcoal mb-4 pb-3 border-b border-cloud">Amenities</h3>
+                <h3 className="text-base font-semibold text-charcoal mb-4 pb-3 border-b border-cloud">
+                  Amenities
+                </h3>
                 <div className="flex flex-wrap gap-2">
                   {Object.entries(formData.amenities)
                     .filter(([, enabled]) => enabled)
                     .map(([id]) => {
                       const amenity = propertyAmenities.find((a) => a.id === id)
                       return amenity ? (
-                        <span key={id} className="py-2 px-3 bg-white rounded-lg text-[13px] text-charcoal">
+                        <span
+                          key={id}
+                          className="py-2 px-3 bg-white rounded-lg text-[13px] text-charcoal"
+                        >
                           {amenity.icon} {amenity.label}
                         </span>
                       ) : null
@@ -368,7 +412,9 @@ function AddPropertyPage() {
               </div>
 
               <div className="p-5 bg-snow rounded-xl">
-                <h3 className="text-base font-semibold text-charcoal mb-4 pb-3 border-b border-cloud">House Rules</h3>
+                <h3 className="text-base font-semibold text-charcoal mb-4 pb-3 border-b border-cloud">
+                  House Rules
+                </h3>
                 <div className="flex flex-col gap-2">
                   <span className="text-sm text-charcoal">
                     🚭 Smoking: {formData.rules.smoking ? 'Allowed' : 'Not allowed'}

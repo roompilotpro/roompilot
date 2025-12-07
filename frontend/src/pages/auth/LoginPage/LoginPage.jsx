@@ -56,7 +56,9 @@ function LoginPage() {
       panelTitle="Welcome back to RoomPilot"
       panelDescription="Your next perfect room is waiting. Sign in to continue your search or manage your listings."
     >
-      <h1 className="font-display text-[2rem] sm:text-[1.625rem] font-bold text-midnight mb-2">Log in</h1>
+      <h1 className="font-display text-[2rem] sm:text-[1.625rem] font-bold text-midnight mb-2">
+        Log in
+      </h1>
       <p className="text-slate mb-8 text-base">Enter your credentials to access your account</p>
 
       <OAuthButtons onGoogleClick={handleGoogleLogin} onAppleClick={handleAppleLogin} />
@@ -97,7 +99,10 @@ function LoginPage() {
             checked={formData.rememberMe}
             onChange={handleChange}
           />
-          <Link to={ROUTES.FORGOT_PASSWORD} className="text-primary no-underline text-sm font-semibold hover:underline">
+          <Link
+            to={ROUTES.FORGOT_PASSWORD}
+            className="text-primary no-underline text-sm font-semibold hover:underline"
+          >
             Forgot password?
           </Link>
         </div>
@@ -108,7 +113,13 @@ function LoginPage() {
       </form>
 
       <p className="text-center text-sm text-slate mt-6">
-        Don't have an account? <Link to={ROUTES.SIGNUP} className="text-primary no-underline font-semibold hover:underline">Sign up</Link>
+        Don't have an account?{' '}
+        <Link
+          to={ROUTES.SIGNUP}
+          className="text-primary no-underline font-semibold hover:underline"
+        >
+          Sign up
+        </Link>
       </p>
     </AuthLayout>
   )

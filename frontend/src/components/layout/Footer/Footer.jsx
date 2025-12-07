@@ -39,13 +39,13 @@ const Footer = forwardRef(function Footer(
               </div>
               <span className="font-display text-[22px] font-semibold text-white">{logoText}</span>
             </div>
-            {tagline && <p className="text-[15px] text-slate leading-relaxed m-0">{tagline}</p>}
+            {tagline && <p className="text-[15px] text-mist leading-[1.6] m-0">{tagline}</p>}
           </div>
 
           {/* Link columns */}
           {columns.map((column, index) => (
             <div key={column.title || index} className="flex flex-col">
-              <h4 className="text-[13px] font-semibold uppercase tracking-[0.1em] text-slate mb-5 mt-0 mx-0">
+              <h4 className="text-[13px] font-semibold uppercase tracking-[0.1em] text-mist mb-5 mt-0 mx-0">
                 {column.title}
               </h4>
               <ul className="list-none p-0 m-0">
@@ -66,14 +66,14 @@ const Footer = forwardRef(function Footer(
 
         {/* Bottom section with copyright and legal */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-5 pt-10 text-center md:text-left">
-          <p className="text-sm text-slate m-0">{copyright}</p>
+          <p className="text-sm text-mist m-0">{copyright}</p>
           {legalLinks.length > 0 && (
             <div className="flex items-center gap-6">
               {legalLinks.map((link, index) => (
                 <a
                   key={link.href || index}
                   href={link.href}
-                  className="text-sm text-slate no-underline transition-colors duration-200 hover:text-white"
+                  className="text-sm text-mist no-underline transition-colors duration-200 hover:text-white"
                 >
                   {link.label}
                 </a>

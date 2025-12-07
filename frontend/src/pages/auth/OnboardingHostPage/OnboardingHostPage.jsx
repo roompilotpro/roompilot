@@ -88,7 +88,9 @@ function OnboardingHostPage() {
         {/* Step 1: Basic Info */}
         {currentStep === 1 && (
           <div className="bg-white rounded-2xl p-10 md:p-6 shadow-md mb-8 animate-fade-in">
-            <h1 className="font-display text-[2rem] md:text-[1.625rem] font-bold text-midnight mb-2">Let's get you set up</h1>
+            <h1 className="font-display text-[2rem] md:text-[1.625rem] font-bold text-midnight mb-2">
+              Let's get you set up
+            </h1>
             <p className="text-lg text-slate mb-8">Tell us a bit about yourself to get started</p>
 
             <form>
@@ -136,7 +138,9 @@ function OnboardingHostPage() {
         {/* Step 2: Payouts */}
         {currentStep === 2 && (
           <div className="bg-white rounded-2xl p-10 md:p-6 shadow-md mb-8 animate-fade-in">
-            <h1 className="font-display text-[2rem] md:text-[1.625rem] font-bold text-midnight mb-2">Set up your payouts</h1>
+            <h1 className="font-display text-[2rem] md:text-[1.625rem] font-bold text-midnight mb-2">
+              Set up your payouts
+            </h1>
             <p className="text-lg text-slate mb-8">Connect Stripe to receive payments securely</p>
 
             <div className="bg-gradient-to-br from-[#635bff] to-[#4b43c8] text-white p-8 rounded-xl mb-8">
@@ -145,12 +149,18 @@ function OnboardingHostPage() {
                 <span>Powered by</span>
               </div>
               <h3 className="font-display text-2xl font-bold mb-3">Fast, secure payments</h3>
-              <p className="opacity-90 leading-relaxed mb-2">Stripe handles all payment processing, making it easy to get paid on time.</p>
+              <p className="opacity-90 leading-relaxed mb-2">
+                Stripe handles all payment processing, making it easy to get paid on time.
+              </p>
               <ul className="list-none p-0 mt-4">
                 <li className="py-2 flex items-center gap-2">✓ Automatic weekly payouts</li>
                 <li className="py-2 flex items-center gap-2">✓ Bank-level security</li>
-                <li className="py-2 flex items-center gap-2">✓ Track all transactions in one place</li>
-                <li className="py-2 flex items-center gap-2">✓ Support for multiple payment methods</li>
+                <li className="py-2 flex items-center gap-2">
+                  ✓ Track all transactions in one place
+                </li>
+                <li className="py-2 flex items-center gap-2">
+                  ✓ Support for multiple payment methods
+                </li>
               </ul>
             </div>
 
@@ -164,7 +174,11 @@ function OnboardingHostPage() {
             </div>
 
             <div className="text-center mt-4">
-              <button type="button" onClick={skipStripe} className="bg-transparent border-none text-slate p-4 cursor-pointer font-body text-base hover:text-primary">
+              <button
+                type="button"
+                onClick={skipStripe}
+                className="bg-transparent border-none text-slate p-4 cursor-pointer font-body text-base hover:text-primary"
+              >
                 I'll do this later
               </button>
             </div>
@@ -174,14 +188,18 @@ function OnboardingHostPage() {
         {/* Step 3: First Property */}
         {currentStep === 3 && (
           <div className="bg-white rounded-2xl p-10 md:p-6 shadow-md mb-8 animate-fade-in">
-            <h1 className="font-display text-[2rem] md:text-[1.625rem] font-bold text-midnight mb-2">Add your first property</h1>
+            <h1 className="font-display text-[2rem] md:text-[1.625rem] font-bold text-midnight mb-2">
+              Add your first property
+            </h1>
             <p className="text-lg text-slate mb-8">You can always add more properties later</p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
               <div
                 className={classNames(
                   'p-6 border-2 rounded-xl cursor-pointer transition-all text-center',
-                  showPropertyForm ? 'border-primary bg-primary-bg' : 'border-cloud hover:border-primary hover:bg-primary-bg'
+                  showPropertyForm
+                    ? 'border-primary bg-primary-bg'
+                    : 'border-cloud hover:border-primary hover:bg-primary-bg'
                 )}
                 onClick={() => togglePropertyForm(true)}
               >
@@ -193,7 +211,9 @@ function OnboardingHostPage() {
               <div
                 className={classNames(
                   'p-6 border-2 rounded-xl cursor-pointer transition-all text-center',
-                  !showPropertyForm ? 'border-primary bg-primary-bg' : 'border-cloud hover:border-primary hover:bg-primary-bg'
+                  !showPropertyForm
+                    ? 'border-primary bg-primary-bg'
+                    : 'border-cloud hover:border-primary hover:bg-primary-bg'
                 )}
                 onClick={() => togglePropertyForm(false)}
               >
@@ -252,7 +272,9 @@ function OnboardingHostPage() {
           <div className="bg-white rounded-2xl p-10 md:p-6 shadow-md mb-8 animate-fade-in">
             <div className="text-center py-12 px-8">
               <div className="text-[5rem] mb-6 animate-bounce">🎉</div>
-              <h2 className="font-display text-[2.25rem] font-bold text-midnight mb-4">Welcome to RoomPilot!</h2>
+              <h2 className="font-display text-[2.25rem] font-bold text-midnight mb-4">
+                Welcome to RoomPilot!
+              </h2>
               <p className="text-lg text-slate mb-8">
                 You're all set up and ready to start listing your properties
               </p>
@@ -260,10 +282,18 @@ function OnboardingHostPage() {
               <div className="bg-snow rounded-xl p-6 my-8 text-left">
                 <h3 className="font-bold mb-4 text-midnight">Next Steps:</h3>
                 <ul className="list-none p-0 m-0">
-                  <li className="py-3 flex items-center gap-3 text-slate">📝 Complete your property listings</li>
-                  <li className="py-3 flex items-center gap-3 text-slate">📸 Add photos to attract more renters</li>
-                  <li className="py-3 flex items-center gap-3 text-slate">💰 Set competitive pricing</li>
-                  <li className="py-3 flex items-center gap-3 text-slate">📧 Start receiving rental applications</li>
+                  <li className="py-3 flex items-center gap-3 text-slate">
+                    📝 Complete your property listings
+                  </li>
+                  <li className="py-3 flex items-center gap-3 text-slate">
+                    📸 Add photos to attract more renters
+                  </li>
+                  <li className="py-3 flex items-center gap-3 text-slate">
+                    💰 Set competitive pricing
+                  </li>
+                  <li className="py-3 flex items-center gap-3 text-slate">
+                    📧 Start receiving rental applications
+                  </li>
                 </ul>
               </div>
 

@@ -81,9 +81,13 @@ function BillingSettingsPage() {
                   max="30"
                   onChange={markAsChanged}
                 />
-                <span className="py-3 px-4 bg-snow border border-cloud rounded-lg font-medium text-slate">days</span>
+                <span className="py-3 px-4 bg-snow border border-cloud rounded-lg font-medium text-slate">
+                  days
+                </span>
               </div>
-              <span className="text-[13px] text-slate">Days after due date before late fees apply</span>
+              <span className="text-[13px] text-slate">
+                Days after due date before late fees apply
+              </span>
             </div>
 
             <div className="flex flex-col gap-2 col-span-2 md:col-span-1">
@@ -120,7 +124,9 @@ function BillingSettingsPage() {
               <div className="flex flex-col gap-2">
                 <label className="font-semibold text-midnight text-sm">Flat Late Fee Amount</label>
                 <div className="flex items-center gap-2">
-                  <span className="py-3 px-4 bg-snow border border-cloud rounded-lg font-medium text-slate">$</span>
+                  <span className="py-3 px-4 bg-snow border border-cloud rounded-lg font-medium text-slate">
+                    $
+                  </span>
                   <input
                     type="number"
                     className="py-3 px-3.5 border border-cloud rounded-lg font-body text-sm text-midnight bg-white focus:outline-none focus:border-primary"
@@ -147,7 +153,9 @@ function BillingSettingsPage() {
                     step="0.5"
                     onChange={markAsChanged}
                   />
-                  <span className="py-3 px-4 bg-snow border border-cloud rounded-lg font-medium text-slate">%</span>
+                  <span className="py-3 px-4 bg-snow border border-cloud rounded-lg font-medium text-slate">
+                    %
+                  </span>
                 </div>
                 <span className="text-[13px] text-slate">Percentage of rent amount</span>
               </div>
@@ -156,7 +164,9 @@ function BillingSettingsPage() {
             <div className="flex flex-col gap-2">
               <label className="font-semibold text-midnight text-sm">Maximum Late Fee Cap</label>
               <div className="flex items-center gap-2">
-                <span className="py-3 px-4 bg-snow border border-cloud rounded-lg font-medium text-slate">$</span>
+                <span className="py-3 px-4 bg-snow border border-cloud rounded-lg font-medium text-slate">
+                  $
+                </span>
                 <input
                   type="number"
                   className="py-3 px-3.5 border border-cloud rounded-lg font-body text-sm text-midnight bg-white focus:outline-none focus:border-primary"
@@ -182,7 +192,9 @@ function BillingSettingsPage() {
             <div className="flex justify-between items-center p-4 bg-snow rounded-lg">
               <div>
                 <h4 className="font-semibold mb-1 text-midnight">Auto-billing</h4>
-                <p className="text-[13px] text-slate">Automatically charge tenants on their billing schedule</p>
+                <p className="text-[13px] text-slate">
+                  Automatically charge tenants on their billing schedule
+                </p>
               </div>
               <Toggle
                 checked={autoBilling}
@@ -196,7 +208,9 @@ function BillingSettingsPage() {
             <div className="flex justify-between items-center p-4 bg-snow rounded-lg">
               <div>
                 <h4 className="font-semibold mb-1 text-midnight">Auto-reminders</h4>
-                <p className="text-[13px] text-slate">Send automatic payment reminders to tenants</p>
+                <p className="text-[13px] text-slate">
+                  Send automatic payment reminders to tenants
+                </p>
               </div>
               <Toggle
                 checked={autoReminders}
@@ -210,7 +224,9 @@ function BillingSettingsPage() {
             <div className="flex justify-between items-center p-4 bg-snow rounded-lg">
               <div>
                 <h4 className="font-semibold mb-1 text-midnight">Auto-late fees</h4>
-                <p className="text-[13px] text-slate">Automatically apply late fees after grace period</p>
+                <p className="text-[13px] text-slate">
+                  Automatically apply late fees after grace period
+                </p>
               </div>
               <Toggle
                 checked={autoLateFees}
@@ -263,16 +279,26 @@ function BillingSettingsPage() {
               max="30"
               onChange={markAsChanged}
             />
-            <span className="flex-1 font-medium text-midnight">days after due date (if unpaid)</span>
+            <span className="flex-1 font-medium text-midnight">
+              days after due date (if unpaid)
+            </span>
           </div>
 
           <div className="p-4 bg-primary-bg border-l-4 border-primary rounded-lg mt-4">
             <div className="font-semibold mb-2 text-primary-dark">📅 Preview Schedule</div>
             <ul className="list-none flex flex-col gap-1.5">
-              <li className="text-sm text-slate flex items-center gap-2">🔔 Reminder sent 3 days before payment due</li>
-              <li className="text-sm text-slate flex items-center gap-2">🔔 Reminder sent on payment due date</li>
-              <li className="text-sm text-slate flex items-center gap-2">🔔 Reminder sent 1 day after due date if unpaid</li>
-              <li className="text-sm text-slate flex items-center gap-2">⏰ Late fees applied after 3-day grace period</li>
+              <li className="text-sm text-slate flex items-center gap-2">
+                🔔 Reminder sent 3 days before payment due
+              </li>
+              <li className="text-sm text-slate flex items-center gap-2">
+                🔔 Reminder sent on payment due date
+              </li>
+              <li className="text-sm text-slate flex items-center gap-2">
+                🔔 Reminder sent 1 day after due date if unpaid
+              </li>
+              <li className="text-sm text-slate flex items-center gap-2">
+                ⏰ Late fees applied after 3-day grace period
+              </li>
             </ul>
           </div>
         </div>
@@ -356,8 +382,14 @@ function BillingSettingsPage() {
 
       {/* Property Override Modal */}
       {showOverrideModal && (
-        <div className="flex fixed inset-0 bg-black/50 items-center justify-center z-[1000]" onClick={() => setShowOverrideModal(false)}>
-          <div className="bg-white rounded-2xl p-8 max-w-[600px] w-[90%]" onClick={(e) => e.stopPropagation()}>
+        <div
+          className="flex fixed inset-0 bg-black/50 items-center justify-center z-[1000]"
+          onClick={() => setShowOverrideModal(false)}
+        >
+          <div
+            className="bg-white rounded-2xl p-8 max-w-[600px] w-[90%]"
+            onClick={(e) => e.stopPropagation()}
+          >
             <h2 className="font-display text-2xl font-bold mb-2">Override Settings</h2>
             <p className="text-slate mb-6">
               Configure custom billing settings for {selectedProperty}
@@ -398,7 +430,9 @@ function BillingSettingsPage() {
 
               <div className="flex justify-between items-center p-4 bg-snow rounded-lg">
                 <div>
-                  <h4 className="font-semibold mb-1 text-midnight">Auto-billing for this property</h4>
+                  <h4 className="font-semibold mb-1 text-midnight">
+                    Auto-billing for this property
+                  </h4>
                   <p className="text-[13px] text-slate">Override global auto-billing setting</p>
                 </div>
                 <Toggle checked={true} />

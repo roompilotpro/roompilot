@@ -202,7 +202,11 @@ function RoomDetailsPage() {
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-[1000] h-[var(--nav-height)] px-10 flex items-center justify-between bg-white border-b border-cloud md:px-5">
         <div className="flex items-center gap-6">
-          <button type="button" className="flex items-center gap-2 py-2 px-3 bg-transparent border-none font-body text-sm font-medium text-slate cursor-pointer rounded-md transition-all hover:bg-snow hover:text-charcoal" onClick={handleBack}>
+          <button
+            type="button"
+            className="flex items-center gap-2 py-2 px-3 bg-transparent border-none font-body text-sm font-medium text-slate cursor-pointer rounded-md transition-all hover:bg-snow hover:text-charcoal"
+            onClick={handleBack}
+          >
             <svg
               width="20"
               height="20"
@@ -217,13 +221,21 @@ function RoomDetailsPage() {
           </button>
 
           <Link to={ROUTES.HOME} className="flex items-center gap-2.5 no-underline">
-            <div className="w-9 h-9 bg-gradient-to-br from-primary to-[#1d4ed8] rounded-[10px] flex items-center justify-center text-white font-bold text-lg shadow-[0_2px_8px_rgba(37,99,235,0.3)]">R</div>
-            <span className="font-display text-[22px] font-semibold text-midnight tracking-tight">RoomPilot</span>
+            <div className="w-9 h-9 bg-gradient-to-br from-primary to-[#1d4ed8] rounded-[10px] flex items-center justify-center text-white font-bold text-lg shadow-[0_2px_8px_rgba(37,99,235,0.3)]">
+              R
+            </div>
+            <span className="font-display text-[22px] font-semibold text-midnight tracking-tight">
+              RoomPilot
+            </span>
           </Link>
         </div>
 
         <div className="flex items-center gap-3">
-          <button type="button" className="flex items-center gap-1.5 py-2.5 px-4 bg-transparent border-none font-body text-sm font-medium text-slate cursor-pointer rounded-md transition-all hover:bg-snow" onClick={handleShare}>
+          <button
+            type="button"
+            className="flex items-center gap-1.5 py-2.5 px-4 bg-transparent border-none font-body text-sm font-medium text-slate cursor-pointer rounded-md transition-all hover:bg-snow"
+            onClick={handleShare}
+          >
             <svg
               width="18"
               height="18"
@@ -282,24 +294,33 @@ function RoomDetailsPage() {
 
           {/* Description */}
           <section className="py-8 border-b border-cloud">
-            <h2 className="font-display text-[22px] font-semibold text-midnight mb-5">About this room</h2>
+            <h2 className="font-display text-[22px] font-semibold text-midnight mb-5">
+              About this room
+            </h2>
             <div className="text-base leading-relaxed text-slate [&_p]:mb-4 [&_p:last-child]:mb-0">
               {room.description.map((paragraph, index) => (
                 <p key={index}>{paragraph}</p>
               ))}
             </div>
-            <button type="button" className="inline-flex items-center gap-1 mt-2 text-[15px] font-semibold text-charcoal bg-transparent border-none cursor-pointer underline p-0">
+            <button
+              type="button"
+              className="inline-flex items-center gap-1 mt-2 text-[15px] font-semibold text-charcoal bg-transparent border-none cursor-pointer underline p-0"
+            >
               Show more →
             </button>
           </section>
 
           {/* Room Details */}
           <section className="py-8 border-b border-cloud">
-            <h2 className="font-display text-[22px] font-semibold text-midnight mb-5">Room details</h2>
+            <h2 className="font-display text-[22px] font-semibold text-midnight mb-5">
+              Room details
+            </h2>
             <div className="grid grid-cols-2 gap-4 md:grid-cols-1">
               {room.roomDetails.map((detail, index) => (
                 <div key={index} className="flex items-center gap-3 p-4 bg-snow rounded-md">
-                  <div className="w-11 h-11 bg-white rounded-[10px] flex items-center justify-center text-[22px] shrink-0">{detail.icon}</div>
+                  <div className="w-11 h-11 bg-white rounded-[10px] flex items-center justify-center text-[22px] shrink-0">
+                    {detail.icon}
+                  </div>
                   <div className="min-w-0">
                     <div className="text-[13px] text-slate mb-0.5">{detail.label}</div>
                     <div className="text-[15px] font-semibold text-charcoal">{detail.value}</div>

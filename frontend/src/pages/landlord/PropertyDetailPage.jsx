@@ -123,16 +123,22 @@ function PropertyDetailPage() {
         {/* Property Header */}
         <div className="grid grid-cols-1 lg:grid-cols-[400px_1fr] gap-8 mb-8">
           <div className="h-[280px] rounded-2xl overflow-hidden">
-            <div className="w-full h-full flex items-center justify-center text-[80px] bg-gradient-to-br from-[#dbeafe] to-[#bfdbfe]">🏠</div>
+            <div className="w-full h-full flex items-center justify-center text-[80px] bg-gradient-to-br from-[#dbeafe] to-[#bfdbfe]">
+              🏠
+            </div>
           </div>
           <div className="flex flex-col justify-end">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <div className="bg-white p-6 rounded-2xl border border-cloud text-center">
-                <span className="block font-display text-[28px] font-bold text-midnight mb-1">{property.totalRooms}</span>
+                <span className="block font-display text-[28px] font-bold text-midnight mb-1">
+                  {property.totalRooms}
+                </span>
                 <span className="text-[13px] text-slate">Total Rooms</span>
               </div>
               <div className="bg-white p-6 rounded-2xl border border-cloud text-center">
-                <span className="block font-display text-[28px] font-bold text-midnight mb-1">{property.occupiedRooms}</span>
+                <span className="block font-display text-[28px] font-bold text-midnight mb-1">
+                  {property.occupiedRooms}
+                </span>
                 <span className="text-[13px] text-slate">Occupied</span>
               </div>
               <div className="bg-white p-6 rounded-2xl border border-cloud text-center">
@@ -142,7 +148,9 @@ function PropertyDetailPage() {
                 <span className="text-[13px] text-slate">Monthly Revenue</span>
               </div>
               <div className="bg-white p-6 rounded-2xl border border-cloud text-center">
-                <span className="block font-display text-[28px] font-bold text-midnight mb-1">{property.rating}</span>
+                <span className="block font-display text-[28px] font-bold text-midnight mb-1">
+                  {property.rating}
+                </span>
                 <span className="text-[13px] text-slate">Rating</span>
               </div>
             </div>
@@ -159,7 +167,9 @@ function PropertyDetailPage() {
             <div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <Card title="About This Property" className="md:col-span-2">
-                  <p className="text-[15px] leading-relaxed text-charcoal">{property.description}</p>
+                  <p className="text-[15px] leading-relaxed text-charcoal">
+                    {property.description}
+                  </p>
                 </Card>
 
                 <Card title="Amenities">
@@ -197,7 +207,9 @@ function PropertyDetailPage() {
                     <Card key={room.id} className="flex flex-col gap-4" hoverable>
                       <div className="flex items-start justify-between">
                         <div>
-                          <h3 className="text-[17px] font-semibold text-charcoal mb-1">{room.name}</h3>
+                          <h3 className="text-[17px] font-semibold text-charcoal mb-1">
+                            {room.name}
+                          </h3>
                           <p className="text-[13px] text-slate">
                             {room.type} &middot; {room.bathroom}
                           </p>
@@ -210,11 +222,15 @@ function PropertyDetailPage() {
                       <div className="flex gap-6">
                         <div className="flex flex-col gap-1">
                           <span className="text-xs text-slate">Size</span>
-                          <span className="text-[15px] font-semibold text-charcoal">{room.size} sq ft</span>
+                          <span className="text-[15px] font-semibold text-charcoal">
+                            {room.size} sq ft
+                          </span>
                         </div>
                         <div className="flex flex-col gap-1">
                           <span className="text-xs text-slate">Price</span>
-                          <span className="text-[15px] font-semibold text-charcoal">${room.price}/mo</span>
+                          <span className="text-[15px] font-semibold text-charcoal">
+                            ${room.price}/mo
+                          </span>
                         </div>
                       </div>
 
@@ -222,7 +238,9 @@ function PropertyDetailPage() {
                         <div className="flex items-center gap-3 p-3 bg-snow rounded-xl">
                           <Avatar name={room.tenant.name} size="sm" />
                           <div className="flex-1 min-w-0">
-                            <span className="block text-sm font-semibold text-charcoal">{room.tenant.name}</span>
+                            <span className="block text-sm font-semibold text-charcoal">
+                              {room.tenant.name}
+                            </span>
                             <span className="text-xs text-slate">
                               Since {room.tenant.moveInDate}
                             </span>
@@ -262,7 +280,9 @@ function PropertyDetailPage() {
                       <div className="flex items-center gap-4">
                         <Avatar name={room.tenant.name} size="lg" />
                         <div className="flex-1 min-w-0">
-                          <h3 className="text-[17px] font-semibold text-charcoal mb-1">{room.tenant.name}</h3>
+                          <h3 className="text-[17px] font-semibold text-charcoal mb-1">
+                            {room.tenant.name}
+                          </h3>
                           <p className="text-[13px] text-slate">{room.name}</p>
                         </div>
                         <IconButton label="More options" variant="ghost">
@@ -284,7 +304,9 @@ function PropertyDetailPage() {
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-snow rounded-xl">
                         <div className="flex flex-col gap-1">
                           <span className="text-xs text-slate">Move-in Date</span>
-                          <span className="text-sm font-semibold text-charcoal">{room.tenant.moveInDate}</span>
+                          <span className="text-sm font-semibold text-charcoal">
+                            {room.tenant.moveInDate}
+                          </span>
                         </div>
                         <div className="flex flex-col gap-1">
                           <span className="text-xs text-slate">Monthly Rent</span>
@@ -324,7 +346,9 @@ function PropertyDetailPage() {
                     <div className="flex items-center gap-4">
                       <Avatar name={application.applicant.name} size="lg" />
                       <div className="flex-1 min-w-0">
-                        <h3 className="text-[17px] font-semibold text-charcoal mb-1">{application.applicant.name}</h3>
+                        <h3 className="text-[17px] font-semibold text-charcoal mb-1">
+                          {application.applicant.name}
+                        </h3>
                         <p className="text-sm text-slate mb-0.5">Applied for {application.room}</p>
                         <p className="text-[13px] text-slate">{application.appliedDate}</p>
                       </div>

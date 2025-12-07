@@ -286,7 +286,11 @@ function SearchPage() {
         <FilterChip icon="🔍" label="More Filters" hasDropdown onClick={() => {}} />
 
         {activeFilterCount > 0 && (
-          <button type="button" className="ml-auto py-2 px-4 bg-transparent border-none font-body text-sm font-medium text-primary cursor-pointer underline hover:text-[#1d4ed8] whitespace-nowrap" onClick={clearFilters}>
+          <button
+            type="button"
+            className="ml-auto py-2 px-4 bg-transparent border-none font-body text-sm font-medium text-primary cursor-pointer underline hover:text-[#1d4ed8] whitespace-nowrap"
+            onClick={clearFilters}
+          >
             Clear all ({activeFilterCount})
           </button>
         )}

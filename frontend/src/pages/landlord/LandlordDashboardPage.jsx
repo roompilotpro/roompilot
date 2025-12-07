@@ -15,14 +15,6 @@ import {
   mockWalletBalance,
 } from '../../data/mockLandlordData'
 
-// Animation styles for pulse effect
-const dashboardStyles = `
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
-  }
-`
-
 // Pending icon background styles
 const pendingIconStyles = {
   application: 'bg-primary-bg',
@@ -101,10 +93,8 @@ function LandlordDashboardPage() {
   )
 
   return (
-    <>
-      <style>{dashboardStyles}</style>
-      <AppShell
-        sidebar={{
+    <AppShell
+      sidebar={{
           links: navLinks,
           user,
           logoBadge,
@@ -444,8 +434,7 @@ function LandlordDashboardPage() {
             </div>
           </div>
         </div>
-      </AppShell>
-    </>
+    </AppShell>
   )
 }
 

@@ -202,7 +202,9 @@ function PropertiesListPage() {
                     </Badge>
                   </div>
                   <div className="p-5">
-                    <h3 className="text-[17px] font-semibold text-charcoal mb-1">{property.name}</h3>
+                    <h3 className="text-[17px] font-semibold text-charcoal mb-1">
+                      {property.name}
+                    </h3>
                     <p className="text-[13px] text-slate mb-4">{property.address}</p>
 
                     <div className="flex flex-col gap-3">
@@ -263,7 +265,9 @@ function PropertiesListPage() {
                         </div>
                       </div>
                       <div className="min-w-0">
-                        <div className="text-[15px] font-semibold text-charcoal mb-0.5 whitespace-nowrap overflow-hidden text-ellipsis">{property.name}</div>
+                        <div className="text-[15px] font-semibold text-charcoal mb-0.5 whitespace-nowrap overflow-hidden text-ellipsis">
+                          {property.name}
+                        </div>
                         <div className="text-[13px] text-slate">{property.address}</div>
                       </div>
                     </div>
@@ -284,7 +288,9 @@ function PropertiesListPage() {
                       </div>
                     </div>
                     <div className="hidden lg:block text-center">
-                      <div className="font-display text-base font-bold text-charcoal">${property.revenue.toLocaleString()}</div>
+                      <div className="font-display text-base font-bold text-charcoal">
+                        ${property.revenue.toLocaleString()}
+                      </div>
                       <div className="text-xs text-slate">/month</div>
                     </div>
                     <div className="hidden md:block text-center">
@@ -342,7 +348,9 @@ function PropertiesListPage() {
         {filteredProperties.length === 0 && (
           <div className="flex flex-col items-center justify-center py-16 px-6 text-center">
             <div className="text-[64px] mb-4">🏠</div>
-            <h3 className="font-display text-2xl font-semibold text-charcoal mb-2">No properties found</h3>
+            <h3 className="font-display text-2xl font-semibold text-charcoal mb-2">
+              No properties found
+            </h3>
             <p className="text-[15px] text-slate mb-6">
               Try adjusting your filters or add a new property
             </p>

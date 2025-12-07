@@ -1,5 +1,5 @@
 {
-  "timestamp": "2025-12-06T21:48:21.423Z",
+  "timestamp": "2025-12-07T05:32:50.597Z",
   "page": "LandingPage",
   "design": {
     "width": 1440,
@@ -7,10 +7,10 @@
   },
   "react": {
     "width": 1440,
-    "height": 5855
+    "height": 5860
   },
   "totalPixels": 8441280,
-  "diffPixels": 49292,
-  "diffPercentage": 0.58,
-  "passed": true
+  "diffPixels": 310731,
+  "diffPercentage": 3.68,
+  "passed": false
 }

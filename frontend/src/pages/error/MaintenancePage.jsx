@@ -9,16 +9,25 @@ function MaintenancePage() {
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-primary-bg to-snow">
       <nav className="bg-white border-b border-cloud py-4 px-8 flex justify-center">
-        <Link to={ROUTES.HOME} className="font-display text-2xl font-bold text-primary no-underline flex items-center gap-2.5">
-          <span className="w-9 h-9 bg-gradient-to-br from-primary to-[#1e40af] rounded-[10px] flex items-center justify-center text-white font-bold text-lg font-body">R</span>
+        <Link
+          to={ROUTES.HOME}
+          className="font-display text-2xl font-bold text-primary no-underline flex items-center gap-2.5"
+        >
+          <span className="w-9 h-9 bg-gradient-to-br from-primary to-[#1e40af] rounded-[10px] flex items-center justify-center text-white font-bold text-lg font-body">
+            R
+          </span>
           RoomPilot
         </Link>
       </nav>
 
       <main className="flex-1 flex items-center justify-center p-8">
         <div className="max-w-[600px] text-center">
-          <div className="text-[5rem] mb-4 animate-[float_3s_ease-in-out_infinite] md:text-[4rem]">&#128736;&#65039;</div>
-          <h1 className="font-display text-[2.5rem] font-bold text-midnight mb-4 md:text-[2rem] sm:text-2xl">We'll be back soon!</h1>
+          <div className="text-[5rem] mb-4 animate-[float_3s_ease-in-out_infinite] md:text-[4rem]">
+            &#128736;&#65039;
+          </div>
+          <h1 className="font-display text-[2.5rem] font-bold text-midnight mb-4 md:text-[2rem] sm:text-2xl">
+            We'll be back soon!
+          </h1>
           <p className="text-lg text-slate mb-8 leading-relaxed">
             RoomPilot is currently undergoing scheduled maintenance to improve your experience. We
             apologize for any inconvenience.
@@ -46,7 +55,12 @@ function MaintenancePage() {
             <ul className="list-none flex flex-col gap-3">
               <li className="flex items-center gap-3">
                 <span className="text-xl">&#128231;</span>
-                <a href="mailto:support@roompilot.com" className="text-primary no-underline font-medium transition-colors hover:text-[#1e40af] hover:underline">support@roompilot.com</a>
+                <a
+                  href="mailto:support@roompilot.com"
+                  className="text-primary no-underline font-medium transition-colors hover:text-[#1e40af] hover:underline"
+                >
+                  support@roompilot.com
+                </a>
               </li>
             </ul>
           </div>

@@ -6,8 +6,12 @@ function TrustSafetyPage() {
   return (
     <div className="bg-white">
       <section className="bg-gradient-to-br from-primary-bg to-white py-20 px-10 pb-[60px] text-center md:px-5 md:py-[60px]">
-        <h1 className="font-display text-[clamp(2rem,4vw,3rem)] text-midnight mb-2">Trust & Safety</h1>
-        <p className="text-xl text-slate max-w-[600px] mx-auto">Your safety is our top priority. Learn how we protect our community.</p>
+        <h1 className="font-display text-[clamp(2rem,4vw,3rem)] text-midnight mb-2">
+          Trust & Safety
+        </h1>
+        <p className="text-xl text-slate max-w-[600px] mx-auto">
+          Your safety is our top priority. Learn how we protect our community.
+        </p>
       </section>
 
       <section className="py-[60px] px-10 pb-[100px] md:px-5 md:py-[60px]">
@@ -48,7 +52,9 @@ function TrustSafetyPage() {
           </div>
 
           <div className="mb-12">
-            <h2 className="font-display text-[1.75rem] text-midnight mb-4 pb-3 border-b-2 border-cloud">How We Protect You</h2>
+            <h2 className="font-display text-[1.75rem] text-midnight mb-4 pb-3 border-b-2 border-cloud">
+              How We Protect You
+            </h2>
             <h3 className="text-lg text-charcoal my-6 mb-3">For Hosts</h3>
             <ul className="my-4 pl-6 list-disc [&_li]:text-base [&_li]:text-slate [&_li]:leading-[1.7] [&_li]:mb-2">
               <li>Screen tenants with optional background checks</li>
@@ -66,7 +72,9 @@ function TrustSafetyPage() {
           </div>
 
           <div className="mb-12">
-            <h2 className="font-display text-[1.75rem] text-midnight mb-4 pb-3 border-b-2 border-cloud">Reporting Issues</h2>
+            <h2 className="font-display text-[1.75rem] text-midnight mb-4 pb-3 border-b-2 border-cloud">
+              Reporting Issues
+            </h2>
             <p className="text-base text-slate leading-[1.7] mb-4">
               If you encounter suspicious activity, scams, or safety concerns, report them
               immediately using the "Report" button in any conversation or listing. Our team
@@ -82,17 +90,27 @@ function TrustSafetyPage() {
           </div>
 
           <div className="mb-12">
-            <h2 className="font-display text-[1.75rem] text-midnight mb-4 pb-3 border-b-2 border-cloud">Emergency Contacts</h2>
+            <h2 className="font-display text-[1.75rem] text-midnight mb-4 pb-3 border-b-2 border-cloud">
+              Emergency Contacts
+            </h2>
             <p className="text-base text-slate leading-[1.7] mb-4">
               For immediate safety concerns, contact local emergency services (911). For
               non-emergency safety issues, contact our Trust & Safety team at{' '}
-              <a href="mailto:safety@roompilot.com" className="text-primary no-underline hover:underline">safety@roompilot.com</a>.
+              <a
+                href="mailto:safety@roompilot.com"
+                className="text-primary no-underline hover:underline"
+              >
+                safety@roompilot.com
+              </a>
+              .
             </p>
           </div>
 
           <div className="text-center py-[60px] mt-10 border-t border-cloud">
             <h2 className="font-display text-[2rem] text-midnight mb-3">Questions?</h2>
-            <p className="text-slate mb-6">Our support team is available 24/7 to help with any safety concerns.</p>
+            <p className="text-slate mb-6">
+              Our support team is available 24/7 to help with any safety concerns.
+            </p>
             <Link to={ROUTES.CONTACT} className="no-underline">
               <Button variant="primary" size="lg">
                 Contact Support
