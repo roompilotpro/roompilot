@@ -74,10 +74,11 @@ export const ROUTES = {
  * Navigation links for the public navigation bar
  */
 export const PUBLIC_NAV_LINKS = [
-  { label: 'Find a Room', href: ROUTES.SEARCH },
-  { label: 'List Your Property', href: ROUTES.SIGNUP },
-  { label: 'How It Works', href: ROUTES.HOW_IT_WORKS_RENTERS },
+  { label: 'For Renters', href: ROUTES.HOW_IT_WORKS_RENTERS },
+  { label: 'For Hosts', href: ROUTES.HOW_IT_WORKS_LANDLORDS },
   { label: 'Pricing', href: ROUTES.PRICING },
+  { label: 'Trust & Safety', href: ROUTES.TRUST_SAFETY },
+  { label: 'FAQ', href: ROUTES.FAQ },
 ]
 
 /**
@@ -85,30 +86,39 @@ export const PUBLIC_NAV_LINKS = [
  */
 export const FOOTER_COLUMNS = [
   {
-    title: 'For Landlords',
+    title: 'RoomPilot',
     links: [
-      { label: 'List Your Property', href: ROUTES.SIGNUP },
-      { label: 'Pricing', href: ROUTES.PRICING },
-      { label: 'How It Works', href: ROUTES.HOW_IT_WORKS_LANDLORDS },
-      { label: 'Success Stories', href: '#' },
+      { label: 'About Us', href: '#' },
+      { label: 'Careers', href: '#' },
+      { label: 'Press', href: '#' },
+      { label: 'Blog', href: '#' },
     ],
   },
   {
     title: 'For Renters',
     links: [
-      { label: 'Find a Room', href: ROUTES.SEARCH },
       { label: 'How It Works', href: ROUTES.HOW_IT_WORKS_RENTERS },
-      { label: 'FAQs', href: ROUTES.FAQ },
-      { label: 'Support', href: ROUTES.HELP },
+      { label: 'Find a Room', href: ROUTES.SEARCH },
+      { label: 'Trust & Safety', href: ROUTES.TRUST_SAFETY },
+      { label: 'Renter Resources', href: '#' },
     ],
   },
   {
-    title: 'Company',
+    title: 'For Hosts',
     links: [
-      { label: 'About', href: '#' },
-      { label: 'Blog', href: '#' },
-      { label: 'Careers', href: '#' },
-      { label: 'Contact', href: ROUTES.CONTACT },
+      { label: 'Become a Host', href: ROUTES.HOW_IT_WORKS_LANDLORDS },
+      { label: 'List Your Property', href: ROUTES.SIGNUP },
+      { label: 'Pricing', href: ROUTES.PRICING },
+      { label: 'Host Resources', href: '#' },
+    ],
+  },
+  {
+    title: 'Support',
+    links: [
+      { label: 'FAQ', href: ROUTES.FAQ },
+      { label: 'Contact Us', href: ROUTES.CONTACT },
+      { label: 'Terms of Service', href: ROUTES.TERMS },
+      { label: 'Privacy Policy', href: ROUTES.PRIVACY },
     ],
   },
 ]

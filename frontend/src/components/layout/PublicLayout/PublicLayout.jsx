@@ -26,10 +26,10 @@ function PublicLayout() {
   const navActions = (
     <>
       <Link to={ROUTES.LOGIN}>
-        <Button variant="ghost">Log In</Button>
+        <Button variant="secondary">Log In</Button>
       </Link>
       <Link to={ROUTES.SIGNUP}>
-        <Button variant="primary">Get Started</Button>
+        <Button variant="primary">Sign Up</Button>
       </Link>
     </>
   )
@@ -38,15 +38,11 @@ function PublicLayout() {
     <div className="flex flex-col min-h-screen">
       <PublicNavigation links={navLinks} actions={navActions} variant="default" />
 
-      <main className="flex-1 pt-[var(--nav-height)]">
+      <main className="flex-1">
         <Outlet />
       </main>
 
-      <Footer
-        tagline="The automation-first room rental marketplace. More control. Lower fees. Faster payouts."
-        columns={FOOTER_COLUMNS}
-        legalLinks={FOOTER_LEGAL_LINKS}
-      />
+      <Footer columns={FOOTER_COLUMNS} legalLinks={FOOTER_LEGAL_LINKS} />
     </div>
   )
 }

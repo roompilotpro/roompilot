@@ -20,6 +20,10 @@ const FAQ_DATA = {
         q: 'How do I create an account?',
         a: "Click 'Sign Up' in the top right corner, enter your email and create a password. You'll need to verify your email address. For hosts, you'll also need to verify your identity and connect a Stripe account.",
       },
+      {
+        q: 'Is RoomPilot available in my area?',
+        a: 'RoomPilot is currently available across the United States. We are expanding to new markets regularly. Enter your location on our search page to see available rooms in your area.',
+      },
     ],
   },
   hosts: {
@@ -41,6 +45,14 @@ const FAQ_DATA = {
         q: "What if a tenant doesn't pay rent?",
         a: "Rent is automatically charged to the tenant's payment method. If payment fails, automatic retries occur and late fees are applied per your settings.",
       },
+      {
+        q: 'Can I set my own house rules?',
+        a: 'Absolutely! You can specify rules about guests, quiet hours, smoking, pets, parking, and more. These are displayed to renters before they apply.',
+      },
+      {
+        q: 'How do I handle maintenance requests?',
+        a: 'Tenants can submit maintenance requests through the platform. You receive notifications and can track, respond to, and resolve issues all in one place.',
+      },
     ],
   },
   renters: {
@@ -58,6 +70,18 @@ const FAQ_DATA = {
         q: 'Can I pay rent weekly instead of monthly?',
         a: "Yes! If the listing offers weekly payments, you can choose to pay weekly. This helps budget rent if you're paid weekly or bi-weekly.",
       },
+      {
+        q: 'What is included in the rent?',
+        a: 'This varies by listing. Most rooms include utilities (water, electricity, internet), but always check the listing details. Furnished rooms will specify what furniture is included.',
+      },
+      {
+        q: 'Can I tour a room before applying?',
+        a: 'Yes! You can request a tour through the listing page. The host will receive your request and can schedule a time that works for both of you.',
+      },
+      {
+        q: 'What happens if I need to move out early?',
+        a: 'Check your rental agreement for the notice period required (typically 2-4 weeks). Communicate with your host as early as possible to ensure a smooth transition.',
+      },
     ],
   },
   payments: {
@@ -74,6 +98,56 @@ const FAQ_DATA = {
       {
         q: 'How do security deposits work?',
         a: 'Security deposits are held in escrow. When you move out, the host has 14 days to claim deductions with evidence. Otherwise, the full deposit is returned.',
+      },
+      {
+        q: 'Can I set up autopay?',
+        a: 'Yes! Autopay is enabled by default to ensure you never miss a payment. You can manage your payment settings in your dashboard.',
+      },
+      {
+        q: 'What happens if my payment fails?',
+        a: 'If a payment fails, we will retry automatically and notify you. Please update your payment method to avoid late fees. Contact support if you need assistance.',
+      },
+    ],
+  },
+  account: {
+    title: 'Account',
+    questions: [
+      {
+        q: 'How do I reset my password?',
+        a: "Click 'Forgot Password' on the login page and enter your email. You'll receive a link to create a new password. The link expires after 24 hours.",
+      },
+      {
+        q: 'Can I change my email address?',
+        a: "Yes, go to Settings > Account in your dashboard. You'll need to verify your new email address before the change takes effect.",
+      },
+      {
+        q: 'How do I delete my account?',
+        a: 'Contact support to request account deletion. Note that you must have no active rentals and all payments must be settled before deletion.',
+      },
+      {
+        q: 'Can I have both a host and renter account?',
+        a: 'Yes! You can switch between host and renter modes in your dashboard. Many of our users both rent out rooms and rent rooms themselves.',
+      },
+    ],
+  },
+  'trust-safety': {
+    title: 'Trust & Safety',
+    questions: [
+      {
+        q: 'How does RoomPilot verify users?',
+        a: 'We verify email addresses and phone numbers for all users. Hosts must also complete identity verification and connect a verified bank account.',
+      },
+      {
+        q: 'What if I have a problem with my host or tenant?',
+        a: 'Contact our support team immediately. We mediate disputes and can help resolve issues. In serious cases, we may suspend users who violate our terms.',
+      },
+      {
+        q: 'Are background checks available?',
+        a: 'Yes! Hosts can request background checks on applicants for an additional fee. Checks include criminal history, eviction records, and identity verification.',
+      },
+      {
+        q: 'How do I report suspicious activity?',
+        a: 'Use the "Report" button on any listing or user profile, or contact support directly. We investigate all reports within 24 hours.',
       },
     ],
   },

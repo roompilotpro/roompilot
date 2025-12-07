@@ -11,6 +11,7 @@ import { ROUTES } from '../../router/routes'
 function PricingPage() {
   const [numRooms, setNumRooms] = useState(5)
   const [avgRent, setAvgRent] = useState(600)
+  const [openFaq, setOpenFaq] = useState(null)
 
   const calculations = useMemo(() => {
     const totalRent = numRooms * avgRent
@@ -29,6 +30,43 @@ function PricingPage() {
       savings,
     }
   }, [numRooms, avgRent])
+
+  const faqItems = [
+    {
+      question: 'Which plan should I choose?',
+      answer:
+        'If you have 1-5 rooms, the Transaction Fee Plan (2% per payment) is usually cheaper. If you have 8+ rooms at higher rent prices, the Flat Rate Plan ($15/room) often saves more. Use our calculator above to compare!',
+    },
+    {
+      question: 'Can I switch plans later?',
+      answer:
+        'Absolutely! You can switch between plans at any time from your dashboard. Changes take effect on your next billing cycle. No penalties or fees for switching.',
+    },
+    {
+      question: 'Are there any hidden fees?',
+      answer:
+        "None. What you see is what you pay. The only costs are your chosen plan fee. We don't charge for setup, cancellation, listing, applications, background checks, or support.",
+    },
+    {
+      question: 'When do I get paid?',
+      answer:
+        'You choose! Select daily or weekly payouts via Stripe Connect. Funds are deposited directly to your bank account. Most hosts receive payouts 1-2 business days after rent is collected.',
+    },
+    {
+      question: 'Do renters pay any fees?',
+      answer:
+        'Renters never pay subscription or membership fees. They only pay the rent amount shown on your listing. Optional background checks may have a small fee paid by the renter if they choose to run one.',
+    },
+    {
+      question: 'Is there a free trial?',
+      answer:
+        'Yes! You can list your property and explore all features for free. You only pay fees once you start collecting rent from tenants. No credit card required to get started.',
+    },
+  ]
+
+  const toggleFaq = (index) => {
+    setOpenFaq(openFaq === index ? null : index)
+  }
 
   return (
     <div className="bg-white">
@@ -269,62 +307,101 @@ function PricingPage() {
               <thead className="bg-midnight text-white">
                 <tr>
                   <th className="p-5 text-left font-semibold">Feature</th>
-                  <th className="p-5 text-left font-semibold bg-primary">RoomPilot</th>
+                  <th className="p-5 text-left font-semibold">RoomPilot</th>
                   <th className="p-5 text-left font-semibold">PadSplit</th>
                   <th className="p-5 text-left font-semibold">Bungalow</th>
                 </tr>
               </thead>
               <tbody>
-                <tr className="[&_td]:bg-accent-bg">
+                <tr className="bg-accent-bg">
                   <td className="p-5 border-b border-cloud">Starting Price</td>
-                  <td className="p-5 border-b border-cloud bg-[rgba(37,99,235,0.05)] text-accent font-semibold">
-                    <strong>2% or $15/room</strong>
+                  <td className="p-5 border-b border-cloud font-semibold">
+                    <strong>2% per payment or $15/room</strong>
                   </td>
-                  <td className="p-5 border-b border-cloud">$99 + $10/room + 3%</td>
+                  <td className="p-5 border-b border-cloud">$99 + $10/room + 3% fee</td>
                   <td className="p-5 border-b border-cloud">12% of rent</td>
                 </tr>
-                <tr className="even:bg-snow">
+                <tr>
                   <td className="p-5 border-b border-cloud">Weekly Rent Collection</td>
-                  <td className="p-5 border-b border-cloud bg-[rgba(37,99,235,0.05)] text-accent font-semibold">
-                    &#10003; Included
-                  </td>
+                  <td className="p-5 border-b border-cloud">&#10003; Included</td>
                   <td className="p-5 border-b border-cloud">&#10003; Included</td>
                   <td className="p-5 border-b border-cloud text-coral">&#10007; Monthly only</td>
                 </tr>
-                <tr className="even:bg-snow">
+                <tr className="bg-snow">
+                  <td className="p-5 border-b border-cloud">Transaction Fees</td>
+                  <td className="p-5 border-b border-cloud">2% or $0</td>
+                  <td className="p-5 border-b border-cloud">3%</td>
+                  <td className="p-5 border-b border-cloud">Included in 12%</td>
+                </tr>
+                <tr>
+                  <td className="p-5 border-b border-cloud">Monthly Base Fee</td>
+                  <td className="p-5 border-b border-cloud">$0 or $15/room</td>
+                  <td className="p-5 border-b border-cloud">$99 + $10/room</td>
+                  <td className="p-5 border-b border-cloud">None (% based)</td>
+                </tr>
+                <tr className="bg-snow">
                   <td className="p-5 border-b border-cloud">Payout Speed</td>
-                  <td className="p-5 border-b border-cloud bg-[rgba(37,99,235,0.05)] text-accent font-semibold">
-                    Daily or weekly
-                  </td>
+                  <td className="p-5 border-b border-cloud">Daily or weekly</td>
                   <td className="p-5 border-b border-cloud">Weekly</td>
                   <td className="p-5 border-b border-cloud">Monthly</td>
                 </tr>
-                <tr className="even:bg-snow">
+                <tr>
                   <td className="p-5 border-b border-cloud">Setup Fee</td>
-                  <td className="p-5 border-b border-cloud bg-[rgba(37,99,235,0.05)] text-accent font-semibold">
-                    $0
-                  </td>
+                  <td className="p-5 border-b border-cloud">$0</td>
                   <td className="p-5 border-b border-cloud">$0</td>
                   <td className="p-5 border-b border-cloud text-coral">$500+</td>
                 </tr>
-                <tr className="even:bg-snow">
+                <tr className="bg-snow">
                   <td className="p-5 border-b border-cloud">Host Controls Approval</td>
-                  <td className="p-5 border-b border-cloud bg-[rgba(37,99,235,0.05)] text-accent font-semibold">
-                    &#10003; Yes
-                  </td>
+                  <td className="p-5 border-b border-cloud">&#10003; Yes</td>
                   <td className="p-5 border-b border-cloud">&#10003; Yes</td>
                   <td className="p-5 border-b border-cloud text-coral">&#10007; No</td>
                 </tr>
-                <tr className="even:bg-snow">
+                <tr>
                   <td className="p-5">Custom House Rules</td>
-                  <td className="p-5 bg-[rgba(37,99,235,0.05)] text-accent font-semibold">
-                    &#10003; Yes
-                  </td>
+                  <td className="p-5">&#10003; Yes</td>
                   <td className="p-5">Limited</td>
                   <td className="p-5 text-coral">&#10007; No</td>
                 </tr>
               </tbody>
             </table>
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing FAQ */}
+      <section className="py-20 px-10 md:py-15 md:px-5">
+        <div className="max-w-[1200px] mx-auto">
+          <div className="text-center mb-15">
+            <h2 className="font-display text-[clamp(1.75rem,3vw,2.5rem)] text-midnight mb-4">
+              Pricing FAQ
+            </h2>
+          </div>
+          <div className="max-w-[800px] mx-auto">
+            {faqItems.map((item, index) => (
+              <div
+                key={index}
+                className="bg-white border border-cloud rounded-sm mb-4 overflow-hidden"
+              >
+                <button
+                  type="button"
+                  className="w-full py-5 px-5 bg-transparent border-none text-left font-body text-lg font-semibold text-midnight cursor-pointer flex justify-between items-center hover:bg-snow transition-colors duration-200"
+                  onClick={() => toggleFaq(index)}
+                >
+                  {item.question}
+                  <span
+                    className={`transition-transform duration-300 ${openFaq === index ? 'rotate-180' : ''}`}
+                  >
+                    &#9660;
+                  </span>
+                </button>
+                <div
+                  className={`overflow-hidden transition-all duration-300 ${openFaq === index ? 'max-h-[500px]' : 'max-h-0'}`}
+                >
+                  <div className="px-5 pb-5 text-slate">{item.answer}</div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
