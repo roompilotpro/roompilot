@@ -50,7 +50,7 @@ const Sidebar = forwardRef(function Sidebar(
         {...props}
       >
         {/* Logo */}
-        <div className="py-5 px-6 border-b border-cloud">
+        <div className="h-16 md:h-[72px] px-6 border-b border-cloud flex items-center">
           <a href="/" className="flex items-center gap-2.5 no-underline">
             <div className="w-9 h-9 bg-gradient-to-br from-primary to-primary-dark text-white rounded-[10px] flex items-center justify-center text-lg font-bold shadow-[0_2px_8px_rgba(37,99,235,0.3)]">
               {logo}

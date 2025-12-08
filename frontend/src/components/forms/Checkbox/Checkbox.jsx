@@ -59,6 +59,14 @@ const Checkbox = forwardRef(function Checkbox(
     }
   }
 
+  const handleCardClick = (e) => {
+    // Don't trigger if clicking directly on the input (would double-toggle)
+    if (e.target.type === 'checkbox') return
+    if (disabled) return
+    // Trigger the onChange handler
+    onChange?.({ target: { checked: !checked } })
+  }
+
   return (
     <div
       className={classNames(
@@ -69,6 +77,7 @@ const Checkbox = forwardRef(function Checkbox(
         card && disabled && 'bg-snow cursor-not-allowed hover:border-cloud hover:bg-snow',
         className
       )}
+      onClick={card ? handleCardClick : undefined}
     >
       <label
         htmlFor={checkboxId}

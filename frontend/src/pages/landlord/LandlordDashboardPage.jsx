@@ -6,6 +6,7 @@ import { AppShell } from '../../components/layout'
 import { StatCard, Card, QuickActionCard, PropertyCard } from '../../components/cards'
 import { Button, Avatar, Badge, IconButton } from '../../components/primitives'
 import { classNames } from '../../utils/classNames'
+import { RevenueChart } from '../../components/charts'
 import {
   mockProperties,
   mockPayments,
@@ -39,8 +40,6 @@ function LandlordDashboardPage() {
     month: 'long',
     day: 'numeric',
   })
-
-  const maxRevenue = Math.max(...mockRevenueChart.map((d) => d.amount))
 
   const headerContent = (
     <div className="flex items-center gap-3">
@@ -188,48 +187,12 @@ function LandlordDashboardPage() {
               }
             >
               <div className="p-6">
-                <div className="flex items-center justify-between mb-6">
-                  <div className="flex gap-1 bg-snow p-1 rounded-md">
-                    {['week', 'month', 'year'].map((period) => (
-                      <button
-                        key={period}
-                        className={classNames(
-                          'py-2 px-4 rounded-sm text-[13px] font-medium border-none cursor-pointer transition-all duration-200',
-                          chartPeriod === period
-                            ? 'bg-white text-charcoal shadow-sm'
-                            : 'bg-transparent text-slate'
-                        )}
-                        onClick={() => setChartPeriod(period)}
-                      >
-                        {period.charAt(0).toUpperCase() + period.slice(1)}
-                      </button>
-                    ))}
-                  </div>
-                  <div className="text-right">
-                    <div className="text-xs text-slate mb-0.5">December total</div>
-                    <div className="font-display text-2xl font-bold text-midnight">$8,450</div>
-                  </div>
-                </div>
-                <div className="flex items-end gap-3 h-[120px] md:h-40 pt-5">
-                  {mockRevenueChart.map((data, index) => (
-                    <div key={data.month} className="flex-1 flex flex-col items-center gap-2">
-                      <div
-                        className={classNames(
-                          'w-full max-w-10 rounded-t-md relative transition-all duration-300 cursor-pointer min-h-1 group',
-                          index === mockRevenueChart.length - 1
-                            ? 'bg-accent hover:bg-accent-dark'
-                            : 'bg-primary hover:bg-primary-dark'
-                        )}
-                        style={{ height: `${(data.amount / maxRevenue) * 100}%` }}
-                      >
-                        <span className="absolute bottom-[calc(100%+8px)] left-1/2 -translate-x-1/2 bg-charcoal text-white py-1.5 px-2.5 rounded-md text-xs font-semibold whitespace-nowrap opacity-0 invisible transition-all duration-200 pointer-events-none group-hover:opacity-100 group-hover:visible">
-                          ${data.amount.toLocaleString()}
-                        </span>
-                      </div>
-                      <span className="text-xs text-slate font-medium">{data.month}</span>
-                    </div>
-                  ))}
-                </div>
+                <RevenueChart
+                  data={mockRevenueChart}
+                  period={chartPeriod}
+                  onPeriodChange={setChartPeriod}
+                  totalLabel="December total"
+                />
               </div>
             </Card>
 
