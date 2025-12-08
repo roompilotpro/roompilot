@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Visual Comparison Report - Landlord Pages</title>
+  <title>Visual Comparison Report</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -9,17 +9,9 @@
       background: #f5f5f5;
       padding: 20px;
     }
-    .container { max-width: 1400px; margin: 0 auto; }
-    h1 {
-      color: #1a1a1a;
-      margin-bottom: 10px;
-      font-size: 32px;
-    }
-    .meta {
-      color: #666;
-      margin-bottom: 30px;
-      font-size: 14px;
-    }
+    .container { max-width: 1800px; margin: 0 auto; }
+    h1 { color: #1a1a1a; margin-bottom: 10px; font-size: 32px; }
+    .meta { color: #666; margin-bottom: 30px; font-size: 14px; }
     .summary {
       background: white;
       border-radius: 8px;
@@ -27,14 +19,10 @@
       margin-bottom: 30px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     }
-    .summary h2 {
-      font-size: 20px;
-      margin-bottom: 15px;
-      color: #1a1a1a;
-    }
+    .summary h2 { font-size: 20px; margin-bottom: 15px; color: #1a1a1a; }
     .summary-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
       gap: 15px;
     }
     .summary-item {
@@ -51,11 +39,7 @@
       display: block;
       margin-bottom: 5px;
     }
-    .summary-item .value {
-      font-size: 24px;
-      font-weight: 600;
-      color: #1a1a1a;
-    }
+    .summary-item .value { font-size: 24px; font-weight: 600; color: #1a1a1a; }
     .page {
       background: white;
       border-radius: 8px;
@@ -71,24 +55,17 @@
       padding-bottom: 15px;
       border-bottom: 1px solid #e5e7eb;
     }
-    .page-header h3 {
-      font-size: 18px;
-      color: #1a1a1a;
-    }
+    .page-header h3 { font-size: 18px; color: #1a1a1a; }
     .status {
       padding: 6px 12px;
       border-radius: 6px;
       font-weight: 600;
       font-size: 13px;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
     }
     .status.excellent { background: #d1fae5; color: #065f46; }
     .status.good { background: #dbeafe; color: #1e40af; }
     .status.fair { background: #fef3c7; color: #92400e; }
     .status.needs-work { background: #fee2e2; color: #991b1b; }
-    .status.error { background: #fecaca; color: #7f1d1d; }
     .info-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -98,27 +75,15 @@
       background: #f9fafb;
       border-radius: 6px;
     }
-    .info-item {
-      font-size: 13px;
-    }
-    .info-item label {
-      color: #666;
-      display: block;
-      margin-bottom: 2px;
-    }
-    .info-item .value {
-      color: #1a1a1a;
-      font-weight: 500;
-    }
+    .info-item { font-size: 13px; }
+    .info-item label { color: #666; display: block; margin-bottom: 2px; }
+    .info-item .value { color: #1a1a1a; font-weight: 500; }
     .images {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 20px;
     }
-    .image-container {
-      display: flex;
-      flex-direction: column;
-    }
+    .image-container { display: flex; flex-direction: column; }
     .image-label {
       font-size: 13px;
       font-weight: 600;
@@ -132,684 +97,478 @@
       border: 1px solid #e5e7eb;
       border-radius: 6px;
       overflow: hidden;
-      position: relative;
     }
-    .images img {
-      width: 100%;
-      display: block;
-    }
-    .error-message {
-      color: #dc2626;
-      padding: 10px;
-      background: #fef2f2;
-      border-radius: 6px;
-      font-size: 14px;
-      margin-top: 10px;
-    }
+    .images img { width: 100%; display: block; }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Visual Comparison Report</h1>
-    <div class="meta">Generated: 12/6/2025, 5:45:24 PM | Landlord Pages</div>
+    <div class="meta">
+      Generated: 12/7/2025, 1:43:22 PM |
+      Viewport: 2560x1440 |
+      Threshold: <5%
+    </div>
 
     <div class="summary">
       <h2>Summary</h2>
       <div class="summary-grid">
         <div class="summary-item">
           <label>Total Pages</label>
-          <div class="value">14</div>
+          <div class="value">8</div>
         </div>
         <div class="summary-item">
-          <label>Excellent</label>
+          <label>Passed</label>
+          <div class="value" style="color: #059669">7</div>
+        </div>
+        <div class="summary-item">
+          <label>Failed</label>
+          <div class="value" style="color: #dc2626">1</div>
+        </div>
+        <div class="summary-item">
+          <label>Excellent (<1%)</label>
           <div class="value" style="color: #059669">0</div>
         </div>
         <div class="summary-item">
-          <label>Good</label>
-          <div class="value" style="color: #2563eb">10</div>
+          <label>Good (1-5%)</label>
+          <div class="value" style="color: #2563eb">7</div>
         </div>
         <div class="summary-item">
-          <label>Fair</label>
-          <div class="value" style="color: #d97706">4</div>
+          <label>Fair (5-15%)</label>
+          <div class="value" style="color: #d97706">1</div>
         </div>
         <div class="summary-item">
-          <label>Needs Work</label>
+          <label>Needs Work (>15%)</label>
           <div class="value" style="color: #dc2626">0</div>
         </div>
       </div>
     </div>
 
     
-          <div class="page">
-            <div class="page-header">
-              <h3>LandlordDashboardPage</h3>
-              <span class="status good">GOOD - 4.64% diff</span>
-            </div>
-            <div class="info-grid">
-              <div class="info-item">
-                <label>HTML Design Size</label>
-                <div class="value">1440x1700</div>
-              </div>
-              <div class="info-item">
-                <label>React Page Size</label>
-                <div class="value">1440x1739</div>
-              </div>
-              <div class="info-item">
-                <label>Different Pixels</label>
-                <div class="value">116,121</div>
-              </div>
-              <div class="info-item">
-                <label>Total Pixels</label>
-                <div class="value">2,504,160</div>
-              </div>
-            </div>
-            <div class="images">
-              <div class="image-container">
-                <div class="image-label">HTML Design</div>
-                <div class="image-wrapper">
-                  <img src="designs/LandlordDashboardPage.png" alt="HTML Design" />
-                </div>
-              </div>
-              <div class="image-container">
-                <div class="image-label">React Page</div>
-                <div class="image-wrapper">
-                  <img src="react/LandlordDashboardPage.png" alt="React Page" />
-                </div>
-              </div>
-              <div class="image-container">
-                <div class="image-label">Difference</div>
-                <div class="image-wrapper">
-                  <img src="diff/LandlordDashboardPage.png" alt="Diff" />
-                </div>
-              </div>
+      <div class="page">
+        <div class="page-header">
+          <h3>LandingPage</h3>
+          <span class="status fair">FAIR - 8.79% diff</span>
+        </div>
+        <div class="info-grid">
+          <div class="info-item">
+            <label>React Route</label>
+            <div class="value">/</div>
+          </div>
+          <div class="info-item">
+            <label>HTML Design</label>
+            <div class="value">landing.html</div>
+          </div>
+          <div class="info-item">
+            <label>Design Size</label>
+            <div class="value">2560x6402</div>
+          </div>
+          <div class="info-item">
+            <label>React Size</label>
+            <div class="value">2560x6402</div>
+          </div>
+          <div class="info-item">
+            <label>Different Pixels</label>
+            <div class="value">1,439,962</div>
+          </div>
+          <div class="info-item">
+            <label>Total Pixels</label>
+            <div class="value">16,389,120</div>
+          </div>
+        </div>
+        <div class="images">
+          <div class="image-container">
+            <div class="image-label">HTML Design</div>
+            <div class="image-wrapper">
+              <img src="designs/LandingPage.png" alt="HTML Design" />
             </div>
           </div>
-        
-          <div class="page">
-            <div class="page-header">
-              <h3>TenantsListPage</h3>
-              <span class="status fair">FAIR - 6.49% diff</span>
-            </div>
-            <div class="info-grid">
-              <div class="info-item">
-                <label>HTML Design Size</label>
-                <div class="value">1440x1234</div>
-              </div>
-              <div class="info-item">
-                <label>React Page Size</label>
-                <div class="value">1440x1216</div>
-              </div>
-              <div class="info-item">
-                <label>Different Pixels</label>
-                <div class="value">115,363</div>
-              </div>
-              <div class="info-item">
-                <label>Total Pixels</label>
-                <div class="value">1,776,960</div>
-              </div>
-            </div>
-            <div class="images">
-              <div class="image-container">
-                <div class="image-label">HTML Design</div>
-                <div class="image-wrapper">
-                  <img src="designs/TenantsListPage.png" alt="HTML Design" />
-                </div>
-              </div>
-              <div class="image-container">
-                <div class="image-label">React Page</div>
-                <div class="image-wrapper">
-                  <img src="react/TenantsListPage.png" alt="React Page" />
-                </div>
-              </div>
-              <div class="image-container">
-                <div class="image-label">Difference</div>
-                <div class="image-wrapper">
-                  <img src="diff/TenantsListPage.png" alt="Diff" />
-                </div>
-              </div>
+          <div class="image-container">
+            <div class="image-label">React Page</div>
+            <div class="image-wrapper">
+              <img src="react/LandingPage.png" alt="React Page" />
             </div>
           </div>
-        
-          <div class="page">
-            <div class="page-header">
-              <h3>TenantDetailPage</h3>
-              <span class="status fair">FAIR - 8.15% diff</span>
-            </div>
-            <div class="info-grid">
-              <div class="info-item">
-                <label>HTML Design Size</label>
-                <div class="value">1440x1880</div>
-              </div>
-              <div class="info-item">
-                <label>React Page Size</label>
-                <div class="value">1440x1753</div>
-              </div>
-              <div class="info-item">
-                <label>Different Pixels</label>
-                <div class="value">220,724</div>
-              </div>
-              <div class="info-item">
-                <label>Total Pixels</label>
-                <div class="value">2,707,200</div>
-              </div>
-            </div>
-            <div class="images">
-              <div class="image-container">
-                <div class="image-label">HTML Design</div>
-                <div class="image-wrapper">
-                  <img src="designs/TenantDetailPage.png" alt="HTML Design" />
-                </div>
-              </div>
-              <div class="image-container">
-                <div class="image-label">React Page</div>
-                <div class="image-wrapper">
-                  <img src="react/TenantDetailPage.png" alt="React Page" />
-                </div>
-              </div>
-              <div class="image-container">
-                <div class="image-label">Difference</div>
-                <div class="image-wrapper">
-                  <img src="diff/TenantDetailPage.png" alt="Diff" />
-                </div>
-              </div>
+          <div class="image-container">
+            <div class="image-label">Difference</div>
+            <div class="image-wrapper">
+              <img src="diff/LandingPage.png" alt="Diff" />
             </div>
           </div>
-        
-          <div class="page">
-            <div class="page-header">
-              <h3>ApplicationsListPage</h3>
-              <span class="status fair">FAIR - 5.22% diff</span>
-            </div>
-            <div class="info-grid">
-              <div class="info-item">
-                <label>HTML Design Size</label>
-                <div class="value">1440x1050</div>
-              </div>
-              <div class="info-item">
-                <label>React Page Size</label>
-                <div class="value">1477x900</div>
-              </div>
-              <div class="info-item">
-                <label>Different Pixels</label>
-                <div class="value">80,969</div>
-              </div>
-              <div class="info-item">
-                <label>Total Pixels</label>
-                <div class="value">1,550,850</div>
-              </div>
-            </div>
-            <div class="images">
-              <div class="image-container">
-                <div class="image-label">HTML Design</div>
-                <div class="image-wrapper">
-                  <img src="designs/ApplicationsListPage.png" alt="HTML Design" />
-                </div>
-              </div>
-              <div class="image-container">
-                <div class="image-label">React Page</div>
-                <div class="image-wrapper">
-                  <img src="react/ApplicationsListPage.png" alt="React Page" />
-                </div>
-              </div>
-              <div class="image-container">
-                <div class="image-label">Difference</div>
-                <div class="image-wrapper">
-                  <img src="diff/ApplicationsListPage.png" alt="Diff" />
-                </div>
-              </div>
+        </div>
+      </div>
+    
+      <div class="page">
+        <div class="page-header">
+          <h3>PricingPage</h3>
+          <span class="status good">GOOD - 3.9% diff</span>
+        </div>
+        <div class="info-grid">
+          <div class="info-item">
+            <label>React Route</label>
+            <div class="value">/pricing</div>
+          </div>
+          <div class="info-item">
+            <label>HTML Design</label>
+            <div class="value">public-pricing.html</div>
+          </div>
+          <div class="info-item">
+            <label>Design Size</label>
+            <div class="value">2560x5512</div>
+          </div>
+          <div class="info-item">
+            <label>React Size</label>
+            <div class="value">2560x5473</div>
+          </div>
+          <div class="info-item">
+            <label>Different Pixels</label>
+            <div class="value">549,719</div>
+          </div>
+          <div class="info-item">
+            <label>Total Pixels</label>
+            <div class="value">14,110,720</div>
+          </div>
+        </div>
+        <div class="images">
+          <div class="image-container">
+            <div class="image-label">HTML Design</div>
+            <div class="image-wrapper">
+              <img src="designs/PricingPage.png" alt="HTML Design" />
             </div>
           </div>
-        
-          <div class="page">
-            <div class="page-header">
-              <h3>ApplicationDetailPage</h3>
-              <span class="status good">GOOD - 4.37% diff</span>
-            </div>
-            <div class="info-grid">
-              <div class="info-item">
-                <label>HTML Design Size</label>
-                <div class="value">1440x2789</div>
-              </div>
-              <div class="info-item">
-                <label>React Page Size</label>
-                <div class="value">1440x2542</div>
-              </div>
-              <div class="info-item">
-                <label>Different Pixels</label>
-                <div class="value">175,447</div>
-              </div>
-              <div class="info-item">
-                <label>Total Pixels</label>
-                <div class="value">4,016,160</div>
-              </div>
-            </div>
-            <div class="images">
-              <div class="image-container">
-                <div class="image-label">HTML Design</div>
-                <div class="image-wrapper">
-                  <img src="designs/ApplicationDetailPage.png" alt="HTML Design" />
-                </div>
-              </div>
-              <div class="image-container">
-                <div class="image-label">React Page</div>
-                <div class="image-wrapper">
-                  <img src="react/ApplicationDetailPage.png" alt="React Page" />
-                </div>
-              </div>
-              <div class="image-container">
-                <div class="image-label">Difference</div>
-                <div class="image-wrapper">
-                  <img src="diff/ApplicationDetailPage.png" alt="Diff" />
-                </div>
-              </div>
+          <div class="image-container">
+            <div class="image-label">React Page</div>
+            <div class="image-wrapper">
+              <img src="react/PricingPage.png" alt="React Page" />
             </div>
           </div>
-        
-          <div class="page">
-            <div class="page-header">
-              <h3>RoomDetailPage</h3>
-              <span class="status good">GOOD - 2.13% diff</span>
-            </div>
-            <div class="info-grid">
-              <div class="info-item">
-                <label>HTML Design Size</label>
-                <div class="value">1440x2459</div>
-              </div>
-              <div class="info-item">
-                <label>React Page Size</label>
-                <div class="value">1440x2103</div>
-              </div>
-              <div class="info-item">
-                <label>Different Pixels</label>
-                <div class="value">75,352</div>
-              </div>
-              <div class="info-item">
-                <label>Total Pixels</label>
-                <div class="value">3,540,960</div>
-              </div>
-            </div>
-            <div class="images">
-              <div class="image-container">
-                <div class="image-label">HTML Design</div>
-                <div class="image-wrapper">
-                  <img src="designs/RoomDetailPage.png" alt="HTML Design" />
-                </div>
-              </div>
-              <div class="image-container">
-                <div class="image-label">React Page</div>
-                <div class="image-wrapper">
-                  <img src="react/RoomDetailPage.png" alt="React Page" />
-                </div>
-              </div>
-              <div class="image-container">
-                <div class="image-label">Difference</div>
-                <div class="image-wrapper">
-                  <img src="diff/RoomDetailPage.png" alt="Diff" />
-                </div>
-              </div>
+          <div class="image-container">
+            <div class="image-label">Difference</div>
+            <div class="image-wrapper">
+              <img src="diff/PricingPage.png" alt="Diff" />
             </div>
           </div>
-        
-          <div class="page">
-            <div class="page-header">
-              <h3>MaintenancePage</h3>
-              <span class="status good">GOOD - 2.82% diff</span>
-            </div>
-            <div class="info-grid">
-              <div class="info-item">
-                <label>HTML Design Size</label>
-                <div class="value">1440x900</div>
-              </div>
-              <div class="info-item">
-                <label>React Page Size</label>
-                <div class="value">1440x900</div>
-              </div>
-              <div class="info-item">
-                <label>Different Pixels</label>
-                <div class="value">36,583</div>
-              </div>
-              <div class="info-item">
-                <label>Total Pixels</label>
-                <div class="value">1,296,000</div>
-              </div>
-            </div>
-            <div class="images">
-              <div class="image-container">
-                <div class="image-label">HTML Design</div>
-                <div class="image-wrapper">
-                  <img src="designs/MaintenancePage.png" alt="HTML Design" />
-                </div>
-              </div>
-              <div class="image-container">
-                <div class="image-label">React Page</div>
-                <div class="image-wrapper">
-                  <img src="react/MaintenancePage.png" alt="React Page" />
-                </div>
-              </div>
-              <div class="image-container">
-                <div class="image-label">Difference</div>
-                <div class="image-wrapper">
-                  <img src="diff/MaintenancePage.png" alt="Diff" />
-                </div>
-              </div>
+        </div>
+      </div>
+    
+      <div class="page">
+        <div class="page-header">
+          <h3>FAQPage</h3>
+          <span class="status good">GOOD - 4.2% diff</span>
+        </div>
+        <div class="info-grid">
+          <div class="info-item">
+            <label>React Route</label>
+            <div class="value">/faq</div>
+          </div>
+          <div class="info-item">
+            <label>HTML Design</label>
+            <div class="value">public-faq.html</div>
+          </div>
+          <div class="info-item">
+            <label>Design Size</label>
+            <div class="value">2560x4421</div>
+          </div>
+          <div class="info-item">
+            <label>React Size</label>
+            <div class="value">2560x4492</div>
+          </div>
+          <div class="info-item">
+            <label>Different Pixels</label>
+            <div class="value">483,251</div>
+          </div>
+          <div class="info-item">
+            <label>Total Pixels</label>
+            <div class="value">11,499,520</div>
+          </div>
+        </div>
+        <div class="images">
+          <div class="image-container">
+            <div class="image-label">HTML Design</div>
+            <div class="image-wrapper">
+              <img src="designs/FAQPage.png" alt="HTML Design" />
             </div>
           </div>
-        
-          <div class="page">
-            <div class="page-header">
-              <h3>MessagesPage</h3>
-              <span class="status fair">FAIR - 6.43% diff</span>
-            </div>
-            <div class="info-grid">
-              <div class="info-item">
-                <label>HTML Design Size</label>
-                <div class="value">1440x1076</div>
-              </div>
-              <div class="info-item">
-                <label>React Page Size</label>
-                <div class="value">1440x900</div>
-              </div>
-              <div class="info-item">
-                <label>Different Pixels</label>
-                <div class="value">99,556</div>
-              </div>
-              <div class="info-item">
-                <label>Total Pixels</label>
-                <div class="value">1,549,440</div>
-              </div>
-            </div>
-            <div class="images">
-              <div class="image-container">
-                <div class="image-label">HTML Design</div>
-                <div class="image-wrapper">
-                  <img src="designs/MessagesPage.png" alt="HTML Design" />
-                </div>
-              </div>
-              <div class="image-container">
-                <div class="image-label">React Page</div>
-                <div class="image-wrapper">
-                  <img src="react/MessagesPage.png" alt="React Page" />
-                </div>
-              </div>
-              <div class="image-container">
-                <div class="image-label">Difference</div>
-                <div class="image-wrapper">
-                  <img src="diff/MessagesPage.png" alt="Diff" />
-                </div>
-              </div>
+          <div class="image-container">
+            <div class="image-label">React Page</div>
+            <div class="image-wrapper">
+              <img src="react/FAQPage.png" alt="React Page" />
             </div>
           </div>
-        
-          <div class="page">
-            <div class="page-header">
-              <h3>AnnouncementPage</h3>
-              <span class="status good">GOOD - 2.21% diff</span>
-            </div>
-            <div class="info-grid">
-              <div class="info-item">
-                <label>HTML Design Size</label>
-                <div class="value">1440x1656</div>
-              </div>
-              <div class="info-item">
-                <label>React Page Size</label>
-                <div class="value">1440x1502</div>
-              </div>
-              <div class="info-item">
-                <label>Different Pixels</label>
-                <div class="value">52,662</div>
-              </div>
-              <div class="info-item">
-                <label>Total Pixels</label>
-                <div class="value">2,384,640</div>
-              </div>
-            </div>
-            <div class="images">
-              <div class="image-container">
-                <div class="image-label">HTML Design</div>
-                <div class="image-wrapper">
-                  <img src="designs/AnnouncementPage.png" alt="HTML Design" />
-                </div>
-              </div>
-              <div class="image-container">
-                <div class="image-label">React Page</div>
-                <div class="image-wrapper">
-                  <img src="react/AnnouncementPage.png" alt="React Page" />
-                </div>
-              </div>
-              <div class="image-container">
-                <div class="image-label">Difference</div>
-                <div class="image-wrapper">
-                  <img src="diff/AnnouncementPage.png" alt="Diff" />
-                </div>
-              </div>
+          <div class="image-container">
+            <div class="image-label">Difference</div>
+            <div class="image-wrapper">
+              <img src="diff/FAQPage.png" alt="Diff" />
             </div>
           </div>
-        
-          <div class="page">
-            <div class="page-header">
-              <h3>PayoutsPage</h3>
-              <span class="status good">GOOD - 3.02% diff</span>
-            </div>
-            <div class="info-grid">
-              <div class="info-item">
-                <label>HTML Design Size</label>
-                <div class="value">1440x1641</div>
-              </div>
-              <div class="info-item">
-                <label>React Page Size</label>
-                <div class="value">1440x1665</div>
-              </div>
-              <div class="info-item">
-                <label>Different Pixels</label>
-                <div class="value">72,344</div>
-              </div>
-              <div class="info-item">
-                <label>Total Pixels</label>
-                <div class="value">2,397,600</div>
-              </div>
-            </div>
-            <div class="images">
-              <div class="image-container">
-                <div class="image-label">HTML Design</div>
-                <div class="image-wrapper">
-                  <img src="designs/PayoutsPage.png" alt="HTML Design" />
-                </div>
-              </div>
-              <div class="image-container">
-                <div class="image-label">React Page</div>
-                <div class="image-wrapper">
-                  <img src="react/PayoutsPage.png" alt="React Page" />
-                </div>
-              </div>
-              <div class="image-container">
-                <div class="image-label">Difference</div>
-                <div class="image-wrapper">
-                  <img src="diff/PayoutsPage.png" alt="Diff" />
-                </div>
-              </div>
+        </div>
+      </div>
+    
+      <div class="page">
+        <div class="page-header">
+          <h3>HowItWorksLandlordsPage</h3>
+          <span class="status good">GOOD - 1.55% diff</span>
+        </div>
+        <div class="info-grid">
+          <div class="info-item">
+            <label>React Route</label>
+            <div class="value">/how-it-works/landlords</div>
+          </div>
+          <div class="info-item">
+            <label>HTML Design</label>
+            <div class="value">public-how-it-works-landlords.html</div>
+          </div>
+          <div class="info-item">
+            <label>Design Size</label>
+            <div class="value">2560x4855</div>
+          </div>
+          <div class="info-item">
+            <label>React Size</label>
+            <div class="value">2560x4848</div>
+          </div>
+          <div class="info-item">
+            <label>Different Pixels</label>
+            <div class="value">193,091</div>
+          </div>
+          <div class="info-item">
+            <label>Total Pixels</label>
+            <div class="value">12,428,800</div>
+          </div>
+        </div>
+        <div class="images">
+          <div class="image-container">
+            <div class="image-label">HTML Design</div>
+            <div class="image-wrapper">
+              <img src="designs/HowItWorksLandlordsPage.png" alt="HTML Design" />
             </div>
           </div>
-        
-          <div class="page">
-            <div class="page-header">
-              <h3>PayoutSettingsPage</h3>
-              <span class="status good">GOOD - 3.34% diff</span>
-            </div>
-            <div class="info-grid">
-              <div class="info-item">
-                <label>HTML Design Size</label>
-                <div class="value">1440x1682</div>
-              </div>
-              <div class="info-item">
-                <label>React Page Size</label>
-                <div class="value">1440x1721</div>
-              </div>
-              <div class="info-item">
-                <label>Different Pixels</label>
-                <div class="value">82,694</div>
-              </div>
-              <div class="info-item">
-                <label>Total Pixels</label>
-                <div class="value">2,478,240</div>
-              </div>
-            </div>
-            <div class="images">
-              <div class="image-container">
-                <div class="image-label">HTML Design</div>
-                <div class="image-wrapper">
-                  <img src="designs/PayoutSettingsPage.png" alt="HTML Design" />
-                </div>
-              </div>
-              <div class="image-container">
-                <div class="image-label">React Page</div>
-                <div class="image-wrapper">
-                  <img src="react/PayoutSettingsPage.png" alt="React Page" />
-                </div>
-              </div>
-              <div class="image-container">
-                <div class="image-label">Difference</div>
-                <div class="image-wrapper">
-                  <img src="diff/PayoutSettingsPage.png" alt="Diff" />
-                </div>
-              </div>
+          <div class="image-container">
+            <div class="image-label">React Page</div>
+            <div class="image-wrapper">
+              <img src="react/HowItWorksLandlordsPage.png" alt="React Page" />
             </div>
           </div>
-        
-          <div class="page">
-            <div class="page-header">
-              <h3>BillingSettingsPage</h3>
-              <span class="status good">GOOD - 2.16% diff</span>
-            </div>
-            <div class="info-grid">
-              <div class="info-item">
-                <label>HTML Design Size</label>
-                <div class="value">1440x2109</div>
-              </div>
-              <div class="info-item">
-                <label>React Page Size</label>
-                <div class="value">1440x2104</div>
-              </div>
-              <div class="info-item">
-                <label>Different Pixels</label>
-                <div class="value">65,508</div>
-              </div>
-              <div class="info-item">
-                <label>Total Pixels</label>
-                <div class="value">3,036,960</div>
-              </div>
-            </div>
-            <div class="images">
-              <div class="image-container">
-                <div class="image-label">HTML Design</div>
-                <div class="image-wrapper">
-                  <img src="designs/BillingSettingsPage.png" alt="HTML Design" />
-                </div>
-              </div>
-              <div class="image-container">
-                <div class="image-label">React Page</div>
-                <div class="image-wrapper">
-                  <img src="react/BillingSettingsPage.png" alt="React Page" />
-                </div>
-              </div>
-              <div class="image-container">
-                <div class="image-label">Difference</div>
-                <div class="image-wrapper">
-                  <img src="diff/BillingSettingsPage.png" alt="Diff" />
-                </div>
-              </div>
+          <div class="image-container">
+            <div class="image-label">Difference</div>
+            <div class="image-wrapper">
+              <img src="diff/HowItWorksLandlordsPage.png" alt="Diff" />
             </div>
           </div>
-        
-          <div class="page">
-            <div class="page-header">
-              <h3>SettingsPage</h3>
-              <span class="status good">GOOD - 4.02% diff</span>
-            </div>
-            <div class="info-grid">
-              <div class="info-item">
-                <label>HTML Design Size</label>
-                <div class="value">1440x2344</div>
-              </div>
-              <div class="info-item">
-                <label>React Page Size</label>
-                <div class="value">1440x2337</div>
-              </div>
-              <div class="info-item">
-                <label>Different Pixels</label>
-                <div class="value">135,651</div>
-              </div>
-              <div class="info-item">
-                <label>Total Pixels</label>
-                <div class="value">3,375,360</div>
-              </div>
-            </div>
-            <div class="images">
-              <div class="image-container">
-                <div class="image-label">HTML Design</div>
-                <div class="image-wrapper">
-                  <img src="designs/SettingsPage.png" alt="HTML Design" />
-                </div>
-              </div>
-              <div class="image-container">
-                <div class="image-label">React Page</div>
-                <div class="image-wrapper">
-                  <img src="react/SettingsPage.png" alt="React Page" />
-                </div>
-              </div>
-              <div class="image-container">
-                <div class="image-label">Difference</div>
-                <div class="image-wrapper">
-                  <img src="diff/SettingsPage.png" alt="Diff" />
-                </div>
-              </div>
+        </div>
+      </div>
+    
+      <div class="page">
+        <div class="page-header">
+          <h3>HowItWorksRentersPage</h3>
+          <span class="status good">GOOD - 3.54% diff</span>
+        </div>
+        <div class="info-grid">
+          <div class="info-item">
+            <label>React Route</label>
+            <div class="value">/how-it-works/renters</div>
+          </div>
+          <div class="info-item">
+            <label>HTML Design</label>
+            <div class="value">public-how-it-works-renters.html</div>
+          </div>
+          <div class="info-item">
+            <label>Design Size</label>
+            <div class="value">2560x4469</div>
+          </div>
+          <div class="info-item">
+            <label>React Size</label>
+            <div class="value">2560x4496</div>
+          </div>
+          <div class="info-item">
+            <label>Different Pixels</label>
+            <div class="value">407,763</div>
+          </div>
+          <div class="info-item">
+            <label>Total Pixels</label>
+            <div class="value">11,509,760</div>
+          </div>
+        </div>
+        <div class="images">
+          <div class="image-container">
+            <div class="image-label">HTML Design</div>
+            <div class="image-wrapper">
+              <img src="designs/HowItWorksRentersPage.png" alt="HTML Design" />
             </div>
           </div>
-        
-          <div class="page">
-            <div class="page-header">
-              <h3>ProfilePage</h3>
-              <span class="status good">GOOD - 3.41% diff</span>
-            </div>
-            <div class="info-grid">
-              <div class="info-item">
-                <label>HTML Design Size</label>
-                <div class="value">1440x1909</div>
-              </div>
-              <div class="info-item">
-                <label>React Page Size</label>
-                <div class="value">1440x2037</div>
-              </div>
-              <div class="info-item">
-                <label>Different Pixels</label>
-                <div class="value">99,885</div>
-              </div>
-              <div class="info-item">
-                <label>Total Pixels</label>
-                <div class="value">2,933,280</div>
-              </div>
-            </div>
-            <div class="images">
-              <div class="image-container">
-                <div class="image-label">HTML Design</div>
-                <div class="image-wrapper">
-                  <img src="designs/ProfilePage.png" alt="HTML Design" />
-                </div>
-              </div>
-              <div class="image-container">
-                <div class="image-label">React Page</div>
-                <div class="image-wrapper">
-                  <img src="react/ProfilePage.png" alt="React Page" />
-                </div>
-              </div>
-              <div class="image-container">
-                <div class="image-label">Difference</div>
-                <div class="image-wrapper">
-                  <img src="diff/ProfilePage.png" alt="Diff" />
-                </div>
-              </div>
+          <div class="image-container">
+            <div class="image-label">React Page</div>
+            <div class="image-wrapper">
+              <img src="react/HowItWorksRentersPage.png" alt="React Page" />
             </div>
           </div>
-        
+          <div class="image-container">
+            <div class="image-label">Difference</div>
+            <div class="image-wrapper">
+              <img src="diff/HowItWorksRentersPage.png" alt="Diff" />
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      <div class="page">
+        <div class="page-header">
+          <h3>PrivacyPage</h3>
+          <span class="status good">GOOD - 1.44% diff</span>
+        </div>
+        <div class="info-grid">
+          <div class="info-item">
+            <label>React Route</label>
+            <div class="value">/privacy</div>
+          </div>
+          <div class="info-item">
+            <label>HTML Design</label>
+            <div class="value">public-privacy.html</div>
+          </div>
+          <div class="info-item">
+            <label>Design Size</label>
+            <div class="value">2560x7700</div>
+          </div>
+          <div class="info-item">
+            <label>React Size</label>
+            <div class="value">2560x7693</div>
+          </div>
+          <div class="info-item">
+            <label>Different Pixels</label>
+            <div class="value">283,734</div>
+          </div>
+          <div class="info-item">
+            <label>Total Pixels</label>
+            <div class="value">19,712,000</div>
+          </div>
+        </div>
+        <div class="images">
+          <div class="image-container">
+            <div class="image-label">HTML Design</div>
+            <div class="image-wrapper">
+              <img src="designs/PrivacyPage.png" alt="HTML Design" />
+            </div>
+          </div>
+          <div class="image-container">
+            <div class="image-label">React Page</div>
+            <div class="image-wrapper">
+              <img src="react/PrivacyPage.png" alt="React Page" />
+            </div>
+          </div>
+          <div class="image-container">
+            <div class="image-label">Difference</div>
+            <div class="image-wrapper">
+              <img src="diff/PrivacyPage.png" alt="Diff" />
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      <div class="page">
+        <div class="page-header">
+          <h3>TermsPage</h3>
+          <span class="status good">GOOD - 1.6% diff</span>
+        </div>
+        <div class="info-grid">
+          <div class="info-item">
+            <label>React Route</label>
+            <div class="value">/terms</div>
+          </div>
+          <div class="info-item">
+            <label>HTML Design</label>
+            <div class="value">public-terms.html</div>
+          </div>
+          <div class="info-item">
+            <label>Design Size</label>
+            <div class="value">2560x7820</div>
+          </div>
+          <div class="info-item">
+            <label>React Size</label>
+            <div class="value">2560x7813</div>
+          </div>
+          <div class="info-item">
+            <label>Different Pixels</label>
+            <div class="value">320,337</div>
+          </div>
+          <div class="info-item">
+            <label>Total Pixels</label>
+            <div class="value">20,019,200</div>
+          </div>
+        </div>
+        <div class="images">
+          <div class="image-container">
+            <div class="image-label">HTML Design</div>
+            <div class="image-wrapper">
+              <img src="designs/TermsPage.png" alt="HTML Design" />
+            </div>
+          </div>
+          <div class="image-container">
+            <div class="image-label">React Page</div>
+            <div class="image-wrapper">
+              <img src="react/TermsPage.png" alt="React Page" />
+            </div>
+          </div>
+          <div class="image-container">
+            <div class="image-label">Difference</div>
+            <div class="image-wrapper">
+              <img src="diff/TermsPage.png" alt="Diff" />
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      <div class="page">
+        <div class="page-header">
+          <h3>TrustSafetyPage</h3>
+          <span class="status good">GOOD - 2.38% diff</span>
+        </div>
+        <div class="info-grid">
+          <div class="info-item">
+            <label>React Route</label>
+            <div class="value">/trust-safety</div>
+          </div>
+          <div class="info-item">
+            <label>HTML Design</label>
+            <div class="value">public-trust-safety.html</div>
+          </div>
+          <div class="info-item">
+            <label>Design Size</label>
+            <div class="value">2560x4201</div>
+          </div>
+          <div class="info-item">
+            <label>React Size</label>
+            <div class="value">2560x4214</div>
+          </div>
+          <div class="info-item">
+            <label>Different Pixels</label>
+            <div class="value">256,378</div>
+          </div>
+          <div class="info-item">
+            <label>Total Pixels</label>
+            <div class="value">10,787,840</div>
+          </div>
+        </div>
+        <div class="images">
+          <div class="image-container">
+            <div class="image-label">HTML Design</div>
+            <div class="image-wrapper">
+              <img src="designs/TrustSafetyPage.png" alt="HTML Design" />
+            </div>
+          </div>
+          <div class="image-container">
+            <div class="image-label">React Page</div>
+            <div class="image-wrapper">
+              <img src="react/TrustSafetyPage.png" alt="React Page" />
+            </div>
+          </div>
+          <div class="image-container">
+            <div class="image-label">Difference</div>
+            <div class="image-wrapper">
+              <img src="diff/TrustSafetyPage.png" alt="Diff" />
+            </div>
+          </div>
+        </div>
+      </div>
+    
   </div>
 </body>
 </html>

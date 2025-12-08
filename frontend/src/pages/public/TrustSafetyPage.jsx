@@ -124,121 +124,147 @@ function TrustSafetyPage() {
   }
 
   return (
-    <div className="bg-white">
+    <div className="bg-white" style={{ lineHeight: '1.6' }}>
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-primary to-[#1d4ed8] py-20 px-10 text-center text-white md:py-15 md:px-5">
-        <h1 className="font-display text-[clamp(2rem,4vw,3rem)] mb-4">
-          Your Safety is Our Priority
-        </h1>
-        <p className="text-lg opacity-90 max-w-[600px] mx-auto">
-          We\'ve built multiple layers of protection to create a trusted community for hosts and
-          renters.
-        </p>
+      <section className="bg-gradient-to-br from-accent-bg to-white py-20 px-8 text-center">
+        <div className="max-w-[800px] mx-auto">
+          <h1 className="font-display font-bold text-5xl text-midnight mb-6 leading-[1.2]">
+            Your Safety is Our Priority
+          </h1>
+          <p className="text-[1.25rem] text-slate">
+            We've built multiple layers of protection to create a trusted community for hosts and
+            renters.
+          </p>
+        </div>
       </section>
 
       {/* Safety Features Section */}
-      <section className="py-20 px-10 bg-white md:py-15 md:px-5">
-        <div className="max-w-[1000px] mx-auto text-center mb-12">
-          <h2 className="font-display text-[2rem] text-midnight mb-4">How We Keep You Safe</h2>
-          <p className="text-lg text-slate">
-            From verification to payments, we protect every step of your rental journey.
-          </p>
-        </div>
-        <div className="max-w-[1000px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-          {SAFETY_FEATURES.map((feature, index) => (
-            <div key={index} className="bg-white border border-cloud rounded-lg p-6">
-              <div className="text-4xl mb-4">{feature.icon}</div>
-              <h3 className="font-display text-xl text-midnight mb-2">{feature.title}</h3>
-              <p className="text-sm text-slate mb-4">{feature.description}</p>
-              <ul className="text-sm text-slate space-y-2">
-                {feature.items.map((item, i) => (
-                  <li key={i} className="flex items-start gap-2">
-                    <span className="text-accent">✓</span>
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+      <section className="py-20 px-8 bg-white">
+        <div className="max-w-[1200px] mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="font-display font-bold text-[2.5rem] text-midnight mb-4">
+              How We Keep You Safe
+            </h2>
+            <p className="text-lg text-slate max-w-[600px] mx-auto">
+              From verification to payments, we protect every step of your rental journey.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+            {SAFETY_FEATURES.map((feature, index) => (
+              <div key={index} className="bg-white border border-cloud rounded-2xl p-10">
+                <div className="w-16 h-16 bg-accent-bg rounded-2xl flex items-center justify-center text-[2rem] mb-6">
+                  {feature.icon}
+                </div>
+                <h3 className="font-display font-bold text-2xl text-midnight mb-4">
+                  {feature.title}
+                </h3>
+                <p className="text-slate mb-4 leading-[1.7]">{feature.description}</p>
+                <ul className="text-slate">
+                  {feature.items.map((item, i) => (
+                    <li key={i} className="flex items-start gap-3 py-2">
+                      <span className="text-accent font-bold shrink-0">✓</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* Trust Badges Section */}
-      <section className="py-20 px-10 bg-snow md:py-15 md:px-5">
-        <div className="max-w-[800px] mx-auto text-center mb-12">
-          <h2 className="font-display text-[2rem] text-midnight mb-4">Built on Trust</h2>
-          <p className="text-lg text-slate">Industry-leading security and compliance standards</p>
-        </div>
-        <div className="max-w-[800px] mx-auto grid grid-cols-2 md:grid-cols-4 gap-6">
-          <div className="bg-white rounded-lg p-6 text-center shadow-sm">
-            <div className="text-4xl mb-3">🔒</div>
-            <h4 className="font-display text-lg text-midnight mb-1">SSL Encrypted</h4>
-            <p className="text-sm text-slate">256-bit encryption for all data transmission</p>
+      <section className="py-20 px-8 bg-snow">
+        <div className="max-w-[1200px] mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="font-display font-bold text-[2.5rem] text-midnight mb-4">
+              Built on Trust
+            </h2>
+            <p className="text-lg text-slate">Industry-leading security and compliance standards</p>
           </div>
-          <div className="bg-white rounded-lg p-6 text-center shadow-sm">
-            <div className="text-4xl mb-3">💎</div>
-            <h4 className="font-display text-lg text-midnight mb-1">Stripe Verified</h4>
-            <p className="text-sm text-slate">Powered by Stripe\'s secure payment infrastructure</p>
-          </div>
-          <div className="bg-white rounded-lg p-6 text-center shadow-sm">
-            <div className="text-4xl mb-3">✓</div>
-            <h4 className="font-display text-lg text-midnight mb-1">GDPR Compliant</h4>
-            <p className="text-sm text-slate">Your data privacy is protected</p>
-          </div>
-          <div className="bg-white rounded-lg p-6 text-center shadow-sm">
-            <div className="text-4xl mb-3">🏆</div>
-            <h4 className="font-display text-lg text-midnight mb-1">Verified Reviews</h4>
-            <p className="text-sm text-slate">Only real tenants can leave reviews</p>
+          <div className="max-w-[900px] mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="bg-white rounded-2xl p-8 text-center border border-cloud">
+              <div className="text-5xl mb-4">🔒</div>
+              <h4 className="font-semibold text-lg text-midnight mb-2">SSL Encrypted</h4>
+              <p className="text-[0.9375rem] text-slate">
+                256-bit encryption for all data transmission
+              </p>
+            </div>
+            <div className="bg-white rounded-2xl p-8 text-center border border-cloud">
+              <div className="text-5xl mb-4">💎</div>
+              <h4 className="font-semibold text-lg text-midnight mb-2">Stripe Verified</h4>
+              <p className="text-[0.9375rem] text-slate">
+                Powered by Stripe's secure payment infrastructure
+              </p>
+            </div>
+            <div className="bg-white rounded-2xl p-8 text-center border border-cloud">
+              <div className="text-5xl mb-4">✓</div>
+              <h4 className="font-semibold text-lg text-midnight mb-2">GDPR Compliant</h4>
+              <p className="text-[0.9375rem] text-slate">Your data privacy is protected</p>
+            </div>
+            <div className="bg-white rounded-2xl p-8 text-center border border-cloud">
+              <div className="text-5xl mb-4">🏆</div>
+              <h4 className="font-semibold text-lg text-midnight mb-2">Verified Reviews</h4>
+              <p className="text-[0.9375rem] text-slate">Only real tenants can leave reviews</p>
+            </div>
           </div>
         </div>
       </section>
 
       {/* FAQ Section */}
-      <section className="py-20 px-10 bg-white md:py-15 md:px-5">
-        <div className="max-w-[800px] mx-auto text-center mb-12">
-          <h2 className="font-display text-[2rem] text-midnight mb-4">Safety FAQ</h2>
-          <p className="text-lg text-slate">Common questions about trust and safety on RoomPilot</p>
-        </div>
-        <div className="max-w-[800px] mx-auto">
-          {FAQ_ITEMS.map((item, index) => (
-            <div
-              key={index}
-              className="bg-white border border-cloud rounded-sm mb-4 overflow-hidden"
-            >
-              <button
-                className="w-full p-5 bg-transparent border-none text-left font-body text-lg font-semibold text-midnight cursor-pointer flex justify-between items-center hover:bg-snow"
-                onClick={() => toggleFaq(index)}
-              >
-                {item.q}
-                <span
-                  className={classNames(
-                    'transition-transform duration-300 shrink-0 ml-4',
-                    openFaq === index && 'rotate-180'
-                  )}
-                >
-                  &#9660;
-                </span>
-              </button>
+      <section className="py-20 px-8 bg-white">
+        <div className="max-w-[1200px] mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="font-display font-bold text-[2.5rem] text-midnight mb-4">Safety FAQ</h2>
+            <p className="text-lg text-slate">
+              Common questions about trust and safety on RoomPilot
+            </p>
+          </div>
+          <div className="max-w-[800px] mx-auto">
+            {FAQ_ITEMS.map((item, index) => (
               <div
-                className="overflow-hidden transition-[max-height] duration-300"
-                style={{ maxHeight: openFaq === index ? '500px' : '0' }}
+                key={index}
+                className="bg-white border border-cloud rounded-lg mb-4 overflow-hidden"
               >
-                <div className="px-5 pb-5 text-slate leading-relaxed">{item.a}</div>
+                <button
+                  className="w-full p-5 bg-transparent border-none text-left font-body text-lg font-semibold text-midnight cursor-pointer flex justify-between items-center hover:bg-snow"
+                  onClick={() => toggleFaq(index)}
+                >
+                  {item.q}
+                  <span
+                    className={classNames(
+                      'transition-transform duration-300 shrink-0 ml-4',
+                      openFaq === index && 'rotate-180'
+                    )}
+                  >
+                    &#9660;
+                  </span>
+                </button>
+                <div
+                  className="overflow-hidden transition-[max-height] duration-300"
+                  style={{ maxHeight: openFaq === index ? '500px' : '0' }}
+                >
+                  <div className="px-5 pb-5 text-slate">{item.a}</div>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-10 bg-gradient-to-br from-primary to-[#1d4ed8] text-center text-white md:py-15 md:px-5">
-        <h2 className="font-display text-[2rem] mb-4">Questions About Safety?</h2>
-        <p className="text-lg mb-8 opacity-90">Our trust and safety team is here to help 24/7.</p>
-        <Link to={ROUTES.CONTACT} className="no-underline">
-          <Button variant="white" size="lg">
-            Contact Support
-          </Button>
-        </Link>
+      <section className="py-20 px-8 bg-gradient-to-br from-accent to-[#059669] text-center text-white">
+        <div className="max-w-[1200px] mx-auto">
+          <h2 className="font-display font-bold text-[2.5rem] mb-4">Questions About Safety?</h2>
+          <p className="text-[1.25rem] mb-8 opacity-90">
+            Our trust and safety team is here to help 24/7.
+          </p>
+          <Link to={ROUTES.CONTACT} className="no-underline">
+            <Button variant="white" size="lg">
+              Contact Support
+            </Button>
+          </Link>
+        </div>
       </section>
     </div>
   )

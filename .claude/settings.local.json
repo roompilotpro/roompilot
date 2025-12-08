@@ -3,7 +3,9 @@
     "allow": [
       "Bash(ls:*)",
       "Bash(tree:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(npx playwright test:*)",
+      "Bash(npm run visual:test:*)"
     ],
     "deny": [],
     "ask": []

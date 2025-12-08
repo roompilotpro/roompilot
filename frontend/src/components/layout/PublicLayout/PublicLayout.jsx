@@ -26,7 +26,9 @@ function PublicLayout() {
   const navActions = (
     <>
       <Link to={ROUTES.LOGIN}>
-        <Button variant="secondary">Log In</Button>
+        <Button variant="outline" className="!border !border-cloud !text-slate">
+          Log In
+        </Button>
       </Link>
       <Link to={ROUTES.SIGNUP}>
         <Button variant="primary">Sign Up</Button>

@@ -1,16 +1,235 @@
 {
-  "timestamp": "2025-12-07T05:32:50.597Z",
-  "page": "LandingPage",
-  "design": {
-    "width": 1440,
-    "height": 5862
+  "timestamp": "2025-12-07T21:43:22.412Z",
+  "viewport": {
+    "width": 2560,
+    "height": 1440
   },
-  "react": {
-    "width": 1440,
-    "height": 5860
-  },
-  "totalPixels": 8441280,
-  "diffPixels": 310731,
-  "diffPercentage": 3.68,
-  "passed": false
+  "threshold": 5,
+  "results": [
+    {
+      "diffPixels": 1439962,
+      "totalPixels": 16389120,
+      "diffPercent": 8.79,
+      "passed": false,
+      "designDimensions": {
+        "width": 2560,
+        "height": 6402
+      },
+      "reactDimensions": {
+        "width": 2560,
+        "height": 6402
+      },
+      "normalizedDimensions": {
+        "width": 2560,
+        "height": 6402
+      },
+      "name": "LandingPage",
+      "htmlDesign": "landing.html",
+      "reactRoute": "/",
+      "quality": "Fair",
+      "paths": {
+        "design": "/Users/baechao/IdeaProjects/roompilot-1/frontend/tests/visual/snapshots/designs/LandingPage.png",
+        "react": "/Users/baechao/IdeaProjects/roompilot-1/frontend/tests/visual/snapshots/react/LandingPage.png",
+        "diff": "/Users/baechao/IdeaProjects/roompilot-1/frontend/tests/visual/snapshots/diff/LandingPage.png"
+      }
+    },
+    {
+      "diffPixels": 549719,
+      "totalPixels": 14110720,
+      "diffPercent": 3.9,
+      "passed": true,
+      "designDimensions": {
+        "width": 2560,
+        "height": 5512
+      },
+      "reactDimensions": {
+        "width": 2560,
+        "height": 5473
+      },
+      "normalizedDimensions": {
+        "width": 2560,
+        "height": 5512
+      },
+      "name": "PricingPage",
+      "htmlDesign": "public-pricing.html",
+      "reactRoute": "/pricing",
+      "quality": "Good",
+      "paths": {
+        "design": "/Users/baechao/IdeaProjects/roompilot-1/frontend/tests/visual/snapshots/designs/PricingPage.png",
+        "react": "/Users/baechao/IdeaProjects/roompilot-1/frontend/tests/visual/snapshots/react/PricingPage.png",
+        "diff": "/Users/baechao/IdeaProjects/roompilot-1/frontend/tests/visual/snapshots/diff/PricingPage.png"
+      }
+    },
+    {
+      "diffPixels": 483251,
+      "totalPixels": 11499520,
+      "diffPercent": 4.2,
+      "passed": true,
+      "designDimensions": {
+        "width": 2560,
+        "height": 4421
+      },
+      "reactDimensions": {
+        "width": 2560,
+        "height": 4492
+      },
+      "normalizedDimensions": {
+        "width": 2560,
+        "height": 4492
+      },
+      "name": "FAQPage",
+      "htmlDesign": "public-faq.html",
+      "reactRoute": "/faq",
+      "quality": "Good",
+      "paths": {
+        "design": "/Users/baechao/IdeaProjects/roompilot-1/frontend/tests/visual/snapshots/designs/FAQPage.png",
+        "react": "/Users/baechao/IdeaProjects/roompilot-1/frontend/tests/visual/snapshots/react/FAQPage.png",
+        "diff": "/Users/baechao/IdeaProjects/roompilot-1/frontend/tests/visual/snapshots/diff/FAQPage.png"
+      }
+    },
+    {
+      "diffPixels": 193091,
+      "totalPixels": 12428800,
+      "diffPercent": 1.55,
+      "passed": true,
+      "designDimensions": {
+        "width": 2560,
+        "height": 4855
+      },
+      "reactDimensions": {
+        "width": 2560,
+        "height": 4848
+      },
+      "normalizedDimensions": {
+        "width": 2560,
+        "height": 4855
+      },
+      "name": "HowItWorksLandlordsPage",
+      "htmlDesign": "public-how-it-works-landlords.html",
+      "reactRoute": "/how-it-works/landlords",
+      "quality": "Good",
+      "paths": {
+        "design": "/Users/baechao/IdeaProjects/roompilot-1/frontend/tests/visual/snapshots/designs/HowItWorksLandlordsPage.png",
+        "react": "/Users/baechao/IdeaProjects/roompilot-1/frontend/tests/visual/snapshots/react/HowItWorksLandlordsPage.png",
+        "diff": "/Users/baechao/IdeaProjects/roompilot-1/frontend/tests/visual/snapshots/diff/HowItWorksLandlordsPage.png"
+      }
+    },
+    {
+      "diffPixels": 407763,
+      "totalPixels": 11509760,
+      "diffPercent": 3.54,
+      "passed": true,
+      "designDimensions": {
+        "width": 2560,
+        "height": 4469
+      },
+      "reactDimensions": {
+        "width": 2560,
+        "height": 4496
+      },
+      "normalizedDimensions": {
+        "width": 2560,
+        "height": 4496
+      },
+      "name": "HowItWorksRentersPage",
+      "htmlDesign": "public-how-it-works-renters.html",
+      "reactRoute": "/how-it-works/renters",
+      "quality": "Good",
+      "paths": {
+        "design": "/Users/baechao/IdeaProjects/roompilot-1/frontend/tests/visual/snapshots/designs/HowItWorksRentersPage.png",
+        "react": "/Users/baechao/IdeaProjects/roompilot-1/frontend/tests/visual/snapshots/react/HowItWorksRentersPage.png",
+        "diff": "/Users/baechao/IdeaProjects/roompilot-1/frontend/tests/visual/snapshots/diff/HowItWorksRentersPage.png"
+      }
+    },
+    {
+      "diffPixels": 283734,
+      "totalPixels": 19712000,
+      "diffPercent": 1.44,
+      "passed": true,
+      "designDimensions": {
+        "width": 2560,
+        "height": 7700
+      },
+      "reactDimensions": {
+        "width": 2560,
+        "height": 7693
+      },
+      "normalizedDimensions": {
+        "width": 2560,
+        "height": 7700
+      },
+      "name": "PrivacyPage",
+      "htmlDesign": "public-privacy.html",
+      "reactRoute": "/privacy",
+      "quality": "Good",
+      "paths": {
+        "design": "/Users/baechao/IdeaProjects/roompilot-1/frontend/tests/visual/snapshots/designs/PrivacyPage.png",
+        "react": "/Users/baechao/IdeaProjects/roompilot-1/frontend/tests/visual/snapshots/react/PrivacyPage.png",
+        "diff": "/Users/baechao/IdeaProjects/roompilot-1/frontend/tests/visual/snapshots/diff/PrivacyPage.png"
+      }
+    },
+    {
+      "diffPixels": 320337,
+      "totalPixels": 20019200,
+      "diffPercent": 1.6,
+      "passed": true,
+      "designDimensions": {
+        "width": 2560,
+        "height": 7820
+      },
+      "reactDimensions": {
+        "width": 2560,
+        "height": 7813
+      },
+      "normalizedDimensions": {
+        "width": 2560,
+        "height": 7820
+      },
+      "name": "TermsPage",
+      "htmlDesign": "public-terms.html",
+      "reactRoute": "/terms",
+      "quality": "Good",
+      "paths": {
+        "design": "/Users/baechao/IdeaProjects/roompilot-1/frontend/tests/visual/snapshots/designs/TermsPage.png",
+        "react": "/Users/baechao/IdeaProjects/roompilot-1/frontend/tests/visual/snapshots/react/TermsPage.png",
+        "diff": "/Users/baechao/IdeaProjects/roompilot-1/frontend/tests/visual/snapshots/diff/TermsPage.png"
+      }
+    },
+    {
+      "diffPixels": 256378,
+      "totalPixels": 10787840,
+      "diffPercent": 2.38,
+      "passed": true,
+      "designDimensions": {
+        "width": 2560,
+        "height": 4201
+      },
+      "reactDimensions": {
+        "width": 2560,
+        "height": 4214
+      },
+      "normalizedDimensions": {
+        "width": 2560,
+        "height": 4214
+      },
+      "name": "TrustSafetyPage",
+      "htmlDesign": "public-trust-safety.html",
+      "reactRoute": "/trust-safety",
+      "quality": "Good",
+      "paths": {
+        "design": "/Users/baechao/IdeaProjects/roompilot-1/frontend/tests/visual/snapshots/designs/TrustSafetyPage.png",
+        "react": "/Users/baechao/IdeaProjects/roompilot-1/frontend/tests/visual/snapshots/react/TrustSafetyPage.png",
+        "diff": "/Users/baechao/IdeaProjects/roompilot-1/frontend/tests/visual/snapshots/diff/TrustSafetyPage.png"
+      }
+    }
+  ],
+  "summary": {
+    "total": 8,
+    "passed": 7,
+    "failed": 1,
+    "excellent": 0,
+    "good": 7,
+    "fair": 1,
+    "needsWork": 0
+  }
 }

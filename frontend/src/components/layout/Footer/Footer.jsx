@@ -17,7 +17,7 @@ const Footer = forwardRef(function Footer({ columns = [], copyright, className, 
   return (
     <footer
       ref={ref}
-      className={classNames('bg-midnight text-cloud py-12 px-8', className)}
+      className={classNames('bg-midnight text-cloud pt-12 pb-6 px-8', className)}
       {...props}
     >
       <div className="max-w-[1200px] mx-auto">

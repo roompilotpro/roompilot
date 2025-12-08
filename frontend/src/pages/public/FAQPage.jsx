@@ -180,31 +180,38 @@ function FAQPage() {
   }, {})
 
   return (
-    <div className="bg-white">
-      <section className="bg-gradient-to-br from-primary-bg to-white py-20 px-10 text-center md:px-5 md:py-15">
-        <h1 className="font-display text-[clamp(2rem,4vw,3rem)] text-midnight mb-4">
+    <div className="bg-white leading-[1.6]">
+      <section className="bg-gradient-to-br from-primary-bg to-white pt-16 pb-12 px-8 text-center">
+        <h1 className="font-display font-bold text-[3rem] text-midnight mb-4 leading-[1.2]">
           Frequently Asked Questions
         </h1>
-        <p className="text-lg text-slate mb-8">Find answers to common questions about RoomPilot</p>
+        <p className="text-[1.125rem] text-slate mb-8">
+          Find answers to common questions about RoomPilot
+        </p>
         <div className="max-w-[600px] mx-auto relative">
           <input
             type="text"
             placeholder="Search for answers..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full py-4 pr-12 pl-5 border-2 border-cloud rounded-md text-base font-body focus:outline-none focus:border-primary"
+            className="w-full pt-4 pr-12 pb-4 pl-5 border-2 border-cloud rounded-xl text-base font-body transition-colors duration-200 ease focus:outline-none focus:border-primary"
           />
-          <span className="absolute right-5 top-1/2 -translate-y-1/2 text-slate">&#128269;</span>
+          <span className="absolute right-5 top-1/2 -translate-y-1/2 text-mist text-[1.25rem]">
+            &#128269;
+          </span>
         </div>
       </section>
 
-      <section className="py-15 px-10 md:px-5">
+      <section className="px-8" style={{ padding: '3rem 2rem' }}>
         <div className="max-w-[900px] mx-auto">
-          <div className="flex gap-4 mb-12 flex-wrap justify-center border-b-2 border-cloud pb-0 md:gap-2">
+          <div
+            className="flex gap-4 flex-wrap justify-center border-b-2 border-cloud pb-0"
+            style={{ marginBottom: '3rem' }}
+          >
             <button
               className={classNames(
-                'py-3 px-6 bg-transparent border-none font-body text-base font-semibold text-slate cursor-pointer border-b-[3px] border-transparent -mb-0.5 transition-colors hover:text-primary md:py-2 md:px-4 md:text-sm',
-                activeCategory === 'all' && 'text-primary border-b-primary'
+                'py-3 px-6 bg-transparent border-none font-body text-base font-semibold text-slate cursor-pointer border-b-[3px] border-transparent -mb-[2px] transition-colors duration-200 ease hover:text-primary',
+                activeCategory === 'all' && 'text-primary !border-b-primary'
               )}
               onClick={() => setActiveCategory('all')}
             >
@@ -214,8 +221,8 @@ function FAQPage() {
               <button
                 key={cat}
                 className={classNames(
-                  'py-3 px-6 bg-transparent border-none font-body text-base font-semibold text-slate cursor-pointer border-b-[3px] border-transparent -mb-0.5 transition-colors hover:text-primary md:py-2 md:px-4 md:text-sm',
-                  activeCategory === cat && 'text-primary border-b-primary'
+                  'py-3 px-6 bg-transparent border-none font-body text-base font-semibold text-slate cursor-pointer border-b-[3px] border-transparent -mb-[2px] transition-colors duration-200 ease hover:text-primary',
+                  activeCategory === cat && 'text-primary !border-b-primary'
                 )}
                 onClick={() => setActiveCategory(cat)}
               >
@@ -225,8 +232,11 @@ function FAQPage() {
           </div>
 
           {Object.entries(filteredData).map(([key, category]) => (
-            <div key={key} className="mb-12">
-              <h2 className="font-display text-[2rem] text-midnight mb-6 pb-3 border-b-2 border-cloud">
+            <div key={key} style={{ marginBottom: '3rem' }}>
+              <h2
+                className="font-display font-bold text-[2rem] text-midnight pb-3 border-b-2 border-cloud"
+                style={{ marginBottom: '1.5rem' }}
+              >
                 {category.title}
               </h2>
               {category.questions.map((item, idx) => {
@@ -234,16 +244,17 @@ function FAQPage() {
                 return (
                   <div
                     key={itemKey}
-                    className="bg-white border border-cloud rounded-sm mb-4 overflow-hidden"
+                    className="bg-white border border-cloud rounded-lg overflow-hidden"
+                    style={{ marginBottom: '1rem' }}
                   >
                     <button
-                      className="w-full p-5 bg-transparent border-none text-left font-body text-lg font-semibold text-midnight cursor-pointer flex justify-between items-center hover:bg-snow"
+                      className="w-full p-[1.25rem] bg-transparent border-none text-left font-body text-[1.125rem] font-semibold text-midnight cursor-pointer flex justify-between items-center hover:bg-snow"
                       onClick={() => toggleItem(itemKey)}
                     >
                       {item.q}
                       <span
                         className={classNames(
-                          'transition-transform duration-300 shrink-0 ml-4',
+                          'transition-transform duration-300 ease shrink-0 ml-4',
                           openItems[itemKey] && 'rotate-180'
                         )}
                       >
@@ -251,10 +262,12 @@ function FAQPage() {
                       </span>
                     </button>
                     <div
-                      className="overflow-hidden transition-[max-height] duration-300"
+                      className="overflow-hidden transition-[max-height] duration-300 ease"
                       style={{ maxHeight: openItems[itemKey] ? '500px' : '0' }}
                     >
-                      <div className="px-5 pb-5 text-slate leading-relaxed">{item.a}</div>
+                      <div className="pt-0 px-[1.25rem] pb-[1.25rem] text-slate leading-[1.7]">
+                        {item.a}
+                      </div>
                     </div>
                   </div>
                 )
@@ -264,9 +277,11 @@ function FAQPage() {
         </div>
       </section>
 
-      <section className="bg-snow py-20 px-10 text-center md:px-5 md:py-15">
-        <h2 className="font-display text-[2rem] text-midnight mb-4">Still Have Questions?</h2>
-        <p className="text-lg text-slate mb-8">Our support team is here to help 24/7</p>
+      <section className="bg-snow px-8 text-center" style={{ padding: '3rem 2rem' }}>
+        <h2 className="font-display font-bold text-[2rem] text-midnight mb-4">
+          Still Have Questions?
+        </h2>
+        <p className="text-[1.125rem] text-slate mb-8">Our support team is here to help 24/7</p>
         <Link to={ROUTES.CONTACT} className="no-underline">
           <Button variant="primary" size="lg">
             Contact Support

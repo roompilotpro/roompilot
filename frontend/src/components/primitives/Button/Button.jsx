@@ -3,13 +3,13 @@ import { classNames } from '../../../utils/classNames'
 
 // Base button styles - using custom radius values to match HTML design
 const baseStyles =
-  'inline-flex items-center justify-center font-semibold no-underline rounded-[12px] border-none cursor-pointer transition-all duration-200 relative whitespace-nowrap focus-visible:outline-none focus-visible:shadow-focus disabled:opacity-60 disabled:cursor-not-allowed'
+  'inline-flex items-center justify-center font-semibold no-underline rounded-[8px] border-none cursor-pointer transition-all duration-200 relative whitespace-nowrap focus-visible:outline-none focus-visible:shadow-focus disabled:opacity-60 disabled:cursor-not-allowed'
 
-// Size variants - lg uses --radius-lg (20px)
+// Size variants - lg uses larger radius for CTA buttons
 const sizeStyles = {
   sm: 'px-4 py-2 text-sm gap-1.5',
   md: 'px-6 py-3 text-[15px] gap-2',
-  lg: 'px-8 py-4 text-base rounded-[20px] gap-2',
+  lg: 'px-8 py-4 text-base rounded-[12px] gap-2',
 }
 
 // Variant styles

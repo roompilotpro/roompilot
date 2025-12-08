@@ -69,11 +69,14 @@ function PricingPage() {
   }
 
   return (
-    <div className="bg-white">
+    <div className="bg-white leading-[1.6]">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-primary-bg to-white py-20 px-10 text-center md:py-15 md:px-5">
+      <section
+        className="bg-gradient-to-br from-primary-bg to-white px-8 text-center"
+        style={{ padding: '4.5rem 2rem' }}
+      >
         <div className="max-w-[800px] mx-auto">
-          <h1 className="font-display text-[clamp(2rem,4vw,3rem)] text-midnight mb-4 leading-tight">
+          <h1 className="font-display font-bold text-[clamp(2rem,4vw,3rem)] text-midnight mb-4 leading-tight">
             Simple, Transparent Pricing
           </h1>
           <p className="text-xl text-slate">
@@ -83,14 +86,17 @@ function PricingPage() {
       </section>
 
       {/* Pricing Cards */}
-      <section className="py-20 px-10 md:py-15 md:px-5">
-        <div className="max-w-[900px] mx-auto px-10 md:px-5">
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(320px,1fr))] gap-8 md:grid-cols-1">
+      <section className="px-8" style={{ padding: '5rem 2rem' }}>
+        <div className="max-w-[900px] mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="bg-white border-2 border-primary rounded-lg p-10 relative shadow-[0_8px_16px_rgba(37,99,235,0.15)]">
-              <Badge variant="primary" className="absolute -top-3 left-1/2 -translate-x-1/2">
+              <Badge
+                variant="primary"
+                className="!bg-primary !text-white !border-0 !py-1 !px-4 !text-sm !rounded-2xl absolute -top-3 left-1/2 -translate-x-1/2"
+              >
                 Most Popular
               </Badge>
-              <h3 className="font-display text-[1.75rem] text-midnight mb-2">
+              <h3 className="font-display font-bold text-[1.75rem] text-midnight mb-2">
                 Transaction Fee Plan
               </h3>
               <p className="text-slate mb-6 min-h-[3rem]">
@@ -135,7 +141,9 @@ function PricingPage() {
             </div>
 
             <div className="bg-white border-2 border-cloud rounded-lg p-10 relative">
-              <h3 className="font-display text-[1.75rem] text-midnight mb-2">Flat Rate Plan</h3>
+              <h3 className="font-display font-bold text-[1.75rem] text-midnight mb-2">
+                Flat Rate Plan
+              </h3>
               <p className="text-slate mb-6 min-h-[3rem]">
                 Great for high-volume hosts with many rooms
               </p>
@@ -170,7 +178,7 @@ function PricingPage() {
                 </li>
               </ul>
               <Link to={ROUTES.SIGNUP} className="no-underline">
-                <Button variant="secondary" fullWidth>
+                <Button variant="outline" fullWidth>
                   Get Started Free
                 </Button>
               </Link>
@@ -180,10 +188,10 @@ function PricingPage() {
       </section>
 
       {/* What's Included */}
-      <section className="py-20 px-10 bg-snow md:py-15 md:px-5">
+      <section className="px-8 bg-snow" style={{ padding: '5rem 2rem' }}>
         <div className="max-w-[1200px] mx-auto">
-          <div className="text-center mb-15">
-            <h2 className="font-display text-[clamp(1.75rem,3vw,2.5rem)] text-midnight mb-4">
+          <div className="text-center" style={{ marginBottom: '4rem' }}>
+            <h2 className="font-display font-bold text-[clamp(1.75rem,3vw,2.5rem)] text-midnight mb-4">
               Everything You Need, Included
             </h2>
             <p className="text-lg text-slate max-w-[600px] mx-auto">
@@ -223,10 +231,10 @@ function PricingPage() {
       </section>
 
       {/* Calculator */}
-      <section className="py-20 px-10 md:py-15 md:px-5">
+      <section className="px-8" style={{ padding: '5rem 2rem' }}>
         <div className="max-w-[1200px] mx-auto">
-          <div className="text-center mb-15">
-            <h2 className="font-display text-[clamp(1.75rem,3vw,2.5rem)] text-midnight mb-4">
+          <div className="text-center" style={{ marginBottom: '4rem' }}>
+            <h2 className="font-display font-bold text-[clamp(1.75rem,3vw,2.5rem)] text-midnight mb-4">
               Calculate Your Savings
             </h2>
             <p className="text-lg text-slate max-w-[600px] mx-auto">
@@ -234,7 +242,9 @@ function PricingPage() {
             </p>
           </div>
           <div className="bg-white rounded-lg p-12 border border-cloud max-w-[700px] mx-auto md:p-8">
-            <h3 className="font-display text-[2rem] text-center mb-8">Savings Calculator</h3>
+            <h3 className="font-display font-bold text-[2rem] text-center mb-8">
+              Savings Calculator
+            </h3>
             <div className="grid gap-6 mb-8">
               <div className="flex flex-col gap-2">
                 <label htmlFor="numRooms" className="font-semibold text-midnight">
@@ -292,10 +302,10 @@ function PricingPage() {
       </section>
 
       {/* Comparison Table */}
-      <section className="py-20 px-10 bg-snow md:py-15 md:px-5">
+      <section className="px-8 bg-snow" style={{ padding: '5rem 2rem' }}>
         <div className="max-w-[1200px] mx-auto">
-          <div className="text-center mb-15">
-            <h2 className="font-display text-[clamp(1.75rem,3vw,2.5rem)] text-midnight mb-4">
+          <div className="text-center" style={{ marginBottom: '4rem' }}>
+            <h2 className="font-display font-bold text-[clamp(1.75rem,3vw,2.5rem)] text-midnight mb-4">
               How We Compare
             </h2>
             <p className="text-lg text-slate max-w-[600px] mx-auto">
@@ -370,10 +380,10 @@ function PricingPage() {
       </section>
 
       {/* Pricing FAQ */}
-      <section className="py-20 px-10 md:py-15 md:px-5">
+      <section className="px-8" style={{ padding: '5rem 2rem' }}>
         <div className="max-w-[1200px] mx-auto">
-          <div className="text-center mb-15">
-            <h2 className="font-display text-[clamp(1.75rem,3vw,2.5rem)] text-midnight mb-4">
+          <div className="text-center" style={{ marginBottom: '4rem' }}>
+            <h2 className="font-display font-bold text-[clamp(1.75rem,3vw,2.5rem)] text-midnight mb-4">
               Pricing FAQ
             </h2>
           </div>
@@ -407,9 +417,12 @@ function PricingPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="bg-gradient-to-br from-primary to-[#1d4ed8] text-white text-center py-20 px-10 md:py-15 md:px-5">
+      <section
+        className="bg-gradient-to-br from-primary to-[#1d4ed8] text-white text-center px-8"
+        style={{ padding: '5rem 2rem' }}
+      >
         <div className="max-w-[1200px] mx-auto">
-          <h2 className="font-display text-[2.5rem] mb-4">Ready to Get Started?</h2>
+          <h2 className="font-display font-bold text-[2.5rem] mb-4">Ready to Get Started?</h2>
           <p className="text-xl mb-8 opacity-90">
             Join RoomPilot today and start saving on property management fees.
           </p>

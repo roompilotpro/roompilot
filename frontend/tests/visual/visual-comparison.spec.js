@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import { test, expect } from '@playwright/test'
 import path from 'path'
-import { PAGE_MAPPINGS } from './fixtures/page-mappings.js'
+import { PUBLIC_PAGES } from './fixtures/page-mappings.js'
 
 const DESIGNS_DIR = path.join(process.cwd(), 'designs')
 const SNAPSHOTS_DIR = path.join(process.cwd(), 'tests/visual/snapshots')
@@ -12,7 +12,7 @@ const SNAPSHOTS_DIR = path.join(process.cwd(), 'tests/visual/snapshots')
  */
 test.describe('Landlord Pages Visual Comparison', () => {
   // Test each page mapping
-  for (const mapping of PAGE_MAPPINGS) {
+  for (const mapping of PUBLIC_PAGES) {
     test(`${mapping.name} matches HTML design`, async ({ page }) => {
       // Navigate to React page
       await page.goto(mapping.reactRoute)
@@ -41,7 +41,7 @@ test.describe('Capture HTML Design Baselines', () => {
     return !process.env.CAPTURE_BASELINES
   })
 
-  for (const mapping of PAGE_MAPPINGS) {
+  for (const mapping of PUBLIC_PAGES) {
     test(`capture baseline: ${mapping.name}`, async ({ page }) => {
       const htmlPath = `file://${path.join(DESIGNS_DIR, mapping.htmlDesign)}`
       await page.goto(htmlPath)
@@ -66,7 +66,7 @@ test.describe('Capture React Screenshots', () => {
     return !process.env.CAPTURE_REACT
   })
 
-  for (const mapping of PAGE_MAPPINGS) {
+  for (const mapping of PUBLIC_PAGES) {
     test(`capture react: ${mapping.name}`, async ({ page }) => {
       await page.goto(mapping.reactRoute)
       await page.waitForLoadState('networkidle')
